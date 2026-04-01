@@ -1,0 +1,40 @@
+<?php
+require_once __DIR__ . "/auth.php";
+
+if (!function_exists('mm_admin_link_active')) {
+    function mm_admin_link_active(array $archivosActuales, string $paginaActual): string {
+        return in_array($paginaActual, $archivosActuales, true) ? 'active' : '';
+    }
+}
+
+$paginaActualAdmin = basename($_SERVER['PHP_SELF']);
+?>
+<div class="admin-shell-topbar">
+    <div class="admin-brand-wrap">
+        <a href="index.php" class="admin-logo">MMCinema <span>Admin</span></a>
+        <div class="admin-brand-subtitle">Control total del catálogo y de los usuarios</div>
+    </div>
+
+    <div class="admin-topbar-right">
+        <a href="index.php" class="<?= mm_admin_link_active(['index.php'], $paginaActualAdmin) ?>">Resumen</a>
+        <a href="peliculas.php" class="<?= mm_admin_link_active(['peliculas.php', 'pelicula_form.php'], $paginaActualAdmin) ?>">Películas</a>
+        <a href="noticias.php" class="<?= mm_admin_link_active(['noticias.php', 'noticia_form.php'], $paginaActualAdmin) ?>">Noticias</a>
+        <a href="usuarios.php" class="<?= mm_admin_link_active(['usuarios.php', 'usuario_form.php'], $paginaActualAdmin) ?>">Usuarios</a>
+        <a href="criticas.php" class="<?= mm_admin_link_active(['criticas.php', 'criticas_series.php'], $paginaActualAdmin) ?>">Críticas</a>
+        <a href="series_panel.php" class="<?= mm_admin_link_active([
+            'series_panel.php',
+            'series.php',
+            'agregar_serie.php',
+            'editar_serie.php',
+            'temporadas.php',
+            'agregar_temporada.php',
+            'editar_temporada.php',
+            'episodios.php',
+            'agregar_episodio.php',
+            'editar_episodio.php',
+            'criticas_series.php'
+        ], $paginaActualAdmin) ?>">Series</a>
+        <a href="../cartelera.php" target="_blank" rel="noopener">Ver web</a>
+        <a href="../logout.php" class="logout-link">Cerrar sesión</a>
+    </div>
+</div>

@@ -1,0 +1,59 @@
+/* ===========================================
+   NAVBAR & FOOTER
+=========================================== */
+.navbar {
+    background: rgba(27, 30, 39, 0.82) !important;
+    border-bottom: 1px solid rgba(249,115,22,0.35);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+}
+
+.navbar .nav-link {
+    color: var(--text-light) !important;
+    font-weight: 500;
+    margin: 0 5px;
+    transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+.navbar .nav-link:hover {
+    color: var(--primary) !important;
+}
+
+.navbar .navbar-brand {
+    color: var(--primary) !important;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+.navbar .nav-link.active {
+    color: var(--primary) !important;
+    font-weight: 700;
+}
+
+.footer-cine {
+    border-top: 1px solid rgba(249,115,22,0.55);
+    box-shadow: 0 -3px 14px rgba(249,115,22,0.10);
+    background: #0b0f1a;
+    color: #cbd5e1;
+    text-align: center;
+}
+
+/* ===========================================
+   HERO / BLOQUES SUPERIORES
+=========================================== */
+.hero {
+    border-bottom: 1px solid var(--border-soft);
+    padding-bottom: 20px;
+    margin-bottom: 26px;
+}
+
+/* ===========================================
+   BUSCADOR NAVBAR
+=========================================== */
+.buscador-nav-form {
+    min-width: 320px;
+}
+
+.buscador-nav-input {
+    min-width: 240px;
+}

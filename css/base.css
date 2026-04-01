@@ -1,0 +1,132 @@
+/* ===========================================
+   PALETA MMCINEMA
+=========================================== */
+:root {
+    --bg-main: #0f1116;
+    --bg-secondary: #1b1e27;
+    --bg-card: rgba(27, 30, 39, 0.88);
+
+    --primary: #f97316;
+    --primary-dark: #ea580c;
+
+    --danger: #dc2626;
+    --danger-dark: #b91c1c;
+
+    --accent: #9333ea;
+
+    --text-light: #f8fafc;
+    --text-gray: #cbd5e1;
+    --text-soft: #94a3b8;
+
+    --border-soft: rgba(255,255,255,0.10);
+    --border-card: rgba(255,255,255,0.08);
+
+    --shadow-soft: 0 10px 30px rgba(0,0,0,0.28);
+    --shadow-card: 0 14px 34px rgba(0,0,0,0.34);
+    --shadow-card-hover: 0 20px 44px rgba(0,0,0,0.42);
+
+    --radius-sm: 10px;
+    --radius-md: 14px;
+    --radius-lg: 18px;
+
+    --ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ===========================================
+   RESET GENERAL
+=========================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background:
+        radial-gradient(circle at top, rgba(249,115,22,0.06), transparent 22%),
+        linear-gradient(180deg, #0d1016 0%, #0b0d12 100%);
+    color: var(--text-light);
+    font-family: "Segoe UI", sans-serif;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+a {
+    color: var(--primary);
+    text-decoration: none;
+    transition: color 0.22s ease;
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+/* ===========================================
+   TEXTO GENERAL
+=========================================== */
+body, p, strong, em, li, small, label, td, th {
+    color: var(--text-light) !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--text-light) !important;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.text-muted {
+    color: var(--text-gray) !important;
+}
+
+/* ===========================================
+   CAPAS GENERALES
+=========================================== */
+header,
+main,
+footer,
+.navbar,
+.container,
+.hero,
+.card,
+.filtro-cartelera {
+    position: relative;
+    z-index: 2;
+}
+
+/* ===========================================
+   ACCESIBILIDAD
+=========================================== */
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    .reveal-card,
+    .pelicula-card,
+    .noticia-card,
+    .pelicula-card img,
+    .noticia-card img,
+    .btn-primary,
+    .btn-danger,
+    .btn-outline-light,
+    .btn-pdf,
+    .seat,
+    a,
+    .film-side,
+    .film-center,
+    .film-shine {
+        transition: none !important;
+        animation: none !important;
+    }
+
+    .reveal-card {
+        opacity: 1;
+        transform: none;
+        filter: none;
+    }
+}

@@ -1,0 +1,40 @@
+CAMBIOS HECHOS EN ESTA COPIA
+===========================
+
+1. Se ha añadido admin/series_panel.php
+   - Página resumen para gestionar series desde un solo sitio.
+   - Muestra totales de series, temporadas, episodios, críticas y destacadas.
+
+2. Se ha añadido admin/includes/series_admin_ui.php
+   - Reutiliza la navegación interna del admin de series.
+
+3. Se ha mejorado admin/index.php
+   - Ahora enlaza también a series.
+   - Queda más claro que películas y series son catálogos separados.
+
+4. Se han retocado estas páginas para que el flujo sea más claro:
+   - admin/series.php
+   - admin/temporadas.php
+   - admin/episodios.php
+   - admin/criticas_series.php
+   - admin/agregar_serie.php
+   - admin/editar_serie.php
+   - admin/agregar_temporada.php
+   - admin/editar_temporada.php
+   - admin/agregar_episodio.php
+   - admin/editar_episodio.php
+
+IDEA DE USO
+===========
+Entra en:
+admin/index.php
+
+y desde ahí usa el botón de Series.
+
+Luego lo ideal es trabajar así:
+1) Crear serie
+2) Entrar en temporadas de esa serie
+3) Crear temporadas
+4) Entrar en episodios de la temporada
+5) Crear episodios
+6) Moderar críticas

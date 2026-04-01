@@ -1,0 +1,221 @@
+/* ===========================================
+   DETALLE PELICULA
+=========================================== */
+.detalle-poster-netflix img {
+    width: 100%;
+    border-radius: 18px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+}
+
+.detalle-top-info {
+    padding: 8px 0;
+}
+
+.detalle-badge-top {
+    display: inline-block;
+    margin-bottom: 14px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    background: rgba(249, 115, 22, 0.14);
+    border: 1px solid rgba(249, 115, 22, 0.28);
+    color: #fdba74;
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.netflix-title {
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    font-weight: 900;
+    line-height: 0.95;
+    margin-bottom: 16px;
+    color: #ffffff;
+    letter-spacing: -0.03em;
+}
+
+.detalle-meta-netflix {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.detalle-meta-netflix span {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: #e5e7eb;
+    font-size: 0.92rem;
+    font-weight: 600;
+}
+
+.detalle-sinopsis-netflix {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: #d1d5db;
+    margin-bottom: 22px;
+    max-width: 900px;
+}
+
+.detalle-acciones-netflix {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    align-items: center;
+    margin-top: 14px;
+    margin-bottom: 10px;
+}
+
+.detalle-btn-main {
+    padding: 13px 22px;
+    border-radius: 14px;
+    font-weight: 800;
+}
+
+.detalle-mi-lista-form {
+    margin: 0;
+}
+
+.detalle-mi-lista-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 52px;
+    padding: 12px 18px;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.14);
+    color: #f8fafc;
+    font-weight: 800;
+    text-decoration: none;
+    transition: 0.25s ease;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.15);
+}
+
+.detalle-mi-lista-btn:hover {
+    background: rgba(255,255,255,0.12);
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.detalle-mi-lista-btn.activo {
+    background: #16a34a;
+    border-color: #16a34a;
+    color: #ffffff;
+}
+
+.detalle-mi-lista-btn.activo:hover {
+    background: #15803d;
+    border-color: #15803d;
+}
+
+.detalle-mi-lista-btn.ghost {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.10);
+    color: #f8fafc;
+}
+
+.detalle-mi-lista-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(15,23,42,0.35);
+    font-size: 1rem;
+    font-weight: 900;
+    line-height: 1;
+}
+
+.detalle-trailer-box {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 18px;
+    padding: 18px;
+}
+
+/* ===========================================
+    LATERALES
+=========================================== */
+.film-strip {
+    --film-duration: 26s;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 340px;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 1;
+    background: transparent;
+    opacity: 0.1;
+    
+}
+
+.film-strip--left {
+    left: -50px;
+    transform: rotate(4deg);
+}
+
+.film-strip--right {
+    right: -50px;
+    transform: rotate(-4deg);
+}
+
+.film-strip::before {
+    content: "";
+    position: absolute;
+    top: -100%;
+    left: 0;
+    width: 100%;
+    height: 300%;
+    background-image: url("../img/cinta.jpg");
+    background-repeat: repeat-y;
+    background-position: center top;
+    background-size: 100% auto;
+    will-change: transform;
+    opacity: 0.9;
+}
+
+.film-strip::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to center,
+        rgba(15,17,22,0.4),
+        rgba(15,17,22,0.15),
+        rgba(15,17,22,0.4)
+    );
+    pointer-events: none;
+}
+
+.film-strip--left::before {
+    animation: cintaSube var(--film-duration) linear infinite;
+}
+
+.film-strip--right::before {
+    animation: cintaBaja var(--film-duration) linear infinite;
+}
+
+@keyframes cintaSube {
+    from {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(-33.333%);
+    }
+}
+
+@keyframes cintaBaja {
+    from {
+        transform: translateY(-33.333%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}

@@ -1,0 +1,305 @@
+/* ===========================================
+   PERFIL
+=========================================== */
+.perfil-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 16px;
+}
+
+.perfil-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 18px 20px;
+    margin-bottom: 24px;
+    border-radius: 16px;
+    background: linear-gradient(180deg, rgba(255,138,0,.08), rgba(0,0,0,.15));
+    border: 1px solid rgba(255,138,0,.18);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.22);
+}
+
+.perfil-user {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.perfil-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 22px;
+    background: rgba(255,138,0,.14);
+    border: 1px solid rgba(255,138,0,.38);
+    color: #ffb04a;
+}
+
+.perfil-meta {
+    font-size: .92rem;
+    color: #c9c9c9;
+}
+
+.perfil-title {
+    margin: 22px 0 14px;
+    font-size: 1.25rem;
+    font-weight: 800;
+}
+
+.perfil-vacio {
+    padding: 18px;
+    border-radius: 12px;
+    background: rgba(255,255,255,.04);
+    border: 1px dashed rgba(255,255,255,.15);
+    color: #bdbdbd;
+}
+
+.perfil-table-wrap {
+    margin-bottom: 42px;
+    width: 100%;
+    overflow-x: auto;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,.12);
+    background: rgba(0,0,0,.22);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.2);
+}
+
+.perfil-tabla {
+    width: 100%;
+    min-width: 1300px;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.perfil-tabla thead th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: rgba(10,10,10,.96);
+    color: #fff;
+    padding: 14px 16px;
+    font-weight: 800;
+    border-bottom: 1px solid #333;
+    white-space: nowrap;
+}
+
+.perfil-tabla td {
+    padding: 14px 16px;
+    border-bottom: 1px solid #262626;
+    color: #e9e9e9;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+.perfil-tabla tbody tr:nth-child(odd) {
+    background: rgba(255,255,255,.03);
+}
+
+.perfil-tabla tbody tr:hover {
+    background: rgba(255,138,0,.07);
+}
+
+.col-num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+.col-total {
+    font-weight: 900;
+    color: #ffb04a;
+}
+
+.col-codigo {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    letter-spacing: .6px;
+    min-width: 190px;
+}
+
+.col-fecha {
+    opacity: .85;
+    min-width: 170px;
+}
+
+.col-titulo {
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.perfil-tabla.perfil-criticas {
+    min-width: 900px;
+}
+
+.col-contenido {
+    white-space: normal !important;
+    max-width: 520px;
+    line-height: 1.35rem;
+}
+
+.perfil-link {
+    color: #ffb04a;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.perfil-link:hover {
+    text-decoration: underline;
+}
+
+.perfil-rating {
+    font-weight: 700;
+}
+
+.perfil-rating.muted {
+    font-weight: 600;
+    color: #bdbdbd;
+}
+
+/* ===========================================
+   FAVORITAS / MI LISTA EN PERFIL
+=========================================== */
+.perfil-tabs {
+    display: flex;
+    gap: 30px;
+    border-bottom: 2px solid rgba(255,255,255,0.08);
+    margin-bottom: 25px;
+}
+
+.perfil-tab {
+    background: none;
+    border: none;
+    color: #94a3b8;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 12px 4px;
+    cursor: pointer;
+    position: relative;
+    transition: 0.25s ease;
+}
+
+.perfil-tab:hover {
+    color: #ffffff;
+}
+
+.perfil-tab.active {
+    color: #ffffff;
+}
+
+.perfil-tab.active::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: #f97316;
+    border-radius: 10px;
+}
+
+.perfil-seccion {
+    display: none;
+}
+
+.perfil-seccion.active {
+    display: block;
+}
+
+.favoritas-perfil-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-bottom: 40px;
+}
+
+.favorita-perfil-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 18px;
+    padding: 18px;
+    box-shadow: 0 12px 28px rgba(0,0,0,0.20);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.favorita-perfil-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 34px rgba(0,0,0,0.28);
+}
+
+.favorita-perfil-poster {
+    width: 95px;
+    min-width: 95px;
+    height: 140px;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+}
+
+.favorita-perfil-poster img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.favorita-perfil-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.favorita-perfil-info h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.favorita-perfil-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.favorita-perfil-meta span {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: rgba(245, 158, 11, 0.14);
+    color: #fbbf24;
+    font-size: 0.88rem;
+    font-weight: 600;
+}
+
+.favorita-perfil-fecha {
+    color: #cbd5e1;
+    font-size: 0.92rem;
+}
+
+.favorita-perfil-acciones {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    min-width: 130px;
+}
+
+.lista-label {
+    margin: 6px 0 10px 0;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #94a3b8;
+}
+
+.lista-label.activa {
+    color: #22c55e;
+}

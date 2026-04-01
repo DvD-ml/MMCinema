@@ -1,0 +1,542 @@
+/* ===========================================
+   CARDS GENERALES
+=========================================== */
+.card {
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border-card);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-soft);
+    backdrop-filter: blur(6px);
+}
+
+/* ===========================================
+   TARJETAS PELÍCULAS Y NOTICIAS
+=========================================== */
+.pelicula-card,
+.noticia-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    transition:
+        transform 0.45s var(--ease-premium),
+        box-shadow 0.45s var(--ease-premium),
+        border-color 0.3s ease,
+        background-color 0.3s ease;
+    will-change: transform, box-shadow;
+}
+
+.pelicula-card:hover,
+.noticia-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-card-hover);
+    border-color: rgba(249,115,22,0.18);
+}
+
+.pelicula-card::after,
+.noticia-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to top,
+        rgba(0,0,0,0.22),
+        rgba(0,0,0,0.08),
+        transparent
+    );
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+}
+
+.pelicula-card:hover::after,
+.noticia-card:hover::after {
+    opacity: 1;
+}
+
+.pelicula-card img {
+    width: 100%;
+    height: 520px;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    transition: filter 0.45s var(--ease-premium);
+}
+
+.noticia-card img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    transition: filter 0.45s var(--ease-premium);
+}
+
+.pelicula-card:hover img,
+.noticia-card:hover img {
+    filter: brightness(0.92);
+}
+
+.pelicula-card .card-body,
+.noticia-card .card-body {
+    position: relative;
+    z-index: 2;
+    padding: 1rem;
+}
+
+.card-title {
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+/* ===========================================
+   BOTONES
+=========================================== */
+.btn-primary {
+    background: var(--primary) !important;
+    border: 1px solid var(--primary) !important;
+    font-weight: 700;
+    border-radius: 10px;
+    transition:
+        background-color 0.22s ease,
+        border-color 0.22s ease,
+        transform 0.28s var(--ease-premium),
+        box-shadow 0.28s var(--ease-premium);
+}
+
+.btn-primary:hover {
+    background: var(--primary-dark) !important;
+    border-color: var(--primary-dark) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(249,115,22,0.28);
+}
+
+.btn-danger {
+    background: var(--danger) !important;
+    border: 1px solid var(--danger) !important;
+    font-weight: 700;
+    border-radius: 10px;
+    transition:
+        background-color 0.22s ease,
+        border-color 0.22s ease,
+        transform 0.28s var(--ease-premium),
+        box-shadow 0.28s var(--ease-premium);
+}
+
+.btn-danger:hover {
+    background: var(--danger-dark) !important;
+    border-color: var(--danger-dark) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(220,38,38,0.28);
+}
+
+.btn-outline-light {
+    color: var(--text-light) !important;
+    border-color: rgba(255,255,255,0.8) !important;
+    border-radius: 10px;
+    transition:
+        background-color 0.22s ease,
+        color 0.22s ease,
+        transform 0.28s var(--ease-premium);
+}
+
+.btn-outline-light:hover {
+    background: var(--text-light) !important;
+    color: var(--bg-main) !important;
+    transform: translateY(-2px);
+}
+
+.btn-pdf {
+    display: inline-block;
+    padding: 8px 14px;
+    border-radius: 10px;
+    background: #ff8a00;
+    color: #111;
+    text-decoration: none;
+    font-weight: 800;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-pdf:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255,138,0,.32);
+}
+
+/* ===========================================
+   FORMULARIOS
+=========================================== */
+.form-container-wrapper {
+    min-height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-card {
+    background: rgba(27, 30, 39, 0.86);
+    padding: 25px;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 14px 34px rgba(0,0,0,0.32);
+    border: 1px solid var(--border-card);
+    backdrop-filter: blur(8px);
+}
+
+label,
+.form-label {
+    color: var(--text-light) !important;
+    font-weight: 600;
+}
+
+input, textarea, select {
+    background: rgba(42,46,56,0.88) !important;
+    color: var(--text-light) !important;
+    border: 1px solid #3a3f4b !important;
+    border-radius: 10px !important;
+    transition: border-color 0.22s ease, box-shadow 0.22s ease;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #e5e7eb !important;
+    opacity: 1 !important;
+}
+
+input:focus, textarea:focus, select:focus {
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 3px rgba(249,115,22,0.18) !important;
+    outline: none;
+}
+
+/* ===========================================
+   CRÍTICAS Y DETALLES
+=========================================== */
+.critica {
+    background: rgba(24,27,35,0.9);
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid #3a3f4b;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+}
+
+.critica p {
+    margin-bottom: 0.5rem;
+}
+
+.proyeccion-item {
+    background: rgba(24,27,35,0.9);
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    border-left: 5px solid var(--primary);
+}
+
+/* ===========================================
+   ESTRELLAS
+=========================================== */
+.stars {
+    display: inline-flex;
+    gap: 2px;
+    align-items: center;
+}
+
+.star {
+    font-size: 18px;
+    line-height: 1;
+}
+
+.star.on {
+    color: #f5c518;
+}
+
+.star.off {
+    color: #4b5563;
+}
+
+.star.half {
+    position: relative;
+    color: #4b5563;
+}
+
+.star.half::before {
+    content: "★";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 50%;
+    overflow: hidden;
+    color: #f5c518;
+}
+
+/* ===========================================
+   SALA / ASIENTOS
+=========================================== */
+.screen {
+    max-width: 760px;
+    margin: 20px auto 30px;
+    padding: 14px;
+    background: #3f3f3f;
+    color: #fff;
+    text-align: center;
+    font-weight: bold;
+    letter-spacing: 1px;
+    border-radius: 10px;
+}
+
+.room-wrap {
+    max-width: 900px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 40px 1fr 40px;
+    gap: 15px;
+}
+
+.nums {
+    display: grid;
+    gap: 10px;
+    color: #666;
+}
+
+.nums div {
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.seat-grid {
+    display: grid;
+    gap: 8px 10px;
+    justify-content: center;
+}
+
+.seat {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #cfcfcf;
+    border: 1px solid #bdbdbd;
+    cursor: pointer;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.seat:hover:not(.ocupado) {
+    transform: scale(1.08);
+}
+
+.seat.seleccionado {
+    background: #7cc242;
+}
+
+.seat.ocupado {
+    background: #d64545;
+    cursor: not-allowed;
+}
+
+.void {
+    width: 18px;
+    height: 18px;
+    opacity: 0;
+}
+
+.legend {
+    max-width: 900px;
+    margin: 25px auto;
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+}
+
+.leg-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+}
+
+.dot.ocupado { background: #d64545; }
+.dot.libre { background: #cfcfcf; }
+.dot.seleccionado { background: #7cc242; }
+.dot.ruedas {
+    background: #2aa8ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 12px;
+}
+
+/* ===========================================
+   NOTICIA DETALLE
+=========================================== */
+.noticia-hero img {
+    width: 100%;
+    max-height: 420px;
+    object-fit: cover;
+    border-radius: 16px;
+}
+
+.noticia-texto .lead {
+    font-size: 1.05rem;
+    line-height: 1.65rem;
+}
+
+/* ===========================================
+   ANIMACIÓN STAGGER
+=========================================== */
+.reveal-card {
+    opacity: 0;
+    transform: translateY(28px);
+    filter: blur(4px);
+    transition:
+        opacity 0.85s var(--ease-premium),
+        transform 0.85s var(--ease-premium),
+        filter 0.85s var(--ease-premium),
+        box-shadow 0.45s var(--ease-premium);
+    transition-delay: var(--delay, 0ms);
+    will-change: opacity, transform, filter;
+}
+
+.reveal-card.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+}
+
+/* ===========================================
+   PAGINACIÓN CINE
+=========================================== */
+.cine-pagination-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
+.cine-pagination {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.cine-page {
+    text-decoration: none;
+    border: none;
+    transition: all 0.25s ease;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+}
+
+.cine-page-nav {
+    background: #20232b;
+    color: #ffffff;
+    padding: 12px 22px;
+    border-radius: 999px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.18);
+    font-size: 14px;
+}
+
+.cine-page-nav:hover {
+    background: var(--primary);
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+.cine-page-nav.disabled {
+    opacity: 0.45;
+    pointer-events: none;
+}
+
+.cine-page-number {
+    width: 42px;
+    height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: #d1d5db;
+    background: transparent;
+    font-size: 16px;
+}
+
+.cine-page-number:hover {
+    background: rgba(255,255,255,0.08);
+    color: var(--primary);
+}
+
+.cine-page-number.active {
+    background: #d9d9d9;
+    color: #111827;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.04);
+}
+
+/* ===========================================
+   CRÍTICAS TABS
+=========================================== */
+.criticas-tabs-wrap {
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+    margin-bottom: 28px;
+}
+
+.criticas-tabs {
+    display: flex;
+    gap: 36px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.criticas-tab-btn {
+    background: transparent;
+    border: 0;
+    color: #94a3b8;
+    font-size: 1.1rem;
+    font-weight: 700;
+    padding: 0 0 14px 0;
+    position: relative;
+    transition: color 0.25s ease;
+}
+
+.criticas-tab-btn:hover {
+    color: #ffffff;
+}
+
+.criticas-tab-btn.active {
+    color: #ffffff;
+}
+
+.criticas-tab-btn.active::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    width: 100%;
+    height: 3px;
+    background: #f97316;
+    border-radius: 999px;
+}
+
+.criticas-tab-panel {
+    display: none;
+}
+
+.criticas-tab-panel.active {
+    display: block;
+}
+
+.critica-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 18px;
+    padding: 20px;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.18);
+}
+
+.critica-obra {
+    color: #f8fafc;
+    font-weight: 600;
+}
