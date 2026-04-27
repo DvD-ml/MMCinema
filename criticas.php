@@ -91,7 +91,11 @@ if (!in_array($tabActiva, ['peliculas', 'series'], true)) {
                             </div>
                         </div>
                         <?php if (!empty($c['puntuacion'])): ?>
-                            <span class="badge bg-warning text-dark"><?= (int)$c['puntuacion'] ?>/5</span>
+                            <div class="critica-stars-display">
+                                <?php for ($i = 1; $i <= 5; $i++): ?>
+                                    <span class="star <?= $i <= (int)$c['puntuacion'] ? 'on' : 'off' ?>">★</span>
+                                <?php endfor; ?>
+                            </div>
                         <?php endif; ?>
                     </div>
 
@@ -139,7 +143,11 @@ if (!in_array($tabActiva, ['peliculas', 'series'], true)) {
                             </div>
                         </div>
                         <?php if (!empty($c['puntuacion'])): ?>
-                            <span class="badge bg-warning text-dark"><?= (int)$c['puntuacion'] ?>/5</span>
+                            <div class="critica-stars-display">
+                                <?php for ($i = 1; $i <= 5; $i++): ?>
+                                    <span class="star <?= $i <= (int)$c['puntuacion'] ? 'on' : 'off' ?>">★</span>
+                                <?php endfor; ?>
+                            </div>
                         <?php endif; ?>
                     </div>
 

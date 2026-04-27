@@ -5,25 +5,35 @@ use PHPMailer\PHPMailer\Exception;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-const MM_BASE_URL = 'http://localhost/david/MMCINEMA';
+// Cargar variables de entorno solo si existe el archivo .env
+$envPath = __DIR__ . '/..';
+if (file_exists($envPath . '/.env')) {
+    $dotenv = Dotenv\Dotenv::createImmutable($envPath);
+    $dotenv->load();
+}
+
+// Cargar helpers
+require_once __DIR__ . '/../helpers/Logger.php';
+
+define('MM_BASE_URL', $_ENV['BASE_URL'] ?? 'http://localhost/david/MMCINEMA');
 
 function mm_configurar_mailer(): PHPMailer
 {
     $mail = new PHPMailer(true);
 
     $mail->isSMTP();
-    $mail->Host       = 'smtp.gmail.com';
+    $mail->Host       = $_ENV['MAIL_HOST'] ?? 'smtp.gmail.com';
     $mail->SMTPAuth   = true;
-
-    // CAMBIA ESTOS 2 DATOS POR LOS TUYOS
-    $mail->Username   = 'david.monzonlopez@gmail.com';
-    $mail->Password   = 'xvzx cvwp syqf cxkk';
-
+    $mail->Username   = $_ENV['MAIL_USERNAME'] ?? 'david.monzonlopez@gmail.com';
+    $mail->Password   = $_ENV['MAIL_PASSWORD'] ?? 'xvzx cvwp syqf cxkk';
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-    $mail->Port       = 587;
+    $mail->Port       = (int)($_ENV['MAIL_PORT'] ?? 587);
     $mail->CharSet    = 'UTF-8';
 
-    $mail->setFrom('david.monzonlopez@gmail.com', 'MMCinema');
+    $fromEmail = $_ENV['MAIL_FROM_EMAIL'] ?? $_ENV['MAIL_USERNAME'] ?? 'david.monzonlopez@gmail.com';
+    $fromName = $_ENV['MAIL_FROM_NAME'] ?? 'MMCinema';
+    
+    $mail->setFrom($fromEmail, $fromName);
 
     return $mail;
 }

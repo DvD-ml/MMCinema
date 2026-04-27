@@ -53,29 +53,57 @@ $stm->execute([$usuario_id]);
 $tickets = $stm->fetchAll(PDO::FETCH_ASSOC);
 
 /* =========================
-   Críticas del usuario
+   Críticas del usuario CON POSTER - PELÍCULAS
 ========================= */
-$sqlC = "
+$sqlCriticasPeliculas = "
 SELECT 
     c.id AS critica_id,
     c.contenido,
     c.puntuacion,
     c.creado,
     p.titulo,
+    p.poster,
     p.id AS pelicula_id
 FROM critica c
 LEFT JOIN pelicula p ON c.id_pelicula = p.id
 WHERE c.id_usuario = ?
 ORDER BY c.creado DESC
 ";
-$stmC = $pdo->prepare($sqlC);
-$stmC->execute([$usuario_id]);
-$criticas = $stmC->fetchAll(PDO::FETCH_ASSOC);
+$stmCP = $pdo->prepare($sqlCriticasPeliculas);
+$stmCP->execute([$usuario_id]);
+$criticasPeliculas = $stmCP->fetchAll(PDO::FETCH_ASSOC);
 
 /* =========================
-   FAVORITAS (YA ESTRENADAS)
+   Críticas del usuario CON POSTER - SERIES
 ========================= */
-$sqlFavoritas = "
+$criticasSeries = [];
+try {
+    $sqlCriticasSeries = "
+    SELECT 
+        cs.id AS critica_id,
+        cs.contenido,
+        cs.puntuacion,
+        cs.creado,
+        s.titulo,
+        s.poster,
+        s.id AS serie_id
+    FROM critica_serie cs
+    LEFT JOIN serie s ON cs.id_serie = s.id
+    WHERE cs.id_usuario = ?
+    ORDER BY cs.creado DESC
+    ";
+    $stmCS = $pdo->prepare($sqlCriticasSeries);
+    $stmCS->execute([$usuario_id]);
+    $criticasSeries = $stmCS->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    // Tabla critica_serie no existe todavía
+    $criticasSeries = [];
+}
+
+/* =========================
+   FAVORITAS PELÍCULAS (YA ESTRENADAS) - MÁXIMO 5
+========================= */
+$sqlFavoritasPeliculas = "
 SELECT 
     p.id,
     p.titulo,
@@ -84,17 +112,48 @@ SELECT
     p.duracion,
     p.edad,
     g.nombre AS genero,
-    f.creado
+    f.creado,
+    'pelicula' AS tipo
 FROM favorito f
 JOIN pelicula p ON f.id_pelicula = p.id
 LEFT JOIN genero g ON p.id_genero = g.id
 WHERE f.id_usuario = ?
   AND p.fecha_estreno <= CURDATE()
 ORDER BY f.creado DESC
+LIMIT 5
 ";
-$stmFav = $pdo->prepare($sqlFavoritas);
-$stmFav->execute([$usuario_id]);
-$favoritas = $stmFav->fetchAll(PDO::FETCH_ASSOC);
+$stmFavPel = $pdo->prepare($sqlFavoritasPeliculas);
+$stmFavPel->execute([$usuario_id]);
+$favoritasPeliculas = $stmFavPel->fetchAll(PDO::FETCH_ASSOC);
+
+/* =========================
+   FAVORITAS SERIES - MÁXIMO 5
+========================= */
+$favoritasSeries = [];
+try {
+    $sqlFavoritasSeries = "
+    SELECT 
+        s.id,
+        s.titulo,
+        s.poster,
+        s.fecha_estreno,
+        g.nombre AS genero,
+        fs.creado,
+        'serie' AS tipo
+    FROM favorito_serie fs
+    JOIN serie s ON fs.id_serie = s.id
+    LEFT JOIN genero g ON s.id_genero = g.id
+    WHERE fs.id_usuario = ?
+    ORDER BY fs.creado DESC
+    LIMIT 5
+    ";
+    $stmFavSer = $pdo->prepare($sqlFavoritasSeries);
+    $stmFavSer->execute([$usuario_id]);
+    $favoritasSeries = $stmFavSer->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    // Tabla favorito_serie no existe todavía
+    $favoritasSeries = [];
+}
 
 /* =========================
    MI LISTA (PRÓXIMAMENTE)
@@ -120,12 +179,21 @@ $stmLista = $pdo->prepare($sqlMiLista);
 $stmLista->execute([$usuario_id]);
 $miLista = $stmLista->fetchAll(PDO::FETCH_ASSOC);
 
-$num_criticas = count($criticas);
+$num_criticas_peliculas = count($criticasPeliculas);
+$num_criticas_series = count($criticasSeries);
+$num_criticas_total = $num_criticas_peliculas + $num_criticas_series;
 $media_valoracion = null;
 $sum = 0;
 $count_val = 0;
 
-foreach ($criticas as $c) {
+foreach ($criticasPeliculas as $c) {
+    if (!empty($c['puntuacion'])) {
+        $sum += (int)$c['puntuacion'];
+        $count_val++;
+    }
+}
+
+foreach ($criticasSeries as $c) {
     if (!empty($c['puntuacion'])) {
         $sum += (int)$c['puntuacion'];
         $count_val++;
@@ -169,8 +237,9 @@ if ($count_val > 0) {
 
         <div class="perfil-meta">
             Tickets: <b><?= count($tickets) ?></b> ·
-            Críticas: <b><?= (int)$num_criticas ?></b> ·
-            Favoritas: <b><?= count($favoritas) ?></b> ·
+            Críticas: <b><?= (int)$num_criticas_total ?></b> ·
+            Películas favoritas: <b><?= count($favoritasPeliculas) ?></b> ·
+            Series favoritas: <b><?= count($favoritasSeries) ?></b> ·
             Mi lista: <b><?= count($miLista) ?></b>
             <?php if($media_valoracion !== null): ?>
                 · Media: <b><?= number_format($media_valoracion, 1) ?>/5</b>
@@ -179,46 +248,57 @@ if ($count_val > 0) {
     </div>
 
     <div class="perfil-tabs">
-        <button class="perfil-tab active" type="button" data-tab="favoritas">
-            Mis favoritas
+        <button class="perfil-tab active" type="button" data-tab="peliculas">
+            Mis Películas Favoritas
+        </button>
+        <button class="perfil-tab" type="button" data-tab="series">
+            Mis Series Favoritas
         </button>
         <button class="perfil-tab" type="button" data-tab="lista">
-            Mi lista
+            Mi Lista
         </button>
     </div>
 
-    <div class="perfil-seccion active" id="favoritas">
-        <?php if (empty($favoritas)): ?>
+    <div class="perfil-seccion active" id="peliculas">
+        <h2 class="letterboxd-section-title">Mis Películas Favoritas</h2>
+        <?php if (empty($favoritasPeliculas)): ?>
             <p class="perfil-vacio">Todavía no has añadido películas a favoritas.</p>
         <?php else: ?>
-            <div class="favoritas-perfil-lista">
-                <?php foreach ($favoritas as $f): ?>
-                    <div class="favorita-perfil-item">
-                        <div class="favorita-perfil-poster">
-                            <img src="img/posters/<?= htmlspecialchars($f['poster'] ?: 'placeholder.jpg') ?>" alt="<?= htmlspecialchars($f['titulo']) ?>">
-                        </div>
-
-                        <div class="favorita-perfil-info">
-                            <h3><?= htmlspecialchars($f['titulo']) ?></h3>
-
-                            <div class="favorita-perfil-fecha">
-                                Añadida a favoritas el <?= !empty($f['creado']) ? date('d/m/Y H:i', strtotime($f['creado'])) : '' ?>
+            <div class="letterboxd-grid">
+                <?php foreach ($favoritasPeliculas as $f): ?>
+                    <div class="letterboxd-item">
+                        <a href="pelicula.php?id=<?= (int)$f['id'] ?>" class="letterboxd-poster-link">
+                            <div class="letterboxd-poster">
+                                <img src="img/posters/<?= htmlspecialchars($f['poster'] ?: 'placeholder.jpg') ?>" 
+                                     alt="<?= htmlspecialchars($f['titulo']) ?>">
+                                <div class="letterboxd-overlay">
+                                    <div class="letterboxd-title"><?= htmlspecialchars($f['titulo']) ?></div>
+                                </div>
                             </div>
-                        </div>
+                        </a>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
+    </div>
 
-                        <div class="favorita-perfil-acciones">
-                            <a href="pelicula.php?id=<?= (int)$f['id'] ?>" class="btn btn-primary btn-sm">
-                                Ver película
-                            </a>
-
-                            <form action="backend/toggle_favorito.php" method="POST" style="margin-top:10px;">
-                                <input type="hidden" name="pelicula_id" value="<?= (int)$f['id'] ?>">
-                                <input type="hidden" name="redirect" value="perfil.php">
-                                <button type="submit" class="btn btn-outline-danger btn-sm">
-                                    Quitar
-                                </button>
-                            </form>
-                        </div>
+    <div class="perfil-seccion" id="series">
+        <h2 class="letterboxd-section-title">Mis Series Favoritas</h2>
+        <?php if (empty($favoritasSeries)): ?>
+            <p class="perfil-vacio">Todavía no has añadido series a favoritas.</p>
+        <?php else: ?>
+            <div class="letterboxd-grid">
+                <?php foreach ($favoritasSeries as $f): ?>
+                    <div class="letterboxd-item">
+                        <a href="serie.php?id=<?= (int)$f['id'] ?>" class="letterboxd-poster-link">
+                            <div class="letterboxd-poster">
+                                <img src="<?= htmlspecialchars($f['poster'] ?: 'img/posters/placeholder.jpg') ?>" 
+                                     alt="<?= htmlspecialchars($f['titulo']) ?>">
+                                <div class="letterboxd-overlay">
+                                    <div class="letterboxd-title"><?= htmlspecialchars($f['titulo']) ?></div>
+                                </div>
+                            </div>
+                        </a>
                     </div>
                 <?php endforeach; ?>
             </div>
@@ -226,49 +306,322 @@ if ($count_val > 0) {
     </div>
 
     <div class="perfil-seccion" id="lista">
+        <h2 class="letterboxd-section-title">Mi Lista</h2>
         <?php if (empty($miLista)): ?>
             <p class="perfil-vacio">Todavía no has añadido próximos estrenos a tu lista.</p>
         <?php else: ?>
-            <div class="favoritas-perfil-lista">
+            <div class="lista-grid">
                 <?php foreach ($miLista as $f): ?>
-                    <div class="favorita-perfil-item">
-                        <div class="favorita-perfil-poster">
-                            <img src="img/posters/<?= htmlspecialchars($f['poster'] ?: 'placeholder.jpg') ?>" alt="<?= htmlspecialchars($f['titulo']) ?>">
-                        </div>
-
-                        <div class="favorita-perfil-info">
-                            <h3><?= htmlspecialchars($f['titulo']) ?></h3>
-
-                            <div class="favorita-perfil-fecha">
-                                Guardada en tu lista el <?= !empty($f['creado']) ? date('d/m/Y H:i', strtotime($f['creado'])) : '' ?>
+                    <div class="lista-item">
+                        <a href="pelicula.php?id=<?= (int)$f['id'] ?>" class="lista-poster-link">
+                            <div class="lista-poster">
+                                <img src="img/posters/<?= htmlspecialchars($f['poster'] ?: 'placeholder.jpg') ?>" 
+                                     alt="<?= htmlspecialchars($f['titulo']) ?>">
+                                <div class="lista-badge">Próximamente</div>
+                                <div class="lista-overlay">
+                                    <div class="lista-title"><?= htmlspecialchars($f['titulo']) ?></div>
+                                    <div class="lista-date">
+                                        <?= !empty($f['fecha_estreno']) ? date('d/m/Y', strtotime($f['fecha_estreno'])) : '' ?>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-
-                        <div class="favorita-perfil-acciones">
-                            <a href="pelicula.php?id=<?= (int)$f['id'] ?>" class="btn btn-primary btn-sm">
-                                Ver película
-                            </a>
-
-                            <form action="backend/toggle_favorito.php" method="POST" style="margin-top:10px;">
-                                <input type="hidden" name="pelicula_id" value="<?= (int)$f['id'] ?>">
-                                <input type="hidden" name="redirect" value="perfil.php">
-                                <button type="submit" class="btn btn-outline-danger btn-sm">
-                                    Quitar
-                                </button>
-                            </form>
-                        </div>
+                        </a>
                     </div>
                 <?php endforeach; ?>
             </div>
         <?php endif; ?>
     </div>
 
-    <h2 class="perfil-title">Mis entradas</h2>
+    <h2 class="letterboxd-section-title" style="margin-top: 60px;">Mis Críticas</h2>
+
+    <div class="perfil-tabs criticas-tabs">
+        <button class="perfil-tab active" type="button" data-tab="criticas-peliculas">
+            Críticas de Películas
+        </button>
+        <button class="perfil-tab" type="button" data-tab="criticas-series">
+            Críticas de Series
+        </button>
+    </div>
+
+    <div class="perfil-seccion active" id="criticas-peliculas">
+        <?php if (empty($criticasPeliculas)): ?>
+            <p class="perfil-vacio">Todavía no has escrito ninguna crítica de películas.</p>
+        <?php else: ?>
+            <div class="criticas-section-wrapper">
+                <?php if (count($criticasPeliculas) > 6): ?>
+                    <div class="carousel-arrow carousel-arrow-left" onclick="scrollCriticasPeliculas(-1)">‹</div>
+                <?php endif; ?>
+                
+                <div class="criticas-carousel-container">
+                    <div class="criticas-letterboxd-grid" id="criticasPeliculasGrid">
+                        <?php foreach ($criticasPeliculas as $index => $c): ?>
+                            <div class="critica-letterboxd-item" onclick="openCriticaPeliculaModal(<?= $index ?>)">
+                                <div class="critica-poster-link">
+                                    <div class="critica-poster">
+                                        <img src="img/posters/<?= htmlspecialchars($c['poster'] ?: 'placeholder.jpg') ?>" 
+                                             alt="<?= htmlspecialchars($c['titulo']) ?>">
+                                    </div>
+                                </div>
+                                <div class="critica-info">
+                                    <span class="critica-titulo">
+                                        <?= htmlspecialchars($c['titulo'] ?? 'Película') ?>
+                                    </span>
+                                    <div class="critica-stars">
+                                        <?php if (!empty($c['puntuacion'])): ?>
+                                            <?php for ($i=1; $i<=5; $i++): ?>
+                                                <span class="star-letterboxd <?= $i <= (int)$c['puntuacion'] ? 'filled' : '' ?>">★</span>
+                                            <?php endfor; ?>
+                                        <?php else: ?>
+                                            <span class="no-rating">Sin valoración</span>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+                
+                <?php if (count($criticasPeliculas) > 6): ?>
+                    <div class="carousel-arrow carousel-arrow-right" onclick="scrollCriticasPeliculas(1)">›</div>
+                <?php endif; ?>
+            </div>
+
+            <!-- Modal de crítica película -->
+            <div class="critica-modal" id="criticaPeliculaModal" onclick="closeCriticaPeliculaModal(event)">
+                <div class="critica-modal-content" onclick="event.stopPropagation()">
+                    <div class="critica-modal-close" onclick="closeCriticaPeliculaModal(event)">×</div>
+                    <div class="critica-modal-header">
+                        <div class="critica-modal-poster">
+                            <img id="modalPeliculaPoster" src="" alt="">
+                        </div>
+                        <div class="critica-modal-info">
+                            <h3 class="critica-modal-title" id="modalPeliculaTitulo"></h3>
+                            <div class="critica-modal-stars" id="modalPeliculaStars"></div>
+                            <div class="critica-modal-meta" id="modalPeliculaFecha"></div>
+                        </div>
+                    </div>
+                    <div class="critica-modal-body">
+                        <p class="critica-modal-text" id="modalPeliculaContenido"></p>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+    </div>
+
+    <div class="perfil-seccion" id="criticas-series">
+        <?php if (empty($criticasSeries)): ?>
+            <p class="perfil-vacio">Todavía no has escrito ninguna crítica de series.</p>
+        <?php else: ?>
+            <div class="criticas-section-wrapper">
+                <?php if (count($criticasSeries) > 6): ?>
+                    <div class="carousel-arrow carousel-arrow-left" onclick="scrollCriticasSeries(-1)">‹</div>
+                <?php endif; ?>
+                
+                <div class="criticas-carousel-container">
+                    <div class="criticas-letterboxd-grid" id="criticasSeriesGrid">
+                        <?php foreach ($criticasSeries as $index => $c): ?>
+                            <div class="critica-letterboxd-item" onclick="openCriticaSerieModal(<?= $index ?>)">
+                                <div class="critica-poster-link">
+                                    <div class="critica-poster">
+                                        <img src="<?= htmlspecialchars($c['poster'] ?: 'img/posters/placeholder.jpg') ?>" 
+                                             alt="<?= htmlspecialchars($c['titulo']) ?>">
+                                    </div>
+                                </div>
+                                <div class="critica-info">
+                                    <span class="critica-titulo">
+                                        <?= htmlspecialchars($c['titulo'] ?? 'Serie') ?>
+                                    </span>
+                                    <div class="critica-stars">
+                                        <?php if (!empty($c['puntuacion'])): ?>
+                                            <?php for ($i=1; $i<=5; $i++): ?>
+                                                <span class="star-letterboxd <?= $i <= (int)$c['puntuacion'] ? 'filled' : '' ?>">★</span>
+                                            <?php endfor; ?>
+                                        <?php else: ?>
+                                            <span class="no-rating">Sin valoración</span>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+                
+                <?php if (count($criticasSeries) > 6): ?>
+                    <div class="carousel-arrow carousel-arrow-right" onclick="scrollCriticasSeries(1)">›</div>
+                <?php endif; ?>
+            </div>
+
+            <!-- Modal de crítica serie -->
+            <div class="critica-modal" id="criticaSerieModal" onclick="closeCriticaSerieModal(event)">
+                <div class="critica-modal-content" onclick="event.stopPropagation()">
+                    <div class="critica-modal-close" onclick="closeCriticaSerieModal(event)">×</div>
+                    <div class="critica-modal-header">
+                        <div class="critica-modal-poster">
+                            <img id="modalSeriePoster" src="" alt="">
+                        </div>
+                        <div class="critica-modal-info">
+                            <h3 class="critica-modal-title" id="modalSerieTitulo"></h3>
+                            <div class="critica-modal-stars" id="modalSerieStars"></div>
+                            <div class="critica-modal-meta" id="modalSerieFecha"></div>
+                        </div>
+                    </div>
+                    <div class="critica-modal-body">
+                        <p class="critica-modal-text" id="modalSerieContenido"></p>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+    </div>
+
+    <script>
+    const criticasPeliculasData = <?= json_encode($criticasPeliculas) ?>;
+    const criticasSeriesData = <?= json_encode($criticasSeries) ?>;
+    let scrollPositionPeliculas = 0;
+    let scrollPositionSeries = 0;
+
+    function scrollCriticasPeliculas(direction) {
+        const grid = document.getElementById('criticasPeliculasGrid');
+        if (!grid || !grid.children.length) return;
+        
+        const itemWidth = 160; // width fijo
+        const gap = 20; // gap entre items
+        const itemTotalWidth = itemWidth + gap;
+        const visibleItems = 6;
+        const maxScroll = Math.max(0, criticasPeliculasData.length - visibleItems);
+        
+        scrollPositionPeliculas = Math.max(0, Math.min(maxScroll, scrollPositionPeliculas + direction));
+        
+        grid.style.transform = `translateX(-${scrollPositionPeliculas * itemTotalWidth}px)`;
+        
+        const leftArrow = document.querySelector('#criticas-peliculas .carousel-arrow-left');
+        const rightArrow = document.querySelector('#criticas-peliculas .carousel-arrow-right');
+        
+        if (leftArrow) leftArrow.classList.toggle('disabled', scrollPositionPeliculas === 0);
+        if (rightArrow) rightArrow.classList.toggle('disabled', scrollPositionPeliculas >= maxScroll);
+    }
+
+    function scrollCriticasSeries(direction) {
+        const grid = document.getElementById('criticasSeriesGrid');
+        if (!grid || !grid.children.length) return;
+        
+        const itemWidth = 160; // width fijo
+        const gap = 20; // gap entre items
+        const itemTotalWidth = itemWidth + gap;
+        const visibleItems = 6;
+        const maxScroll = Math.max(0, criticasSeriesData.length - visibleItems);
+        
+        scrollPositionSeries = Math.max(0, Math.min(maxScroll, scrollPositionSeries + direction));
+        
+        grid.style.transform = `translateX(-${scrollPositionSeries * itemTotalWidth}px)`;
+        
+        const leftArrow = document.querySelector('#criticas-series .carousel-arrow-left');
+        const rightArrow = document.querySelector('#criticas-series .carousel-arrow-right');
+        
+        if (leftArrow) leftArrow.classList.toggle('disabled', scrollPositionSeries === 0);
+        if (rightArrow) rightArrow.classList.toggle('disabled', scrollPositionSeries >= maxScroll);
+    }
+
+    function openCriticaPeliculaModal(index) {
+        const critica = criticasPeliculasData[index];
+        const modal = document.getElementById('criticaPeliculaModal');
+        
+        document.getElementById('modalPeliculaPoster').src = 'img/posters/' + (critica.poster || 'placeholder.jpg');
+        document.getElementById('modalPeliculaTitulo').textContent = critica.titulo || 'Película';
+        document.getElementById('modalPeliculaContenido').textContent = critica.contenido || 'Sin crítica escrita.';
+        document.getElementById('modalPeliculaFecha').textContent = 'Publicado el ' + new Date(critica.creado).toLocaleDateString('es-ES', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+        
+        const starsContainer = document.getElementById('modalPeliculaStars');
+        starsContainer.innerHTML = '';
+        if (critica.puntuacion) {
+            for (let i = 1; i <= 5; i++) {
+                const star = document.createElement('span');
+                star.className = 'star-letterboxd' + (i <= critica.puntuacion ? ' filled' : '');
+                star.textContent = '★';
+                starsContainer.appendChild(star);
+            }
+        } else {
+            starsContainer.innerHTML = '<span class="no-rating">Sin valoración</span>';
+        }
+        
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeCriticaPeliculaModal(event) {
+        const modal = document.getElementById('criticaPeliculaModal');
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    function openCriticaSerieModal(index) {
+        const critica = criticasSeriesData[index];
+        const modal = document.getElementById('criticaSerieModal');
+        
+        document.getElementById('modalSeriePoster').src = critica.poster || 'img/posters/placeholder.jpg';
+        document.getElementById('modalSerieTitulo').textContent = critica.titulo || 'Serie';
+        document.getElementById('modalSerieContenido').textContent = critica.contenido || 'Sin crítica escrita.';
+        document.getElementById('modalSerieFecha').textContent = 'Publicado el ' + new Date(critica.creado).toLocaleDateString('es-ES', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+        
+        const starsContainer = document.getElementById('modalSerieStars');
+        starsContainer.innerHTML = '';
+        if (critica.puntuacion) {
+            for (let i = 1; i <= 5; i++) {
+                const star = document.createElement('span');
+                star.className = 'star-letterboxd' + (i <= critica.puntuacion ? ' filled' : '');
+                star.textContent = '★';
+                starsContainer.appendChild(star);
+            }
+        } else {
+            starsContainer.innerHTML = '<span class="no-rating">Sin valoración</span>';
+        }
+        
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeCriticaSerieModal(event) {
+        const modal = document.getElementById('criticaSerieModal');
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        if (criticasPeliculasData.length > 6) {
+            const leftArrow = document.querySelector('#criticas-peliculas .carousel-arrow-left');
+            if (leftArrow) leftArrow.classList.add('disabled');
+        }
+        if (criticasSeriesData.length > 6) {
+            const leftArrow = document.querySelector('#criticas-series .carousel-arrow-left');
+            if (leftArrow) leftArrow.classList.add('disabled');
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeCriticaPeliculaModal(e);
+            closeCriticaSerieModal(e);
+        }
+    });
+    </script>
+
+    <h2 class="letterboxd-section-title" style="margin-top: 60px;">Mis Entradas</h2>
 
     <?php if (empty($tickets)): ?>
         <p class="perfil-vacio">No has comprado entradas todavía.</p>
     <?php else: ?>
-        <div class="perfil-table-wrap">
+        <div class="perfil-table-wrap perfil-table-extended">
             <table class="perfil-tabla">
                 <thead>
                     <tr>
@@ -308,57 +661,6 @@ if ($count_val > 0) {
         </div>
     <?php endif; ?>
 
-    <h2 class="perfil-title">Mis críticas y valoraciones</h2>
-
-    <?php if (empty($criticas)): ?>
-        <p class="perfil-vacio">Todavía no has escrito ninguna crítica.</p>
-    <?php else: ?>
-        <div class="perfil-table-wrap">
-            <table class="perfil-tabla perfil-criticas">
-                <thead>
-                    <tr>
-                        <th>Película</th>
-                        <th>Crítica</th>
-                        <th>Valoración</th>
-                        <th>Fecha</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($criticas as $c): ?>
-                        <tr>
-                            <td class="col-titulo">
-                                <?php if (!empty($c['pelicula_id'])): ?>
-                                    <a class="perfil-link" href="pelicula.php?id=<?= (int)$c['pelicula_id'] ?>">
-                                        <?= htmlspecialchars($c['titulo'] ?? 'Película') ?>
-                                    </a>
-                                <?php else: ?>
-                                    <?= htmlspecialchars($c['titulo'] ?? 'Película') ?>
-                                <?php endif; ?>
-                            </td>
-
-                            <td class="col-contenido"><?= nl2br(htmlspecialchars($c['contenido'] ?? '')) ?></td>
-
-                            <td class="col-num">
-                                <?php if (!empty($c['puntuacion'])): ?>
-                                    <span class="perfil-stars" aria-label="Valoración <?= (int)$c['puntuacion'] ?> de 5">
-                                        <?php for ($i=1; $i<=5; $i++): ?>
-                                            <span class="star <?= $i <= (int)$c['puntuacion'] ? 'on' : 'off' ?>">★</span>
-                                        <?php endfor; ?>
-                                    </span>
-                                    <span class="perfil-rating">(<?= (int)$c['puntuacion'] ?>/5)</span>
-                                <?php else: ?>
-                                    <span class="perfil-rating muted">Sin valorar</span>
-                                <?php endif; ?>
-                            </td>
-
-                            <td class="col-fecha"><?= !empty($c['creado']) ? date('d/m/Y H:i', strtotime($c['creado'])) : '' ?></td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
-    <?php endif; ?>
-
 </div>
 
 <?php include "footer.php"; ?>
@@ -367,11 +669,38 @@ if ($count_val > 0) {
 <script>
 document.querySelectorAll('.perfil-tab').forEach(btn => {
     btn.addEventListener('click', () => {
-        document.querySelectorAll('.perfil-tab').forEach(b => b.classList.remove('active'));
+        // Get the parent tabs container
+        const tabsContainer = btn.closest('.perfil-tabs');
+        
+        // Remove active from all tabs in this container
+        tabsContainer.querySelectorAll('.perfil-tab').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
 
-        document.querySelectorAll('.perfil-seccion').forEach(sec => sec.classList.remove('active'));
-        document.getElementById(btn.dataset.tab).classList.add('active');
+        // Get the tab target
+        const targetId = btn.dataset.tab;
+        
+        // Find all sections that are siblings or nearby
+        const allSections = document.querySelectorAll('.perfil-seccion');
+        allSections.forEach(sec => {
+            if (sec.id === targetId) {
+                sec.classList.add('active');
+            } else if (sec.id && (
+                sec.id.startsWith('peliculas') || 
+                sec.id.startsWith('series') || 
+                sec.id.startsWith('lista') ||
+                sec.id.startsWith('criticas-')
+            )) {
+                // Only hide sections from the same group
+                const isFavoritasGroup = ['peliculas', 'series', 'lista'].includes(sec.id);
+                const isCriticasGroup = sec.id.startsWith('criticas-');
+                const targetIsFavoritasGroup = ['peliculas', 'series', 'lista'].includes(targetId);
+                const targetIsCriticasGroup = targetId.startsWith('criticas-');
+                
+                if ((isFavoritasGroup && targetIsFavoritasGroup) || (isCriticasGroup && targetIsCriticasGroup)) {
+                    sec.classList.remove('active');
+                }
+            }
+        });
     });
 });
 </script>

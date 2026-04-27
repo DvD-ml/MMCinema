@@ -1,0 +1,25 @@
+# Variables de entorno (NUNCA subir al repositorio)
+.env
+
+# Dependencias de Composer
+/vendor/
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Cache
+/cache/*.json
+!/cache/.gitkeep
+
+# Tickets generados
+/tickets/*.pdf
+!/tickets/.gitkeep
+
+# Archivos temporales
+*.tmp
+*.bak
+*~

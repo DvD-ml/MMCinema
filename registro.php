@@ -45,25 +45,49 @@ if (!empty($_SESSION['usuario_id'])) {
       <div class="alert alert-danger">Ha ocurrido un error al guardar el usuario.</div>
     <?php endif; ?>
 
-    <form action="backend/registro.php" method="POST">
+    <form action="backend/registro.php" method="POST" autocomplete="on">
       <div class="mb-3">
         <label class="form-label" for="username">Nombre de usuario</label>
-        <input type="text" id="username" name="username" class="form-control" required>
+        <input 
+          type="text" 
+          id="username" 
+          name="username" 
+          class="form-control" 
+          autocomplete="username"
+          required>
       </div>
 
       <div class="mb-3">
         <label class="form-label" for="email">Email</label>
-        <input type="email" id="email" name="email" class="form-control" required>
+        <input 
+          type="email" 
+          id="email" 
+          name="email" 
+          class="form-control" 
+          autocomplete="email"
+          required>
       </div>
 
       <div class="mb-3">
         <label class="form-label" for="password">Contraseña</label>
-        <input type="password" id="password" name="password" class="form-control" required>
+        <input 
+          type="password" 
+          id="password" 
+          name="password" 
+          class="form-control" 
+          autocomplete="new-password"
+          required>
       </div>
 
       <div class="mb-3">
         <label class="form-label" for="password_confirm">Repite la contraseña</label>
-        <input type="password" id="password_confirm" name="password_confirm" class="form-control" required>
+        <input 
+          type="password" 
+          id="password_confirm" 
+          name="password_confirm" 
+          class="form-control" 
+          autocomplete="new-password"
+          required>
       </div>
 
       <button class="btn btn-primary w-100" type="submit">Crear cuenta</button>
@@ -77,5 +101,6 @@ if (!empty($_SESSION['usuario_id'])) {
 
 <?php include "footer.php"; ?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<?php include "includes/lenis-scripts.php"; ?>
 </body>
 </html>

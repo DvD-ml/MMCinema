@@ -1,18 +1,18 @@
 <?php
 
-// Cargar variables de entorno
-require_once __DIR__ . '/../vendor/autoload.php';
-
-// Cargar variables de entorno solo si existe el archivo .env
-$envPath = __DIR__ . '/..';
-if (file_exists($envPath . '/.env')) {
-    $dotenv = Dotenv\Dotenv::createImmutable($envPath);
-    $dotenv->load();
+// Intentar cargar variables de entorno
+try {
+    require_once __DIR__ . '/../vendor/autoload.php';
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
+    $dotenv->safeLoad(); // safeLoad no lanza error si falla
+} catch (Exception $e) {
+    // Si falla, continuamos con valores por defecto
 }
 
 // Cargar helpers
 require_once __DIR__ . '/../helpers/Logger.php';
 
+// Configuración con valores por defecto
 $host = $_ENV['DB_HOST'] ?? 'localhost';
 $dbname = $_ENV['DB_NAME'] ?? 'mmcinema3';
 $user = $_ENV['DB_USER'] ?? 'root';
@@ -36,10 +36,10 @@ try {
     Logger::error("Error de conexión a BD", $e);
     
     // Mensaje genérico al usuario (no exponer detalles)
-    if (($_ENV['APP_ENV'] ?? 'production') === 'development') {
+    $appEnv = $_ENV['APP_ENV'] ?? 'production';
+    if ($appEnv === 'development') {
         die("Error de conexión a BD: " . $e->getMessage());
     } else {
         die("Error de conexión. Por favor, intenta más tarde.");
     }
 }
-

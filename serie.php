@@ -57,6 +57,21 @@ if (!$serie) {
     die("La serie no existe.");
 }
 
+/* VERIFICAR SI ESTÁ EN FAVORITOS */
+$usuario_id = isset($_SESSION['usuario_id']) ? (int)$_SESSION['usuario_id'] : 0;
+$esFavorito = false;
+
+if ($usuario_id > 0) {
+    $stmF = $pdo->prepare("
+        SELECT id
+        FROM favorito_serie
+        WHERE id_usuario = ? AND id_serie = ?
+        LIMIT 1
+    ");
+    $stmF->execute([$usuario_id, $idSerie]);
+    $esFavorito = (bool)$stmF->fetch(PDO::FETCH_ASSOC);
+}
+
 /* SERIES DE LA MISMA PLATAFORMA */
 $seriesPlataformaTop = [];
 $seriesPlataforma = [];
@@ -232,7 +247,15 @@ $criticas = $stmtCriticas->fetchAll(PDO::FETCH_ASSOC);
                             </a>
                         <?php endif; ?>
 
-                        
+                        <?php if ($usuario_id > 0): ?>
+                            <form action="backend/toggle_favorito_serie.php" method="POST" class="detalle-mi-lista-form">
+                                <input type="hidden" name="serie_id" value="<?= (int)$serie['id'] ?>">
+                                <input type="hidden" name="redirect" value="serie.php?id=<?= (int)$serie['id'] ?>">
+                                <button type="submit" class="btn <?= $esFavorito ? 'btn-success' : 'btn-outline-light' ?> fw-semibold">
+                                    <?= $esFavorito ? '✓ En favoritas' : '+ Añadir a favoritas' ?>
+                                </button>
+                            </form>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -372,7 +395,6 @@ $criticas = $stmtCriticas->fetchAll(PDO::FETCH_ASSOC);
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between align-items-center mb-2">
                                         <strong><?= htmlspecialchars($critica['username'] ?: 'Anónimo') ?></strong>
-                                        <span class="badge bg-warning text-dark"><?= (int)$critica['puntuacion'] ?>/5</span>
                                     </div>
 
                                     <div class="premium-rating mb-3">

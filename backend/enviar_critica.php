@@ -29,8 +29,29 @@ if ($pelicula_id <= 0 || $contenido === "") {
   exit();
 }
 
-$stm = $pdo->prepare("INSERT INTO critica (id_usuario, id_pelicula, contenido, puntuacion) VALUES (?, ?, ?, ?)");
-$stm->execute([$usuario_id, $pelicula_id, $contenido, $puntuacion]);
+// Verificar si ya existe una crítica de este usuario para esta película
+$stmCheck = $pdo->prepare("
+    SELECT id
+    FROM critica
+    WHERE id_usuario = ? AND id_pelicula = ?
+    LIMIT 1
+");
+$stmCheck->execute([$usuario_id, $pelicula_id]);
+$existe = $stmCheck->fetch(PDO::FETCH_ASSOC);
+
+if ($existe) {
+    // Actualizar la crítica existente
+    $stmUpdate = $pdo->prepare("
+        UPDATE critica
+        SET contenido = ?, puntuacion = ?, creado = NOW()
+        WHERE id = ?
+    ");
+    $stmUpdate->execute([$contenido, $puntuacion, $existe['id']]);
+} else {
+    // Insertar nueva crítica
+    $stm = $pdo->prepare("INSERT INTO critica (id_usuario, id_pelicula, contenido, puntuacion) VALUES (?, ?, ?, ?)");
+    $stm->execute([$usuario_id, $pelicula_id, $contenido, $puntuacion]);
+}
 
 header("Location: ../pelicula.php?id=".$pelicula_id);
 exit();
