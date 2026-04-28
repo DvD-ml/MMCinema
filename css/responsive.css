@@ -12,6 +12,10 @@
     .film-strip {
         display: none;
     }
+
+    .carousel-category-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    }
 }
 
 @media (max-width: 991.98px) {
@@ -61,12 +65,33 @@
 
     .premium-slide-card,
     .premium-empty-hero {
-        min-height: 620px;
+        min-height: 600px;
     }
 
     .premium-slide-content,
     .premium-empty-content {
-        padding: 64px 30px 42px;
+        max-width: 100%;
+        padding: 60px 40px 40px;
+    }
+
+    .premium-slide-content h1,
+    .premium-empty-content h1 {
+        font-size: clamp(2rem, 5vw, 3.5rem);
+    }
+
+    .hero-btn-row .btn {
+        padding: 10px 24px;
+        font-size: 0.95rem;
+    }
+
+    .carousel-category-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 12px;
+    }
+
+    .carousel-category-title {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
     }
 
     .home-stats-grid {
@@ -177,6 +202,91 @@
     .criticas-tab-btn {
         font-size: 1rem;
     }
+
+    .premium-slide-card,
+    .premium-empty-hero {
+        min-height: 500px;
+    }
+
+    .premium-slide-content,
+    .premium-empty-content {
+        padding: 40px 24px 30px;
+    }
+
+    .premium-slide-content h1,
+    .premium-empty-content h1 {
+        font-size: clamp(1.8rem, 4vw, 2.8rem);
+        margin-bottom: 16px;
+    }
+
+    .premium-hero-badge {
+        margin-bottom: 12px;
+        padding: 6px 12px;
+        font-size: 0.75rem;
+    }
+
+    .premium-rating {
+        margin-bottom: 16px;
+    }
+
+    .hero-btn-row {
+        gap: 10px;
+    }
+
+    .hero-btn-row .btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+
+    .carousel-category-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 10px;
+    }
+
+    .carousel-category-title {
+        font-size: 1.3rem;
+        margin-bottom: 16px;
+    }
+
+    .carousel-item-info h3 {
+        font-size: 0.85rem;
+    }
+
+    .home-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .home-stat-card {
+        padding: 16px 12px;
+    }
+
+    .home-stat-card strong {
+        font-size: 1.5rem;
+    }
+
+    .home-stat-card span {
+        font-size: 0.85rem;
+    }
+
+    .home-section {
+        padding: 32px 0 24px;
+    }
+
+    .section-heading h2,
+    .section-heading-left h2 {
+        font-size: clamp(1.5rem, 3vw, 2.2rem);
+    }
+
+    .best-user-avatar {
+        width: 80px;
+        height: 80px;
+        font-size: 2rem;
+    }
+
+    .best-user-content h3 {
+        font-size: clamp(1.2rem, 2vw, 1.8rem);
+    }
 }
 
 @media (max-width: 767.98px) {
@@ -194,12 +304,12 @@
 
     .premium-slide-card,
     .premium-empty-hero {
-        min-height: 560px;
+        min-height: 400px;
     }
 
     .premium-slide-content,
     .premium-empty-content {
-        padding: 50px 20px 30px;
+        padding: 30px 16px 20px;
     }
 
     .hero-btn-row {
@@ -208,6 +318,7 @@
 
     .hero-btn-row .btn {
         width: 100%;
+        justify-content: center;
     }
 
     .premium-description,
@@ -228,10 +339,35 @@
     .best-user-box {
         padding: 24px 18px;
     }
+
+    .carousel-category-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 8px;
+    }
+
+    .carousel-category-title {
+        font-size: 1.1rem;
+        margin-bottom: 12px;
+    }
+
+    .carousel-item-info h3 {
+        font-size: 0.75rem;
+    }
 }
 
 @media (max-width: 479.98px) {
     .home-stats-grid {
         grid-template-columns: 1fr;
+    }
+
+    .premium-slide-card,
+    .premium-empty-hero {
+        min-height: 350px;
+    }
+
+    .premium-slide-content h1,
+    .premium-empty-content h1 {
+        font-size: clamp(1.5rem, 3vw, 2.2rem);
+        margin-bottom: 12px;
     }
 }

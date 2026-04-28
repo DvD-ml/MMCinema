@@ -3,31 +3,67 @@ if (session_status() === PHP_SESSION_NONE) session_start();
 require_once "config/conexion.php";
 
 /* =========================================
-   CARRUSEL PREMIUM - PELÍCULAS DESTACADAS
+   CARRUSEL DESTACADO - DESDE BD
 ========================================= */
 $sqlCarousel = "
-    SELECT
-        p.id,
-        p.titulo,
-        p.sinopsis,
-        p.poster,
-        p.fecha_estreno,
-        p.duracion,
-        p.edad,
-        g.nombre AS genero,
-        (
-            SELECT ROUND(AVG(c.puntuacion), 1)
-            FROM critica c
-            WHERE c.id_pelicula = p.id
-        ) AS media_puntuacion
-    FROM pelicula p
-    LEFT JOIN genero g ON g.id = p.id_genero
-    WHERE p.fecha_estreno <= CURDATE()
-    ORDER BY
-        media_puntuacion DESC,
-        p.fecha_estreno DESC,
-        p.id DESC
-    LIMIT 4
+    SELECT 
+        c.*,
+        CASE 
+            WHEN c.tipo = 'pelicula' THEN p.titulo
+            WHEN c.tipo = 'serie' THEN s.titulo
+        END as titulo_contenido,
+        CASE 
+            WHEN c.tipo = 'pelicula' THEN p.sinopsis
+            WHEN c.tipo = 'serie' THEN s.sinopsis
+        END as sinopsis_contenido,
+        CASE 
+            WHEN c.tipo = 'pelicula' THEN p.duracion
+            WHEN c.tipo = 'serie' THEN NULL
+        END as duracion_contenido,
+        CASE 
+            WHEN c.tipo = 'pelicula' THEN p.edad
+            WHEN c.tipo = 'serie' THEN s.edad
+        END as edad_contenido,
+        CASE 
+            WHEN c.tipo = 'pelicula' THEN p.fecha_estreno
+            WHEN c.tipo = 'serie' THEN s.fecha_estreno
+        END as fecha_estreno_contenido,
+        CASE 
+            WHEN c.tipo = 'pelicula' THEN YEAR(p.fecha_estreno)
+            WHEN c.tipo = 'serie' THEN YEAR(s.fecha_estreno)
+        END as anio_contenido,
+        CASE 
+            WHEN c.tipo = 'pelicula' THEN gp.nombre
+            WHEN c.tipo = 'serie' THEN gs.nombre
+        END as genero_contenido,
+        CASE 
+            WHEN c.tipo = 'serie' THEN (
+                SELECT COUNT(*) FROM temporada t WHERE t.id_serie = s.id
+            )
+            ELSE NULL
+        END as total_temporadas,
+        CASE 
+            WHEN c.tipo = 'pelicula' THEN (
+                SELECT ROUND(AVG(cr.puntuacion), 1)
+                FROM critica cr
+                WHERE cr.id_pelicula = p.id
+            )
+            WHEN c.tipo = 'serie' THEN (
+                SELECT ROUND(AVG(cs.puntuacion), 1)
+                FROM critica_serie cs
+                WHERE cs.id_serie = s.id
+            )
+        END as media_puntuacion
+    FROM carrusel_destacado c
+    LEFT JOIN pelicula p ON c.tipo = 'pelicula' AND c.id_contenido = p.id
+    LEFT JOIN serie s ON c.tipo = 'serie' AND c.id_contenido = s.id
+    LEFT JOIN genero gp ON c.tipo = 'pelicula' AND p.id_genero = gp.id
+    LEFT JOIN genero gs ON c.tipo = 'serie' AND s.id_genero = gs.id
+    WHERE c.activo = 1 
+    AND (c.fecha_inicio IS NULL OR c.fecha_inicio <= CURDATE())
+    AND (c.fecha_fin IS NULL OR c.fecha_fin >= CURDATE())
+    ORDER BY c.orden ASC, c.id DESC
+    LIMIT 6
 ";
 $stmCarousel = $pdo->prepare($sqlCarousel);
 $stmCarousel->execute();
@@ -166,96 +202,146 @@ function mm_stars($media): string
 <main class="home-page">
 
     <!-- =========================================
-         HERO + CARRUSEL PREMIUM
+         HERO + CARRUSEL NETFLIX
     ========================================== -->
-    <section class="premium-carousel-section">
-        <div class="container">
-            <div id="premiumCinemaCarousel" class="carousel slide premium-cinema-carousel" data-bs-ride="carousel">
+    <section class="netflix-hero-section">
+        <div id="netflixCarousel" class="carousel slide netflix-carousel" data-bs-ride="carousel" data-bs-interval="6000">
 
-                <?php if (!empty($carouselPeliculas)): ?>
-                    <div class="carousel-indicators premium-indicators">
-                        <?php foreach ($carouselPeliculas as $i => $pelicula): ?>
-                            <button type="button"
-                                    data-bs-target="#premiumCinemaCarousel"
-                                    data-bs-slide-to="<?= $i ?>"
-                                    class="<?= $i === 0 ? 'active' : '' ?>"
-                                    aria-current="<?= $i === 0 ? 'true' : 'false' ?>"
-                                    aria-label="Slide <?= $i + 1 ?>">
-                            </button>
-                        <?php endforeach; ?>
-                    </div>
-                <?php endif; ?>
+            <!-- Indicadores de navegación -->
+            <?php if (!empty($carouselPeliculas)): ?>
+                <div class="carousel-indicators netflix-indicators">
+                    <?php foreach ($carouselPeliculas as $i => $pelicula): ?>
+                        <button type="button"
+                                data-bs-target="#netflixCarousel"
+                                data-bs-slide-to="<?= $i ?>"
+                                class="<?= $i === 0 ? 'active' : '' ?>"
+                                aria-current="<?= $i === 0 ? 'true' : 'false' ?>"
+                                aria-label="Slide <?= $i + 1 ?>">
+                        </button>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
 
-                <div class="carousel-inner">
-                    <?php if (empty($carouselPeliculas)): ?>
-                        <div class="premium-empty-hero">
-                            <div class="premium-empty-overlay"></div>
-                            <div class="premium-empty-content">
-                                <span class="section-kicker">Bienvenido a MMCinema</span>
-                                <h1>Tu experiencia de cine premium</h1>
-                                <p>
-                                    Descubre estrenos, próximos lanzamientos, noticias y toda la emoción
-                                    de la gran pantalla en un solo lugar.
-                                </p>
-                                <div class="hero-btn-row">
-                                    <a href="cartelera.php" class="btn btn-primary btn-lg">Ver cartelera</a>
-                                    <a href="proximamente.php" class="btn btn-outline-light btn-lg">Próximos estrenos</a>
+            <div class="carousel-inner">
+                <?php if (empty($carouselPeliculas)): ?>
+                    <div class="carousel-item active">
+                        <div class="netflix-slide">
+                            <div class="netflix-slide-bg" style="background: linear-gradient(135deg, #e50914, #221f1f);"></div>
+                            <div class="netflix-slide-overlay"></div>
+                            <div class="netflix-slide-content">
+                                <div class="netflix-logo">
+                                    <h1>MMCinema</h1>
                                 </div>
                             </div>
                         </div>
-                    <?php else: ?>
-                        <?php foreach ($carouselPeliculas as $i => $p): ?>
-                            <div class="carousel-item <?= $i === 0 ? 'active' : '' ?>">
-                                <div class="premium-slide-card">
-                                    <img
-                                        src="img/posters/<?= htmlspecialchars($p['poster'] ?: 'placeholder.jpg') ?>"
-                                        class="premium-slide-bg"
-                                        alt="<?= htmlspecialchars($p['titulo']) ?>"
-                                    >
-
-                                    <div class="premium-slide-overlay"></div>
-
-                                    <div class="premium-slide-content">
-                                        <h1><?= htmlspecialchars($p['titulo']) ?></h1>
-
-                                        <div class="premium-meta">
-                                            <span><?= htmlspecialchars($p['genero'] ?: 'Sin género') ?></span>
-                                            <span><?= !empty($p['duracion']) ? (int)$p['duracion'] . ' min' : 'Duración no disponible' ?></span>
-                                            <span><?= htmlspecialchars($p['edad'] ?: 'TP') ?></span>
-                                            <span>Estreno: <?= date('d/m/Y', strtotime($p['fecha_estreno'])) ?></span>
-                                        </div>
-
-                                        <div class="premium-rating mb-3">
-                                            <?= mm_stars($p['media_puntuacion']) ?>
-                                        </div>
-
-                                        <p class="premium-description">
-                                            <?= htmlspecialchars(mb_strimwidth($p['sinopsis'] ?? '', 0, 280, '...')) ?>
-                                        </p>
-
-                                        <div class="hero-btn-row">
-                                            <a href="pelicula.php?id=<?= (int)$p['id'] ?>" class="btn btn-primary btn-lg">
-                                                Ver detalles
-                                            </a>
-                                            <a href="cartelera.php" class="btn btn-outline-light btn-lg">
-                                                Ir a cartelera
-                                            </a>
+                    </div>
+                <?php else: ?>
+                    <?php foreach ($carouselPeliculas as $i => $p): ?>
+                        <div class="carousel-item <?= $i === 0 ? 'active' : '' ?>">
+                            <div class="netflix-slide">
+                                <img
+                                    src="img/carrusel/<?= htmlspecialchars($p['imagen_fondo']) ?>"
+                                    class="netflix-slide-bg"
+                                    alt="<?= htmlspecialchars($p['titulo']) ?>"
+                                    style="object-position: <?= htmlspecialchars($p['imagen_posicion'] ?? 'center') ?>;"
+                                >
+                                <div class="netflix-slide-overlay"></div>
+                                
+                                <!-- Badge de categoría con texto dinámico -->
+                                <?php 
+                                $categorias_con_badge = ['proximamente', 'nueva_temporada', 'nuevo_episodio'];
+                                $categoria_lower = strtolower($p['categoria']);
+                                if (in_array($categoria_lower, $categorias_con_badge)): 
+                                    // Determinar el texto del badge según la categoría
+                                    $badge_texto = '';
+                                    if ($categoria_lower === 'proximamente' && $p['fecha_estreno_contenido']) {
+                                        $meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+                                        $mes = $meses[date('n', strtotime($p['fecha_estreno_contenido'])) - 1];
+                                        $badge_texto = 'Estreno el ' . date('d', strtotime($p['fecha_estreno_contenido'])) . ' de ' . $mes;
+                                    } elseif ($categoria_lower === 'nueva_temporada') {
+                                        $badge_texto = 'Nueva Temporada';
+                                    } elseif ($categoria_lower === 'nuevo_episodio') {
+                                        $badge_texto = 'Nuevo Episodio';
+                                    }
+                                    
+                                    if ($badge_texto):
+                                ?>
+                                    <div class="netflix-category-badge">
+                                        <?= $badge_texto ?>
+                                    </div>
+                                <?php 
+                                    endif;
+                                endif; 
+                                ?>
+                                
+                                <div class="netflix-slide-content">
+                                    <div class="netflix-logo">
+                                        <?php if ($p['logo_titulo']): ?>
+                                            <img src="img/logos/<?= htmlspecialchars($p['logo_titulo']) ?>" 
+                                                 alt="<?= htmlspecialchars($p['titulo']) ?>"
+                                                 class="netflix-logo-img">
+                                        <?php else: ?>
+                                            <h1><?= htmlspecialchars($p['titulo']) ?></h1>
+                                        <?php endif; ?>
+                                    </div>
+                                    
+                                    <!-- Información del contenido -->
+                                    <div class="netflix-info">
+                                        <div class="netflix-meta">
+                                            <span class="netflix-type"><?= $p['tipo'] === 'pelicula' ? 'Película' : 'Serie' ?></span>
+                                            <?php if ($p['genero_contenido']): ?>
+                                                <span class="netflix-separator">•</span>
+                                                <span class="netflix-genre"><?= htmlspecialchars($p['genero_contenido']) ?></span>
+                                            <?php endif; ?>
+                                            <?php if ($p['anio_contenido']): ?>
+                                                <span class="netflix-separator">•</span>
+                                                <span class="netflix-year"><?= $p['anio_contenido'] ?></span>
+                                            <?php endif; ?>
+                                            <?php if ($p['tipo'] === 'serie' && $p['total_temporadas']): ?>
+                                                <span class="netflix-separator">•</span>
+                                                <span class="netflix-seasons"><?= $p['total_temporadas'] ?> temporada<?= $p['total_temporadas'] > 1 ? 's' : '' ?></span>
+                                            <?php endif; ?>
+                                            <?php if ($p['tipo'] === 'pelicula' && $p['duracion_contenido']): ?>
+                                                <span class="netflix-separator">•</span>
+                                                <span class="netflix-duration"><?= $p['duracion_contenido'] ?> min</span>
+                                            <?php endif; ?>
+                                            <?php if ($p['edad_contenido']): ?>
+                                                <span class="netflix-separator">•</span>
+                                                <span class="netflix-rating"><?= htmlspecialchars($p['edad_contenido']) ?></span>
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </div>
-
-                <?php if (count($carouselPeliculas) > 1): ?>
-                    <button class="carousel-control-prev premium-control" type="button" data-bs-target="#premiumCinemaCarousel" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon"></span>
-                    </button>
-                    <button class="carousel-control-next premium-control" type="button" data-bs-target="#premiumCinemaCarousel" data-bs-slide="next">
-                        <span class="carousel-control-next-icon"></span>
-                    </button>
+                        </div>
+                    <?php endforeach; ?>
                 <?php endif; ?>
+            </div>
+        </div>
+    </section>
+
+    <!-- =========================================
+         ESTADÍSTICAS
+    ========================================== -->
+    <section class="home-section">
+        <div class="container">
+            <div class="home-stats-grid">
+                <div class="home-stat-card">
+                    <strong><?= $totalCartelera ?></strong>
+                    <span>Películas en cartelera</span>
+                </div>
+                <div class="home-stat-card">
+                    <strong><?= $totalProximas ?></strong>
+                    <span>Próximos estrenos</span>
+                </div>
+                <div class="home-stat-card">
+                    <strong><?= $totalNoticias ?></strong>
+                    <span>Noticias publicadas</span>
+                </div>
+                <div class="home-stat-card">
+                    <strong><?= $totalUsuarios ?></strong>
+                    <span>Usuarios registrados</span>
+                </div>
             </div>
         </div>
     </section>
@@ -411,15 +497,10 @@ function mm_stars($media): string
         </div>
     </section>
 
-    
-
-
-
 </main>
 
 <?php include "footer.php"; ?>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<?php include "includes/lenis-scripts.php"; ?>
 </body>
 </html>
