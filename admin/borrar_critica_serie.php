@@ -1,4 +1,7 @@
 <?php
+require_once "auth.php";
+verificarAuth();
+
 session_start();
 require_once("../config/conexion.php");
 

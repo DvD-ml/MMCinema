@@ -4,7 +4,7 @@ require_once "../config/conexion.php";
 require_once "../includes/optimizar_imagen.php";
 require_once "auth.php";
 
-// Verificar autenticaciÃ³n
+// Verificar autenticación
 verificarAuth();
 
 $mensaje = '';
@@ -62,7 +62,7 @@ $stmSlides = $pdo->prepare($sqlSlides);
 $stmSlides->execute();
 $slides = $stmSlides->fetchAll(PDO::FETCH_ASSOC);
 
-// Obtener pelÃ­culas y series para los selects
+// Obtener películas y series para los selects
 $peliculas = $pdo->query("SELECT id, titulo FROM pelicula ORDER BY titulo")->fetchAll(PDO::FETCH_ASSOC);
 $series = $pdo->query("SELECT id, titulo FROM serie ORDER BY titulo")->fetchAll(PDO::FETCH_ASSOC);
 
@@ -86,8 +86,8 @@ __DIR__ . '/../assets/img/carrusel',
 
                     'carrusel-' . mm_slug_nombre_archivo($datos['titulo']),
                     90, // Calidad muy alta para fondos (balance perfecto)
-                    1920, // Ancho mÃ¡ximo para fondos
-                    1080  // Alto mÃ¡ximo para fondos
+                    1920, // Ancho máximo para fondos
+                    1080  // Alto máximo para fondos
                 );
             } catch (Exception $e) {
                 return ['mensaje' => 'Error al procesar imagen de fondo: ' . $e->getMessage(), 'tipo' => 'error'];
@@ -106,8 +106,8 @@ __DIR__ . '/../assets/img/logos',
 
                     'logo-' . mm_slug_nombre_archivo($datos['titulo']),
                     90, // Calidad muy alta para logos
-                    800, // Ancho mÃ¡ximo para logos
-                    300  // Alto mÃ¡ximo para logos
+                    800, // Ancho máximo para logos
+                    300  // Alto máximo para logos
                 );
             } catch (Exception $e) {
                 return ['mensaje' => 'Error al procesar logo: ' . $e->getMessage(), 'tipo' => 'error'];
@@ -147,7 +147,7 @@ function actualizarSlide($datos, $archivos) {
         // Debug: Mostrar todos los datos recibidos
         error_log("=== ACTUALIZAR SLIDE ID: {$id} ===");
         error_log("Datos POST recibidos: " . print_r($datos, true));
-        error_log("CategorÃ­a recibida: " . ($datos['categoria'] ?? 'NO DEFINIDA'));
+        error_log("Categoría recibida: " . ($datos['categoria'] ?? 'NO DEFINIDA'));
         
         // Obtener slide actual
         $stmt = $pdo->prepare("SELECT * FROM carrusel_destacado WHERE id = ?");
@@ -158,9 +158,9 @@ function actualizarSlide($datos, $archivos) {
             return ['mensaje' => 'Slide no encontrado', 'tipo' => 'error'];
         }
         
-        error_log("CategorÃ­a anterior en BD: " . $slide_actual['categoria']);
+        error_log("Categoría anterior en BD: " . $slide_actual['categoria']);
         
-        // Procesar nueva imagen de fondo si se subiÃ³
+        // Procesar nueva imagen de fondo si se subió
         $imagen_fondo = $slide_actual['imagen_fondo'];
         if (isset($archivos['imagen_fondo']) && $archivos['imagen_fondo']['error'] === UPLOAD_ERR_OK) {
             try {
@@ -170,8 +170,8 @@ __DIR__ . '/../assets/img/carrusel',
 
                     'carrusel-' . mm_slug_nombre_archivo($datos['titulo']),
                     90, // Calidad muy alta para fondos (balance perfecto)
-                    1920, // Ancho mÃ¡ximo para fondos
-                    1080, // Alto mÃ¡ximo para fondos
+                    1920, // Ancho máximo para fondos
+                    1080, // Alto máximo para fondos
                     $slide_actual['imagen_fondo'] // Eliminar imagen anterior
                 );
             } catch (Exception $e) {
@@ -179,7 +179,7 @@ __DIR__ . '/../assets/img/carrusel',
             }
         }
         
-        // Procesar nuevo logo si se subiÃ³
+        // Procesar nuevo logo si se subió
         $logo_titulo = $slide_actual['logo_titulo'];
         if (isset($archivos['logo_titulo']) && $archivos['logo_titulo']['error'] === UPLOAD_ERR_OK) {
             try {
@@ -189,8 +189,8 @@ __DIR__ . '/../assets/img/logos',
 
                     'logo-' . mm_slug_nombre_archivo($datos['titulo']),
                     90, // Calidad muy alta para logos
-                    800, // Ancho mÃ¡ximo para logos
-                    300, // Alto mÃ¡ximo para logos
+                    800, // Ancho máximo para logos
+                    300, // Alto máximo para logos
                     $slide_actual['logo_titulo'] // Eliminar logo anterior
                 );
             } catch (Exception $e) {
@@ -198,11 +198,11 @@ __DIR__ . '/../assets/img/logos',
             }
         }
         
-        // Validar que la categorÃ­a venga en el POST
+        // Validar que la categoría venga en el POST
         $categoria = isset($datos['categoria']) && !empty($datos['categoria']) ? $datos['categoria'] : 'destacada';
         
-        // Debug: Log de la categorÃ­a que se va a guardar
-        error_log("CategorÃ­a que se guardarÃ¡ en BD: {$categoria}");
+        // Debug: Log de la categoría que se va a guardar
+        error_log("Categoría que se guardará en BD: {$categoria}");
         
         // Actualizar en BD
         $sql = "UPDATE carrusel_destacado SET titulo = ?, tipo = ?, id_contenido = ?, imagen_fondo = ?, imagen_posicion = ?, logo_titulo = ?, categoria = ?, descripcion = ?, activo = ?, orden = ? WHERE id = ?";
@@ -221,13 +221,13 @@ __DIR__ . '/../assets/img/logos',
             $id
         ]);
         
-        error_log("Resultado de la actualizaciÃ³n: " . ($resultado ? 'Ã‰XITO' : 'FALLO'));
+        error_log("Resultado de la actualización: " . ($resultado ? 'Ñ‰XITO' : 'FALLO'));
         
-        // Verificar que se guardÃ³ correctamente
+        // Verificar que se guardó correctamente
         $stmt = $pdo->prepare("SELECT categoria FROM carrusel_destacado WHERE id = ?");
         $stmt->execute([$id]);
         $categoria_guardada = $stmt->fetchColumn();
-        error_log("CategorÃ­a verificada en BD despuÃ©s de guardar: {$categoria_guardada}");
+        error_log("Categoría verificada en BD después de guardar: {$categoria_guardada}");
         
         return ['mensaje' => 'Slide actualizado exitosamente', 'tipo' => 'success'];
         
@@ -250,18 +250,12 @@ function eliminarSlide($id) {
             return ['mensaje' => 'Slide no encontrado', 'tipo' => 'error'];
         }
         
-        // Eliminar archivos usando la funciÃ³n del sistema
+        // Eliminar archivos usando la función del sistema
         if ($slide['imagen_fondo']) {
-mm_borrar_archivo_si_existe(__DIR__ . '/../assets/img/carrusel/' . $slide['imagen_fondo']);
+            mm_borrar_archivo_si_existe(__DIR__ . '/../assets/img/carrusel/' . $slide['imagen_fondo']);
         }
         if ($slide['logo_titulo']) {
             mm_borrar_archivo_si_existe(__DIR__ . '/../assets/img/logos/' . $slide['logo_titulo']);
-=======
-            mm_borrar_archivo_si_existe(__DIR__ . '/../img/carrusel/' . $slide['imagen_fondo']);
-        }
-        if ($slide['logo_titulo']) {
-            mm_borrar_archivo_si_existe(__DIR__ . '/../img/logos/' . $slide['logo_titulo']);
->>>>>>> 03e06f2273c9fc762edd1aacddd755207c48626b
         }
         
         // Eliminar de BD
@@ -293,7 +287,7 @@ function toggleActivo($id) {
 <html lang="es">
 <head>
     <meta charset="utf-8">
-    <title>GestiÃ³n Carrusel Destacado - Admin MMCinema</title>
+    <title>Gestión Carrusel Destacado - Admin MMCinema</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="../assets/css/styles.css">
@@ -403,9 +397,9 @@ function toggleActivo($id) {
                         <tr>
                             <th>Orden</th>
                             <th>Vista Previa</th>
-                            <th>TÃ­tulo</th>
+                            <th>Título</th>
                             <th>Tipo</th>
-                            <th>CategorÃ­a</th>
+                            <th>Categoría</th>
                             <th>Estado</th>
                             <th>Acciones</th>
                         </tr>
@@ -418,18 +412,11 @@ function toggleActivo($id) {
                                 </td>
                                 <td>
                                     <div class="slide-preview">
-<img src="../assets/img/carrusel/<?= htmlspecialchars($slide['imagen_fondo']) ?>" 
+                                        <img src="../assets/img/carrusel/<?= htmlspecialchars($slide['imagen_fondo']) ?>" 
                                              alt="<?= htmlspecialchars($slide['titulo']) ?>"
                                              class="slide-preview-img">
                                         <?php if ($slide['logo_titulo']): ?>
                                             <img src="../assets/img/logos/<?= htmlspecialchars($slide['logo_titulo']) ?>" 
-=======
-                                        <img src="../img/carrusel/<?= htmlspecialchars($slide['imagen_fondo']) ?>" 
-                                             alt="<?= htmlspecialchars($slide['titulo']) ?>"
-                                             class="slide-preview-img">
-                                        <?php if ($slide['logo_titulo']): ?>
-                                            <img src="../img/logos/<?= htmlspecialchars($slide['logo_titulo']) ?>" 
->>>>>>> 03e06f2273c9fc762edd1aacddd755207c48626b
                                                  alt="Logo"
                                                  class="slide-preview-logo">
                                         <?php endif; ?>
@@ -462,7 +449,7 @@ function toggleActivo($id) {
                                             Editar
                                         </button>
                                         <form method="POST" style="display: inline;" 
-                                              onsubmit="return confirm('Â¿EstÃ¡s seguro de eliminar este slide?')">
+                                              onsubmit="return confirm('¿Estás seguro de eliminar este slide?')">
                                             <input type="hidden" name="accion" value="eliminar">
                                             <input type="hidden" name="id" value="<?= $slide['id'] ?>">
                                             <button type="submit" class="btn btn-danger btn-sm">
@@ -496,7 +483,7 @@ function toggleActivo($id) {
                     <div class="row">
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="titulo" class="form-label">TÃ­tulo del Slide *</label>
+                                <label for="titulo" class="form-label">Título del Slide *</label>
                                 <input type="text" class="form-control" id="titulo" name="titulo" required>
                             </div>
                         </div>
@@ -505,7 +492,7 @@ function toggleActivo($id) {
                                 <label for="tipo" class="form-label">Tipo *</label>
                                 <select class="form-select" id="tipo" name="tipo" required onchange="cargarContenido()">
                                     <option value="">Seleccionar...</option>
-                                    <option value="pelicula">PelÃ­cula</option>
+                                    <option value="pelicula">Película</option>
                                     <option value="serie">Serie</option>
                                 </select>
                             </div>
@@ -523,17 +510,17 @@ function toggleActivo($id) {
                     <div class="row">
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="categoria" class="form-label">CategorÃ­a</label>
+                                <label for="categoria" class="form-label">Categoría</label>
                                 <select class="form-select" id="categoria" name="categoria">
                                     <option value="destacada">Destacada</option>
                                     <option value="mejores">Mejores</option>
-                                    <option value="proximamente">PrÃ³ximamente</option>
+                                    <option value="proximamente">Próximamente</option>
                                     <option value="nueva_temporada">Nueva Temporada</option>
                                     <option value="nuevo_episodio">Nuevo Episodio</option>
                                     <option value="nuevos">Nuevos</option>
                                     <option value="populares">Populares</option>
                                 </select>
-                                <div class="form-text">Para "Nueva Temporada" y "Nuevo Episodio" la fecha aparecerÃ¡ centrada y grande</div>
+                                <div class="form-text">Para "Nueva Temporada" y "Nuevo Episodio" la fecha aparecerá centrada y grande</div>
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -555,7 +542,7 @@ function toggleActivo($id) {
                     </div>
                     
                     <div class="mb-3">
-                        <label for="descripcion" class="form-label">DescripciÃ³n</label>
+                        <label for="descripcion" class="form-label">Descripción</label>
                         <textarea class="form-control" id="descripcion" name="descripcion" rows="2"></textarea>
                     </div>
                     
@@ -564,7 +551,7 @@ function toggleActivo($id) {
                             <div class="mb-3">
                                 <label for="imagen_fondo" class="form-label">Imagen de Fondo *</label>
                                 <input type="file" class="form-control" id="imagen_fondo" name="imagen_fondo" accept=".jpg,.jpeg,.png,.webp,.avif,image/jpeg,image/png,image/webp,image/avif">
-                                <div class="form-text">Recomendado: 1920x1080px (16:9). Se convertirÃ¡ automÃ¡ticamente a WebP</div>
+                                <div class="form-text">Recomendado: 1920x1080px (16:9). Se convertirá automáticamente a WebP</div>
                             </div>
                         </div>
                     </div>
@@ -574,9 +561,9 @@ function toggleActivo($id) {
                     <div class="row">
                         <div class="col-md-12">
                             <div class="mb-3">
-                                <label for="logo_titulo" class="form-label">Logo/TÃ­tulo</label>
+                                <label for="logo_titulo" class="form-label">Logo/Título</label>
                                 <input type="file" class="form-control" id="logo_titulo" name="logo_titulo" accept=".jpg,.jpeg,.png,.webp,.avif,image/jpeg,image/png,image/webp,image/avif">
-                                <div class="form-text">Opcional: Logo transparente para superponer. Se convertirÃ¡ automÃ¡ticamente a WebP</div>
+                                <div class="form-text">Opcional: Logo transparente para superponer. Se convertirá automáticamente a WebP</div>
                             </div>
                         </div>
                     </div>
@@ -615,12 +602,12 @@ function cargarContenido() {
 
 function confirmarToggle(form, titulo, esActivo) {
     const accion = esActivo ? 'desactivar' : 'activar';
-    return confirm(`Â¿EstÃ¡s seguro de ${accion} el slide "${titulo}"?`);
+    return confirm(`¿Estás seguro de ${accion} el slide "${titulo}"?`);
 }
 
 function editarSlide(slide) {
     console.log('Editando slide:', slide); // Debug
-    console.log('CategorÃ­a del slide:', slide.categoria); // Debug
+    console.log('Categoría del slide:', slide.categoria); // Debug
     
     document.getElementById('modalSlideTitle').textContent = 'Editar Slide';
     document.getElementById('accion').value = 'actualizar';
@@ -631,21 +618,21 @@ function editarSlide(slide) {
     document.getElementById('descripcion').value = slide.descripcion || '';
     document.getElementById('activo').checked = slide.activo == 1;
     
-    // IMPORTANTE: Establecer categorÃ­a ANTES de cargar contenido
+    // IMPORTANTE: Establecer categoría ANTES de cargar contenido
     const categoriaSelect = document.getElementById('categoria');
     categoriaSelect.value = slide.categoria || 'destacada';
-    console.log('CategorÃ­a establecida a:', categoriaSelect.value); // Debug
+    console.log('Categoría establecida a:', categoriaSelect.value); // Debug
     
-    // Cargar contenido despuÃ©s
+    // Cargar contenido después
     cargarContenido();
     
-    // Luego establecer el id_contenido con un pequeÃ±o delay
+    // Luego establecer el id_contenido con un pequeÑ±o delay
     setTimeout(() => {
         document.getElementById('id_contenido').value = slide.id_contenido;
         console.log('ID contenido establecido a:', slide.id_contenido); // Debug
     }, 100);
     
-    // Hacer opcional la imagen de fondo en ediciÃ³n
+    // Hacer opcional la imagen de fondo en edición
     document.getElementById('imagen_fondo').required = false;
     
     new bootstrap.Modal(document.getElementById('modalSlide')).show();
@@ -659,19 +646,19 @@ document.getElementById('modalSlide').addEventListener('hidden.bs.modal', functi
     document.getElementById('slide_id').value = '';
     document.getElementById('imagen_fondo').required = true;
     document.getElementById('id_contenido').innerHTML = '<option value="">Seleccionar...</option>';
-    // Resetear categorÃ­a a valor por defecto
+    // Resetear categoría a valor por defecto
     document.getElementById('categoria').value = 'destacada';
 });
 
-// Debug: Verificar que la categorÃ­a se envÃ­a en el formulario
+// Debug: Verificar que la categoría se envía en el formulario
 document.getElementById('formSlide').addEventListener('submit', function(e) {
     const categoria = document.getElementById('categoria').value;
     const accion = document.getElementById('accion').value;
     
     console.log('=== ENVIANDO FORMULARIO ===');
-    console.log('AcciÃ³n:', accion);
-    console.log('CategorÃ­a seleccionada:', categoria);
-    console.log('TÃ­tulo:', document.getElementById('titulo').value);
+    console.log('Acción:', accion);
+    console.log('Categoría seleccionada:', categoria);
+    console.log('Título:', document.getElementById('titulo').value);
     console.log('Todas las opciones del select:');
     
     const selectCategoria = document.getElementById('categoria');
@@ -680,17 +667,17 @@ document.getElementById('formSlide').addEventListener('submit', function(e) {
         console.log(`  - ${opt.text}: "${opt.value}" ${opt.selected ? '(SELECCIONADA)' : ''}`);
     }
     
-    // Verificar que la categorÃ­a no estÃ© vacÃ­a
+    // Verificar que la categoría no esté vacía
     if (!categoria) {
-        console.error('Â¡ADVERTENCIA! La categorÃ­a estÃ¡ vacÃ­a');
-        alert('Error: La categorÃ­a estÃ¡ vacÃ­a. Por favor selecciona una categorÃ­a.');
+        console.error('¡ADVERTENCIA! La categoría está vacía');
+        alert('Error: La categoría está vacía. Por favor selecciona una categoría.');
         e.preventDefault();
         return false;
     }
     
-    // Verificar categorÃ­as especÃ­ficas
+    // Verificar categorías específicas
     if (categoria === 'nueva_temporada' || categoria === 'nuevo_episodio') {
-        console.log('âœ“ CategorÃ­a especial detectada:', categoria);
+        console.log('âœ“ Categoría especial detectada:', categoria);
     }
 });
 </script>

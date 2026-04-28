@@ -1,8 +1,8 @@
 <?php
-session_start();
+require_once "auth.php";
+verificarAuth();
 require_once("../config/conexion.php");
 require_once(__DIR__ . '/includes/series_admin_ui.php');
-require_once(__DIR__ . '/auth.php');
 
 $stats = [
     'series' => 0,

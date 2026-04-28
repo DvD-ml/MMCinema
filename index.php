@@ -70,7 +70,7 @@ $stmCarousel->execute();
 $carouselPeliculas = $stmCarousel->fetchAll(PDO::FETCH_ASSOC);
 
 /* =========================================
-   PRÃ“XIMOS ESTRENOS
+   PRÑ“XIMOS ESTRENOS
 ========================================= */
 $sqlProximas = "
     SELECT
@@ -93,7 +93,7 @@ $stmProximas->execute();
 $proximas = $stmProximas->fetchAll(PDO::FETCH_ASSOC);
 
 /* =========================================
-   ÃšLTIMAS NOTICIAS
+   ÑšLTIMAS NOTICIAS
 ========================================= */
 $sqlNoticias = "
     SELECT id, titulo, contenido, imagen, publicado
@@ -107,8 +107,8 @@ $noticias = $stmNoticias->fetchAll(PDO::FETCH_ASSOC);
 
 /* =========================================
    MEJOR USUARIO
-   Criterio: mÃ¡s actividad total
-   (tickets + crÃ­ticas + favoritas)
+   Criterio: más actividad total
+   (tickets + críticas + favoritas)
 ========================================= */
 $sqlMejorUsuario = "
     SELECT
@@ -148,7 +148,7 @@ $stmMejorUsuario->execute();
 $mejorUsuario = $stmMejorUsuario->fetch(PDO::FETCH_ASSOC);
 
 /* =========================================
-   ESTADÃSTICAS GENERALES
+   ESTADÑSTICAS GENERALES
 ========================================= */
 $totalCartelera = (int)$pdo->query("SELECT COUNT(*) FROM pelicula WHERE fecha_estreno <= CURDATE()")->fetchColumn();
 $totalProximas  = (int)$pdo->query("SELECT COUNT(*) FROM pelicula WHERE fecha_estreno > CURDATE()")->fetchColumn();
@@ -156,7 +156,7 @@ $totalNoticias  = (int)$pdo->query("SELECT COUNT(*) FROM noticia")->fetchColumn(
 $totalUsuarios  = (int)$pdo->query("SELECT COUNT(*) FROM usuario")->fetchColumn();
 
 /* =========================================
-   FUNCIÃ“N ESTRELLAS
+   FUNCIÑ“N ESTRELLAS
 ========================================= */
 function mm_stars($media): string
 {
@@ -171,11 +171,11 @@ function mm_stars($media): string
     $html = '<span class="stars">';
     for ($i = 1; $i <= 5; $i++) {
         if ($i <= $full) {
-            $html .= '<span class="star on">â˜…</span>';
+            $html .= '<span class="star on">★</span>';
         } elseif ($i == $full + 1 && $half) {
-            $html .= '<span class="star half">â˜…</span>';
+            $html .= '<span class="star half">★</span>';
         } else {
-            $html .= '<span class="star off">â˜…</span>';
+            $html .= '<span class="star off">★</span>';
         }
     }
     $html .= '</span>';
@@ -209,7 +209,7 @@ function mm_stars($media): string
     <section class="netflix-hero-section">
         <div id="netflixCarousel" class="carousel slide netflix-carousel" data-bs-ride="carousel" data-bs-interval="6000">
 
-            <!-- Indicadores de navegaciÃ³n -->
+            <!-- Indicadores de navegación -->
             <?php if (!empty($carouselPeliculas)): ?>
                 <div class="carousel-indicators netflix-indicators">
                     <?php foreach ($carouselPeliculas as $i => $pelicula): ?>
@@ -241,21 +241,19 @@ function mm_stars($media): string
                     <?php foreach ($carouselPeliculas as $i => $p): ?>
                         <div class="carousel-item <?= $i === 0 ? 'active' : '' ?>">
                             <div class="netflix-slide">
-                                <img
-src="assets/img/carrusel/<?= htmlspecialchars($p['imagen_fondo']) ?>"
-
+                                <img src="assets/img/carrusel/<?= htmlspecialchars($p['imagen_fondo']) ?>"
                                     class="netflix-slide-bg"
                                     alt="<?= htmlspecialchars($p['titulo']) ?>"
                                     style="object-position: <?= htmlspecialchars($p['imagen_posicion'] ?? 'center') ?>;"
                                 >
                                 <div class="netflix-slide-overlay"></div>
                                 
-                                <!-- Badge de categorÃ­a con texto dinÃ¡mico -->
+                                <!-- Badge de categoría con texto dinámico -->
                                 <?php 
                                 $categorias_con_badge = ['proximamente', 'nueva_temporada', 'nuevo_episodio'];
                                 $categoria_lower = strtolower($p['categoria']);
                                 if (in_array($categoria_lower, $categorias_con_badge)): 
-                                    // Determinar el texto del badge segÃºn la categorÃ­a
+                                    // Determinar el texto del badge segÑºn la categoría
                                     $badge_texto = '';
                                     if ($categoria_lower === 'proximamente' && $p['fecha_estreno_contenido']) {
                                         $meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
@@ -280,8 +278,7 @@ src="assets/img/carrusel/<?= htmlspecialchars($p['imagen_fondo']) ?>"
                                 <div class="netflix-slide-content">
                                     <div class="netflix-logo">
                                         <?php if ($p['logo_titulo']): ?>
-<img src="assets/img/logos/<?= htmlspecialchars($p['logo_titulo']) ?>" 
-
+                                            <img src="assets/img/logos/<?= htmlspecialchars($p['logo_titulo']) ?>" 
                                                  alt="<?= htmlspecialchars($p['titulo']) ?>"
                                                  class="netflix-logo-img">
                                         <?php else: ?>
@@ -289,28 +286,28 @@ src="assets/img/carrusel/<?= htmlspecialchars($p['imagen_fondo']) ?>"
                                         <?php endif; ?>
                                     </div>
                                     
-                                    <!-- InformaciÃ³n del contenido -->
+                                    <!-- Información del contenido -->
                                     <div class="netflix-info">
                                         <div class="netflix-meta">
-                                            <span class="netflix-type"><?= $p['tipo'] === 'pelicula' ? 'PelÃ­cula' : 'Serie' ?></span>
+                                            <span class="netflix-type"><?= $p['tipo'] === 'pelicula' ? 'Película' : 'Serie' ?></span>
                                             <?php if ($p['genero_contenido']): ?>
-                                                <span class="netflix-separator">â€¢</span>
+                                                <span class="netflix-separator">•</span>
                                                 <span class="netflix-genre"><?= htmlspecialchars($p['genero_contenido']) ?></span>
                                             <?php endif; ?>
                                             <?php if ($p['anio_contenido']): ?>
-                                                <span class="netflix-separator">â€¢</span>
+                                                <span class="netflix-separator">•</span>
                                                 <span class="netflix-year"><?= $p['anio_contenido'] ?></span>
                                             <?php endif; ?>
                                             <?php if ($p['tipo'] === 'serie' && $p['total_temporadas']): ?>
-                                                <span class="netflix-separator">â€¢</span>
+                                                <span class="netflix-separator">•</span>
                                                 <span class="netflix-seasons"><?= $p['total_temporadas'] ?> temporada<?= $p['total_temporadas'] > 1 ? 's' : '' ?></span>
                                             <?php endif; ?>
                                             <?php if ($p['tipo'] === 'pelicula' && $p['duracion_contenido']): ?>
-                                                <span class="netflix-separator">â€¢</span>
+                                                <span class="netflix-separator">•</span>
                                                 <span class="netflix-duration"><?= $p['duracion_contenido'] ?> min</span>
                                             <?php endif; ?>
                                             <?php if ($p['edad_contenido']): ?>
-                                                <span class="netflix-separator">â€¢</span>
+                                                <span class="netflix-separator">•</span>
                                                 <span class="netflix-rating"><?= htmlspecialchars($p['edad_contenido']) ?></span>
                                             <?php endif; ?>
                                         </div>
@@ -325,18 +322,18 @@ src="assets/img/carrusel/<?= htmlspecialchars($p['imagen_fondo']) ?>"
     </section>
 
     <!-- =========================================
-         ESTADÃSTICAS
+         ESTADÑSTICAS
     ========================================== -->
     <section class="home-section">
         <div class="container">
             <div class="home-stats-grid">
                 <div class="home-stat-card">
                     <strong><?= $totalCartelera ?></strong>
-                    <span>PelÃ­culas en cartelera</span>
+                    <span>Películas en cartelera</span>
                 </div>
                 <div class="home-stat-card">
                     <strong><?= $totalProximas ?></strong>
-                    <span>PrÃ³ximos estrenos</span>
+                    <span>Próximos estrenos</span>
                 </div>
                 <div class="home-stat-card">
                     <strong><?= $totalNoticias ?></strong>
@@ -351,18 +348,18 @@ src="assets/img/carrusel/<?= htmlspecialchars($p['imagen_fondo']) ?>"
     </section>
 
     <!-- =========================================
-         PRÃ“XIMOS ESTRENOS
+         PRÑ“XIMOS ESTRENOS
     ========================================== -->
     <section class="home-section">
         <div class="container">
             <div class="section-heading">
-                <h2>PrÃ³ximos estrenos</h2>
-                <p>Las pelÃ­culas que llegarÃ¡n prÃ³ximamente a MMCinema.</p>
+                <h2>Próximos estrenos</h2>
+                <p>Las películas que llegarán próximamente a MMCinema.</p>
             </div>
 
             <div class="row">
                 <?php if (empty($proximas)): ?>
-                    <p class="text-center text-muted">No hay prÃ³ximos estrenos disponibles.</p>
+                    <p class="text-center text-muted">No hay próximos estrenos disponibles.</p>
                 <?php endif; ?>
 
                 <?php foreach ($proximas as $p): ?>
@@ -378,7 +375,7 @@ src="assets/img/carrusel/<?= htmlspecialchars($p['imagen_fondo']) ?>"
                                 <h5 class="card-title"><?= htmlspecialchars($p['titulo']) ?></h5>
 
                                 <p class="mb-2 text-muted small">
-                                    <?= htmlspecialchars($p['genero'] ?: 'Sin gÃ©nero') ?>
+                                    <?= htmlspecialchars($p['genero'] ?: 'Sin género') ?>
                                 </p>
 
                                 <p class="mb-2 text-muted small">
@@ -426,23 +423,23 @@ src="assets/img/carrusel/<?= htmlspecialchars($p['imagen_fondo']) ?>"
 
                         <div class="best-user-stats">
                             <span><?= (int)$mejorUsuario['total_tickets'] ?> tickets</span>
-                            <span><?= (int)$mejorUsuario['total_criticas'] ?> crÃ­ticas</span>
+                            <span><?= (int)$mejorUsuario['total_criticas'] ?> críticas</span>
                             <span><?= (int)$mejorUsuario['total_favoritas'] ?> favoritas</span>
                         </div>
 
                         <p class="best-user-text">
-                            Miembro activo de la comunidad MMCinema, destacando por su participaciÃ³n,
-                            valoraciones y seguimiento de pelÃ­culas.
+                            Miembro activo de la comunidad MMCinema, destacando por su participación,
+                            valoraciones y seguimiento de películas.
                         </p>
                     </div>
                 </div>
             <?php else: ?>
                 <div class="best-user-box best-user-empty">
                     <div class="best-user-content text-center w-100">
-                        <h3>TodavÃ­a no hay usuario destacado</h3>
+                        <h3>Todavía no hay usuario destacado</h3>
                         <p class="best-user-text mb-0">
-                            Cuando los usuarios empiecen a reservar, valorar y guardar pelÃ­culas,
-                            aquÃ­ aparecerÃ¡ el perfil mÃ¡s activo.
+                            Cuando los usuarios empiecen a reservar, valorar y guardar películas,
+                            aquí aparecerá el perfil más activo.
                         </p>
                     </div>
                 </div>
@@ -451,18 +448,18 @@ src="assets/img/carrusel/<?= htmlspecialchars($p['imagen_fondo']) ?>"
     </section>
 
     <!-- =========================================
-         ÃšLTIMAS NOTICIAS
+         ÑšLTIMAS NOTICIAS
     ========================================== -->
     <section class="home-section">
         <div class="container">
             <div class="section-heading">
-                <h2>Ãšltimas noticias</h2>
-                <p>Las novedades mÃ¡s recientes del universo del cine en MMCinema.</p>
+                <h2>Ñšltimas noticias</h2>
+                <p>Las novedades más recientes del universo del cine en MMCinema.</p>
             </div>
 
             <div class="row">
                 <?php if (empty($noticias)): ?>
-                    <p class="text-center text-muted">No hay noticias publicadas todavÃ­a.</p>
+                    <p class="text-center text-muted">No hay noticias publicadas todavía.</p>
                 <?php endif; ?>
 
                 <?php foreach ($noticias as $n): ?>
@@ -487,7 +484,7 @@ src="assets/img/carrusel/<?= htmlspecialchars($p['imagen_fondo']) ?>"
                                 </p>
 
                                 <a href="noticia.php?id=<?= (int)$n['id'] ?>" class="btn btn-primary btn-sm mt-2">
-                                    Saber mÃ¡s
+                                    Saber más
                                 </a>
                             </div>
                         </article>

@@ -130,7 +130,7 @@ $carouselPeliculas = $stmCarousel->fetchAll(PDO::FETCH_ASSOC);
                     <div class="carousel-item <?= $i === 0 ? 'active' : '' ?>">
                         <div class="netflix-slide">
                             <img
-                                src="img/carrusel/<?= htmlspecialchars($p['imagen_fondo']) ?>"
+                                src="assets/img/carrusel/<?= htmlspecialchars($p['imagen_fondo']) ?>"
                                 class="netflix-slide-bg"
                                 alt="<?= htmlspecialchars($p['titulo']) ?>"
                                 onerror="console.log('Error cargando imagen: <?= $p['imagen_fondo'] ?>')"
@@ -140,7 +140,7 @@ $carouselPeliculas = $stmCarousel->fetchAll(PDO::FETCH_ASSOC);
                             <div class="netflix-slide-content">
                                 <div class="netflix-logo">
                                     <?php if ($p['logo_titulo']): ?>
-                                        <img src="img/logos/<?= htmlspecialchars($p['logo_titulo']) ?>" 
+                                        <img src="assets/img/logos/<?= htmlspecialchars($p['logo_titulo']) ?>" 
                                              alt="<?= htmlspecialchars($p['titulo']) ?>"
                                              class="netflix-logo-img"
                                              onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">

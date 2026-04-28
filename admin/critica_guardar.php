@@ -52,6 +52,11 @@ if ($modoEdicion) {
 </head>
 <body class="admin-body">
 <?php require_once __DIR__ . "/admin_header.php"; ?>
+require_once "../helpers/CSRF.php";
+
+
+// Validar token CSRF
+CSRF::validarOAbortar();
 
 <div class="container py-4 py-lg-5">
     <div class="admin-page-head">

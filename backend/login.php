@@ -3,14 +3,26 @@ session_start();
 require_once "../config/conexion.php";
 require_once "../helpers/Logger.php";
 require_once "../helpers/CSRF.php";
+require_once "../helpers/RateLimiter.php";
 
 $email = trim($_POST['email'] ?? '');
 $pass  = $_POST['password'] ?? '';
 $recordar = isset($_POST['recordar']) && $_POST['recordar'] === '1';
 
+// Validar CSRF
+CSRF::validarOAbortar();
+
 if ($email === '' || $pass === '') {
     Logger::warning("Intento de login con campos vacíos", ['email' => $email]);
     header("Location: ../login.php?error=1");
+    exit();
+}
+
+// Verificar si el usuario está bloqueado por rate limiting
+if (RateLimiter::estaBloqueado($email)) {
+    $tiempoRestante = RateLimiter::getTiempoRestante($email);
+    Logger::security("Intento de login bloqueado por rate limiting", ['email' => $email, 'tiempo_restante' => $tiempoRestante]);
+    header("Location: ../login.php?error=bloqueado&tiempo=" . ceil($tiempoRestante / 60));
     exit();
 }
 
@@ -25,6 +37,7 @@ $user = $stm->fetch(PDO::FETCH_ASSOC);
 
 if (!$user) {
     Logger::security("Intento de login con email inexistente", ['email' => $email]);
+    RateLimiter::registrarIntentoFallido($email);
     header("Location: ../login.php?error=1");
     exit();
 }
@@ -34,6 +47,7 @@ if (!password_verify($pass, $user['password_hash'])) {
         'email' => $email,
         'user_id' => $user['id']
     ]);
+    RateLimiter::registrarIntentoFallido($email);
     header("Location: ../login.php?error=1");
     exit();
 }
@@ -49,6 +63,9 @@ $_SESSION['usuario_id'] = (int)$user['id'];
 $_SESSION['usuario']    = $user['username'];
 $_SESSION['email']      = $user['email'];
 $_SESSION['rol']        = $user['rol'];
+
+// Limpiar intentos fallidos
+RateLimiter::limpiarIntentos($email);
 
 Logger::info("Usuario inició sesión", [
     'user_id' => $user['id'],

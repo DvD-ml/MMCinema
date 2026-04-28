@@ -1,6 +1,14 @@
 <?php
+require_once "auth.php";
+verificarAuth();
+
 session_start();
 require_once("../config/conexion.php");
+require_once "../helpers/CSRF.php";
+
+
+// Validar token CSRF
+CSRF::validarOAbortar();
 
 if (empty($_SESSION['rol']) || $_SESSION['rol'] !== 'admin') {
     header("Location: ../login.php");

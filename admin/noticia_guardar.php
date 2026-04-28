@@ -2,6 +2,12 @@
 require_once "auth.php";
 require_once "../config/conexion.php";
 require_once "../includes/optimizar_imagen.php";
+require_once "../helpers/CSRF.php";
+require_once "../helpers/FileValidation.php";
+
+
+// Validar token CSRF
+CSRF::validarOAbortar();
 
 $id           = (int)($_POST['id'] ?? 0);
 $titulo       = trim($_POST['titulo'] ?? '');

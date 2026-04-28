@@ -26,13 +26,13 @@ $minLectura = max(1, (int)ceil($wordCount / 200)); // 200 palabras/min aprox
 $fechaPub = new DateTime($noticia["publicado"]);
 $hoy = new DateTime();
 $diff = $fechaPub->diff($hoy);
-$hace = ($diff->days === 0) ? "hoy" : "hace " . $diff->days . " dÃ­a(s)";
+$hace = ($diff->days === 0) ? "hoy" : "hace " . $diff->days . " día(s)";
 
 function topKeywordsES(string $text, int $limit = 5): array {
     $stop = [
-        "para","pero","porque","como","que","quÃ©","con","sin","sobre","entre","desde",
-        "este","esta","estos","estas","ese","esa","esos","esas","aqui","aquÃ­","allÃ­",
-        "los","las","del","por","una","uno","unos","unas","mÃ¡s","menos","muy","tambiÃ©n",
+        "para","pero","porque","como","que","qué","con","sin","sobre","entre","desde",
+        "este","esta","estos","estas","ese","esa","esos","esas","aqui","aquí","allí",
+        "los","las","del","por","una","uno","unos","unas","más","menos","muy","también",
         "ser","estar","hay","han","fue","son","era","sus","mis","tus","tu","su","se",
         "al","lo","la","el","y","o","u","de","en","a","un","is","are"
     ];
@@ -56,7 +56,7 @@ function topKeywordsES(string $text, int $limit = 5): array {
 
 $keywords = topKeywordsES($contenido, 5);
 
-/* -------- Noticias relacionadas (3 Ãºltimas) -------- */
+/* -------- Noticias relacionadas (3 Ñºltimas) -------- */
 $stmRel = $pdo->prepare("SELECT id, titulo, imagen, publicado, contenido
                          FROM noticia
                          WHERE id <> ?
@@ -89,7 +89,7 @@ $img = $noticia["imagen"] ?: "noticia-placeholder.jpg";
         <header class="mb-4">
             <h1 class="fw-bold"><?= htmlspecialchars($noticia["titulo"]) ?></h1>
             <p class="text-muted">
-                Publicado: <?= date("d/m/Y H:i", strtotime($noticia["publicado"])) ?> Â· <?= htmlspecialchars($hace) ?>
+                Publicado: <?= date("d/m/Y H:i", strtotime($noticia["publicado"])) ?> · <?= htmlspecialchars($hace) ?>
             </p>
         </header>
 
@@ -123,7 +123,7 @@ $img = $noticia["imagen"] ?: "noticia-placeholder.jpg";
                                 <p class="text-muted small">Publicado: <?= date('d/m/Y', strtotime($r['publicado'])) ?></p>
                                 <p class="flex-grow-1"><?= htmlspecialchars(mb_strimwidth($r['contenido'],0,120,"...")) ?></p>
                                 <a href="noticia.php?id=<?= (int)$r["id"] ?>" class="btn btn-primary mt-2 align-self-start">
-                                    Saber mÃ¡s
+                                    Saber más
                                 </a>
                             </div>
                         </article>

@@ -53,7 +53,7 @@ $stm->execute([$usuario_id]);
 $tickets = $stm->fetchAll(PDO::FETCH_ASSOC);
 
 /* =========================
-   CrÃ­ticas del usuario CON POSTER - PELÃCULAS
+   Críticas del usuario CON POSTER - PELÑCULAS
 ========================= */
 $sqlCriticasPeliculas = "
 SELECT 
@@ -74,7 +74,7 @@ $stmCP->execute([$usuario_id]);
 $criticasPeliculas = $stmCP->fetchAll(PDO::FETCH_ASSOC);
 
 /* =========================
-   CrÃ­ticas del usuario CON POSTER - SERIES
+   Críticas del usuario CON POSTER - SERIES
 ========================= */
 $criticasSeries = [];
 try {
@@ -96,12 +96,12 @@ try {
     $stmCS->execute([$usuario_id]);
     $criticasSeries = $stmCS->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-    // Tabla critica_serie no existe todavÃ­a
+    // Tabla critica_serie no existe todavía
     $criticasSeries = [];
 }
 
 /* =========================
-   FAVORITAS PELÃCULAS (YA ESTRENADAS) - MÃXIMO 5
+   FAVORITAS PELÑCULAS (YA ESTRENADAS) - MÑXIMO 5
 ========================= */
 $sqlFavoritasPeliculas = "
 SELECT 
@@ -127,7 +127,7 @@ $stmFavPel->execute([$usuario_id]);
 $favoritasPeliculas = $stmFavPel->fetchAll(PDO::FETCH_ASSOC);
 
 /* =========================
-   FAVORITAS SERIES - MÃXIMO 5
+   FAVORITAS SERIES - MÑXIMO 5
 ========================= */
 $favoritasSeries = [];
 try {
@@ -151,12 +151,12 @@ try {
     $stmFavSer->execute([$usuario_id]);
     $favoritasSeries = $stmFavSer->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-    // Tabla favorito_serie no existe todavÃ­a
+    // Tabla favorito_serie no existe todavía
     $favoritasSeries = [];
 }
 
 /* =========================
-   MI LISTA (PRÃ“XIMAMENTE)
+   MI LISTA (PRÑ“XIMAMENTE)
 ========================= */
 $sqlMiLista = "
 SELECT 
@@ -208,6 +208,7 @@ if ($count_val > 0) {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Mi perfil</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -229,27 +230,27 @@ if ($count_val > 0) {
                 <div class="perfil-meta">
                     <?= htmlspecialchars($usuario['email'] ?? '') ?>
                     <?php if (!empty($usuario['creado'])): ?>
-                        Â· Desde <?= date('d/m/Y', strtotime($usuario['creado'])) ?>
+                        · Desde <?= date('d/m/Y', strtotime($usuario['creado'])) ?>
                     <?php endif; ?>
                 </div>
             </div>
         </div>
 
         <div class="perfil-meta">
-            Tickets: <b><?= count($tickets) ?></b> Â·
-            CrÃ­ticas: <b><?= (int)$num_criticas_total ?></b> Â·
-            PelÃ­culas favoritas: <b><?= count($favoritasPeliculas) ?></b> Â·
-            Series favoritas: <b><?= count($favoritasSeries) ?></b> Â·
+            Tickets: <b><?= count($tickets) ?></b> ·
+            Críticas: <b><?= (int)$num_criticas_total ?></b> ·
+            Películas favoritas: <b><?= count($favoritasPeliculas) ?></b> ·
+            Series favoritas: <b><?= count($favoritasSeries) ?></b> ·
             Mi lista: <b><?= count($miLista) ?></b>
             <?php if($media_valoracion !== null): ?>
-                Â· Media: <b><?= number_format($media_valoracion, 1) ?>/5</b>
+                · Media: <b><?= number_format($media_valoracion, 1) ?>/5</b>
             <?php endif; ?>
         </div>
     </div>
 
     <div class="perfil-tabs">
         <button class="perfil-tab active" type="button" data-tab="peliculas">
-            Mis PelÃ­culas Favoritas
+            Mis Películas Favoritas
         </button>
         <button class="perfil-tab" type="button" data-tab="series">
             Mis Series Favoritas
@@ -260,9 +261,9 @@ if ($count_val > 0) {
     </div>
 
     <div class="perfil-seccion active" id="peliculas">
-        <h2 class="letterboxd-section-title">Mis PelÃ­culas Favoritas</h2>
+        <h2 class="letterboxd-section-title">Mis Películas Favoritas</h2>
         <?php if (empty($favoritasPeliculas)): ?>
-            <p class="perfil-vacio">TodavÃ­a no has aÃ±adido pelÃ­culas a favoritas.</p>
+            <p class="perfil-vacio">Todavía no has añadido películas a favoritas.</p>
         <?php else: ?>
             <div class="letterboxd-grid">
                 <?php foreach ($favoritasPeliculas as $f): ?>
@@ -286,7 +287,7 @@ if ($count_val > 0) {
     <div class="perfil-seccion" id="series">
         <h2 class="letterboxd-section-title">Mis Series Favoritas</h2>
         <?php if (empty($favoritasSeries)): ?>
-            <p class="perfil-vacio">TodavÃ­a no has aÃ±adido series a favoritas.</p>
+            <p class="perfil-vacio">Todavía no has añadido series a favoritas.</p>
         <?php else: ?>
             <div class="letterboxd-grid">
                 <?php foreach ($favoritasSeries as $f): ?>
@@ -310,7 +311,7 @@ if ($count_val > 0) {
     <div class="perfil-seccion" id="lista">
         <h2 class="letterboxd-section-title">Mi Lista</h2>
         <?php if (empty($miLista)): ?>
-            <p class="perfil-vacio">TodavÃ­a no has aÃ±adido prÃ³ximos estrenos a tu lista.</p>
+            <p class="perfil-vacio">Todavía no has añadido próximos estrenos a tu lista.</p>
         <?php else: ?>
             <div class="lista-grid">
                 <?php foreach ($miLista as $f): ?>
@@ -320,7 +321,7 @@ if ($count_val > 0) {
 <img src="assets/img/posters/<?= htmlspecialchars($f['poster'] ?: 'placeholder.jpg') ?>" 
 
                                      alt="<?= htmlspecialchars($f['titulo']) ?>">
-                                <div class="lista-badge">PrÃ³ximamente</div>
+                                <div class="lista-badge">Próximamente</div>
                                 <div class="lista-overlay">
                                     <div class="lista-title"><?= htmlspecialchars($f['titulo']) ?></div>
                                     <div class="lista-date">
@@ -335,24 +336,24 @@ if ($count_val > 0) {
         <?php endif; ?>
     </div>
 
-    <h2 class="letterboxd-section-title" style="margin-top: 60px;">Mis CrÃ­ticas</h2>
+    <h2 class="letterboxd-section-title" style="margin-top: 60px;">Mis Críticas</h2>
 
     <div class="perfil-tabs criticas-tabs">
         <button class="perfil-tab active" type="button" data-tab="criticas-peliculas">
-            CrÃ­ticas de PelÃ­culas
+            Críticas de Películas
         </button>
         <button class="perfil-tab" type="button" data-tab="criticas-series">
-            CrÃ­ticas de Series
+            Críticas de Series
         </button>
     </div>
 
     <div class="perfil-seccion active" id="criticas-peliculas">
         <?php if (empty($criticasPeliculas)): ?>
-            <p class="perfil-vacio">TodavÃ­a no has escrito ninguna crÃ­tica de pelÃ­culas.</p>
+            <p class="perfil-vacio">Todavía no has escrito ninguna crítica de películas.</p>
         <?php else: ?>
             <div class="criticas-section-wrapper">
                 <?php if (count($criticasPeliculas) > 6): ?>
-                    <div class="carousel-arrow carousel-arrow-left" onclick="scrollCriticasPeliculas(-1)">â€¹</div>
+                    <div class="carousel-arrow carousel-arrow-left" onclick="scrollCriticasPeliculas(-1)">‹</div>
                 <?php endif; ?>
                 
                 <div class="criticas-carousel-container">
@@ -368,15 +369,15 @@ if ($count_val > 0) {
                                 </div>
                                 <div class="critica-info">
                                     <span class="critica-titulo">
-                                        <?= htmlspecialchars($c['titulo'] ?? 'PelÃ­cula') ?>
+                                        <?= htmlspecialchars($c['titulo'] ?? 'Película') ?>
                                     </span>
                                     <div class="critica-stars">
                                         <?php if (!empty($c['puntuacion'])): ?>
                                             <?php for ($i=1; $i<=5; $i++): ?>
-                                                <span class="star-letterboxd <?= $i <= (int)$c['puntuacion'] ? 'filled' : '' ?>">â˜…</span>
+                                                <span class="star-letterboxd <?= $i <= (int)$c['puntuacion'] ? 'filled' : '' ?>">★</span>
                                             <?php endfor; ?>
                                         <?php else: ?>
-                                            <span class="no-rating">Sin valoraciÃ³n</span>
+                                            <span class="no-rating">Sin valoración</span>
                                         <?php endif; ?>
                                     </div>
                                 </div>
@@ -386,14 +387,14 @@ if ($count_val > 0) {
                 </div>
                 
                 <?php if (count($criticasPeliculas) > 6): ?>
-                    <div class="carousel-arrow carousel-arrow-right" onclick="scrollCriticasPeliculas(1)">â€º</div>
+                    <div class="carousel-arrow carousel-arrow-right" onclick="scrollCriticasPeliculas(1)">›</div>
                 <?php endif; ?>
             </div>
 
-            <!-- Modal de crÃ­tica pelÃ­cula -->
+            <!-- Modal de crítica película -->
             <div class="critica-modal" id="criticaPeliculaModal" onclick="closeCriticaPeliculaModal(event)">
                 <div class="critica-modal-content" onclick="event.stopPropagation()">
-                    <div class="critica-modal-close" onclick="closeCriticaPeliculaModal(event)">Ã—</div>
+                    <div class="critica-modal-close" onclick="closeCriticaPeliculaModal(event)">×</div>
                     <div class="critica-modal-header">
                         <div class="critica-modal-poster">
                             <img id="modalPeliculaPoster" src="" alt="">
@@ -414,11 +415,11 @@ if ($count_val > 0) {
 
     <div class="perfil-seccion" id="criticas-series">
         <?php if (empty($criticasSeries)): ?>
-            <p class="perfil-vacio">TodavÃ­a no has escrito ninguna crÃ­tica de series.</p>
+            <p class="perfil-vacio">Todavía no has escrito ninguna crítica de series.</p>
         <?php else: ?>
             <div class="criticas-section-wrapper">
                 <?php if (count($criticasSeries) > 6): ?>
-                    <div class="carousel-arrow carousel-arrow-left" onclick="scrollCriticasSeries(-1)">â€¹</div>
+                    <div class="carousel-arrow carousel-arrow-left" onclick="scrollCriticasSeries(-1)">‹</div>
                 <?php endif; ?>
                 
                 <div class="criticas-carousel-container">
@@ -439,10 +440,10 @@ if ($count_val > 0) {
                                     <div class="critica-stars">
                                         <?php if (!empty($c['puntuacion'])): ?>
                                             <?php for ($i=1; $i<=5; $i++): ?>
-                                                <span class="star-letterboxd <?= $i <= (int)$c['puntuacion'] ? 'filled' : '' ?>">â˜…</span>
+                                                <span class="star-letterboxd <?= $i <= (int)$c['puntuacion'] ? 'filled' : '' ?>">★</span>
                                             <?php endfor; ?>
                                         <?php else: ?>
-                                            <span class="no-rating">Sin valoraciÃ³n</span>
+                                            <span class="no-rating">Sin valoración</span>
                                         <?php endif; ?>
                                     </div>
                                 </div>
@@ -452,14 +453,14 @@ if ($count_val > 0) {
                 </div>
                 
                 <?php if (count($criticasSeries) > 6): ?>
-                    <div class="carousel-arrow carousel-arrow-right" onclick="scrollCriticasSeries(1)">â€º</div>
+                    <div class="carousel-arrow carousel-arrow-right" onclick="scrollCriticasSeries(1)">›</div>
                 <?php endif; ?>
             </div>
 
-            <!-- Modal de crÃ­tica serie -->
+            <!-- Modal de crítica serie -->
             <div class="critica-modal" id="criticaSerieModal" onclick="closeCriticaSerieModal(event)">
                 <div class="critica-modal-content" onclick="event.stopPropagation()">
-                    <div class="critica-modal-close" onclick="closeCriticaSerieModal(event)">Ã—</div>
+                    <div class="critica-modal-close" onclick="closeCriticaSerieModal(event)">×</div>
                     <div class="critica-modal-header">
                         <div class="critica-modal-poster">
                             <img id="modalSeriePoster" src="" alt="">
@@ -532,8 +533,8 @@ if ($count_val > 0) {
         
 document.getElementById('modalPeliculaPoster').src = 'assets/img/posters/' + (critica.poster || 'placeholder.jpg');
 
-        document.getElementById('modalPeliculaTitulo').textContent = critica.titulo || 'PelÃ­cula';
-        document.getElementById('modalPeliculaContenido').textContent = critica.contenido || 'Sin crÃ­tica escrita.';
+        document.getElementById('modalPeliculaTitulo').textContent = critica.titulo || 'Película';
+        document.getElementById('modalPeliculaContenido').textContent = critica.contenido || 'Sin crítica escrita.';
         document.getElementById('modalPeliculaFecha').textContent = 'Publicado el ' + new Date(critica.creado).toLocaleDateString('es-ES', {
             year: 'numeric',
             month: 'long',
@@ -548,11 +549,11 @@ document.getElementById('modalPeliculaPoster').src = 'assets/img/posters/' + (cr
             for (let i = 1; i <= 5; i++) {
                 const star = document.createElement('span');
                 star.className = 'star-letterboxd' + (i <= critica.puntuacion ? ' filled' : '');
-                star.textContent = 'â˜…';
+                star.textContent = '★';
                 starsContainer.appendChild(star);
             }
         } else {
-            starsContainer.innerHTML = '<span class="no-rating">Sin valoraciÃ³n</span>';
+            starsContainer.innerHTML = '<span class="no-rating">Sin valoración</span>';
         }
         
         modal.classList.add('active');
@@ -572,7 +573,7 @@ document.getElementById('modalPeliculaPoster').src = 'assets/img/posters/' + (cr
 document.getElementById('modalSeriePoster').src = critica.poster ? 'assets/img/posters/' + critica.poster : 'assets/img/posters/placeholder.jpg';
 
         document.getElementById('modalSerieTitulo').textContent = critica.titulo || 'Serie';
-        document.getElementById('modalSerieContenido').textContent = critica.contenido || 'Sin crÃ­tica escrita.';
+        document.getElementById('modalSerieContenido').textContent = critica.contenido || 'Sin crítica escrita.';
         document.getElementById('modalSerieFecha').textContent = 'Publicado el ' + new Date(critica.creado).toLocaleDateString('es-ES', {
             year: 'numeric',
             month: 'long',
@@ -587,11 +588,11 @@ document.getElementById('modalSeriePoster').src = critica.poster ? 'assets/img/p
             for (let i = 1; i <= 5; i++) {
                 const star = document.createElement('span');
                 star.className = 'star-letterboxd' + (i <= critica.puntuacion ? ' filled' : '');
-                star.textContent = 'â˜…';
+                star.textContent = '★';
                 starsContainer.appendChild(star);
             }
         } else {
-            starsContainer.innerHTML = '<span class="no-rating">Sin valoraciÃ³n</span>';
+            starsContainer.innerHTML = '<span class="no-rating">Sin valoración</span>';
         }
         
         modal.classList.add('active');
@@ -626,20 +627,20 @@ document.getElementById('modalSeriePoster').src = critica.poster ? 'assets/img/p
     <h2 class="letterboxd-section-title" style="margin-top: 60px;">Mis Entradas</h2>
 
     <?php if (empty($tickets)): ?>
-        <p class="perfil-vacio">No has comprado entradas todavÃ­a.</p>
+        <p class="perfil-vacio">No has comprado entradas todavía.</p>
     <?php else: ?>
         <div class="perfil-table-wrap perfil-table-extended">
             <table class="perfil-tabla">
                 <thead>
                     <tr>
-                        <th>PelÃ­cula</th>
+                        <th>Película</th>
                         <th>Fecha</th>
                         <th>Hora</th>
                         <th>Sala</th>
                         <th class="col-num">Cant.</th>
-                        <th class="col-num">â‚¬/Entrada</th>
+                        <th class="col-num">€/Entrada</th>
                         <th class="col-num">Total</th>
-                        <th>CÃ³digo</th>
+                        <th>Código</th>
                         <th>Comprado</th>
                         <th>PDF</th>
                     </tr>
@@ -652,8 +653,8 @@ document.getElementById('modalSeriePoster').src = critica.poster ? 'assets/img/p
                             <td><?= htmlspecialchars($t['hora']) ?></td>
                             <td><?= htmlspecialchars($t['sala']) ?></td>
                             <td class="col-num"><?= (int)$t['cantidad'] ?></td>
-                            <td class="col-num"><?= number_format((float)$t['precio_unitario'], 2) ?> â‚¬</td>
-                            <td class="col-num col-total"><?= number_format((float)$t['total'], 2) ?> â‚¬</td>
+                            <td class="col-num"><?= number_format((float)$t['precio_unitario'], 2) ?> €</td>
+                            <td class="col-num col-total"><?= number_format((float)$t['total'], 2) ?> €</td>
                             <td class="col-codigo"><?= htmlspecialchars($t['codigo']) ?></td>
                             <td class="col-fecha"><?= htmlspecialchars($t['created_at']) ?></td>
                             <td>

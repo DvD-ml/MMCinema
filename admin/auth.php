@@ -16,7 +16,7 @@ function verificarAuth() {
     }
     
     // Verificar si el usuario es administrador
-    if (!isset($_SESSION['es_admin']) || $_SESSION['es_admin'] != 1) {
+    if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 'admin') {
         header('Location: ../index.php');
         exit;
     }

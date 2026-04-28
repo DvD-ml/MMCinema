@@ -1,4 +1,7 @@
 <?php
+require_once "auth.php";
+verificarAuth();
+
 session_start();
 require_once("../config/conexion.php");
 require_once(__DIR__ . "/includes/series_admin_ui.php");
@@ -68,6 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <body class="admin-body">
 
 <?php require_once __DIR__ . "/admin_header.php"; ?>
+require_once "../helpers/FileValidation.php";
 
 <div class="container py-4">
     <h1 class="mb-4">Editar serie</h1>

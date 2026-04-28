@@ -24,8 +24,8 @@ function mm_configurar_mailer(): PHPMailer
     $mail->isSMTP();
     $mail->Host       = $_ENV['MAIL_HOST'] ?? 'smtp.gmail.com';
     $mail->SMTPAuth   = true;
-    $mail->Username   = $_ENV['MAIL_USERNAME'] ?? 'david.monzonlopez@gmail.com';
-    $mail->Password   = $_ENV['MAIL_PASSWORD'] ?? 'xvzx cvwp syqf cxkk';
+    $mail->Username   = $_ENV['MAIL_USERNAME'] ?? throw new Exception('MAIL_USERNAME no configurado en .env');
+    $mail->Password   = $_ENV['MAIL_PASSWORD'] ?? throw new Exception('MAIL_PASSWORD no configurado en .env');
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
     $mail->Port       = (int)($_ENV['MAIL_PORT'] ?? 587);
     $mail->CharSet    = 'UTF-8';

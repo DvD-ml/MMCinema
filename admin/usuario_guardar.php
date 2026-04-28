@@ -1,6 +1,11 @@
 <?php
 require_once "auth.php";
 require_once "../config/conexion.php";
+require_once "../helpers/CSRF.php";
+
+
+// Validar token CSRF
+CSRF::validarOAbortar();
 
 $id       = (int)($_POST['id'] ?? 0);
 $username = trim($_POST['username'] ?? '');

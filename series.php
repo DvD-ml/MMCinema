@@ -9,9 +9,9 @@ function estrellasSerie($puntuacion) {
     $empty = $max - $full - $half;
 
     $html = '<div class="stars">';
-    for ($i = 0; $i < $full; $i++) $html .= '<span class="star on">â˜…</span>';
-    if ($half) $html .= '<span class="star half">â˜…</span>';
-    for ($i = 0; $i < $empty; $i++) $html .= '<span class="star off">â˜…</span>';
+    for ($i = 0; $i < $full; $i++) $html .= '<span class="star on">★</span>';
+    if ($half) $html .= '<span class="star half">★</span>';
+    for ($i = 0; $i < $empty; $i++) $html .= '<span class="star off">★</span>';
     $html .= '</div>';
 
     return $html;
@@ -103,7 +103,7 @@ if ($plataformaFiltro > 0) {
     $stmtTopPlataforma->execute([$plataformaFiltro]);
     $topPlataforma = $stmtTopPlataforma->fetchAll(PDO::FETCH_ASSOC);
 
-    /* TODAS LAS SERIES DE ESA PLATAFORMA, 6 POR PÃGINA */
+    /* TODAS LAS SERIES DE ESA PLATAFORMA, 6 POR PÑGINA */
     $sqlSeries = "
         SELECT
             s.*,
@@ -175,7 +175,7 @@ unset($queryBase['pagina']);
         <div class="container">
             <div class="section-heading">
                 <h2>Plataformas</h2>
-                <p>Haz clic en una plataforma para ver sus series mejor valoradas y todo su catÃ¡logo.</p>
+                <p>Haz clic en una plataforma para ver sus series mejor valoradas y todo su catálogo.</p>
             </div>
 
             <div class="streaming-platforms">
@@ -217,7 +217,7 @@ unset($queryBase['pagina']);
                                     <h5 class="card-title"><?= htmlspecialchars($serie['titulo']) ?></h5>
 
                                     <div class="serie-card-meta">
-                                        <span><?= htmlspecialchars($serie['genero_nombre'] ?? 'Sin gÃ©nero') ?></span>
+                                        <span><?= htmlspecialchars($serie['genero_nombre'] ?? 'Sin género') ?></span>
                                         <span><?= !empty($serie['fecha_estreno']) ? date("Y", strtotime($serie['fecha_estreno'])) : 'Sin fecha' ?></span>
                                     </div>
 
@@ -226,7 +226,7 @@ unset($queryBase['pagina']);
                                         <small><?= number_format((float)$serie['puntuacion_media'], 1) ?>/5</small>
                                     </div>
 
-                                    <small><?= (int)$serie['total_criticas'] ?> crÃ­tica(s)</small>
+                                    <small><?= (int)$serie['total_criticas'] ?> crítica(s)</small>
 
                                     <a href="serie.php?id=<?= (int)$serie['id'] ?>" class="btn btn-primary w-100">
                                         Ver serie
@@ -264,7 +264,7 @@ unset($queryBase['pagina']);
                                         <h5 class="card-title"><?= htmlspecialchars($serie['titulo']) ?></h5>
 
                                         <div class="serie-card-meta">
-                                            <span><?= htmlspecialchars($serie['genero_nombre'] ?? 'Sin gÃ©nero') ?></span>
+                                            <span><?= htmlspecialchars($serie['genero_nombre'] ?? 'Sin género') ?></span>
                                             <span><?= !empty($serie['fecha_estreno']) ? date("Y", strtotime($serie['fecha_estreno'])) : 'Sin fecha' ?></span>
                                         </div>
 
@@ -273,7 +273,7 @@ unset($queryBase['pagina']);
                                             <small><?= number_format((float)$serie['puntuacion_media'], 1) ?>/5</small>
                                         </div>
 
-                                        <small><?= (int)$serie['total_criticas'] ?> crÃ­tica(s)</small>
+                                        <small><?= (int)$serie['total_criticas'] ?> crítica(s)</small>
 
                                         <a href="serie.php?id=<?= (int)$serie['id'] ?>" class="btn btn-primary w-100">
                                             Ver serie
@@ -292,7 +292,7 @@ unset($queryBase['pagina']);
             <div class="container">
                 <div class="section-heading-left">
                     <h2>Todas las series de <?= htmlspecialchars($plataformaActual['nombre'] ?? 'la plataforma') ?></h2>
-                    <p>Mostrando 6 por pÃ¡gina.</p>
+                    <p>Mostrando 6 por página.</p>
                 </div>
 
                 <div class="row g-4">
@@ -314,7 +314,7 @@ unset($queryBase['pagina']);
                                             <small><?= number_format((float)$serie['puntuacion_media'], 1) ?>/5</small>
                                         </div>
 
-                                        <small><?= (int)$serie['total_criticas'] ?> crÃ­tica(s)</small>
+                                        <small><?= (int)$serie['total_criticas'] ?> crítica(s)</small>
 
                                         <a href="serie.php?id=<?= (int)$serie['id'] ?>" class="btn btn-primary w-100">
                                             Ver serie
@@ -331,7 +331,7 @@ unset($queryBase['pagina']);
                 </div>
 
                 <?php if ($totalPaginas > 1): ?>
-                    <nav class="cine-pagination-wrap mt-5" aria-label="PaginaciÃ³n series por plataforma">
+                    <nav class="cine-pagination-wrap mt-5" aria-label="Paginación series por plataforma">
                         <div class="cine-pagination">
                             <?php if ($pagina > 1): ?>
                                 <a class="cine-page cine-page-nav" href="<?= htmlspecialchars(mm_build_series_url($queryBase, $pagina - 1)) ?>#series-plataforma">&#10094;</a>
@@ -383,7 +383,7 @@ unset($queryBase['pagina']);
                                             <div class="premium-rating mb-1">
                                                 <?= estrellasSerie((float)$serie['puntuacion_media']) ?>
                                             </div>
-                                            <small><?= number_format((float)$serie['puntuacion_media'], 1) ?>/5 Â· <?= (int)$serie['total_criticas'] ?> crÃ­ticas</small>
+                                            <small><?= number_format((float)$serie['puntuacion_media'], 1) ?>/5 · <?= (int)$serie['total_criticas'] ?> críticas</small>
                                         </div>
                                     </a>
                                 </article>
@@ -485,7 +485,7 @@ unset($queryBase['pagina']);
                 if (isDown) endDrag();
             });
 
-            /* tÃ¡ctil mÃ³vil */
+            /* táctil móvil */
             slider.addEventListener("touchstart", (e) => {
                 startDrag(e.touches[0].clientX);
             }, { passive: true });
