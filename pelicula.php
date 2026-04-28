@@ -160,11 +160,14 @@ if (!empty($pelicula['fecha_estreno']) && strtotime($pelicula['fecha_estreno']) 
                 <div class="detalle-acciones-netflix">
                     <?php if (!$esProximamente && !empty($proyecciones)): ?>
                         <a href="#horarios" class="btn btn-primary btn-lg detalle-btn-main">
-                            Reservar entradas
+                            ▶ Reservar entradas
+                        </a>
+                        <a href="javascript:history.back()" class="btn btn-secondary btn-lg detalle-btn-secondary">
+                            ← Volver
                         </a>
                     <?php elseif ($esProximamente): ?>
-                        <a href="proximamente.php" class="btn btn-primary btn-lg detalle-btn-main">
-                            Ver próximos estrenos
+                        <a href="javascript:history.back()" class="btn btn-primary btn-lg detalle-btn-main">
+                            ← Volver a Próximamente
                         </a>
                     <?php endif; ?>
 

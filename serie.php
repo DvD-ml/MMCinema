@@ -243,7 +243,7 @@ $criticas = $stmtCriticas->fetchAll(PDO::FETCH_ASSOC);
                         <a href="#temporadas" class="btn btn-primary">Ver temporadas</a>
                         <?php if (!empty($serie['trailer'])): ?>
                             <a href="<?= htmlspecialchars($serie['trailer']) ?>" target="_blank" class="btn btn-warning fw-semibold">
-                                Ver tráiler
+                                ▶ Ver tráiler
                             </a>
                         <?php endif; ?>
 
