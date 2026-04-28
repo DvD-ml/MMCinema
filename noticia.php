@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 if (session_status() == PHP_SESSION_NONE) session_start();
 require_once "config/conexion.php";
 
@@ -26,13 +26,13 @@ $minLectura = max(1, (int)ceil($wordCount / 200)); // 200 palabras/min aprox
 $fechaPub = new DateTime($noticia["publicado"]);
 $hoy = new DateTime();
 $diff = $fechaPub->diff($hoy);
-$hace = ($diff->days === 0) ? "hoy" : "hace " . $diff->days . " día(s)";
+$hace = ($diff->days === 0) ? "hoy" : "hace " . $diff->days . " dÃ­a(s)";
 
 function topKeywordsES(string $text, int $limit = 5): array {
     $stop = [
-        "para","pero","porque","como","que","qué","con","sin","sobre","entre","desde",
-        "este","esta","estos","estas","ese","esa","esos","esas","aqui","aquí","allí",
-        "los","las","del","por","una","uno","unos","unas","más","menos","muy","también",
+        "para","pero","porque","como","que","quÃ©","con","sin","sobre","entre","desde",
+        "este","esta","estos","estas","ese","esa","esos","esas","aqui","aquÃ­","allÃ­",
+        "los","las","del","por","una","uno","unos","unas","mÃ¡s","menos","muy","tambiÃ©n",
         "ser","estar","hay","han","fue","son","era","sus","mis","tus","tu","su","se",
         "al","lo","la","el","y","o","u","de","en","a","un","is","are"
     ];
@@ -56,7 +56,7 @@ function topKeywordsES(string $text, int $limit = 5): array {
 
 $keywords = topKeywordsES($contenido, 5);
 
-/* -------- Noticias relacionadas (3 últimas) -------- */
+/* -------- Noticias relacionadas (3 Ãºltimas) -------- */
 $stmRel = $pdo->prepare("SELECT id, titulo, imagen, publicado, contenido
                          FROM noticia
                          WHERE id <> ?
@@ -83,24 +83,21 @@ $img = $noticia["imagen"] ?: "noticia-placeholder.jpg";
 <?php include "navbar.php"; ?>
 
 <main class="container my-5">
-    <a href="noticias.php" class="btn btn-outline-light mb-4">← Volver a noticias</a>
+    <a href="noticias.php" class="btn btn-outline-light mb-4">â† Volver a noticias</a>
 
     <article class="noticia-detalle">
         <header class="mb-4">
             <h1 class="fw-bold"><?= htmlspecialchars($noticia["titulo"]) ?></h1>
             <p class="text-muted">
-                Publicado: <?= date("d/m/Y H:i", strtotime($noticia["publicado"])) ?> · <?= htmlspecialchars($hace) ?>
+                Publicado: <?= date("d/m/Y H:i", strtotime($noticia["publicado"])) ?> Â· <?= htmlspecialchars($hace) ?>
             </p>
         </header>
 
         <div class="row g-4">
             <div class="col-lg-8">
                 <div class="noticia-hero mb-3">
-<<<<<<< HEAD
-                    <img src="assets/img/noticias/<?= htmlspecialchars($img) ?>" alt="Imagen de <?= htmlspecialchars($noticia["titulo"]) ?>" class="img-fluid rounded">
-=======
-                    <img src="img/noticias/<?= htmlspecialchars($img) ?>" alt="Imagen de <?= htmlspecialchars($noticia["titulo"]) ?>" class="img-fluid rounded">
->>>>>>> 03e06f2273c9fc762edd1aacddd755207c48626b
+<img src="assets/img/noticias/<?= htmlspecialchars($img) ?>" alt="Imagen de <?= htmlspecialchars($noticia["titulo"]) ?>" class="img-fluid rounded">
+
                 </div>
 
                 <div class="noticia-texto">
@@ -119,17 +116,14 @@ $img = $noticia["imagen"] ?: "noticia-placeholder.jpg";
                     <?php $imgR = $r["imagen"] ?: "noticia-placeholder.jpg"; ?>
                     <div class="col-md-4">
                         <article class="card noticia-card h-100">
-<<<<<<< HEAD
-                            <img src="assets/img/noticias/<?= htmlspecialchars($imgR) ?>" class="card-img-top" alt="Imagen de <?= htmlspecialchars($r['titulo']) ?>">
-=======
-                            <img src="img/noticias/<?= htmlspecialchars($imgR) ?>" class="card-img-top" alt="Imagen de <?= htmlspecialchars($r['titulo']) ?>">
->>>>>>> 03e06f2273c9fc762edd1aacddd755207c48626b
+<img src="assets/img/noticias/<?= htmlspecialchars($imgR) ?>" class="card-img-top" alt="Imagen de <?= htmlspecialchars($r['titulo']) ?>">
+
                             <div class="card-body d-flex flex-column">
                                 <h5 class="fw-bold"><?= htmlspecialchars($r["titulo"]) ?></h5>
                                 <p class="text-muted small">Publicado: <?= date('d/m/Y', strtotime($r['publicado'])) ?></p>
                                 <p class="flex-grow-1"><?= htmlspecialchars(mb_strimwidth($r['contenido'],0,120,"...")) ?></p>
                                 <a href="noticia.php?id=<?= (int)$r["id"] ?>" class="btn btn-primary mt-2 align-self-start">
-                                    Saber más
+                                    Saber mÃ¡s
                                 </a>
                             </div>
                         </article>
@@ -144,3 +138,6 @@ $img = $noticia["imagen"] ?: "noticia-placeholder.jpg";
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
+
+

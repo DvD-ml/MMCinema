@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 require_once("config/conexion.php");
 
 function estrellasSerie($puntuacion) {
@@ -9,9 +9,9 @@ function estrellasSerie($puntuacion) {
     $empty = $max - $full - $half;
 
     $html = '<div class="stars">';
-    for ($i = 0; $i < $full; $i++) $html .= '<span class="star on">★</span>';
-    if ($half) $html .= '<span class="star half">★</span>';
-    for ($i = 0; $i < $empty; $i++) $html .= '<span class="star off">★</span>';
+    for ($i = 0; $i < $full; $i++) $html .= '<span class="star on">â˜…</span>';
+    if ($half) $html .= '<span class="star half">â˜…</span>';
+    for ($i = 0; $i < $empty; $i++) $html .= '<span class="star off">â˜…</span>';
     $html .= '</div>';
 
     return $html;
@@ -103,7 +103,7 @@ if ($plataformaFiltro > 0) {
     $stmtTopPlataforma->execute([$plataformaFiltro]);
     $topPlataforma = $stmtTopPlataforma->fetchAll(PDO::FETCH_ASSOC);
 
-    /* TODAS LAS SERIES DE ESA PLATAFORMA, 6 POR PÁGINA */
+    /* TODAS LAS SERIES DE ESA PLATAFORMA, 6 POR PÃGINA */
     $sqlSeries = "
         SELECT
             s.*,
@@ -161,11 +161,8 @@ unset($queryBase['pagina']);
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-<<<<<<< HEAD
-    <link rel="stylesheet" href="assets/css/styles.css">
-=======
-    <link rel="stylesheet" href="css/styles.css">
->>>>>>> 03e06f2273c9fc762edd1aacddd755207c48626b
+<link rel="stylesheet" href="assets/css/styles.css">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
@@ -178,7 +175,7 @@ unset($queryBase['pagina']);
         <div class="container">
             <div class="section-heading">
                 <h2>Plataformas</h2>
-                <p>Haz clic en una plataforma para ver sus series mejor valoradas y todo su catálogo.</p>
+                <p>Haz clic en una plataforma para ver sus series mejor valoradas y todo su catÃ¡logo.</p>
             </div>
 
             <div class="streaming-platforms">
@@ -220,7 +217,7 @@ unset($queryBase['pagina']);
                                     <h5 class="card-title"><?= htmlspecialchars($serie['titulo']) ?></h5>
 
                                     <div class="serie-card-meta">
-                                        <span><?= htmlspecialchars($serie['genero_nombre'] ?? 'Sin género') ?></span>
+                                        <span><?= htmlspecialchars($serie['genero_nombre'] ?? 'Sin gÃ©nero') ?></span>
                                         <span><?= !empty($serie['fecha_estreno']) ? date("Y", strtotime($serie['fecha_estreno'])) : 'Sin fecha' ?></span>
                                     </div>
 
@@ -229,7 +226,7 @@ unset($queryBase['pagina']);
                                         <small><?= number_format((float)$serie['puntuacion_media'], 1) ?>/5</small>
                                     </div>
 
-                                    <small><?= (int)$serie['total_criticas'] ?> crítica(s)</small>
+                                    <small><?= (int)$serie['total_criticas'] ?> crÃ­tica(s)</small>
 
                                     <a href="serie.php?id=<?= (int)$serie['id'] ?>" class="btn btn-primary w-100">
                                         Ver serie
@@ -267,7 +264,7 @@ unset($queryBase['pagina']);
                                         <h5 class="card-title"><?= htmlspecialchars($serie['titulo']) ?></h5>
 
                                         <div class="serie-card-meta">
-                                            <span><?= htmlspecialchars($serie['genero_nombre'] ?? 'Sin género') ?></span>
+                                            <span><?= htmlspecialchars($serie['genero_nombre'] ?? 'Sin gÃ©nero') ?></span>
                                             <span><?= !empty($serie['fecha_estreno']) ? date("Y", strtotime($serie['fecha_estreno'])) : 'Sin fecha' ?></span>
                                         </div>
 
@@ -276,7 +273,7 @@ unset($queryBase['pagina']);
                                             <small><?= number_format((float)$serie['puntuacion_media'], 1) ?>/5</small>
                                         </div>
 
-                                        <small><?= (int)$serie['total_criticas'] ?> crítica(s)</small>
+                                        <small><?= (int)$serie['total_criticas'] ?> crÃ­tica(s)</small>
 
                                         <a href="serie.php?id=<?= (int)$serie['id'] ?>" class="btn btn-primary w-100">
                                             Ver serie
@@ -295,7 +292,7 @@ unset($queryBase['pagina']);
             <div class="container">
                 <div class="section-heading-left">
                     <h2>Todas las series de <?= htmlspecialchars($plataformaActual['nombre'] ?? 'la plataforma') ?></h2>
-                    <p>Mostrando 6 por página.</p>
+                    <p>Mostrando 6 por pÃ¡gina.</p>
                 </div>
 
                 <div class="row g-4">
@@ -317,7 +314,7 @@ unset($queryBase['pagina']);
                                             <small><?= number_format((float)$serie['puntuacion_media'], 1) ?>/5</small>
                                         </div>
 
-                                        <small><?= (int)$serie['total_criticas'] ?> crítica(s)</small>
+                                        <small><?= (int)$serie['total_criticas'] ?> crÃ­tica(s)</small>
 
                                         <a href="serie.php?id=<?= (int)$serie['id'] ?>" class="btn btn-primary w-100">
                                             Ver serie
@@ -334,7 +331,7 @@ unset($queryBase['pagina']);
                 </div>
 
                 <?php if ($totalPaginas > 1): ?>
-                    <nav class="cine-pagination-wrap mt-5" aria-label="Paginación series por plataforma">
+                    <nav class="cine-pagination-wrap mt-5" aria-label="PaginaciÃ³n series por plataforma">
                         <div class="cine-pagination">
                             <?php if ($pagina > 1): ?>
                                 <a class="cine-page cine-page-nav" href="<?= htmlspecialchars(mm_build_series_url($queryBase, $pagina - 1)) ?>#series-plataforma">&#10094;</a>
@@ -386,7 +383,7 @@ unset($queryBase['pagina']);
                                             <div class="premium-rating mb-1">
                                                 <?= estrellasSerie((float)$serie['puntuacion_media']) ?>
                                             </div>
-                                            <small><?= number_format((float)$serie['puntuacion_media'], 1) ?>/5 · <?= (int)$serie['total_criticas'] ?> críticas</small>
+                                            <small><?= number_format((float)$serie['puntuacion_media'], 1) ?>/5 Â· <?= (int)$serie['total_criticas'] ?> crÃ­ticas</small>
                                         </div>
                                     </a>
                                 </article>
@@ -488,7 +485,7 @@ unset($queryBase['pagina']);
                 if (isDown) endDrag();
             });
 
-            /* táctil móvil */
+            /* tÃ¡ctil mÃ³vil */
             slider.addEventListener("touchstart", (e) => {
                 startDrag(e.touches[0].clientX);
             }, { passive: true });
@@ -506,3 +503,5 @@ unset($queryBase['pagina']);
 
 </body>
 </html>
+
+
