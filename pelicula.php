@@ -162,7 +162,7 @@ if (!empty($pelicula['fecha_estreno']) && strtotime($pelicula['fecha_estreno']) 
                         <a href="#horarios" class="btn btn-primary btn-lg detalle-btn-main">
                             ▶ Reservar entradas
                         </a>
-                        <a href="javascript:history.back()" class="btn btn-primary btn-lg detalle-btn-main">
+                        <a href="javascript:history.back()" class="btn btn-primary btn-lg detalle-btn-main" style="margin-left: auto;">
                             Volver a Cartelera
                         </a>
                     <?php elseif ($esProximamente): ?>
