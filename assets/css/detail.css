@@ -173,13 +173,10 @@
     left: 0;
     width: 100%;
     height: 300%;
-    background: repeating-linear-gradient(
-        45deg,
-        #1a1a1a,
-        #1a1a1a 10px,
-        #2a2a2a 10px,
-        #2a2a2a 20px
-    );
+    background-image: url("../img/cinta.jpg");
+    background-repeat: repeat-y;
+    background-position: center top;
+    background-size: 100% auto;
     will-change: transform;
     opacity: 0.9;
 }
