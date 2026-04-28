@@ -49,6 +49,7 @@ if (!empty($_SESSION['usuario_id'])) {
     <?php endif; ?>
 
     <form action="backend/registro.php" method="POST" autocomplete="on">
+      <?php require_once "helpers/CSRF.php"; echo CSRF::campoFormulario(); ?>
       <div class="mb-3">
         <label class="form-label" for="username">Nombre de usuario</label>
         <input 
@@ -104,6 +105,5 @@ if (!empty($_SESSION['usuario_id'])) {
 
 <?php include "footer.php"; ?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<!-- <?php include "includes/lenis-scripts.php"; ?> -->
 </body>
 </html>

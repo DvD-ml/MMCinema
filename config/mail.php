@@ -286,7 +286,7 @@ function enviarCorreoRecuperacion(string $destinatarioEmail, string $destinatari
         $url = MM_BASE_URL . '/restablecer_password.php?token=' . urlencode($token);
 
         $mail->isHTML(true);
-        $mail->Subject = 'Recupera tu contraseña en MMCinema';
+        $mail->Subject = 'Recupera tu contraseúa en MMCinema';
 
         $logoHtml = $logoDisponible
             ? "<img src='cid:logo_mmcinema' alt='MMCinema' style='max-width:180px; height:auto;'>"
@@ -304,17 +304,17 @@ function enviarCorreoRecuperacion(string $destinatarioEmail, string $destinatari
                     <h2 style='margin-top:0; font-size:30px; color:#111827;'>Hola, {$destinatarioNombre}</h2>
 
                     <p style='font-size:16px; line-height:1.7; margin-bottom:18px;'>
-                        Hemos recibido una solicitud para restablecer tu contraseña en <strong>MMCinema</strong>.
+                        Hemos recibido una solicitud para restablecer tu contraseúa en <strong>MMCinema</strong>.
                     </p>
 
                     <p style='font-size:16px; line-height:1.7; margin-bottom:18px;'>
-                        Pulsa en el siguiente botón para crear una nueva contraseña:
+                        Pulsa en el siguiente botón para crear una nueva contraseúa:
                     </p>
 
                     <div style='text-align:center; margin:35px 0 25px 0;'>
                         <a href='{$url}'
                            style='display:inline-block; background:#f59e0b; color:#ffffff; text-decoration:none; padding:14px 28px; border-radius:10px; font-weight:bold; font-size:16px;'>
-                           Restablecer contraseña
+                           Restablecer contraseúa
                         </a>
                     </div>
 
@@ -340,7 +340,7 @@ function enviarCorreoRecuperacion(string $destinatarioEmail, string $destinatari
         ";
 
         $mail->AltBody =
-            "Hola {$destinatarioNombre}. Para restablecer tu contraseña entra aquí: {$url}";
+            "Hola {$destinatarioNombre}. Para restablecer tu contraseúa entra aquí: {$url}";
 
         $mail->send();
         return true;

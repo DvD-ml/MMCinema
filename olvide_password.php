@@ -9,7 +9,7 @@ if (!empty($_SESSION['usuario_id'])) {
 <html lang="es">
 <head>
     <meta charset="utf-8">
-    <title>MMCinema | Recuperar contraseña</title>
+    <title>MMCinema | Recuperar contraseúa</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -22,11 +22,11 @@ if (!empty($_SESSION['usuario_id'])) {
 
 <div class="container form-container-wrapper">
     <div class="card form-card" style="max-width:520px; width:100%;">
-        <h3 class="text-center mb-3">Recuperar contraseña</h3>
+        <h3 class="text-center mb-3">Recuperar contraseúa</h3>
 
         <?php if (isset($_GET['ok']) && $_GET['ok'] === '1'): ?>
             <div class="alert alert-success">
-                Si el correo existe en nuestra base de datos, te hemos enviado un enlace para restablecer tu contraseña.
+                Si el correo existe en nuestra base de datos, te hemos enviado un enlace para restablecer tu contraseúa.
             </div>
         <?php endif; ?>
 
@@ -37,7 +37,7 @@ if (!empty($_SESSION['usuario_id'])) {
         <?php endif; ?>
 
         <p class="text-center text-muted mb-4">
-            Introduce tu correo y te enviaremos un enlace para cambiar tu contraseña.
+            Introduce tu correo y te enviaremos un enlace para cambiar tu contraseúa.
         </p>
 
         <form action="backend/olvide_password.php" method="POST">

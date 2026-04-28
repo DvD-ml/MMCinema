@@ -31,7 +31,7 @@ if (empty($usuario['reset_expira']) || strtotime($usuario['reset_expira']) < tim
 <html lang="es">
 <head>
     <meta charset="utf-8">
-    <title>MMCinema | Nueva contraseña</title>
+    <title>MMCinema | Nueva contraseúa</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -44,30 +44,30 @@ if (empty($usuario['reset_expira']) || strtotime($usuario['reset_expira']) < tim
 
 <div class="container form-container-wrapper">
     <div class="card form-card" style="max-width:520px; width:100%;">
-        <h3 class="text-center mb-3">Crear nueva contraseña</h3>
+        <h3 class="text-center mb-3">Crear nueva contraseúa</h3>
 
         <?php if (isset($_GET['error']) && $_GET['error'] === 'pass_corta'): ?>
-            <div class="alert alert-danger">La contraseña debe tener al menos 6 caracteres.</div>
+            <div class="alert alert-danger">La contraseúa debe tener al menos 6 caracteres.</div>
         <?php endif; ?>
 
         <?php if (isset($_GET['error']) && $_GET['error'] === 'pass_distintas'): ?>
-            <div class="alert alert-danger">Las contraseñas no coinciden.</div>
+            <div class="alert alert-danger">Las contraseúas no coinciden.</div>
         <?php endif; ?>
 
         <form action="backend/restablecer_password.php" method="POST">
             <input type="hidden" name="token" value="<?= htmlspecialchars($token) ?>">
 
             <div class="mb-3">
-                <label class="form-label" for="password">Nueva contraseña</label>
+                <label class="form-label" for="password">Nueva contraseúa</label>
                 <input type="password" id="password" name="password" class="form-control" required>
             </div>
 
             <div class="mb-3">
-                <label class="form-label" for="password_confirm">Repite la nueva contraseña</label>
+                <label class="form-label" for="password_confirm">Repite la nueva contraseúa</label>
                 <input type="password" id="password_confirm" name="password_confirm" class="form-control" required>
             </div>
 
-            <button class="btn btn-primary w-100" type="submit">Guardar nueva contraseña</button>
+            <button class="btn btn-primary w-100" type="submit">Guardar nueva contraseúa</button>
         </form>
     </div>
 </div>

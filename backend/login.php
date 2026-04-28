@@ -43,7 +43,7 @@ if (!$user) {
 }
 
 if (!password_verify($pass, $user['password_hash'])) {
-    Logger::security("Intento de login con contraseña incorrecta", [
+    Logger::security("Intento de login con contraseúa incorrecta", [
         'email' => $email,
         'user_id' => $user['id']
     ]);
@@ -107,8 +107,8 @@ if ($recordar) {
 // Regenerar token CSRF después del login
 CSRF::regenerarToken();
 
-// Pequeña pausa para que el navegador detecte el login exitoso
-// y ofrezca guardar la contraseña
+// Pequeúa pausa para que el navegador detecte el login exitoso
+// y ofrezca guardar la contraseúa
 usleep(100000); // 100ms
 
 header("Location: ../index.php");

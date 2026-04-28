@@ -103,7 +103,7 @@ if ($plataformaFiltro > 0) {
     $stmtTopPlataforma->execute([$plataformaFiltro]);
     $topPlataforma = $stmtTopPlataforma->fetchAll(PDO::FETCH_ASSOC);
 
-    /* TODAS LAS SERIES DE ESA PLATAFORMA, 6 POR PÑGINA */
+    /* TODAS LAS SERIES DE ESA PLATAFORMA, 6 POR PÚGINA */
     $sqlSeries = "
         SELECT
             s.*,

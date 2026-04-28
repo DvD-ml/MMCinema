@@ -53,7 +53,7 @@ $stm->execute([$usuario_id]);
 $tickets = $stm->fetchAll(PDO::FETCH_ASSOC);
 
 /* =========================
-   Críticas del usuario CON POSTER - PELÑCULAS
+   Críticas del usuario CON POSTER - PELÚCULAS
 ========================= */
 $sqlCriticasPeliculas = "
 SELECT 
@@ -101,7 +101,7 @@ try {
 }
 
 /* =========================
-   FAVORITAS PELÑCULAS (YA ESTRENADAS) - MÑXIMO 5
+   FAVORITAS PELÚCULAS (YA ESTRENADAS) - MÚXIMO 5
 ========================= */
 $sqlFavoritasPeliculas = "
 SELECT 
@@ -127,7 +127,7 @@ $stmFavPel->execute([$usuario_id]);
 $favoritasPeliculas = $stmFavPel->fetchAll(PDO::FETCH_ASSOC);
 
 /* =========================
-   FAVORITAS SERIES - MÑXIMO 5
+   FAVORITAS SERIES - MÚXIMO 5
 ========================= */
 $favoritasSeries = [];
 try {
@@ -156,7 +156,7 @@ try {
 }
 
 /* =========================
-   MI LISTA (PRÑ“XIMAMENTE)
+   MI LISTA (PRÚ“XIMAMENTE)
 ========================= */
 $sqlMiLista = "
 SELECT 
@@ -263,7 +263,7 @@ if ($count_val > 0) {
     <div class="perfil-seccion active" id="peliculas">
         <h2 class="letterboxd-section-title">Mis Películas Favoritas</h2>
         <?php if (empty($favoritasPeliculas)): ?>
-            <p class="perfil-vacio">Todavía no has añadido películas a favoritas.</p>
+            <p class="perfil-vacio">Todavía no has aúadido películas a favoritas.</p>
         <?php else: ?>
             <div class="letterboxd-grid">
                 <?php foreach ($favoritasPeliculas as $f): ?>
@@ -287,7 +287,7 @@ if ($count_val > 0) {
     <div class="perfil-seccion" id="series">
         <h2 class="letterboxd-section-title">Mis Series Favoritas</h2>
         <?php if (empty($favoritasSeries)): ?>
-            <p class="perfil-vacio">Todavía no has añadido series a favoritas.</p>
+            <p class="perfil-vacio">Todavía no has aúadido series a favoritas.</p>
         <?php else: ?>
             <div class="letterboxd-grid">
                 <?php foreach ($favoritasSeries as $f): ?>
@@ -311,7 +311,7 @@ if ($count_val > 0) {
     <div class="perfil-seccion" id="lista">
         <h2 class="letterboxd-section-title">Mi Lista</h2>
         <?php if (empty($miLista)): ?>
-            <p class="perfil-vacio">Todavía no has añadido próximos estrenos a tu lista.</p>
+            <p class="perfil-vacio">Todavía no has aúadido próximos estrenos a tu lista.</p>
         <?php else: ?>
             <div class="lista-grid">
                 <?php foreach ($miLista as $f): ?>

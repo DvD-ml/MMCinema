@@ -20,8 +20,8 @@ if ($serie) {
     echo "<p><strong>¿Existe?:</strong> " . ($existe ? "✅ SÍ" : "❌ NO") . "</p>";
     
     if ($existe) {
-        $tamaño = filesize($rutaEnDisco);
-        echo "<p><strong>Tamaño:</strong> " . number_format($tamaño / 1024, 2) . " KB</p>";
+        $tamaúo = filesize($rutaEnDisco);
+        echo "<p><strong>Tamaúo:</strong> " . number_format($tamaúo / 1024, 2) . " KB</p>";
     }
     
     echo "<hr>";

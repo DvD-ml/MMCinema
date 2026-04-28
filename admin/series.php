@@ -42,7 +42,7 @@ $series = $pdo->query("
             <p class="text-muted mb-0">Gestiona catálogo, temporadas, episodios y críticas.</p>
         </div>
         <div class="d-flex flex-wrap gap-2">
-            <a href="agregar_serie.php" class="btn btn-primary">+ Añadir serie</a>
+            <a href="agregar_serie.php" class="btn btn-primary">+ Aúadir serie</a>
             <a href="series_panel.php" class="btn btn-outline-light">Resumen</a>
             <a href="criticas_series.php" class="btn btn-outline-light">Críticas</a>
         </div>

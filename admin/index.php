@@ -44,11 +44,11 @@ $ultimosTickets = $pdo->query("SELECT codigo, total, created_at FROM ticket ORDE
             <div class="admin-glass-card p-4 h-100">
                 <h2 class="h4 mb-3">Accesos rápidos</h2>
                 <div class="admin-quick-grid">
-                    <a class="admin-quick-link" href="pelicula_form.php"><strong>Añadir Películas</strong></a>
-                    <a class="admin-quick-link" href="agregar_serie.php"><strong>Añadir Series</strong></a>
-                    <a class="admin-quick-link" href="noticia_form.php"><strong>Añadir Noticias</strong></a>
-                    <a class="admin-quick-link" href="usuario_form.php"><strong>Añadir Usuarios</strong></a>
-                    <a class="admin-quick-link" href="criticas.php"><strong>Añadir Críticas</strong></a>
+                    <a class="admin-quick-link" href="pelicula_form.php"><strong>Aúadir Películas</strong></a>
+                    <a class="admin-quick-link" href="agregar_serie.php"><strong>Aúadir Series</strong></a>
+                    <a class="admin-quick-link" href="noticia_form.php"><strong>Aúadir Noticias</strong></a>
+                    <a class="admin-quick-link" href="usuario_form.php"><strong>Aúadir Usuarios</strong></a>
+                    <a class="admin-quick-link" href="criticas.php"><strong>Aúadir Críticas</strong></a>
                     <a class="admin-quick-link" href="../cartelera.php" target="_blank" rel="noopener"><strong>Volver a web</strong></a>
                 </div>
             </div>
@@ -72,7 +72,7 @@ $ultimosTickets = $pdo->query("SELECT codigo, total, created_at FROM ticket ORDE
         <div class="col-lg-4">
             <div class="admin-glass-card p-4 h-100">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h2 class="h5 mb-0">Últimas películas añadidas</h2>
+                    <h2 class="h5 mb-0">Últimas películas aúadidas</h2>
                     <a href="peliculas.php" class="btn btn-sm btn-outline-light">Abrir</a>
                 </div>
                 <?php if ($ultimasPeliculas): ?>
@@ -96,7 +96,7 @@ $ultimosTickets = $pdo->query("SELECT codigo, total, created_at FROM ticket ORDE
         <div class="col-lg-4">
             <div class="admin-glass-card p-4 h-100">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h2 class="h5 mb-0">Últimas noticias añadidas</h2>
+                    <h2 class="h5 mb-0">Últimas noticias aúadidas</h2>
                     <a href="noticias.php" class="btn btn-sm btn-outline-light">Abrir</a>
                 </div>
                 <?php if ($ultimasNoticias): ?>

@@ -27,7 +27,7 @@ if ($modoEdicion) {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title><?= $modoEdicion ? 'Editar usuario' : 'Añadir usuario' ?></title>
+    <title><?= $modoEdicion ? 'Editar usuario' : 'Aúadir usuario' ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="../assets/css/styles.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -38,7 +38,7 @@ if ($modoEdicion) {
 <div class="container py-4 py-lg-5">
     <div class="admin-page-head">
         <div>
-            <h1><?= $modoEdicion ? 'Editar usuario' : 'Añadir usuario' ?></h1>
+            <h1><?= $modoEdicion ? 'Editar usuario' : 'Aúadir usuario' ?></h1>
             <p><?= $modoEdicion ? 'Modifica los datos de la cuenta.' : 'Crea una nueva cuenta desde el panel de administración.' ?></p>
         </div>
         <a href="usuarios.php" class="btn btn-outline-light">Volver</a>
@@ -46,6 +46,7 @@ if ($modoEdicion) {
 
     <div class="admin-glass-card p-4">
         <form action="usuario_guardar.php" method="POST">
+            <?php require_once "../helpers/CSRF.php"; echo CSRF::campoFormulario(); ?>
             <input type="hidden" name="id" value="<?= (int)$usuario['id'] ?>">
 
             <div class="mb-3">
@@ -80,14 +81,14 @@ if ($modoEdicion) {
 
             <div class="mb-4">
                 <label class="form-label">
-                    <?= $modoEdicion ? 'Nueva contraseña' : 'Contraseña' ?>
+                    <?= $modoEdicion ? 'Nueva contraseúa' : 'Contraseúa' ?>
                 </label>
                 <input
                     type="password"
                     name="password"
                     class="form-control"
                     <?= $modoEdicion ? '' : 'required' ?>
-                    placeholder="<?= $modoEdicion ? 'Déjala vacía para no cambiarla' : 'Escribe la contraseña del usuario' ?>"
+                    placeholder="<?= $modoEdicion ? 'Déjala vacía para no cambiarla' : 'Escribe la contraseúa del usuario' ?>"
                 >
             </div>
 

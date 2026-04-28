@@ -252,7 +252,7 @@ $criticas = $stmtCriticas->fetchAll(PDO::FETCH_ASSOC);
                                 <input type="hidden" name="serie_id" value="<?= (int)$serie['id'] ?>">
                                 <input type="hidden" name="redirect" value="serie.php?id=<?= (int)$serie['id'] ?>">
                                 <button type="submit" class="btn <?= $esFavorito ? 'btn-success' : 'btn-outline-light' ?> fw-semibold">
-                                    <?= $esFavorito ? '✓ En favoritas' : '+ Añadir a favoritas' ?>
+                                    <?= $esFavorito ? '✓ En favoritas' : '+ Aúadir a favoritas' ?>
                                 </button>
                             </form>
                         <?php endif; ?>

@@ -37,8 +37,8 @@ $criticasSeries = $pdo->query("
             <p>Desde aquí puedes crear, editar y borrar críticas de películas y series.</p>
         </div>
         <div class="d-flex gap-2 flex-wrap">
-            <a href="critica_form.php?tipo=pelicula" class="btn btn-primary">Añadir crítica de película</a>
-            <a href="critica_form.php?tipo=serie" class="btn btn-warning">Añadir crítica de serie</a>
+            <a href="critica_form.php?tipo=pelicula" class="btn btn-primary">Aúadir crítica de película</a>
+            <a href="critica_form.php?tipo=serie" class="btn btn-warning">Aúadir crítica de serie</a>
             <a href="index.php" class="btn btn-outline-light">Volver al panel</a>
         </div>
     </div>

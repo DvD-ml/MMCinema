@@ -114,11 +114,11 @@ $archivo_simulado = [
 echo "Archivo simulado:<br>";
 echo "- Nombre: {$archivo_simulado['name']}<br>";
 echo "- Tipo: {$archivo_simulado['type']}<br>";
-echo "- Tamaño: " . number_format($archivo_simulado['size'] / 1024, 2) . " KB<br>";
+echo "- Tamaúo: " . number_format($archivo_simulado['size'] / 1024, 2) . " KB<br>";
 
 // Test de slug
 if (function_exists('mm_slug_nombre_archivo')) {
-    $slug = mm_slug_nombre_archivo('Test Carrusel Ñoño');
+    $slug = mm_slug_nombre_archivo('Test Carrusel Úoúo');
     echo "- Slug generado: '$slug'<br>";
 }
 
@@ -141,7 +141,7 @@ try {
 echo "<h2>✅ Resumen</h2>";
 echo "El sistema de conversión WebP para el carrusel está configurado para:<br>";
 echo "• Convertir automáticamente todas las imágenes a WebP<br>";
-echo "• Optimizar el tamaño y calidad de las imágenes<br>";
+echo "• Optimizar el tamaúo y calidad de las imágenes<br>";
 echo "• Generar nombres únicos para evitar conflictos<br>";
 echo "• Eliminar automáticamente imágenes anteriores al actualizar<br>";
 echo "• Soportar formatos: JPG, PNG, WebP, AVIF<br>";

@@ -221,7 +221,7 @@ __DIR__ . '/../assets/img/logos',
             $id
         ]);
         
-        error_log("Resultado de la actualización: " . ($resultado ? 'Ñ‰XITO' : 'FALLO'));
+        error_log("Resultado de la actualización: " . ($resultado ? 'Ú‰XITO' : 'FALLO'));
         
         // Verificar que se guardó correctamente
         $stmt = $pdo->prepare("SELECT categoria FROM carrusel_destacado WHERE id = ?");
@@ -438,7 +438,7 @@ function toggleActivo($id) {
                                         <input type="hidden" name="accion" value="toggle_activo">
                                         <input type="hidden" name="id" value="<?= $slide['id'] ?>">
                                         <button type="submit" class="btn btn-sm <?= $slide['activo'] ? 'btn-success' : 'btn-secondary' ?>">
-                                            <?= $slide['activo'] ? 'âœ“ Activo' : 'âœ— Inactivo' ?>
+                                            <?= $slide['activo'] ? 'œ“ Activo' : 'œ— Inactivo' ?>
                                         </button>
                                     </form>
                                 </td>
@@ -626,7 +626,7 @@ function editarSlide(slide) {
     // Cargar contenido después
     cargarContenido();
     
-    // Luego establecer el id_contenido con un pequeÑ±o delay
+    // Luego establecer el id_contenido con un pequeúo delay
     setTimeout(() => {
         document.getElementById('id_contenido').value = slide.id_contenido;
         console.log('ID contenido establecido a:', slide.id_contenido); // Debug
@@ -677,7 +677,7 @@ document.getElementById('formSlide').addEventListener('submit', function(e) {
     
     // Verificar categorías específicas
     if (categoria === 'nueva_temporada' || categoria === 'nuevo_episodio') {
-        console.log('âœ“ Categoría especial detectada:', categoria);
+        console.log('œ“ Categoría especial detectada:', categoria);
     }
 });
 </script>

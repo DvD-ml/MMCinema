@@ -50,7 +50,7 @@ if (empty($email)) {
             </form>
 
             <div class="text-center mt-3">
-                <small><a href="login.php">â† Volver al login</a></small>
+                <small><a href="login.php">† Volver al login</a></small>
             </div>
         </div>
     </div>

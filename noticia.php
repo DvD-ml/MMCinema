@@ -56,7 +56,7 @@ function topKeywordsES(string $text, int $limit = 5): array {
 
 $keywords = topKeywordsES($contenido, 5);
 
-/* -------- Noticias relacionadas (3 Ñºltimas) -------- */
+/* -------- Noticias relacionadas (3 Úºltimas) -------- */
 $stmRel = $pdo->prepare("SELECT id, titulo, imagen, publicado, contenido
                          FROM noticia
                          WHERE id <> ?
@@ -83,7 +83,7 @@ $img = $noticia["imagen"] ?: "noticia-placeholder.jpg";
 <?php include "navbar.php"; ?>
 
 <main class="container my-5">
-    <a href="noticias.php" class="btn btn-outline-light mb-4">â† Volver a noticias</a>
+    <a href="noticias.php" class="btn btn-outline-light mb-4">† Volver a noticias</a>
 
     <article class="noticia-detalle">
         <header class="mb-4">

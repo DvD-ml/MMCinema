@@ -2,6 +2,10 @@
 session_start();
 require_once "../config/conexion.php";
 require_once "../config/mail.php";
+require_once "../helpers/CSRF.php";
+
+// Validar token CSRF
+CSRF::validarOAbortar();
 
 $username = trim($_POST['username'] ?? '');
 $email = trim($_POST['email'] ?? '');

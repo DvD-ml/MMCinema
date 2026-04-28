@@ -1,6 +1,6 @@
 <?php
 /**
- * Script para optimizar el favicon y crear múltiples tamaños
+ * Script para optimizar el favicon y crear múltiples tamaúos
  * Ejecutar una sola vez desde: http://localhost/david/MMCINEMA/optimizar_favicon.php
  */
 
@@ -33,7 +33,7 @@ try {
     
     // Obtener información del favicon original
     $info = getimagesize($favicon_original);
-    echo "<div class='info'><strong>Tamaño original:</strong> {$info[0]}x{$info[1]} px</div>";
+    echo "<div class='info'><strong>Tamaúo original:</strong> {$info[0]}x{$info[1]} px</div>";
     echo "<div class='info'><strong>Peso original:</strong> " . number_format(filesize($favicon_original) / 1024, 2) . " KB</div>";
     
     // Cargar imagen original
@@ -43,7 +43,7 @@ try {
         throw new Exception("No se pudo cargar la imagen PNG");
     }
     
-    // Crear favicon de 32x32 (tamaño estándar para navegadores)
+    // Crear favicon de 32x32 (tamaúo estándar para navegadores)
     $favicon_32 = imagecreatetruecolor(32, 32);
     imagealphablending($favicon_32, false);
     imagesavealpha($favicon_32, true);
@@ -55,7 +55,7 @@ try {
     imagepng($favicon_32, 'favicon-32x32.png', 9);
     echo "<div class='success'>✅ Creado favicon-32x32.png (" . number_format(filesize('favicon-32x32.png') / 1024, 2) . " KB)</div>";
     
-    // Crear favicon de 16x16 (tamaño para pestañas)
+    // Crear favicon de 16x16 (tamaúo para pestaúas)
     $favicon_16 = imagecreatetruecolor(16, 16);
     imagealphablending($favicon_16, false);
     imagesavealpha($favicon_16, true);

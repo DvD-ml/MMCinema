@@ -59,12 +59,12 @@ if (!empty($_SESSION['usuario_id'])) {
     <?php endif; ?>
 
     <?php if (isset($_GET['error']) && $_GET['error'] === '1'): ?>
-      <div class="alert alert-danger">Email o contraseÑ±a incorrectos.</div>
+      <div class="alert alert-danger">Email o contraseña incorrectos.</div>
     <?php endif; ?>
 
     <?php if (isset($_GET['error']) && $_GET['error'] === 'no_verificado'): ?>
       <div class="alert alert-warning" style="border-left: 4px solid #f59e0b;">
-        <h5 class="alert-heading mb-2">âš ï¸ Cuenta no verificada</h5>
+        <h5 class="alert-heading mb-2">Cuenta no verificada</h5>
         <p class="mb-2">Debes verificar tu correo electrónico antes de iniciar sesión.</p>
         <p class="mb-2">Revisa tu bandeja de entrada y la carpeta de <strong>spam</strong>.</p>
         <hr style="border-color: rgba(245, 158, 11, 0.3);">
@@ -73,7 +73,7 @@ if (!empty($_SESSION['usuario_id'])) {
           <a href="reenviar_verificacion.php<?php echo isset($_GET['email']) ? '?email=' . urlencode($_GET['email']) : ''; ?>" 
              class="alert-link fw-bold" 
              style="text-decoration: underline;">
-            Reenviar correo de verificación â†’
+            Reenviar correo de verificación
           </a>
         </p>
       </div>
@@ -81,51 +81,52 @@ if (!empty($_SESSION['usuario_id'])) {
 
     <?php if (isset($_GET['reenvio']) && $_GET['reenvio'] === 'ok'): ?>
       <div class="alert alert-success" style="border-left: 4px solid #10b981;">
-        <h5 class="alert-heading mb-2">âœ… Correo reenviado</h5>
+        <h5 class="alert-heading mb-2">Correo reenviado</h5>
         <p class="mb-0">Te hemos enviado un nuevo correo de verificación. Revisa tu bandeja de entrada y la carpeta de spam.</p>
       </div>
     <?php endif; ?>
 
     <?php if (isset($_GET['reenvio']) && $_GET['reenvio'] === 'error'): ?>
       <div class="alert alert-danger" style="border-left: 4px solid #ef4444;">
-        <h5 class="alert-heading mb-2">âŒ Error al enviar</h5>
+        <h5 class="alert-heading mb-2">Error al enviar</h5>
         <p class="mb-0">No se pudo reenviar el correo. Inténtalo de nuevo más tarde.</p>
       </div>
     <?php endif; ?>
 
     <?php if (isset($_GET['reenvio']) && $_GET['reenvio'] === 'ya_verificado'): ?>
       <div class="alert alert-info" style="border-left: 4px solid #3b82f6;">
-        <h5 class="alert-heading mb-2">â„¹ï¸ Cuenta ya verificada</h5>
+        <h5 class="alert-heading mb-2">Cuenta ya verificada</h5>
         <p class="mb-0">Tu cuenta ya está verificada. Puedes iniciar sesión normalmente.</p>
       </div>
     <?php endif; ?>
 
     <?php if (isset($_GET['reenvio']) && $_GET['reenvio'] === 'no_existe'): ?>
       <div class="alert alert-danger" style="border-left: 4px solid #ef4444;">
-        <h5 class="alert-heading mb-2">âŒ Email no encontrado</h5>
+        <h5 class="alert-heading mb-2">Email no encontrado</h5>
         <p class="mb-0">No existe ninguna cuenta con ese correo electrónico.</p>
       </div>
     <?php endif; ?>
 
     <?php if (isset($_GET['reset']) && $_GET['reset'] === 'ok'): ?>
       <div class="alert alert-success">
-        Tu contraseÑ±a se ha cambiado correctamente. Ya puedes iniciar sesión.
+        Tu contraseña se ha cambiado correctamente. Ya puedes iniciar sesión.
       </div>
     <?php endif; ?>
 
     <?php if (isset($_GET['reset']) && $_GET['reset'] === 'token_invalido'): ?>
       <div class="alert alert-danger">
-        El enlace para recuperar la contraseÑ±a no es válido.
+        El enlace para recuperar la contraseña no es válido.
       </div>
     <?php endif; ?>
 
     <?php if (isset($_GET['reset']) && $_GET['reset'] === 'expirado'): ?>
       <div class="alert alert-danger">
-        El enlace para recuperar la contraseÑ±a ha caducado.
+        El enlace para recuperar la contraseña ha caducado.
       </div>
     <?php endif; ?>
 
     <form action="backend/login.php" method="POST" autocomplete="on" id="loginForm">
+      <?php require_once "helpers/CSRF.php"; echo CSRF::campoFormulario(); ?>
       <div class="mb-3">
         <label class="form-label" for="email">Email</label>
         <input 
@@ -139,7 +140,7 @@ if (!empty($_SESSION['usuario_id'])) {
       </div>
 
       <div class="mb-3">
-        <label class="form-label" for="password">ContraseÑ±a</label>
+        <label class="form-label" for="password">Contraseña</label>
         <input 
           type="password" 
           id="password" 
@@ -166,7 +167,7 @@ if (!empty($_SESSION['usuario_id'])) {
       <button class="btn btn-primary w-100" type="submit" name="login">Entrar</button>
     </form>
     <div class="text-center mt-3">
-      <small><a href="olvide_password.php">¿Has olvidado tu contraseÑ±a?</a></small>
+      <small><a href="olvide_password.php">¿Has olvidado tu contraseña?</a></small>
     </div>
 
     <div class="text-center mt-3">
@@ -192,8 +193,5 @@ document.addEventListener('DOMContentLoaded', function() {
     form.setAttribute('data-form-type', 'login');
 });
 </script>
-<!-- <?php include "includes/lenis-scripts.php"; ?> -->
 </body>
 </html>
-
-

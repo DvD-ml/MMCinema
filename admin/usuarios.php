@@ -26,7 +26,7 @@ $usuarios = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
             <p>Revisa roles, correos, crea nuevas cuentas y elimina las que ya no necesites.</p>
         </div>
         <div class="d-flex gap-2">
-            <a href="usuario_form.php" class="btn btn-primary">Añadir usuario</a>
+            <a href="usuario_form.php" class="btn btn-primary">Aúadir usuario</a>
             <a href="index.php" class="btn btn-outline-light">Volver al panel</a>
         </div>
     </div>
@@ -46,7 +46,7 @@ $usuarios = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
                     echo "Ya existe otro usuario con ese nombre de usuario.";
                     break;
                 case 'password':
-                    echo "Debes indicar una contraseña al crear un usuario.";
+                    echo "Debes indicar una contraseúa al crear un usuario.";
                     break;
                 default:
                     echo "No se pudo guardar el usuario.";

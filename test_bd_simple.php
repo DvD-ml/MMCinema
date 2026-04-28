@@ -35,7 +35,7 @@ try {
     echo '<ul>';
     echo '<li>MySQL esté corriendo en XAMPP</li>';
     echo '<li>La base de datos "mmcinema3" exista</li>';
-    echo '<li>El usuario sea "root" sin contraseña</li>';
+    echo '<li>El usuario sea "root" sin contraseúa</li>';
     echo '</ul>';
 }
 ?>

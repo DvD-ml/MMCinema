@@ -38,6 +38,7 @@ if ($id > 0) {
     </div>
 
     <form action="noticia_guardar.php" method="POST" enctype="multipart/form-data" class="card card-body bg-black text-white border-secondary">
+        <?php require_once "../helpers/CSRF.php"; echo CSRF::campoFormulario(); ?>
         <input type="hidden" name="id" value="<?= htmlspecialchars($noticia['id']) ?>">
         <input type="hidden" name="imagen_actual" value="<?= htmlspecialchars($noticia['imagen']) ?>">
 

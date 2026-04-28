@@ -185,8 +185,8 @@ if (!empty($pelicula['fecha_estreno']) && strtotime($pelicula['fecha_estreno']) 
                                 </span>
                                 <span>
                                     <?= $esProximamente
-                                        ? ($esFavorita ? 'En mi lista' : 'Añadir a mi lista')
-                                        : ($esFavorita ? 'En favoritas' : 'Añadir a favoritas') ?>
+                                        ? ($esFavorita ? 'En mi lista' : 'Aúadir a mi lista')
+                                        : ($esFavorita ? 'En favoritas' : 'Aúadir a favoritas') ?>
                                 </span>
                             </button>
                         </form>

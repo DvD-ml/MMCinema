@@ -46,7 +46,7 @@ $temporadas = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <h1 class="mb-1">Temporadas</h1>
             <p class="text-muted mb-0">Puedes filtrar por serie para trabajar más cómodo.</p>
         </div>
-        <a href="agregar_temporada.php<?= $idSerieFiltro > 0 ? '?id_serie=' . $idSerieFiltro : '' ?>" class="btn btn-primary">+ Añadir temporada</a>
+        <a href="agregar_temporada.php<?= $idSerieFiltro > 0 ? '?id_serie=' . $idSerieFiltro : '' ?>" class="btn btn-primary">+ Aúadir temporada</a>
     </div>
 
     <?php mm_render_series_admin_nav('temporadas', ['id_serie' => $idSerieFiltro]); ?>

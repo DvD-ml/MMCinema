@@ -50,7 +50,7 @@ $episodios = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <h1 class="mb-1">Episodios</h1>
             <p class="text-muted mb-0">Puedes filtrar por temporada para tenerlo ordenado.</p>
         </div>
-        <a href="agregar_episodio.php<?= $idTemporadaFiltro > 0 ? '?id_temporada=' . $idTemporadaFiltro : '' ?>" class="btn btn-primary">+ Añadir episodio</a>
+        <a href="agregar_episodio.php<?= $idTemporadaFiltro > 0 ? '?id_temporada=' . $idTemporadaFiltro : '' ?>" class="btn btn-primary">+ Aúadir episodio</a>
     </div>
 
     <?php mm_render_series_admin_nav('episodios', ['id_temporada' => $idTemporadaFiltro]); ?>

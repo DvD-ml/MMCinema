@@ -70,7 +70,7 @@ $stmCarousel->execute();
 $carouselPeliculas = $stmCarousel->fetchAll(PDO::FETCH_ASSOC);
 
 /* =========================================
-   PRÑ“XIMOS ESTRENOS
+   PRÚ“XIMOS ESTRENOS
 ========================================= */
 $sqlProximas = "
     SELECT
@@ -93,7 +93,7 @@ $stmProximas->execute();
 $proximas = $stmProximas->fetchAll(PDO::FETCH_ASSOC);
 
 /* =========================================
-   ÑšLTIMAS NOTICIAS
+   ÚLTIMAS NOTICIAS
 ========================================= */
 $sqlNoticias = "
     SELECT id, titulo, contenido, imagen, publicado
@@ -148,7 +148,7 @@ $stmMejorUsuario->execute();
 $mejorUsuario = $stmMejorUsuario->fetch(PDO::FETCH_ASSOC);
 
 /* =========================================
-   ESTADÑSTICAS GENERALES
+   ESTADÚSTICAS GENERALES
 ========================================= */
 $totalCartelera = (int)$pdo->query("SELECT COUNT(*) FROM pelicula WHERE fecha_estreno <= CURDATE()")->fetchColumn();
 $totalProximas  = (int)$pdo->query("SELECT COUNT(*) FROM pelicula WHERE fecha_estreno > CURDATE()")->fetchColumn();
@@ -156,7 +156,7 @@ $totalNoticias  = (int)$pdo->query("SELECT COUNT(*) FROM noticia")->fetchColumn(
 $totalUsuarios  = (int)$pdo->query("SELECT COUNT(*) FROM usuario")->fetchColumn();
 
 /* =========================================
-   FUNCIÑ“N ESTRELLAS
+   FUNCIÚ“N ESTRELLAS
 ========================================= */
 function mm_stars($media): string
 {
@@ -253,7 +253,7 @@ function mm_stars($media): string
                                 $categorias_con_badge = ['proximamente', 'nueva_temporada', 'nuevo_episodio'];
                                 $categoria_lower = strtolower($p['categoria']);
                                 if (in_array($categoria_lower, $categorias_con_badge)): 
-                                    // Determinar el texto del badge segÑºn la categoría
+                                    // Determinar el texto del badge segÚºn la categoría
                                     $badge_texto = '';
                                     if ($categoria_lower === 'proximamente' && $p['fecha_estreno_contenido']) {
                                         $meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
@@ -322,7 +322,7 @@ function mm_stars($media): string
     </section>
 
     <!-- =========================================
-         ESTADÑSTICAS
+         ESTADÚSTICAS
     ========================================== -->
     <section class="home-section">
         <div class="container">
@@ -348,7 +348,7 @@ function mm_stars($media): string
     </section>
 
     <!-- =========================================
-         PRÑ“XIMOS ESTRENOS
+         PRÚ“XIMOS ESTRENOS
     ========================================== -->
     <section class="home-section">
         <div class="container">
@@ -448,12 +448,12 @@ function mm_stars($media): string
     </section>
 
     <!-- =========================================
-         ÑšLTIMAS NOTICIAS
+         ÚLTIMAS NOTICIAS
     ========================================== -->
     <section class="home-section">
         <div class="container">
             <div class="section-heading">
-                <h2>Ñšltimas noticias</h2>
+                <h2>Últimas noticias</h2>
                 <p>Las novedades más recientes del universo del cine en MMCinema.</p>
             </div>
 
