@@ -57,6 +57,21 @@ if (!$serie) {
     die("La serie no existe.");
 }
 
+/* VERIFICAR SI ESTÁ EN FAVORITOS */
+$usuario_id = isset($_SESSION['usuario_id']) ? (int)$_SESSION['usuario_id'] : 0;
+$esFavorito = false;
+
+if ($usuario_id > 0) {
+    $stmF = $pdo->prepare("
+        SELECT id
+        FROM favorito_serie
+        WHERE id_usuario = ? AND id_serie = ?
+        LIMIT 1
+    ");
+    $stmF->execute([$usuario_id, $idSerie]);
+    $esFavorito = (bool)$stmF->fetch(PDO::FETCH_ASSOC);
+}
+
 /* SERIES DE LA MISMA PLATAFORMA */
 $seriesPlataformaTop = [];
 $seriesPlataforma = [];
@@ -173,8 +188,8 @@ $criticas = $stmtCriticas->fetchAll(PDO::FETCH_ASSOC);
     <title><?= htmlspecialchars($serie['titulo']) ?> | MMCINEMA</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/series.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/series.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
@@ -186,7 +201,7 @@ $criticas = $stmtCriticas->fetchAll(PDO::FETCH_ASSOC);
     <section class="serie-hero-detalle" style="
         background:
         linear-gradient(90deg, rgba(7,10,18,.95) 0%, rgba(7,10,18,.75) 45%, rgba(7,10,18,.92) 100%),
-        url('<?= !empty($serie['banner']) ? htmlspecialchars($serie['banner']) : htmlspecialchars($serie['poster']) ?>') center/cover no-repeat;
+        url('<?= !empty($serie['banner']) ? htmlspecialchars($serie['banner']) : 'assets/img/series/banners/default-banner.webp' ?>') center/cover no-repeat;
     ">
         <div class="container py-5">
             <div class="row align-items-center g-4">
@@ -232,7 +247,15 @@ $criticas = $stmtCriticas->fetchAll(PDO::FETCH_ASSOC);
                             </a>
                         <?php endif; ?>
 
-                        
+                        <?php if ($usuario_id > 0): ?>
+                            <form action="backend/toggle_favorito_serie.php" method="POST" class="detalle-mi-lista-form">
+                                <input type="hidden" name="serie_id" value="<?= (int)$serie['id'] ?>">
+                                <input type="hidden" name="redirect" value="serie.php?id=<?= (int)$serie['id'] ?>">
+                                <button type="submit" class="btn <?= $esFavorito ? 'btn-success' : 'btn-outline-light' ?> fw-semibold">
+                                    <?= $esFavorito ? '✓ En favoritas' : '+ Añadir a favoritas' ?>
+                                </button>
+                            </form>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -372,7 +395,6 @@ $criticas = $stmtCriticas->fetchAll(PDO::FETCH_ASSOC);
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between align-items-center mb-2">
                                         <strong><?= htmlspecialchars($critica['username'] ?: 'Anónimo') ?></strong>
-                                        <span class="badge bg-warning text-dark"><?= (int)$critica['puntuacion'] ?>/5</span>
                                     </div>
 
                                     <div class="premium-rating mb-3">

@@ -20,8 +20,8 @@ if (!$serie) die("Serie no encontrada.");
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $titulo = trim($_POST["titulo"] ?? "");
     $sinopsis = trim($_POST["sinopsis"] ?? "");
-    $poster = mm_upload_image($_FILES['poster_file'] ?? [], 'img/series/posters', 'serie_poster', $serie['poster'] ?? null);
-    $banner = mm_upload_image($_FILES['banner_file'] ?? [], 'img/series/banners', 'serie_banner', $serie['banner'] ?? null);
+    $poster = mm_upload_image($_FILES['poster_file'] ?? [], 'assets/img/series/posters', 'serie_poster', $serie['poster'] ?? null);
+    $banner = mm_upload_image($_FILES['banner_file'] ?? [], 'assets/img/series/banners', 'serie_banner', $serie['banner'] ?? null);
     $fecha_estreno = !empty($_POST["fecha_estreno"]) ? $_POST["fecha_estreno"] : null;
     $edad = trim($_POST["edad"] ?? "");
     $id_genero = !empty($_POST["id_genero"]) ? (int)$_POST["id_genero"] : null;
@@ -62,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <meta charset="UTF-8">
     <title>Editar serie | MMCINEMA</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="admin-body">

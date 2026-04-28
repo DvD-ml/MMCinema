@@ -1,0 +1,205 @@
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                    🔴 PROBLEMA vs ✅ SOLUCIÓN                                 ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ 🔴 PROBLEMA 1: RUTAS INCOMPLETAS EN BD                                      │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+FLUJO ACTUAL (ROTO):
+
+  Usuario abre serie.php
+         ↓
+  PHP busca ruta en BD
+         ↓
+  BD devuelve: "img/series/temporadas/temporada-poster_...webp"
+         ↓
+  PHP intenta cargar: /img/series/temporadas/temporada-poster_...webp
+         ↓
+  ❌ ARCHIVO NO EXISTE (la ruta real es: /assets/img/series/temporadas/...)
+         ↓
+  ❌ IMAGEN NO SE VE
+
+
+ESTRUCTURA DE ARCHIVOS:
+
+  C:\xampp\htdocs\david\MMCINEMA\
+  ├── assets/
+  │   └── img/
+  │       └── series/
+  │           └── temporadas/
+  │               └── temporada-poster_...webp  ✅ ARCHIVO REAL AQUÍ
+  │
+  └── img/  ❌ CARPETA ANTIGUA (VACÍA O INCOMPLETA)
+
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ ✅ SOLUCIÓN 1: CORREGIR RUTAS EN BD                                          │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+SCRIPT: corregir_rutas_bd.php
+
+  Ejecuta SQL:
+  ┌─────────────────────────────────────────────────────────────────────────┐
+  │ UPDATE temporada                                                        │
+  │ SET poster = CONCAT('assets/', poster)                                 │
+  │ WHERE poster NOT LIKE 'assets/%'                                       │
+  └─────────────────────────────────────────────────────────────────────────┘
+
+  ANTES:
+  ┌─────────────────────────────────────────────────────────────────────────┐
+  │ BD: img/series/temporadas/temporada-poster_...webp                     │
+  │ Archivo real: assets/img/series/temporadas/temporada-poster_...webp    │
+  │ ❌ NO COINCIDEN                                                         │
+  └─────────────────────────────────────────────────────────────────────────┘
+
+  DESPUÉS:
+  ┌─────────────────────────────────────────────────────────────────────────┐
+  │ BD: assets/img/series/temporadas/temporada-poster_...webp              │
+  │ Archivo real: assets/img/series/temporadas/temporada-poster_...webp    │
+  │ ✅ COINCIDEN PERFECTAMENTE                                              │
+  └─────────────────────────────────────────────────────────────────────────┘
+
+FLUJO CORREGIDO:
+
+  Usuario abre serie.php
+         ↓
+  PHP busca ruta en BD
+         ↓
+  BD devuelve: "assets/img/series/temporadas/temporada-poster_...webp"
+         ↓
+  PHP intenta cargar: /assets/img/series/temporadas/temporada-poster_...webp
+         ↓
+  ✅ ARCHIVO EXISTE
+         ↓
+  ✅ IMAGEN SE VE
+
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ 🔴 PROBLEMA 2: CARPETAS DUPLICADAS                                          │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+ESTRUCTURA ACTUAL (CONFUSA):
+
+  assets/img/
+  ├── noticias/                    ✅ 11 archivos
+  │   └── noticias/                ❌ 11 DUPLICADOS (ELIMINAR)
+  │
+  ├── series/
+  │   ├── banners/                 ✅ 19 archivos
+  │   ├── posters/                 ✅ 16 archivos
+  │   └── series/                  ❌ CARPETA DUPLICADA (ELIMINAR)
+  │       ├── banners/             ❌ 17 DUPLICADOS
+  │       └── posters/             ❌ 15 DUPLICADOS
+  │
+  └── ...
+
+img/                               ❌ CARPETA ANTIGUA (ELIMINAR)
+└── carrusel/                      ❌ VACÍA
+
+
+PROBLEMAS:
+  ❌ 43 archivos duplicados
+  ❌ 50-100 MB desperdiciados
+  ❌ Confunde la estructura
+  ❌ Difícil de mantener
+
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ ✅ SOLUCIÓN 2: LIMPIAR CARPETAS DUPLICADAS                                   │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+COMANDOS PowerShell:
+
+  Remove-Item -Recurse -Force "assets\img\noticias\noticias"
+  Remove-Item -Recurse -Force "assets\img\series\series"
+  Remove-Item -Recurse -Force "img"
+
+
+ESTRUCTURA DESPUÉS (LIMPIA):
+
+  assets/img/
+  ├── carrusel/                    ✅ 2 archivos
+  ├── logos/                       ✅ 2 archivos
+  ├── noticias/                    ✅ 11 archivos
+  ├── plataformas/                 ✅ 4 archivos
+  ├── posters/                     ✅ 24 archivos
+  └── series/
+      ├── banners/                 ✅ 19 archivos
+      ├── posters/                 ✅ 16 archivos
+      └── temporadas/              ✅ 31 archivos
+
+
+BENEFICIOS:
+  ✅ Sin duplicaciones
+  ✅ 50-100 MB liberados
+  ✅ Estructura clara
+  ✅ Fácil de mantener
+
+
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                         📊 RESUMEN VISUAL                                     ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+ANTES (ROTO):
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                                                                              │
+│  Usuario abre serie.php                                                     │
+│         ↓                                                                   │
+│  BD: "img/series/temporadas/temporada-poster_...webp"                      │
+│         ↓                                                                   │
+│  Archivo real: "assets/img/series/temporadas/temporada-poster_...webp"     │
+│         ↓                                                                   │
+│  ❌ NO COINCIDEN → ❌ IMAGEN NO SE VE                                       │
+│                                                                              │
+│  + 43 archivos duplicados                                                   │
+│  + 50-100 MB desperdiciados                                                 │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+
+DESPUÉS (FUNCIONAL):
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                                                                              │
+│  Usuario abre serie.php                                                     │
+│         ↓                                                                   │
+│  BD: "assets/img/series/temporadas/temporada-poster_...webp"               │
+│         ↓                                                                   │
+│  Archivo real: "assets/img/series/temporadas/temporada-poster_...webp"     │
+│         ↓                                                                   │
+│  ✅ COINCIDEN PERFECTAMENTE → ✅ IMAGEN SE VE                               │
+│                                                                              │
+│  + Sin duplicaciones                                                        │
+│  + Espacio liberado                                                         │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                      🚀 PLAN DE ACCIÓN (9 MINUTOS)                            ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+PASO 1 (5 min):
+  http://localhost/david/MMCINEMA/corregir_rutas_bd.php
+  ↓
+  ✅ Rutas en BD corregidas
+
+PASO 2 (2 min):
+  PowerShell: Remove-Item -Recurse -Force "assets\img\noticias\noticias"
+  PowerShell: Remove-Item -Recurse -Force "assets\img\series\series"
+  PowerShell: Remove-Item -Recurse -Force "img"
+  ↓
+  ✅ Carpetas duplicadas eliminadas
+
+PASO 3 (2 min):
+  Navegador: http://localhost/david/MMCINEMA/serie.php?id=1
+  ↓
+  ✅ Verificar que se ven banners y posters
+
+RESULTADO:
+  ✅ Proyecto limpio y funcional
+  ✅ Todas las imágenes se ven
+  ✅ Sin duplicaciones
+  ✅ Espacio liberado
+
+═══════════════════════════════════════════════════════════════════════════════

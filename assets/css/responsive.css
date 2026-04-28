@@ -1,0 +1,373 @@
+/* ===========================================
+   RESPONSIVE GENERAL
+=========================================== */
+@media (max-width: 1399px) {
+    .film-strip {
+        width: 110px;
+        --film-duration: 24s;
+    }
+}
+
+@media (max-width: 1200px) {
+    .film-strip {
+        display: none;
+    }
+
+    .carousel-category-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    }
+}
+
+@media (max-width: 991.98px) {
+    .detalle-sinopsis-netflix {
+        font-size: 1rem;
+        line-height: 1.7;
+    }
+
+    .buscador-nav-form {
+        min-width: 100%;
+    }
+
+    .buscador-nav-input {
+        min-width: 0;
+    }
+
+    .section-heading-flex {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .series-hero-box {
+        padding: 46px 24px;
+    }
+
+    .episodio-item {
+        grid-template-columns: 1fr;
+    }
+
+    .episodio-meta {
+        text-align: left;
+    }
+
+    .temporada-head {
+        flex-direction: column;
+    }
+
+    .admin-topbar {
+        padding: 16px 14px;
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .admin-topbar-right {
+        width: 100%;
+    }
+
+    .premium-slide-card,
+    .premium-empty-hero {
+        min-height: 600px;
+    }
+
+    .premium-slide-content,
+    .premium-empty-content {
+        max-width: 100%;
+        padding: 60px 40px 40px;
+    }
+
+    .premium-slide-content h1,
+    .premium-empty-content h1 {
+        font-size: clamp(2rem, 5vw, 3.5rem);
+    }
+
+    .hero-btn-row .btn {
+        padding: 10px 24px;
+        font-size: 0.95rem;
+    }
+
+    .carousel-category-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 12px;
+    }
+
+    .carousel-category-title {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+    }
+
+    .home-stats-grid {
+        grid-template-columns: repeat(2, minmax(140px, 1fr));
+    }
+
+    .best-user-box {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .best-user-stats {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .perfil-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .perfil-avatar {
+        width: 48px;
+        height: 48px;
+        font-size: 20px;
+    }
+
+    .pelicula-card img {
+        height: 420px;
+    }
+
+    .noticia-card img {
+        height: 220px;
+    }
+
+    .reveal-card {
+        transform: translateY(20px);
+        filter: blur(2px);
+    }
+
+    .cine-pagination {
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .cine-page-nav {
+        padding: 10px 16px;
+        font-size: 13px;
+    }
+
+    .cine-page-number {
+        width: 38px;
+        height: 38px;
+        font-size: 15px;
+    }
+
+    .perfil-tabs {
+        gap: 18px;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .favorita-perfil-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .favorita-perfil-poster {
+        width: 100%;
+        max-width: 180px;
+        height: 250px;
+    }
+
+    .favorita-perfil-acciones {
+        width: 100%;
+        align-items: flex-start;
+    }
+
+    .detalle-meta-netflix {
+        gap: 8px;
+    }
+
+    .detalle-meta-netflix span {
+        font-size: 0.82rem;
+        padding: 7px 11px;
+    }
+
+    .detalle-acciones-netflix {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .detalle-btn-main,
+    .detalle-mi-lista-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .detalle-trailer-box {
+        padding: 14px;
+    }
+
+    .criticas-tabs {
+        gap: 22px;
+    }
+
+    .criticas-tab-btn {
+        font-size: 1rem;
+    }
+
+    .premium-slide-card,
+    .premium-empty-hero {
+        min-height: 500px;
+    }
+
+    .premium-slide-content,
+    .premium-empty-content {
+        padding: 40px 24px 30px;
+    }
+
+    .premium-slide-content h1,
+    .premium-empty-content h1 {
+        font-size: clamp(1.8rem, 4vw, 2.8rem);
+        margin-bottom: 16px;
+    }
+
+    .premium-hero-badge {
+        margin-bottom: 12px;
+        padding: 6px 12px;
+        font-size: 0.75rem;
+    }
+
+    .premium-rating {
+        margin-bottom: 16px;
+    }
+
+    .hero-btn-row {
+        gap: 10px;
+    }
+
+    .hero-btn-row .btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+
+    .carousel-category-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 10px;
+    }
+
+    .carousel-category-title {
+        font-size: 1.3rem;
+        margin-bottom: 16px;
+    }
+
+    .carousel-item-info h3 {
+        font-size: 0.85rem;
+    }
+
+    .home-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .home-stat-card {
+        padding: 16px 12px;
+    }
+
+    .home-stat-card strong {
+        font-size: 1.5rem;
+    }
+
+    .home-stat-card span {
+        font-size: 0.85rem;
+    }
+
+    .home-section {
+        padding: 32px 0 24px;
+    }
+
+    .section-heading h2,
+    .section-heading-left h2 {
+        font-size: clamp(1.5rem, 3vw, 2.2rem);
+    }
+
+    .best-user-avatar {
+        width: 80px;
+        height: 80px;
+        font-size: 2rem;
+    }
+
+    .best-user-content h3 {
+        font-size: clamp(1.2rem, 2vw, 1.8rem);
+    }
+}
+
+@media (max-width: 767.98px) {
+    .series-row-scroll {
+        grid-auto-columns: minmax(180px, 180px);
+    }
+
+    .serie-mini-poster img {
+        height: 270px;
+    }
+
+    .series-hero-content h1 {
+        font-size: 2.5rem;
+    }
+
+    .premium-slide-card,
+    .premium-empty-hero {
+        min-height: 400px;
+    }
+
+    .premium-slide-content,
+    .premium-empty-content {
+        padding: 30px 16px 20px;
+    }
+
+    .hero-btn-row {
+        flex-direction: column;
+    }
+
+    .hero-btn-row .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .premium-description,
+    .premium-empty-content p {
+        font-size: 1rem;
+    }
+
+    .premium-meta {
+        gap: 8px;
+    }
+
+    .premium-meta span {
+        font-size: 0.84rem;
+    }
+
+    .experience-home-box,
+    .home-final-cta,
+    .best-user-box {
+        padding: 24px 18px;
+    }
+
+    .carousel-category-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 8px;
+    }
+
+    .carousel-category-title {
+        font-size: 1.1rem;
+        margin-bottom: 12px;
+    }
+
+    .carousel-item-info h3 {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 479.98px) {
+    .home-stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .premium-slide-card,
+    .premium-empty-hero {
+        min-height: 350px;
+    }
+
+    .premium-slide-content h1,
+    .premium-empty-content h1 {
+        font-size: clamp(1.5rem, 3vw, 2.2rem);
+        margin-bottom: 12px;
+    }
+}

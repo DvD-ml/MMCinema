@@ -115,8 +115,12 @@ function optimizarYGuardarWebp(
 
     $imagenNueva = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
 
-    $fondo = imagecolorallocate($imagenNueva, 16, 17, 22);
-    imagefill($imagenNueva, 0, 0, $fondo);
+    // Preservar transparencia para PNG y WebP
+    imagealphablending($imagenNueva, false);
+    imagesavealpha($imagenNueva, true);
+    $transparent = imagecolorallocatealpha($imagenNueva, 0, 0, 0, 127);
+    imagefill($imagenNueva, 0, 0, $transparent);
+    imagealphablending($imagenNueva, true);
 
     imagecopyresampled(
         $imagenNueva,

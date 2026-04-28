@@ -57,7 +57,7 @@ $COLS = range(1, $numCols);
 
 // Poster: en la BD guardas SOLO nombre (ej: 4.jpg)
 $posterFile = trim($info['poster'] ?? '');
-$posterWeb  = "assets/posters/" . $posterFile; // ruta web
+$posterWeb  = "assets/img/posters/" . $posterFile; // ruta web
 $posterAbs  = __DIR__ . "/" . $posterWeb;      // ruta real
 $posterOk   = ($posterFile !== '' && file_exists($posterAbs));
 ?>

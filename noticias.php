@@ -50,7 +50,7 @@ function mm_noticias_url(int $paginaDestino): string {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Tu CSS -->
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
 
@@ -70,7 +70,7 @@ function mm_noticias_url(int $paginaDestino): string {
                 <div class="col-md-6 col-lg-4">
                     <article class="card h-100 noticia-card">
                         <img
-                            src="img/noticias/<?= htmlspecialchars($img) ?>"
+                            src="assets/img/noticias/<?= htmlspecialchars($img) ?>"
                             class="card-img-top"
                             alt="Imagen de <?= htmlspecialchars($n['titulo']) ?>"
                         >
@@ -132,5 +132,6 @@ function mm_noticias_url(int $paginaDestino): string {
 <?php include "footer.php"; ?>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- <?php include "includes/lenis-scripts.php"; ?> -->
 </body>
 </html>

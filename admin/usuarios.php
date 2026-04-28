@@ -2,6 +2,8 @@
 require_once "auth.php";
 require_once "../config/conexion.php";
 
+verificarAuth();
+
 $sql = "SELECT id, username, email, rol, creado FROM usuario ORDER BY id DESC";
 $usuarios = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -11,7 +13,7 @@ $usuarios = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <title>Gestionar usuarios</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="admin-body">

@@ -12,7 +12,8 @@ if (!empty($_SESSION['usuario_id'])) {
   <title>MMCinema | Login</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/custom-checkbox.css">
 </head>
 <body>
 <?php include "navbar.php"; ?>
@@ -62,8 +63,47 @@ if (!empty($_SESSION['usuario_id'])) {
     <?php endif; ?>
 
     <?php if (isset($_GET['error']) && $_GET['error'] === 'no_verificado'): ?>
-      <div class="alert alert-warning">
-        Debes verificar tu correo antes de iniciar sesión.
+      <div class="alert alert-warning" style="border-left: 4px solid #f59e0b;">
+        <h5 class="alert-heading mb-2">⚠️ Cuenta no verificada</h5>
+        <p class="mb-2">Debes verificar tu correo electrónico antes de iniciar sesión.</p>
+        <p class="mb-2">Revisa tu bandeja de entrada y la carpeta de <strong>spam</strong>.</p>
+        <hr style="border-color: rgba(245, 158, 11, 0.3);">
+        <p class="mb-0">
+          ¿No recibiste el correo? 
+          <a href="reenviar_verificacion.php<?php echo isset($_GET['email']) ? '?email=' . urlencode($_GET['email']) : ''; ?>" 
+             class="alert-link fw-bold" 
+             style="text-decoration: underline;">
+            Reenviar correo de verificación →
+          </a>
+        </p>
+      </div>
+    <?php endif; ?>
+
+    <?php if (isset($_GET['reenvio']) && $_GET['reenvio'] === 'ok'): ?>
+      <div class="alert alert-success" style="border-left: 4px solid #10b981;">
+        <h5 class="alert-heading mb-2">✅ Correo reenviado</h5>
+        <p class="mb-0">Te hemos enviado un nuevo correo de verificación. Revisa tu bandeja de entrada y la carpeta de spam.</p>
+      </div>
+    <?php endif; ?>
+
+    <?php if (isset($_GET['reenvio']) && $_GET['reenvio'] === 'error'): ?>
+      <div class="alert alert-danger" style="border-left: 4px solid #ef4444;">
+        <h5 class="alert-heading mb-2">❌ Error al enviar</h5>
+        <p class="mb-0">No se pudo reenviar el correo. Inténtalo de nuevo más tarde.</p>
+      </div>
+    <?php endif; ?>
+
+    <?php if (isset($_GET['reenvio']) && $_GET['reenvio'] === 'ya_verificado'): ?>
+      <div class="alert alert-info" style="border-left: 4px solid #3b82f6;">
+        <h5 class="alert-heading mb-2">ℹ️ Cuenta ya verificada</h5>
+        <p class="mb-0">Tu cuenta ya está verificada. Puedes iniciar sesión normalmente.</p>
+      </div>
+    <?php endif; ?>
+
+    <?php if (isset($_GET['reenvio']) && $_GET['reenvio'] === 'no_existe'): ?>
+      <div class="alert alert-danger" style="border-left: 4px solid #ef4444;">
+        <h5 class="alert-heading mb-2">❌ Email no encontrado</h5>
+        <p class="mb-0">No existe ninguna cuenta con ese correo electrónico.</p>
       </div>
     <?php endif; ?>
 
@@ -85,18 +125,45 @@ if (!empty($_SESSION['usuario_id'])) {
       </div>
     <?php endif; ?>
 
-    <form action="backend/login.php" method="POST">
+    <form action="backend/login.php" method="POST" autocomplete="on" id="loginForm">
       <div class="mb-3">
         <label class="form-label" for="email">Email</label>
-        <input type="email" id="email" name="email" class="form-control" required>
+        <input 
+          type="email" 
+          id="email" 
+          name="email" 
+          class="form-control" 
+          autocomplete="email"
+          required
+          autofocus>
       </div>
 
       <div class="mb-3">
         <label class="form-label" for="password">Contraseña</label>
-        <input type="password" id="password" name="password" class="form-control" required>
+        <input 
+          type="password" 
+          id="password" 
+          name="password" 
+          class="form-control" 
+          autocomplete="current-password"
+          required>
       </div>
 
-      <button class="btn btn-primary w-100" type="submit">Entrar</button>
+      <div class="mb-3">
+        <div class="custom-checkbox-wrapper">
+          <input type="checkbox" class="custom-checkbox-input" id="recordar" name="recordar" value="1" checked>
+          <label class="custom-checkbox-label" for="recordar">
+            <span class="custom-checkbox-box">
+              <svg class="custom-checkbox-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </span>
+            <span class="custom-checkbox-text">Recordar mi sesión durante 30 días</span>
+          </label>
+        </div>
+      </div>
+
+      <button class="btn btn-primary w-100" type="submit" name="login">Entrar</button>
     </form>
     <div class="text-center mt-3">
       <small><a href="olvide_password.php">¿Has olvidado tu contraseña?</a></small>
@@ -110,5 +177,21 @@ if (!empty($_SESSION['usuario_id'])) {
 
 <?php include "footer.php"; ?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// Ayudar al navegador a detectar el formulario de login
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('loginForm');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    
+    // Asegurar que el navegador reconozca los campos
+    emailInput.setAttribute('autocomplete', 'username email');
+    passwordInput.setAttribute('autocomplete', 'current-password');
+    
+    // Marcar el formulario como formulario de login
+    form.setAttribute('data-form-type', 'login');
+});
+</script>
+<!-- <?php include "includes/lenis-scripts.php"; ?> -->
 </body>
 </html>

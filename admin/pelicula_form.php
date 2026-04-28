@@ -66,7 +66,7 @@ $generos = $pdo->query("SELECT id, nombre FROM genero ORDER BY nombre")->fetchAl
             <?php if (!empty($pelicula['poster'])): ?>
                 <div class="mt-3">
                     <p class="mb-2 small text-light">Poster actual:</p>
-                    <img src="../img/posters/<?= htmlspecialchars($pelicula['poster']) ?>" alt="Poster actual" style="max-width: 180px; border-radius: 10px;">
+                    <img src="../assets/img/posters/<?= htmlspecialchars($pelicula['poster']) ?>" alt="Poster actual" style="max-width: 180px; border-radius: 10px;">
                 </div>
             <?php endif; ?>
 

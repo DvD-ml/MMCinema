@@ -75,9 +75,9 @@ $asientos = $stm2->fetchAll(PDO::FETCH_COLUMN);
 $asientosTxt = implode(", ", $asientos);
 
 $posterFile = trim($ticket['poster'] ?? '');
-$posterAbs  = __DIR__ . "/img/posters/" . $posterFile;
+$posterAbs  = __DIR__ . "/assets/img/posters/" . $posterFile;
 $posterForPdf = mm_pdf_image_path($posterAbs);
-$logoForPdf = mm_pdf_image_path(__DIR__ . "/assets/img/logo.png") ?: mm_pdf_image_path(__DIR__ . "/img/logo2.png");
+$logoForPdf = mm_pdf_image_path(__DIR__ . "/assets/img/logo.png") ?: mm_pdf_image_path(__DIR__ . "/assets/img/logo2.png");
 
 class PDF extends FPDF {
   public $dark = [0,0,0];

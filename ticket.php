@@ -33,7 +33,7 @@ $asientos = $stm2->fetchAll(PDO::FETCH_COLUMN);
 
 // Poster (BD guarda "4.jpg")
 $posterFile = trim($ticket['poster'] ?? '');
-$posterWeb  = "assets/posters/" . $posterFile;
+$posterWeb  = "assets/img/posters/" . $posterFile;
 $posterAbs  = __DIR__ . "/" . $posterWeb;
 $posterOk   = ($posterFile !== '' && file_exists($posterAbs));
 ?>
@@ -42,7 +42,7 @@ $posterOk   = ($posterFile !== '' && file_exists($posterAbs));
 <head>
   <meta charset="utf-8">
   <title>Tu Ticket</title>
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="assets/css/styles.css">
   <style>
     body { font-family: Arial, sans-serif; background:#0b1220; color:#e5e7eb; margin:0; }
     .card { max-width: 820px; margin: 30px auto; background:#111827; border-radius:14px; padding:20px; }

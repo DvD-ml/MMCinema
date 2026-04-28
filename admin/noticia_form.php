@@ -59,7 +59,7 @@ if ($id > 0) {
             <?php if (!empty($noticia['imagen'])): ?>
                 <div class="mt-3">
                     <p class="mb-2 small text-light">Imagen actual:</p>
-                    <img src="../img/noticias/<?= htmlspecialchars($noticia['imagen']) ?>" alt="Imagen actual" style="max-width: 220px; border-radius: 10px;">
+                    <img src="../assets/img/noticias/<?= htmlspecialchars($noticia['imagen']) ?>" alt="Imagen actual" style="max-width: 220px; border-radius: 10px;">
                 </div>
             <?php endif; ?>
 

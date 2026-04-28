@@ -94,9 +94,11 @@ if (!empty($pelicula['fecha_estreno']) && strtotime($pelicula['fecha_estreno']) 
     <meta charset="utf-8">
     <title>MMCinema | <?= htmlspecialchars($pelicula['titulo']) ?></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
 
@@ -108,7 +110,7 @@ if (!empty($pelicula['fecha_estreno']) && strtotime($pelicula['fecha_estreno']) 
         <div class="col-md-4 mb-4 mb-md-0">
             <div class="detalle-poster-netflix">
                 <img
-                    src="img/posters/<?= htmlspecialchars($pelicula['poster'] ?: 'placeholder.jpg') ?>"
+                    src="assets/img/posters/<?= htmlspecialchars($pelicula['poster'] ?: 'placeholder.jpg') ?>"
                     class="img-fluid rounded shadow"
                     alt="<?= htmlspecialchars($pelicula['titulo']) ?>"
                 >
@@ -297,5 +299,6 @@ if (!empty($pelicula['fecha_estreno']) && strtotime($pelicula['fecha_estreno']) 
 
 <?php include "footer.php"; ?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- <?php include "includes/lenis-scripts.php"; ?> -->
 </body>
 </html>

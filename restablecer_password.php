@@ -33,8 +33,11 @@ if (empty($usuario['reset_expira']) || strtotime($usuario['reset_expira']) < tim
     <meta charset="utf-8">
     <title>MMCinema | Nueva contraseña</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
 <?php include "navbar.php"; ?>
@@ -71,5 +74,6 @@ if (empty($usuario['reset_expira']) || strtotime($usuario['reset_expira']) < tim
 
 <?php include "footer.php"; ?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- <?php include "includes/lenis-scripts.php"; ?> -->
 </body>
 </html>

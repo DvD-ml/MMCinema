@@ -11,8 +11,11 @@ if (!empty($_SESSION['usuario_id'])) {
   <meta charset="utf-8">
   <title>MMCinema | Registro</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
 <?php include "navbar.php"; ?>
@@ -45,25 +48,49 @@ if (!empty($_SESSION['usuario_id'])) {
       <div class="alert alert-danger">Ha ocurrido un error al guardar el usuario.</div>
     <?php endif; ?>
 
-    <form action="backend/registro.php" method="POST">
+    <form action="backend/registro.php" method="POST" autocomplete="on">
       <div class="mb-3">
         <label class="form-label" for="username">Nombre de usuario</label>
-        <input type="text" id="username" name="username" class="form-control" required>
+        <input 
+          type="text" 
+          id="username" 
+          name="username" 
+          class="form-control" 
+          autocomplete="username"
+          required>
       </div>
 
       <div class="mb-3">
         <label class="form-label" for="email">Email</label>
-        <input type="email" id="email" name="email" class="form-control" required>
+        <input 
+          type="email" 
+          id="email" 
+          name="email" 
+          class="form-control" 
+          autocomplete="email"
+          required>
       </div>
 
       <div class="mb-3">
         <label class="form-label" for="password">Contraseña</label>
-        <input type="password" id="password" name="password" class="form-control" required>
+        <input 
+          type="password" 
+          id="password" 
+          name="password" 
+          class="form-control" 
+          autocomplete="new-password"
+          required>
       </div>
 
       <div class="mb-3">
         <label class="form-label" for="password_confirm">Repite la contraseña</label>
-        <input type="password" id="password_confirm" name="password_confirm" class="form-control" required>
+        <input 
+          type="password" 
+          id="password_confirm" 
+          name="password_confirm" 
+          class="form-control" 
+          autocomplete="new-password"
+          required>
       </div>
 
       <button class="btn btn-primary w-100" type="submit">Crear cuenta</button>
@@ -77,5 +104,6 @@ if (!empty($_SESSION['usuario_id'])) {
 
 <?php include "footer.php"; ?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- <?php include "includes/lenis-scripts.php"; ?> -->
 </body>
 </html>

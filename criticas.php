@@ -49,8 +49,11 @@ if (!in_array($tabActiva, ['peliculas', 'series'], true)) {
     <meta charset="utf-8">
     <title>MMCinema | Críticas</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
 <?php include "navbar.php"; ?>
@@ -91,7 +94,11 @@ if (!in_array($tabActiva, ['peliculas', 'series'], true)) {
                             </div>
                         </div>
                         <?php if (!empty($c['puntuacion'])): ?>
-                            <span class="badge bg-warning text-dark"><?= (int)$c['puntuacion'] ?>/5</span>
+                            <div class="critica-stars-display">
+                                <?php for ($i = 1; $i <= 5; $i++): ?>
+                                    <span class="star <?= $i <= (int)$c['puntuacion'] ? 'on' : 'off' ?>">★</span>
+                                <?php endfor; ?>
+                            </div>
                         <?php endif; ?>
                     </div>
 
@@ -139,7 +146,11 @@ if (!in_array($tabActiva, ['peliculas', 'series'], true)) {
                             </div>
                         </div>
                         <?php if (!empty($c['puntuacion'])): ?>
-                            <span class="badge bg-warning text-dark"><?= (int)$c['puntuacion'] ?>/5</span>
+                            <div class="critica-stars-display">
+                                <?php for ($i = 1; $i <= 5; $i++): ?>
+                                    <span class="star <?= $i <= (int)$c['puntuacion'] ? 'on' : 'off' ?>">★</span>
+                                <?php endfor; ?>
+                            </div>
                         <?php endif; ?>
                     </div>
 

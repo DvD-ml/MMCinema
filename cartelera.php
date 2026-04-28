@@ -93,9 +93,11 @@ function mm_build_page_url(array $queryBase, int $paginaDestino): string {
     <meta charset="utf-8">
     <title>MMCinema | Cartelera</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
 
@@ -159,7 +161,7 @@ function mm_build_page_url(array $queryBase, int $paginaDestino): string {
                 <div class="col-md-4 mb-4">
                     <div class="card pelicula-card h-100">
                         <img class="card-img-top"
-                             src="img/posters/<?= htmlspecialchars($p['poster'] ?: 'placeholder.jpg') ?>"
+                             src="assets/img/posters/<?= htmlspecialchars($p['poster'] ?: 'placeholder.jpg') ?>"
                              alt="<?= htmlspecialchars($p['titulo']) ?>">
 
                         <div class="card-body d-flex flex-column">
@@ -235,5 +237,6 @@ function mm_build_page_url(array $queryBase, int $paginaDestino): string {
 <?php include "footer.php"; ?>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- <?php include "includes/lenis-scripts.php"; ?> -->
 </body>
 </html>

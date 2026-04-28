@@ -73,8 +73,11 @@ $img = $noticia["imagen"] ?: "noticia-placeholder.jpg";
     <meta charset="utf-8">
     <title>MMCinema | <?= htmlspecialchars($noticia["titulo"]) ?></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
 <?php include "navbar.php"; ?>
@@ -93,7 +96,7 @@ $img = $noticia["imagen"] ?: "noticia-placeholder.jpg";
         <div class="row g-4">
             <div class="col-lg-8">
                 <div class="noticia-hero mb-3">
-                    <img src="img/noticias/?= htmlspecialchars($img) ?>" alt="Imagen de <?= htmlspecialchars($noticia["titulo"]) ?>" class="img-fluid rounded">
+                    <img src="assets/img/noticias/<?= htmlspecialchars($img) ?>" alt="Imagen de <?= htmlspecialchars($noticia["titulo"]) ?>" class="img-fluid rounded">
                 </div>
 
                 <div class="noticia-texto">
@@ -112,7 +115,7 @@ $img = $noticia["imagen"] ?: "noticia-placeholder.jpg";
                     <?php $imgR = $r["imagen"] ?: "noticia-placeholder.jpg"; ?>
                     <div class="col-md-4">
                         <article class="card noticia-card h-100">
-                            <img src="img/noticias/?= htmlspecialchars($imgR) ?>" class="card-img-top" alt="Imagen de <?= htmlspecialchars($r['titulo']) ?>">
+                            <img src="assets/img/noticias/<?= htmlspecialchars($imgR) ?>" class="card-img-top" alt="Imagen de <?= htmlspecialchars($r['titulo']) ?>">
                             <div class="card-body d-flex flex-column">
                                 <h5 class="fw-bold"><?= htmlspecialchars($r["titulo"]) ?></h5>
                                 <p class="text-muted small">Publicado: <?= date('d/m/Y', strtotime($r['publicado'])) ?></p>

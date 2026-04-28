@@ -10,7 +10,7 @@ function mm_nav_active(array $archivos, string $paginaActual): string {
 <nav class="navbar navbar-expand-lg shadow-sm" style="background:#0b0f1a;">
   <div class="container">
     <a class="navbar-brand fw-bold text-white" href="index.php" style="text-decoration:none;">
-      <img src="img/logo2.png" alt="MMCinema" width="110">
+      <img src="assets/img/logo2.png" alt="MMCinema" width="110">
     </a>
 
     <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#menu">

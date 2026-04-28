@@ -25,8 +25,8 @@ $ultimosTickets = $pdo->query("SELECT codigo, total, created_at FROM ticket ORDE
     <meta charset="UTF-8">
     <title>Panel Admin - MMCINEMA</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="../css/styles.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/styles.css">
 </head>
 <body class="admin-body">
 
@@ -79,7 +79,7 @@ $ultimosTickets = $pdo->query("SELECT codigo, total, created_at FROM ticket ORDE
                     <div class="d-grid gap-3">
                         <?php foreach ($ultimasPeliculas as $p): ?>
                             <div class="d-flex gap-3 align-items-center">
-                                <img class="admin-thumb" src="../img/posters/<?= htmlspecialchars($p['poster']) ?>" alt="<?= htmlspecialchars($p['titulo']) ?>">
+                                <img class="admin-thumb" src="../assets/img/posters/<?= htmlspecialchars($p['poster']) ?>" alt="<?= htmlspecialchars($p['titulo']) ?>">
                                 <div>
                                     <strong><?= htmlspecialchars($p['titulo']) ?></strong>
                                     <div class="small text-secondary">Estreno: <?= htmlspecialchars($p['fecha_estreno']) ?></div>

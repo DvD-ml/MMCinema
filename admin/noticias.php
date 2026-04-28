@@ -11,7 +11,7 @@ $noticias = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <title>Administrar noticias</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="admin-body">
@@ -44,7 +44,7 @@ $noticias = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
                     <?php foreach ($noticias as $n): ?>
                         <tr>
                             <td><?= (int)$n['id'] ?></td>
-                            <td><img class="admin-thumb admin-thumb--wide" src="../img/noticias/<?= htmlspecialchars($n['imagen'] ?: 'noticia-placeholder.jpg') ?>" alt="<?= htmlspecialchars($n['titulo']) ?>"></td>
+                            <td><img class="admin-thumb admin-thumb--wide" src="../assets/img/noticias/<?= htmlspecialchars($n['imagen'] ?: 'noticia-placeholder.jpg') ?>" alt="<?= htmlspecialchars($n['titulo']) ?>"></td>
                             <td class="text-wrap-cell"><?= htmlspecialchars($n['titulo']) ?></td>
                             <td><?= htmlspecialchars($n['publicado']) ?></td>
                             <td>

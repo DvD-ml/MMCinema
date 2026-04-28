@@ -11,7 +11,7 @@ $peliculas = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <title>Administrar películas</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="admin-body">
@@ -47,7 +47,7 @@ $peliculas = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
                     <?php foreach ($peliculas as $p): ?>
                         <tr>
                             <td><?= (int)$p['id'] ?></td>
-                            <td><img class="admin-thumb" src="../img/posters/<?= htmlspecialchars($p['poster'] ?: 'placeholder.jpg') ?>" alt="<?= htmlspecialchars($p['titulo']) ?>"></td>
+                            <td><img class="admin-thumb" src="../assets/img/posters/<?= htmlspecialchars($p['poster'] ?: 'placeholder.jpg') ?>" alt="<?= htmlspecialchars($p['titulo']) ?>"></td>
                             <td><?= htmlspecialchars($p['titulo']) ?></td>
                             <td><?= htmlspecialchars($p['genero'] ?? 'Sin género') ?></td>
                             <td><?= htmlspecialchars($p['fecha_estreno']) ?></td>

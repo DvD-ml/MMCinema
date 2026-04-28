@@ -65,7 +65,7 @@ function generarPdfTicketGuardado(array $ticket): string
     $pdf->AddPage();
     $pdf->SetAutoPageBreak(true, 20);
 
-    $logoAbs = mm_pdf_image_path(__DIR__ . '/../assets/img/logo.png') ?: mm_pdf_image_path(__DIR__ . '/../img/logo2.png');
+    $logoAbs = mm_pdf_image_path(__DIR__ . '/../assets/img/logo.png') ?: mm_pdf_image_path(__DIR__ . '/../assets/img/logo2.png');
     if ($logoAbs) {
         $pdf->Image($logoAbs, 10, 6, 18);
     }
@@ -90,7 +90,7 @@ function generarPdfTicketGuardado(array $ticket): string
     $boxX = 10; $boxY = 40; $boxW = 190; $boxH = 120;
     $pdf->Rect($boxX, $boxY, $boxW, $boxH, 'DF');
 
-    $posterAbs = mm_pdf_image_path(__DIR__ . '/../img/posters/' . trim($ticket['poster'] ?? ''));
+    $posterAbs = mm_pdf_image_path(__DIR__ . '/../assets/img/posters/' . trim($ticket['poster'] ?? ''));
     $posterX = $boxX + 4; $posterY = $boxY + 6; $posterW = 55; $posterH = 75;
     $textX   = $posterX + $posterW + 8; $textY = $posterY; $textW = $boxX + $boxW - $textX - 6;
 

@@ -18,7 +18,7 @@ if (isset($_FILES['imagen_file']) && $_FILES['imagen_file']['error'] === UPLOAD_
     try {
         $imagen = optimizarYGuardarWebp(
             $_FILES['imagen_file'],
-            __DIR__ . '/../img/noticias',
+            __DIR__ . '/../assets/img/noticias',
             'noticia_' . $titulo,
             72,
             1400,

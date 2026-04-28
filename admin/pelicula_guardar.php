@@ -26,7 +26,7 @@ if (isset($_FILES['poster_file']) && $_FILES['poster_file']['error'] === UPLOAD_
     try {
         $poster = optimizarYGuardarWebp(
             $_FILES['poster_file'],
-            __DIR__ . '/../img/posters',
+            __DIR__ . '/../assets/img/posters',
             'pelicula_' . $titulo,
             70,
             900,
