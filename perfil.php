@@ -269,7 +269,11 @@ if ($count_val > 0) {
                     <div class="letterboxd-item">
                         <a href="pelicula.php?id=<?= (int)$f['id'] ?>" class="letterboxd-poster-link">
                             <div class="letterboxd-poster">
+<<<<<<< HEAD
                                 <img src="assets/img/posters/<?= htmlspecialchars($f['poster'] ?: 'placeholder.jpg') ?>" 
+=======
+                                <img src="img/posters/<?= htmlspecialchars($f['poster'] ?: 'placeholder.jpg') ?>" 
+>>>>>>> 03e06f2273c9fc762edd1aacddd755207c48626b
                                      alt="<?= htmlspecialchars($f['titulo']) ?>">
                                 <div class="letterboxd-overlay">
                                     <div class="letterboxd-title"><?= htmlspecialchars($f['titulo']) ?></div>
@@ -292,7 +296,11 @@ if ($count_val > 0) {
                     <div class="letterboxd-item">
                         <a href="serie.php?id=<?= (int)$f['id'] ?>" class="letterboxd-poster-link">
                             <div class="letterboxd-poster">
+<<<<<<< HEAD
                                 <img src="assets/img/posters/<?= htmlspecialchars($f['poster'] ?: 'placeholder.jpg') ?>" 
+=======
+                                <img src="<?= htmlspecialchars($f['poster'] ?: 'img/posters/placeholder.jpg') ?>" 
+>>>>>>> 03e06f2273c9fc762edd1aacddd755207c48626b
                                      alt="<?= htmlspecialchars($f['titulo']) ?>">
                                 <div class="letterboxd-overlay">
                                     <div class="letterboxd-title"><?= htmlspecialchars($f['titulo']) ?></div>
@@ -315,7 +323,11 @@ if ($count_val > 0) {
                     <div class="lista-item">
                         <a href="pelicula.php?id=<?= (int)$f['id'] ?>" class="lista-poster-link">
                             <div class="lista-poster">
+<<<<<<< HEAD
                                 <img src="assets/img/posters/<?= htmlspecialchars($f['poster'] ?: 'placeholder.jpg') ?>" 
+=======
+                                <img src="img/posters/<?= htmlspecialchars($f['poster'] ?: 'placeholder.jpg') ?>" 
+>>>>>>> 03e06f2273c9fc762edd1aacddd755207c48626b
                                      alt="<?= htmlspecialchars($f['titulo']) ?>">
                                 <div class="lista-badge">Próximamente</div>
                                 <div class="lista-overlay">
@@ -358,7 +370,11 @@ if ($count_val > 0) {
                             <div class="critica-letterboxd-item" onclick="openCriticaPeliculaModal(<?= $index ?>)">
                                 <div class="critica-poster-link">
                                     <div class="critica-poster">
+<<<<<<< HEAD
                                         <img src="assets/img/posters/<?= htmlspecialchars($c['poster'] ?: 'placeholder.jpg') ?>" 
+=======
+                                        <img src="img/posters/<?= htmlspecialchars($c['poster'] ?: 'placeholder.jpg') ?>" 
+>>>>>>> 03e06f2273c9fc762edd1aacddd755207c48626b
                                              alt="<?= htmlspecialchars($c['titulo']) ?>">
                                     </div>
                                 </div>
@@ -423,7 +439,11 @@ if ($count_val > 0) {
                             <div class="critica-letterboxd-item" onclick="openCriticaSerieModal(<?= $index ?>)">
                                 <div class="critica-poster-link">
                                     <div class="critica-poster">
+<<<<<<< HEAD
                                         <img src="assets/img/posters/<?= htmlspecialchars($c['poster'] ?: 'placeholder.jpg') ?>" 
+=======
+                                        <img src="<?= htmlspecialchars($c['poster'] ?: 'img/posters/placeholder.jpg') ?>" 
+>>>>>>> 03e06f2273c9fc762edd1aacddd755207c48626b
                                              alt="<?= htmlspecialchars($c['titulo']) ?>">
                                     </div>
                                 </div>
@@ -525,7 +545,11 @@ if ($count_val > 0) {
         const critica = criticasPeliculasData[index];
         const modal = document.getElementById('criticaPeliculaModal');
         
+<<<<<<< HEAD
         document.getElementById('modalPeliculaPoster').src = 'assets/img/posters/' + (critica.poster || 'placeholder.jpg');
+=======
+        document.getElementById('modalPeliculaPoster').src = 'img/posters/' + (critica.poster || 'placeholder.jpg');
+>>>>>>> 03e06f2273c9fc762edd1aacddd755207c48626b
         document.getElementById('modalPeliculaTitulo').textContent = critica.titulo || 'Película';
         document.getElementById('modalPeliculaContenido').textContent = critica.contenido || 'Sin crítica escrita.';
         document.getElementById('modalPeliculaFecha').textContent = 'Publicado el ' + new Date(critica.creado).toLocaleDateString('es-ES', {
@@ -563,7 +587,11 @@ if ($count_val > 0) {
         const critica = criticasSeriesData[index];
         const modal = document.getElementById('criticaSerieModal');
         
+<<<<<<< HEAD
         document.getElementById('modalSeriePoster').src = critica.poster ? 'assets/img/posters/' + critica.poster : 'assets/img/posters/placeholder.jpg';
+=======
+        document.getElementById('modalSeriePoster').src = critica.poster || 'img/posters/placeholder.jpg';
+>>>>>>> 03e06f2273c9fc762edd1aacddd755207c48626b
         document.getElementById('modalSerieTitulo').textContent = critica.titulo || 'Serie';
         document.getElementById('modalSerieContenido').textContent = critica.contenido || 'Sin crítica escrita.';
         document.getElementById('modalSerieFecha').textContent = 'Publicado el ' + new Date(critica.creado).toLocaleDateString('es-ES', {

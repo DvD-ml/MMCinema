@@ -161,7 +161,11 @@ unset($queryBase['pagina']);
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<<<<<<< HEAD
     <link rel="stylesheet" href="assets/css/styles.css">
+=======
+    <link rel="stylesheet" href="css/styles.css">
+>>>>>>> 03e06f2273c9fc762edd1aacddd755207c48626b
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>

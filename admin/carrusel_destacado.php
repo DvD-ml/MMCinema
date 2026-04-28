@@ -82,7 +82,11 @@ function crearSlide($datos, $archivos) {
             try {
                 $imagen_fondo = optimizarYGuardarWebp(
                     $archivos['imagen_fondo'],
+<<<<<<< HEAD
                     __DIR__ . '/../assets/img/carrusel',
+=======
+                    __DIR__ . '/../img/carrusel',
+>>>>>>> 03e06f2273c9fc762edd1aacddd755207c48626b
                     'carrusel-' . mm_slug_nombre_archivo($datos['titulo']),
                     90, // Calidad muy alta para fondos (balance perfecto)
                     1920, // Ancho máximo para fondos
@@ -101,7 +105,11 @@ function crearSlide($datos, $archivos) {
             try {
                 $logo_titulo = optimizarYGuardarWebp(
                     $archivos['logo_titulo'],
+<<<<<<< HEAD
                     __DIR__ . '/../assets/img/logos',
+=======
+                    __DIR__ . '/../img/logos',
+>>>>>>> 03e06f2273c9fc762edd1aacddd755207c48626b
                     'logo-' . mm_slug_nombre_archivo($datos['titulo']),
                     90, // Calidad muy alta para logos
                     800, // Ancho máximo para logos
@@ -164,7 +172,11 @@ function actualizarSlide($datos, $archivos) {
             try {
                 $imagen_fondo = optimizarYGuardarWebp(
                     $archivos['imagen_fondo'],
+<<<<<<< HEAD
                     __DIR__ . '/../assets/img/carrusel',
+=======
+                    __DIR__ . '/../img/carrusel',
+>>>>>>> 03e06f2273c9fc762edd1aacddd755207c48626b
                     'carrusel-' . mm_slug_nombre_archivo($datos['titulo']),
                     90, // Calidad muy alta para fondos (balance perfecto)
                     1920, // Ancho máximo para fondos
@@ -182,7 +194,11 @@ function actualizarSlide($datos, $archivos) {
             try {
                 $logo_titulo = optimizarYGuardarWebp(
                     $archivos['logo_titulo'],
+<<<<<<< HEAD
                     __DIR__ . '/../assets/img/logos',
+=======
+                    __DIR__ . '/../img/logos',
+>>>>>>> 03e06f2273c9fc762edd1aacddd755207c48626b
                     'logo-' . mm_slug_nombre_archivo($datos['titulo']),
                     90, // Calidad muy alta para logos
                     800, // Ancho máximo para logos
@@ -248,10 +264,17 @@ function eliminarSlide($id) {
         
         // Eliminar archivos usando la función del sistema
         if ($slide['imagen_fondo']) {
+<<<<<<< HEAD
             mm_borrar_archivo_si_existe(__DIR__ . '/../assets/img/carrusel/' . $slide['imagen_fondo']);
         }
         if ($slide['logo_titulo']) {
             mm_borrar_archivo_si_existe(__DIR__ . '/../assets/img/logos/' . $slide['logo_titulo']);
+=======
+            mm_borrar_archivo_si_existe(__DIR__ . '/../img/carrusel/' . $slide['imagen_fondo']);
+        }
+        if ($slide['logo_titulo']) {
+            mm_borrar_archivo_si_existe(__DIR__ . '/../img/logos/' . $slide['logo_titulo']);
+>>>>>>> 03e06f2273c9fc762edd1aacddd755207c48626b
         }
         
         // Eliminar de BD
@@ -286,7 +309,11 @@ function toggleActivo($id) {
     <title>Gestión Carrusel Destacado - Admin MMCinema</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<<<<<<< HEAD
     <link rel="stylesheet" href="../assets/css/styles.css">
+=======
+    <link rel="stylesheet" href="../css/styles.css">
+>>>>>>> 03e06f2273c9fc762edd1aacddd755207c48626b
     <style>
         /* Vista previa de slides en la tabla */
         .slide-preview {
@@ -407,11 +434,19 @@ function toggleActivo($id) {
                                 </td>
                                 <td>
                                     <div class="slide-preview">
+<<<<<<< HEAD
                                         <img src="../assets/img/carrusel/<?= htmlspecialchars($slide['imagen_fondo']) ?>" 
                                              alt="<?= htmlspecialchars($slide['titulo']) ?>"
                                              class="slide-preview-img">
                                         <?php if ($slide['logo_titulo']): ?>
                                             <img src="../assets/img/logos/<?= htmlspecialchars($slide['logo_titulo']) ?>" 
+=======
+                                        <img src="../img/carrusel/<?= htmlspecialchars($slide['imagen_fondo']) ?>" 
+                                             alt="<?= htmlspecialchars($slide['titulo']) ?>"
+                                             class="slide-preview-img">
+                                        <?php if ($slide['logo_titulo']): ?>
+                                            <img src="../img/logos/<?= htmlspecialchars($slide['logo_titulo']) ?>" 
+>>>>>>> 03e06f2273c9fc762edd1aacddd755207c48626b
                                                  alt="Logo"
                                                  class="slide-preview-logo">
                                         <?php endif; ?>

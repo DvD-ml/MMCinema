@@ -242,7 +242,11 @@ function mm_stars($media): string
                         <div class="carousel-item <?= $i === 0 ? 'active' : '' ?>">
                             <div class="netflix-slide">
                                 <img
+<<<<<<< HEAD
                                     src="assets/img/carrusel/<?= htmlspecialchars($p['imagen_fondo']) ?>"
+=======
+                                    src="img/carrusel/<?= htmlspecialchars($p['imagen_fondo']) ?>"
+>>>>>>> 03e06f2273c9fc762edd1aacddd755207c48626b
                                     class="netflix-slide-bg"
                                     alt="<?= htmlspecialchars($p['titulo']) ?>"
                                     style="object-position: <?= htmlspecialchars($p['imagen_posicion'] ?? 'center') ?>;"
@@ -279,7 +283,11 @@ function mm_stars($media): string
                                 <div class="netflix-slide-content">
                                     <div class="netflix-logo">
                                         <?php if ($p['logo_titulo']): ?>
+<<<<<<< HEAD
                                             <img src="assets/img/logos/<?= htmlspecialchars($p['logo_titulo']) ?>" 
+=======
+                                            <img src="img/logos/<?= htmlspecialchars($p['logo_titulo']) ?>" 
+>>>>>>> 03e06f2273c9fc762edd1aacddd755207c48626b
                                                  alt="<?= htmlspecialchars($p['titulo']) ?>"
                                                  class="netflix-logo-img">
                                         <?php else: ?>

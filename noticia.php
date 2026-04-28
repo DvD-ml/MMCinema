@@ -96,7 +96,11 @@ $img = $noticia["imagen"] ?: "noticia-placeholder.jpg";
         <div class="row g-4">
             <div class="col-lg-8">
                 <div class="noticia-hero mb-3">
+<<<<<<< HEAD
                     <img src="assets/img/noticias/<?= htmlspecialchars($img) ?>" alt="Imagen de <?= htmlspecialchars($noticia["titulo"]) ?>" class="img-fluid rounded">
+=======
+                    <img src="img/noticias/<?= htmlspecialchars($img) ?>" alt="Imagen de <?= htmlspecialchars($noticia["titulo"]) ?>" class="img-fluid rounded">
+>>>>>>> 03e06f2273c9fc762edd1aacddd755207c48626b
                 </div>
 
                 <div class="noticia-texto">
@@ -115,7 +119,11 @@ $img = $noticia["imagen"] ?: "noticia-placeholder.jpg";
                     <?php $imgR = $r["imagen"] ?: "noticia-placeholder.jpg"; ?>
                     <div class="col-md-4">
                         <article class="card noticia-card h-100">
+<<<<<<< HEAD
                             <img src="assets/img/noticias/<?= htmlspecialchars($imgR) ?>" class="card-img-top" alt="Imagen de <?= htmlspecialchars($r['titulo']) ?>">
+=======
+                            <img src="img/noticias/<?= htmlspecialchars($imgR) ?>" class="card-img-top" alt="Imagen de <?= htmlspecialchars($r['titulo']) ?>">
+>>>>>>> 03e06f2273c9fc762edd1aacddd755207c48626b
                             <div class="card-body d-flex flex-column">
                                 <h5 class="fw-bold"><?= htmlspecialchars($r["titulo"]) ?></h5>
                                 <p class="text-muted small">Publicado: <?= date('d/m/Y', strtotime($r['publicado'])) ?></p>

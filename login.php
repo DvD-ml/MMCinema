@@ -12,8 +12,13 @@ if (!empty($_SESSION['usuario_id'])) {
   <title>MMCinema | Login</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<<<<<<< HEAD
   <link rel="stylesheet" href="assets/css/styles.css">
   <link rel="stylesheet" href="assets/css/custom-checkbox.css">
+=======
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/custom-checkbox.css">
+>>>>>>> 03e06f2273c9fc762edd1aacddd755207c48626b
 </head>
 <body>
 <?php include "navbar.php"; ?>
