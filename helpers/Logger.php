@@ -1,105 +1,85 @@
 <?php
 
-/**
- * Clase de logging centralizado
- */
-class Logger
-{
-    private static string $logDir = __DIR__ . '/../logs';
-    private static string $logFile = 'app.log';
+class Logger {
+    private static $logDir = null;
+    private static $logFile = 'app.log';
 
-    /**
-     * Inicializa el directorio de logs
-     */
-    private static function init(): void
-    {
+    private static function init() {
+        if (self::$logDir === null) {
+            self::$logDir = __DIR__ . '/../logs';
+        }
+        
         if (!is_dir(self::$logDir)) {
             mkdir(self::$logDir, 0755, true);
         }
     }
 
-    /**
-     * Escribe un mensaje en el log
-     * 
-     * @param string $nivel Nivel del log (INFO, WARNING, ERROR, etc.)
-     * @param string $mensaje Mensaje a registrar
-     * @param array $contexto Contexto adicional
-     */
-    private static function escribir(string $nivel, string $mensaje, array $contexto = []): void
-    {
+    private static function escribir($nivel, $mensaje, $contexto = []) {
         self::init();
 
         $timestamp = date('Y-m-d H:i:s');
-        $ip = $_SERVER['REMOTE_ADDR'] ?? 'CLI';
-        $usuario = $_SESSION['usuario_id'] ?? 'guest';
+        $ip = 'CLI';
+        if (isset($_SERVER['REMOTE_ADDR'])) {
+            $ip = $_SERVER['REMOTE_ADDR'];
+        }
         
-        $linea = sprintf(
-            "[%s] [%s] [IP: %s] [User: %s] %s",
-            $timestamp,
-            $nivel,
-            $ip,
-            $usuario,
-            $mensaje
-        );
+        $usuario = 'guest';
+        if (isset($_SESSION['usuario_id'])) {
+            $usuario = $_SESSION['usuario_id'];
+        }
+        
+        $linea = "[" . $timestamp . "] [" . $nivel . "] [IP: " . $ip . "] [User: " . $usuario . "] " . $mensaje;
 
         if (!empty($contexto)) {
-            $linea .= ' | Context: ' . json_encode($contexto, JSON_UNESCAPED_UNICODE);
+            $contextoJson = json_encode($contexto, JSON_UNESCAPED_UNICODE);
+            $linea = $linea . " | Context: " . $contextoJson;
         }
 
-        $linea .= PHP_EOL;
+        $linea = $linea . PHP_EOL;
 
         $archivo = self::$logDir . '/' . self::$logFile;
         file_put_contents($archivo, $linea, FILE_APPEND | LOCK_EX);
     }
 
-    /**
-     * Log de información
-     */
-    public static function info(string $mensaje, array $contexto = []): void
-    {
+    public static function info($mensaje, $contexto = []) {
         self::escribir('INFO', $mensaje, $contexto);
     }
 
-    /**
-     * Log de advertencia
-     */
-    public static function warning(string $mensaje, array $contexto = []): void
-    {
+    public static function warning($mensaje, $contexto = []) {
         self::escribir('WARNING', $mensaje, $contexto);
     }
 
-    /**
-     * Log de error
-     */
-    public static function error(string $mensaje, ?\Throwable $exception = null, array $contexto = []): void
-    {
-        if ($exception) {
+    public static function error($mensaje, $exception = null, $contexto = []) {
+        if ($exception !== null) {
+            $mensaje_exception = $exception->getMessage();
+            $file_exception = $exception->getFile();
+            $line_exception = $exception->getLine();
+            $trace_exception = $exception->getTraceAsString();
+            
             $contexto['exception'] = [
-                'message' => $exception->getMessage(),
-                'file' => $exception->getFile(),
-                'line' => $exception->getLine(),
-                'trace' => $exception->getTraceAsString()
+                'message' => $mensaje_exception,
+                'file' => $file_exception,
+                'line' => $line_exception,
+                'trace' => $trace_exception
             ];
         }
 
         self::escribir('ERROR', $mensaje, $contexto);
     }
 
-    /**
-     * Log de debug (solo en desarrollo)
-     */
-    public static function debug(string $mensaje, array $contexto = []): void
-    {
-        if (($_ENV['APP_ENV'] ?? 'production') === 'development') {
+    public static function debug($mensaje, $contexto = []) {
+        $env = 'production';
+        if (isset($_ENV['APP_ENV'])) {
+            $env = $_ENV['APP_ENV'];
+        }
+        
+        if ($env === 'development') {
             self::escribir('DEBUG', $mensaje, $contexto);
         }
     }
 
-    /**
-     * Log de actividad de seguridad
-     */
-    public static function security(string $mensaje, array $contexto = []): void
-    {
+    public static function security($mensaje, $contexto = []) {
         self::escribir('SECURITY', $mensaje, $contexto);
     }
 }
+?>

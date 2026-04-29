@@ -30,7 +30,7 @@ if ($tipo === 'pelicula') {
         $stm = $pdo->prepare($sql);
         $stm->execute([$id_usuario, $id_objeto, $puntuacion, $contenido, $id]);
     } else {
-        $sql = "INSERT INTO critica (id_usuario, id_pelicula, puntuacion, contenido, fecha_creacion)
+        $sql = "INSERT INTO critica (id_usuario, id_pelicula, puntuacion, contenido, creado)
                 VALUES (?, ?, ?, ?, NOW())";
         $stm = $pdo->prepare($sql);
         $stm->execute([$id_usuario, $id_objeto, $puntuacion, $contenido]);
@@ -43,7 +43,7 @@ if ($tipo === 'pelicula') {
         $stm = $pdo->prepare($sql);
         $stm->execute([$id_usuario, $id_objeto, $puntuacion, $contenido, $id]);
     } else {
-        $sql = "INSERT INTO critica_serie (id_usuario, id_serie, puntuacion, contenido, fecha_creacion)
+        $sql = "INSERT INTO critica_serie (id_usuario, id_serie, puntuacion, contenido, creado)
                 VALUES (?, ?, ?, ?, NOW())";
         $stm = $pdo->prepare($sql);
         $stm->execute([$id_usuario, $id_objeto, $puntuacion, $contenido]);

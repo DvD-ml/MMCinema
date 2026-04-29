@@ -1,15 +1,20 @@
 <?php
 require_once "auth.php";
 require_once "../config/conexion.php";
+require_once "../helpers/CSRF.php";
 
-$sala = $_GET['sala'] ?? '';
+CSRF::validarOAbortar();
+
+$sala = '';
+if (isset($_GET['sala'])) {
+    $sala = $_GET['sala'];
+}
 
 if ($sala === '') {
     header("Location: salas.php?error=1");
     exit();
 }
 
-// Verificar si hay proyecciones en esta sala
 $stm = $pdo->prepare("SELECT COUNT(*) FROM proyeccion WHERE sala = ?");
 $stm->execute([$sala]);
 $count = $stm->fetchColumn();
@@ -19,7 +24,6 @@ if ($count > 0) {
     exit();
 }
 
-// Eliminar la sala
 $sql = "DELETE FROM sala_config WHERE sala = ?";
 $stm = $pdo->prepare($sql);
 $stm->execute([$sala]);

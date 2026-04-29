@@ -6,17 +6,19 @@ require_once("../config/conexion.php");
 require_once(__DIR__ . "/includes/series_admin_ui.php");
 require_once "../helpers/CSRF.php";
 
-
-// Validar token CSRF
-CSRF::validarOAbortar();
-
 if (empty($_SESSION['rol']) || $_SESSION['rol'] !== 'admin') {
     header("Location: ../login.php");
     exit;
 }
 
-$id = isset($_GET["id"]) ? (int)$_GET["id"] : 0;
-if ($id <= 0) die("Episodio no válido.");
+$id = 0;
+if (isset($_GET["id"])) {
+    $id = (int)$_GET["id"];
+}
+
+if ($id <= 0) {
+    die("Episodio no válido.");
+}
 
 $temporadas = $pdo->query("
     SELECT t.id, t.numero_temporada, s.titulo AS serie_titulo
@@ -28,15 +30,43 @@ $temporadas = $pdo->query("
 $stmt = $pdo->prepare("SELECT * FROM episodio WHERE id = ? LIMIT 1");
 $stmt->execute([$id]);
 $episodio = $stmt->fetch(PDO::FETCH_ASSOC);
-if (!$episodio) die("Episodio no encontrado.");
+
+if (!$episodio) {
+    die("Episodio no encontrado.");
+}
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $id_temporada = (int)($_POST["id_temporada"] ?? 0);
-    $numero_episodio = (int)($_POST["numero_episodio"] ?? 0);
-    $titulo = trim($_POST["titulo"] ?? "");
-    $descripcion = trim($_POST["descripcion"] ?? "");
-    $duracion = !empty($_POST["duracion"]) ? (int)$_POST["duracion"] : null;
-    $fecha_estreno = !empty($_POST["fecha_estreno"]) ? $_POST["fecha_estreno"] : null;
+    CSRF::validarOAbortar();
+    
+    $id_temporada = 0;
+    if (isset($_POST["id_temporada"])) {
+        $id_temporada = (int)$_POST["id_temporada"];
+    }
+    
+    $numero_episodio = 0;
+    if (isset($_POST["numero_episodio"])) {
+        $numero_episodio = (int)$_POST["numero_episodio"];
+    }
+    
+    $titulo = '';
+    if (isset($_POST["titulo"])) {
+        $titulo = trim($_POST["titulo"]);
+    }
+    
+    $descripcion = '';
+    if (isset($_POST["descripcion"])) {
+        $descripcion = trim($_POST["descripcion"]);
+    }
+    
+    $duracion = null;
+    if (isset($_POST["duracion"]) && $_POST["duracion"] !== '') {
+        $duracion = (int)$_POST["duracion"];
+    }
+    
+    $fecha_estreno = null;
+    if (isset($_POST["fecha_estreno"]) && $_POST["fecha_estreno"] !== '') {
+        $fecha_estreno = $_POST["fecha_estreno"];
+    }
 
     if ($id_temporada > 0 && $numero_episodio > 0 && $titulo !== "") {
         $stmtUpdate = $pdo->prepare("
@@ -57,12 +87,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <title>Editar episodio | MMCINEMA</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../assets/css/styles.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-<?php include("../navbar.php"); ?>
+<body class="admin-body">
+<?php require_once __DIR__ . "/admin_header.php"; ?>
 
 <div class="container py-4">
     <h1 class="mb-4">Editar episodio</h1>
@@ -71,6 +100,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     <div class="form-card">
         <form method="POST">
+            <?php echo CSRF::campoFormulario(); ?>
+            
             <div class="mb-3">
                 <label class="form-label">Temporada</label>
                 <select name="id_temporada" class="form-select" required>

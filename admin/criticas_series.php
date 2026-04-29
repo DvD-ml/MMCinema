@@ -35,7 +35,10 @@ $criticas = $pdo->query("
         <div>
             <h1>Críticas de series</h1>
         </div>
-        <a href="series_panel.php" class="btn btn-outline-light">Resumen</a>
+        <div>
+            <a href="critica_form.php?tipo=serie" class="btn btn-primary">+ Añadir crítica</a>
+            <a href="series_panel.php" class="btn btn-outline-light">Resumen</a>
+        </div>
     </div>
 
     <?php mm_render_series_admin_nav('criticas'); ?>
@@ -65,7 +68,12 @@ $criticas = $pdo->query("
                             <td><?= htmlspecialchars($critica['creado']) ?></td>
                             <td>
                                 <div class="acciones">
-                                    <a href="borrar_critica_serie.php?id=<?= (int)$critica['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro que quieres borrar esta crítica?');">Borrar</a>
+                                    <a href="critica_form.php?tipo=serie&id=<?= (int)$critica['id'] ?>" class="btn btn-sm btn-primary">Editar</a>
+                                    <form method="POST" action="borrar_critica_serie.php" style="display:inline;">
+                                        <?php require_once "../helpers/CSRF.php"; echo CSRF::campoFormulario(); ?>
+                                        <input type="hidden" name="id" value="<?= (int)$critica['id'] ?>">
+                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro que quieres borrar esta crítica?');">Borrar</button>
+                                    </form>
                                 </div>
                             </td>
                         </tr>

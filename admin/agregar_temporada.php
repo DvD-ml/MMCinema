@@ -5,17 +5,47 @@ verificarAuth();
 require_once("../config/conexion.php");
 require_once(__DIR__ . "/includes/series_admin_ui.php");
 require_once(__DIR__ . "/includes/upload_helper.php");
+require_once "../helpers/CSRF.php";
 
 $series = $pdo->query("SELECT id, titulo FROM serie ORDER BY titulo ASC")->fetchAll(PDO::FETCH_ASSOC);
-$idSeriePre = isset($_GET['id_serie']) ? (int)$_GET['id_serie'] : 0;
+$idSeriePre = 0;
+
+if (isset($_GET['id_serie'])) {
+    $idSeriePre = (int)$_GET['id_serie'];
+}
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $id_serie = (int)($_POST["id_serie"] ?? 0);
-    $numero_temporada = (int)($_POST["numero_temporada"] ?? 0);
-    $titulo = trim($_POST["titulo"] ?? "");
-    $descripcion = trim($_POST["descripcion"] ?? "");
-    $poster = mm_upload_image($_FILES['poster_file'] ?? [], 'assets/img/series/temporadas', 'temporada_poster');
-    $fecha_estreno = !empty($_POST["fecha_estreno"]) ? $_POST["fecha_estreno"] : null;
+    CSRF::validarOAbortar();
+    
+    $id_serie = 0;
+    if (isset($_POST["id_serie"])) {
+        $id_serie = (int)$_POST["id_serie"];
+    }
+    
+    $numero_temporada = 0;
+    if (isset($_POST["numero_temporada"])) {
+        $numero_temporada = (int)$_POST["numero_temporada"];
+    }
+    
+    $titulo = '';
+    if (isset($_POST["titulo"])) {
+        $titulo = trim($_POST["titulo"]);
+    }
+    
+    $descripcion = '';
+    if (isset($_POST["descripcion"])) {
+        $descripcion = trim($_POST["descripcion"]);
+    }
+    
+    $poster = '';
+    if (isset($_FILES['poster_file'])) {
+        $poster = mm_upload_image($_FILES['poster_file'], 'assets/img/series/temporadas', 'temporada_poster');
+    }
+    
+    $fecha_estreno = null;
+    if (isset($_POST["fecha_estreno"]) && $_POST["fecha_estreno"] !== '') {
+        $fecha_estreno = $_POST["fecha_estreno"];
+    }
 
     if ($id_serie > 0 && $numero_temporada > 0) {
         $stmt = $pdo->prepare("
@@ -49,6 +79,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     <div class="form-card">
         <form method="POST" enctype="multipart/form-data">
+            <?php echo CSRF::campoFormulario(); ?>
+            
             <div class="mb-3">
                 <label class="form-label">Serie</label>
                 <select name="id_serie" class="form-select" required>

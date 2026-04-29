@@ -3,6 +3,7 @@ session_start();
 require_once "../config/conexion.php";
 require_once "../includes/optimizar_imagen.php";
 require_once "auth.php";
+require_once "../helpers/CSRF.php";
 
 // Verificar autenticación
 verificarAuth();
@@ -12,6 +13,8 @@ $tipo_mensaje = '';
 
 // Procesar acciones
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    CSRF::validarOAbortar();
+    
     $accion = $_POST['accion'] ?? '';
     
     switch ($accion) {
@@ -437,6 +440,7 @@ function toggleActivo($id) {
                                 </td>
                                 <td>
                                     <form method="POST" style="display: inline;" onsubmit="return confirmarToggle(this, '<?= htmlspecialchars($slide['titulo']) ?>', <?= $slide['activo'] ? 'true' : 'false' ?>)">
+                                        <?php echo CSRF::campoFormulario(); ?>
                                         <input type="hidden" name="accion" value="toggle_activo">
                                         <input type="hidden" name="id" value="<?= $slide['id'] ?>">
                                         <button type="submit" class="btn btn-sm <?= $slide['activo'] ? 'btn-success' : 'btn-secondary' ?>">
@@ -452,6 +456,7 @@ function toggleActivo($id) {
                                         </button>
                                         <form method="POST" style="display: inline;" 
                                               onsubmit="return confirm('¿Estás seguro de eliminar este slide?')">
+                                            <?php echo CSRF::campoFormulario(); ?>
                                             <input type="hidden" name="accion" value="eliminar">
                                             <input type="hidden" name="id" value="<?= $slide['id'] ?>">
                                             <button type="submit" class="btn btn-danger btn-sm">
@@ -474,6 +479,7 @@ function toggleActivo($id) {
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <form method="POST" enctype="multipart/form-data" id="formSlide">
+                <?php echo CSRF::campoFormulario(); ?>
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalSlideTitle">Nuevo Slide</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>

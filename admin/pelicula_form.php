@@ -1,6 +1,7 @@
 <?php
 require_once "auth.php";
 require_once "../config/conexion.php";
+require_once "../helpers/CSRF.php";
 
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
@@ -46,7 +47,7 @@ $generos = $pdo->query("SELECT id, nombre FROM genero ORDER BY nombre")->fetchAl
     </div>
 
     <form action="pelicula_guardar.php" method="POST" enctype="multipart/form-data" class="card card-body bg-black text-white border-secondary">
-        <?php require_once "../helpers/CSRF.php"; echo CSRF::campoFormulario(); ?>
+        <?php echo CSRF::campoFormulario(); ?>
         <input type="hidden" name="id" value="<?= htmlspecialchars($pelicula['id']) ?>">
         <input type="hidden" name="poster_actual" value="<?= htmlspecialchars($pelicula['poster']) ?>">
 

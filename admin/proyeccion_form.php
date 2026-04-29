@@ -1,6 +1,7 @@
 <?php
 require_once "auth.php";
 require_once "../config/conexion.php";
+require_once "../helpers/CSRF.php";
 
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $pelicula_id_preseleccionada = isset($_GET['pelicula_id']) ? (int)$_GET['pelicula_id'] : 0;
@@ -52,7 +53,7 @@ $salas = $pdo->query("SELECT sala FROM sala_config ORDER BY sala ASC")->fetchAll
 
     <div class="admin-glass-card p-4">
         <form action="proyeccion_guardar.php" method="POST">
-            <?php require_once "../helpers/CSRF.php"; echo CSRF::campoFormulario(); ?>
+            <?php echo CSRF::campoFormulario(); ?>
             <input type="hidden" name="id" value="<?= (int)$proyeccion['id'] ?>">
 
             <div class="mb-3">

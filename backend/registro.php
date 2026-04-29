@@ -4,20 +4,36 @@ require_once "../config/conexion.php";
 require_once "../config/mail.php";
 require_once "../helpers/CSRF.php";
 
-// Validar token CSRF
 CSRF::validarOAbortar();
 
-$username = trim($_POST['username'] ?? '');
-$email = trim($_POST['email'] ?? '');
-$pass1 = $_POST['password'] ?? '';
-$pass2 = $_POST['password_confirm'] ?? '';
+$username = '';
+$email = '';
+$pass1 = '';
+$pass2 = '';
+
+if (isset($_POST['username'])) {
+    $username = trim($_POST['username']);
+}
+
+if (isset($_POST['email'])) {
+    $email = trim($_POST['email']);
+}
+
+if (isset($_POST['password'])) {
+    $pass1 = $_POST['password'];
+}
+
+if (isset($_POST['password_confirm'])) {
+    $pass2 = $_POST['password_confirm'];
+}
 
 if ($username === '' || $email === '' || $pass1 === '' || $pass2 === '') {
     header("Location: ../pages/registro.php?error=campos");
     exit();
 }
 
-if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+$emailValido = filter_var($email, FILTER_VALIDATE_EMAIL);
+if (!$emailValido) {
     header("Location: ../pages/registro.php?error=email_invalido");
     exit();
 }
@@ -27,30 +43,32 @@ if ($pass1 !== $pass2) {
     exit();
 }
 
-if (strlen($pass1) < 6) {
+$longitudPass = strlen($pass1);
+if ($longitudPass < 6) {
     header("Location: ../pages/registro.php?error=pass_corta");
     exit();
 }
 
-$stm = $pdo->prepare("SELECT id FROM usuario WHERE email = ? LIMIT 1");
+$sql = "SELECT id FROM usuario WHERE email = ? LIMIT 1";
+$stm = $pdo->prepare($sql);
 $stm->execute([$email]);
+$usuarioExistente = $stm->fetch();
 
-if ($stm->fetch()) {
+if ($usuarioExistente) {
     header("Location: ../pages/registro.php?error=email_duplicado");
     exit();
 }
 
 $hash = password_hash($pass1, PASSWORD_DEFAULT);
 $token = bin2hex(random_bytes(32));
-$expira = date('Y-m-d H:i:s', strtotime('+1 day'));
+$fechaActual = date('Y-m-d H:i:s');
+$fechaExpira = date('Y-m-d H:i:s', strtotime('+1 day'));
 
-$stm = $pdo->prepare("
-    INSERT INTO usuario (username, email, password_hash, creado, verificado, token_verificacion, token_expira)
-    VALUES (?, ?, ?, NOW(), 0, ?, ?)
-");
+$sql = "INSERT INTO usuario (username, email, password_hash, creado, verificado, token_verificacion, token_expira) VALUES (?, ?, ?, ?, ?, ?, ?)";
+$stm = $pdo->prepare($sql);
 
 try {
-    $stm->execute([$username, $email, $hash, $token, $expira]);
+    $stm->execute([$username, $email, $hash, $fechaActual, 0, $token, $fechaExpira]);
 
     $correoEnviado = enviarCorreoVerificacion($email, $username, $token);
 
@@ -65,3 +83,4 @@ try {
     header("Location: ../pages/registro.php?error=bd");
     exit();
 }
+?>

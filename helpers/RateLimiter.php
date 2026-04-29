@@ -1,45 +1,56 @@
 <?php
-/**
- * Sistema de Rate Limiting para prevenir ataques de fuerza bruta
- */
 
 class RateLimiter {
     const MAX_INTENTOS = 5;
-    const TIEMPO_BLOQUEO = 900; // 15 minutos en segundos
+    const TIEMPO_BLOQUEO = 900;
     
-    /**
-     * Registrar intento fallido de login
-     */
     public static function registrarIntentoFallido($email) {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
         
-        $key = 'login_intentos_' . md5($email);
-        $_SESSION[$key] = ($_SESSION[$key] ?? 0) + 1;
-        $_SESSION[$key . '_timestamp'] = time();
+        $emailHash = md5($email);
+        $keyIntentos = 'login_intentos_' . $emailHash;
+        $keyTimestamp = 'login_intentos_' . $emailHash . '_timestamp';
+        
+        if (isset($_SESSION[$keyIntentos])) {
+            $_SESSION[$keyIntentos] = $_SESSION[$keyIntentos] + 1;
+        } else {
+            $_SESSION[$keyIntentos] = 1;
+        }
+        
+        $_SESSION[$keyTimestamp] = time();
     }
     
-    /**
-     * Verificar si el usuario está bloqueado
-     */
     public static function estaBloqueado($email) {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
         
-        $key = 'login_intentos_' . md5($email);
-        $intentos = $_SESSION[$key] ?? 0;
-        $timestamp = $_SESSION[$key . '_timestamp'] ?? 0;
+        $emailHash = md5($email);
+        $keyIntentos = 'login_intentos_' . $emailHash;
+        $keyTimestamp = 'login_intentos_' . $emailHash . '_timestamp';
+        
+        $intentos = 0;
+        $timestamp = 0;
+        
+        if (isset($_SESSION[$keyIntentos])) {
+            $intentos = $_SESSION[$keyIntentos];
+        }
+        
+        if (isset($_SESSION[$keyTimestamp])) {
+            $timestamp = $_SESSION[$keyTimestamp];
+        }
         
         if ($intentos >= self::MAX_INTENTOS) {
-            $tiempoTranscurrido = time() - $timestamp;
+            $ahora = time();
+            $tiempoTranscurrido = $ahora - $timestamp;
+            
             if ($tiempoTranscurrido < self::TIEMPO_BLOQUEO) {
                 return true;
             } else {
-                // Desbloquear después del tiempo
-                unset($_SESSION[$key]);
-                unset($_SESSION[$key . '_timestamp']);
+                unset($_SESSION[$keyIntentos]);
+                unset($_SESSION[$keyTimestamp]);
                 return false;
             }
         }
@@ -47,38 +58,50 @@ class RateLimiter {
         return false;
     }
     
-    /**
-     * Obtener tiempo restante de bloqueo en segundos
-     */
     public static function getTiempoRestante($email) {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
         
-        $key = 'login_intentos_' . md5($email);
-        $timestamp = $_SESSION[$key . '_timestamp'] ?? 0;
+        $emailHash = md5($email);
+        $keyTimestamp = 'login_intentos_' . $emailHash . '_timestamp';
+        
+        $timestamp = 0;
+        if (isset($_SESSION[$keyTimestamp])) {
+            $timestamp = $_SESSION[$keyTimestamp];
+        }
         
         if ($timestamp === 0) {
             return 0;
         }
         
-        $tiempoTranscurrido = time() - $timestamp;
+        $ahora = time();
+        $tiempoTranscurrido = $ahora - $timestamp;
         $tiempoRestante = self::TIEMPO_BLOQUEO - $tiempoTranscurrido;
         
-        return max(0, $tiempoRestante);
+        if ($tiempoRestante < 0) {
+            $tiempoRestante = 0;
+        }
+        
+        return $tiempoRestante;
     }
     
-    /**
-     * Limpiar intentos fallidos después de login exitoso
-     */
     public static function limpiarIntentos($email) {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
         
-        $key = 'login_intentos_' . md5($email);
-        unset($_SESSION[$key]);
-        unset($_SESSION[$key . '_timestamp']);
+        $emailHash = md5($email);
+        $keyIntentos = 'login_intentos_' . $emailHash;
+        $keyTimestamp = 'login_intentos_' . $emailHash . '_timestamp';
+        
+        if (isset($_SESSION[$keyIntentos])) {
+            unset($_SESSION[$keyIntentos]);
+        }
+        
+        if (isset($_SESSION[$keyTimestamp])) {
+            unset($_SESSION[$keyTimestamp]);
+        }
     }
 }
 ?>

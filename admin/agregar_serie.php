@@ -5,29 +5,87 @@ verificarAuth();
 require_once("../config/conexion.php");
 require_once(__DIR__ . "/includes/series_admin_ui.php");
 require_once(__DIR__ . "/includes/upload_helper.php");
+require_once "../helpers/CSRF.php";
 
-$generos = $pdo->query("SELECT id, nombre FROM genero ORDER BY nombre ASC")->fetchAll(PDO::FETCH_ASSOC);
-$plataformas = $pdo->query("SELECT id, nombre FROM plataforma ORDER BY nombre ASC")->fetchAll(PDO::FETCH_ASSOC);
+$sqlGeneros = "SELECT id, nombre FROM genero ORDER BY nombre ASC";
+$generos = $pdo->query($sqlGeneros)->fetchAll(PDO::FETCH_ASSOC);
+
+$sqlPlataformas = "SELECT id, nombre FROM plataforma ORDER BY nombre ASC";
+$plataformas = $pdo->query($sqlPlataformas)->fetchAll(PDO::FETCH_ASSOC);
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $titulo = trim($_POST["titulo"] ?? "");
-    $sinopsis = trim($_POST["sinopsis"] ?? "");
-    $poster = mm_upload_image($_FILES['poster_file'] ?? [], 'assets/img/series/posters', 'serie_poster');
-    $banner = mm_upload_image($_FILES['banner_file'] ?? [], 'assets/img/series/banners', 'serie_banner');
-    $fecha_estreno = !empty($_POST["fecha_estreno"]) ? $_POST["fecha_estreno"] : null;
-    $edad = trim($_POST["edad"] ?? "");
-    $id_genero = !empty($_POST["id_genero"]) ? (int)$_POST["id_genero"] : null;
-    $id_plataforma = !empty($_POST["id_plataforma"]) ? (int)$_POST["id_plataforma"] : null;
-    $estado = $_POST["estado"] ?? "en_emision";
-    $destacada = isset($_POST["destacada"]) ? 1 : 0;
-    $trailer = trim($_POST["trailer"] ?? "");
+    CSRF::validarOAbortar();
+    
+    $titulo = '';
+    $sinopsis = '';
+    $poster = '';
+    $banner = '';
+    $fecha_estreno = null;
+    $edad = '';
+    $id_genero = null;
+    $id_plataforma = null;
+    $estado = 'en_emision';
+    $destacada = 0;
+    $trailer = '';
+    
+    if (isset($_POST["titulo"])) {
+        $titulo = trim($_POST["titulo"]);
+    }
+    
+    if (isset($_POST["sinopsis"])) {
+        $sinopsis = trim($_POST["sinopsis"]);
+    }
+    
+    if (isset($_FILES['poster_file'])) {
+        $poster = mm_upload_image($_FILES['poster_file'], 'assets/img/series/posters', 'serie_poster');
+    }
+    
+    if (isset($_FILES['banner_file'])) {
+        $banner = mm_upload_image($_FILES['banner_file'], 'assets/img/series/banners', 'serie_banner');
+    }
+    
+    if (isset($_POST["fecha_estreno"]) && $_POST["fecha_estreno"] !== '') {
+        $fecha_estreno = $_POST["fecha_estreno"];
+    }
+    
+    if (isset($_POST["edad"])) {
+        $edad = trim($_POST["edad"]);
+    }
+    
+    if (isset($_POST["id_genero"]) && $_POST["id_genero"] !== '') {
+        $id_genero = (int)$_POST["id_genero"];
+    }
+    
+    if (isset($_POST["id_plataforma"]) && $_POST["id_plataforma"] !== '') {
+        $id_plataforma = (int)$_POST["id_plataforma"];
+    }
+    
+    if (isset($_POST["estado"])) {
+        $estado = $_POST["estado"];
+    }
+    
+    if (isset($_POST["destacada"])) {
+        $destacada = 1;
+    }
+    
+    if (isset($_POST["trailer"])) {
+        $trailer = trim($_POST["trailer"]);
+    }
 
     if ($titulo !== "" && $sinopsis !== "") {
-        $stmt = $pdo->prepare("
+        $sqlInsert = "
             INSERT INTO serie
             (titulo, sinopsis, poster, banner, fecha_estreno, edad, id_genero, id_plataforma, estado, destacada, trailer)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        ");
+        ";
+        
+        $stmt = $pdo->prepare($sqlInsert);
+        
+        $trailerFinal = null;
+        if ($trailer !== '') {
+            $trailerFinal = $trailer;
+        }
+        
         $stmt->execute([
             $titulo,
             $sinopsis,
@@ -39,7 +97,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $id_plataforma,
             $estado,
             $destacada,
-            $trailer !== '' ? $trailer : null
+            $trailerFinal
         ]);
 
         header("Location: series.php");
@@ -60,7 +118,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <body class="admin-body">
 
 <?php require_once __DIR__ . "/admin_header.php"; ?>
-require_once "../helpers/FileValidation.php";
 
 <div class="container py-4">
     <h1 class="mb-4">Añadir nueva serie</h1>
@@ -69,6 +126,7 @@ require_once "../helpers/FileValidation.php";
 
     <div class="form-card">
         <form method="POST" enctype="multipart/form-data">
+            <?php echo CSRF::campoFormulario(); ?>
             <div class="mb-3">
                 <label class="form-label">Título</label>
                 <input type="text" name="titulo" class="form-control" required>

@@ -81,11 +81,11 @@ $criticasSeries = $pdo->query("
                         <td>
                             <div class="admin-actions d-flex gap-2 flex-wrap">
                                 <a href="critica_form.php?tipo=pelicula&id=<?= (int)$c['id'] ?>" class="btn btn-warning btn-sm">Editar</a>
-                                <a href="critica_borrar.php?id=<?= (int)$c['id'] ?>"
-                                   class="btn btn-danger btn-sm"
-                                   onclick="return confirm('¿Seguro que quieres borrar esta crítica de película?')">
-                                    Borrar
-                                </a>
+                                <form method="POST" action="critica_borrar.php" style="display:inline;">
+                                    <?php require_once "../helpers/CSRF.php"; echo CSRF::campoFormulario(); ?>
+                                    <input type="hidden" name="id" value="<?= (int)$c['id'] ?>">
+                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que quieres borrar esta crítica de película?')">Borrar</button>
+                                </form>
                             </div>
                         </td>
                     </tr>
@@ -128,11 +128,11 @@ $criticasSeries = $pdo->query("
                         <td>
                             <div class="admin-actions d-flex gap-2 flex-wrap">
                                 <a href="critica_form.php?tipo=serie&id=<?= (int)$c['id'] ?>" class="btn btn-warning btn-sm">Editar</a>
-                                <a href="borrar_critica_serie.php?id=<?= (int)$c['id'] ?>"
-                                   class="btn btn-danger btn-sm"
-                                   onclick="return confirm('¿Seguro que quieres borrar esta crítica de serie?')">
-                                    Borrar
-                                </a>
+                                <form method="POST" action="borrar_critica_serie.php" style="display:inline;">
+                                    <?php require_once "../helpers/CSRF.php"; echo CSRF::campoFormulario(); ?>
+                                    <input type="hidden" name="id" value="<?= (int)$c['id'] ?>">
+                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que quieres borrar esta crítica de serie?')">Borrar</button>
+                                </form>
                             </div>
                         </td>
                     </tr>

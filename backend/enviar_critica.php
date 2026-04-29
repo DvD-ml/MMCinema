@@ -9,49 +9,56 @@ if (!isset($_SESSION['usuario_id'])) {
 
 $usuario_id = (int)$_SESSION['usuario_id'];
 
-// Acepta ambos nombres por compatibilidad (por si alguna vista antigua sigue enviando estos campos)
-$pelicula_id = (int)($_POST['pelicula_id'] ?? ($_POST['id_pelicula'] ?? 0));
-$contenido   = trim($_POST['contenido'] ?? ($_POST['texto'] ?? ""));
-
-// La puntuación es opcional. Si se envía, debe ser 1..5; si no, guardamos NULL.
-$puntuacion_raw = $_POST['puntuacion'] ?? "";
+$pelicula_id = 0;
+$contenido = '';
 $puntuacion = null;
-if ($puntuacion_raw !== "") {
-  $p = (int)$puntuacion_raw;
-  if ($p >= 1 && $p <= 5) {
-    $puntuacion = $p;
+
+if (isset($_POST['pelicula_id'])) {
+  $pelicula_id = (int)$_POST['pelicula_id'];
+}
+
+if (isset($_POST['id_pelicula'])) {
+  $pelicula_id = (int)$_POST['id_pelicula'];
+}
+
+if (isset($_POST['contenido'])) {
+  $contenido = trim($_POST['contenido']);
+}
+
+if (isset($_POST['texto'])) {
+  $contenido = trim($_POST['texto']);
+}
+
+if (isset($_POST['puntuacion'])) {
+  $puntuacion_raw = $_POST['puntuacion'];
+  if ($puntuacion_raw !== '') {
+    $p = (int)$puntuacion_raw;
+    if ($p >= 1 && $p <= 5) {
+      $puntuacion = $p;
+    }
   }
 }
 
-// Contenido obligatorio; película válida obligatoria.
-if ($pelicula_id <= 0 || $contenido === "") {
-  header("Location: ../pages/pelicula.php?id=".$pelicula_id);
+if ($pelicula_id <= 0 || $contenido === '') {
+  header("Location: ../pages/pelicula.php?id=" . $pelicula_id);
   exit();
 }
 
-// Verificar si ya existe una crítica de este usuario para esta película
-$stmCheck = $pdo->prepare("
-    SELECT id
-    FROM critica
-    WHERE id_usuario = ? AND id_pelicula = ?
-    LIMIT 1
-");
+$sqlCheck = "SELECT id FROM critica WHERE id_usuario = ? AND id_pelicula = ? LIMIT 1";
+$stmCheck = $pdo->prepare($sqlCheck);
 $stmCheck->execute([$usuario_id, $pelicula_id]);
 $existe = $stmCheck->fetch(PDO::FETCH_ASSOC);
 
 if ($existe) {
-    // Actualizar la crítica existente
-    $stmUpdate = $pdo->prepare("
-        UPDATE critica
-        SET contenido = ?, puntuacion = ?, creado = NOW()
-        WHERE id = ?
-    ");
+    $sqlUpdate = "UPDATE critica SET contenido = ?, puntuacion = ?, creado = NOW() WHERE id = ?";
+    $stmUpdate = $pdo->prepare($sqlUpdate);
     $stmUpdate->execute([$contenido, $puntuacion, $existe['id']]);
 } else {
-    // Insertar nueva crítica
-    $stm = $pdo->prepare("INSERT INTO critica (id_usuario, id_pelicula, contenido, puntuacion) VALUES (?, ?, ?, ?)");
+    $sqlInsert = "INSERT INTO critica (id_usuario, id_pelicula, contenido, puntuacion) VALUES (?, ?, ?, ?)";
+    $stm = $pdo->prepare($sqlInsert);
     $stm->execute([$usuario_id, $pelicula_id, $contenido, $puntuacion]);
 }
 
-header("Location: ../pages/pelicula.php?id=".$pelicula_id);
+header("Location: ../pages/pelicula.php?id=" . $pelicula_id);
 exit();
+?>

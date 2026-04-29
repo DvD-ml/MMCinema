@@ -4,40 +4,77 @@ require_once("../config/conexion.php");
 
 function estrellasSerie($puntuacion) {
     $max = 5;
-    $puntuacion = max(0, min(5, (float)$puntuacion));
+    $puntuacion = (float)$puntuacion;
+    
+    if ($puntuacion < 0) {
+        $puntuacion = 0;
+    }
+    if ($puntuacion > 5) {
+        $puntuacion = 5;
+    }
+    
     $full = floor($puntuacion);
-    $half = ($puntuacion - $full) >= 0.5 ? 1 : 0;
+    $decimal = $puntuacion - $full;
+    
+    $half = 0;
+    if ($decimal >= 0.5) {
+        $half = 1;
+    }
+    
     $empty = $max - $full - $half;
 
     $html = '<div class="stars">';
-    for ($i = 0; $i < $full; $i++) $html .= '<span class="star on">★</span>';
-    if ($half) $html .= '<span class="star half">★</span>';
-    for ($i = 0; $i < $empty; $i++) $html .= '<span class="star off">★</span>';
-    $html .= '</div>';
+    
+    for ($i = 0; $i < $full; $i++) {
+        $html = $html . '<span class="star on">★</span>';
+    }
+    
+    if ($half) {
+        $html = $html . '<span class="star half">★</span>';
+    }
+    
+    for ($i = 0; $i < $empty; $i++) {
+        $html = $html . '<span class="star off">★</span>';
+    }
+    
+    $html = $html . '</div>';
 
     return $html;
 }
 
-function mm_build_series_url(array $queryBase, int $paginaDestino): string {
+function mm_build_series_url($queryBase, $paginaDestino) {
     $queryBase['pagina'] = $paginaDestino;
-    return 'series.php?' . http_build_query($queryBase);
+    $url = 'series.php?' . http_build_query($queryBase);
+    return $url;
 }
 
-$plataformaFiltro = isset($_GET['plataforma']) ? (int)$_GET['plataforma'] : 0;
-$pagina = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
-if ($pagina < 1) $pagina = 1;
+$plataformaFiltro = 0;
+if (isset($_GET['plataforma'])) {
+    $plataformaFiltro = (int)$_GET['plataforma'];
+}
+
+$pagina = 1;
+if (isset($_GET['pagina'])) {
+    $pagina = (int)$_GET['pagina'];
+}
+
+if ($pagina < 1) {
+    $pagina = 1;
+}
 
 $porPagina = 6;
 $offset = ($pagina - 1) * $porPagina;
 
-$plataformas = $pdo->query("SELECT * FROM plataforma ORDER BY nombre ASC")->fetchAll(PDO::FETCH_ASSOC);
+$sqlPlataformas = "SELECT * FROM plataforma ORDER BY nombre ASC";
+$plataformas = $pdo->query($sqlPlataformas)->fetchAll(PDO::FETCH_ASSOC);
 
 $plataformaActual = null;
 if ($plataformaFiltro > 0) {
-    $stmtPlataforma = $pdo->prepare("SELECT * FROM plataforma WHERE id = ? LIMIT 1");
+    $sqlPlat = "SELECT * FROM plataforma WHERE id = ? LIMIT 1";
+    $stmtPlataforma = $pdo->prepare($sqlPlat);
     $stmtPlataforma->execute([$plataformaFiltro]);
-    $plataformaActual = $stmtPlataforma->fetch(PDO::FETCH_ASSOC) ?: null;
-
+    $plataformaActual = $stmtPlataforma->fetch(PDO::FETCH_ASSOC);
+    
     if (!$plataformaActual) {
         $plataformaFiltro = 0;
         $pagina = 1;
@@ -45,7 +82,6 @@ if ($plataformaFiltro > 0) {
     }
 }
 
-/* DESTACADAS GENERALES */
 $sqlDestacadas = "
     SELECT
         s.*,
@@ -69,20 +105,22 @@ $totalSeries = 0;
 $totalPaginas = 1;
 $topPlataforma = [];
 
-/* FILTRO POR PLATAFORMA */
 if ($plataformaFiltro > 0) {
     $sqlCount = "SELECT COUNT(*) FROM serie WHERE id_plataforma = ?";
     $stmtCount = $pdo->prepare($sqlCount);
     $stmtCount->execute([$plataformaFiltro]);
     $totalSeries = (int)$stmtCount->fetchColumn();
 
-    $totalPaginas = max(1, (int)ceil($totalSeries / $porPagina));
+    $totalPaginas = ceil($totalSeries / $porPagina);
+    if ($totalPaginas < 1) {
+        $totalPaginas = 1;
+    }
+    
     if ($pagina > $totalPaginas) {
         $pagina = $totalPaginas;
         $offset = ($pagina - 1) * $porPagina;
     }
 
-    /* TOP DE ESA PLATAFORMA */
     $sqlTopPlataforma = "
         SELECT
             s.*,
@@ -104,7 +142,6 @@ if ($plataformaFiltro > 0) {
     $stmtTopPlataforma->execute([$plataformaFiltro]);
     $topPlataforma = $stmtTopPlataforma->fetchAll(PDO::FETCH_ASSOC);
 
-    /* TODAS LAS SERIES DE ESA PLATAFORMA, 6 POR PÁGINA */
     $sqlSeries = "
         SELECT
             s.*,
@@ -130,7 +167,9 @@ if ($plataformaFiltro > 0) {
 $seriesPorPlataforma = [];
 if ($plataformaFiltro === 0) {
     foreach ($plataformas as $plataforma) {
-        $stmt = $pdo->prepare("
+        $idPlat = $plataforma["id"];
+        
+        $sqlPorPlat = "
             SELECT
                 s.*,
                 p.nombre AS plataforma_nombre,
@@ -144,14 +183,18 @@ if ($plataformaFiltro === 0) {
             GROUP BY s.id
             ORDER BY puntuacion_media DESC, total_criticas DESC, s.fecha_estreno DESC, s.id DESC
             LIMIT 8
-        ");
-        $stmt->execute([$plataforma["id"]]);
-        $seriesPorPlataforma[$plataforma["id"]] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        ";
+        
+        $stmt = $pdo->prepare($sqlPorPlat);
+        $stmt->execute([$idPlat]);
+        $seriesPorPlataforma[$idPlat] = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
 
 $queryBase = $_GET;
-unset($queryBase['pagina']);
+if (isset($queryBase['pagina'])) {
+    unset($queryBase['pagina']);
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
