@@ -8,13 +8,13 @@ $email = trim($_POST['email'] ?? '');
 
 // Validar que el email no esté vacío
 if ($email === '') {
-    header("Location: ../reenviar_verificacion.php?error=email_vacio");
+    header("Location: ../pages/reenviar_verificacion.php?error=email_vacio");
     exit();
 }
 
 // Validar formato del email
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    header("Location: ../reenviar_verificacion.php?error=email_invalido&email=" . urlencode($email));
+    header("Location: ../pages/reenviar_verificacion.php?error=email_invalido&email=" . urlencode($email));
     exit();
 }
 
@@ -31,7 +31,7 @@ $user = $stm->fetch(PDO::FETCH_ASSOC);
 // Si el usuario no existe
 if (!$user) {
     Logger::warning("Intento de reenvío de verificación con email inexistente", ['email' => $email]);
-    header("Location: ../login.php?reenvio=no_existe");
+    header("Location: ../pages/login.php?reenvio=no_existe");
     exit();
 }
 
@@ -41,7 +41,7 @@ if ((int)$user['verificado'] === 1) {
         'user_id' => $user['id'],
         'email' => $email
     ]);
-    header("Location: ../login.php?reenvio=ya_verificado");
+    header("Location: ../pages/login.php?reenvio=ya_verificado");
     exit();
 }
 
@@ -66,14 +66,14 @@ try {
             'user_id' => $user['id'],
             'email' => $email
         ]);
-        header("Location: ../login.php?reenvio=ok");
+        header("Location: ../pages/login.php?reenvio=ok");
         exit();
     } else {
         Logger::error("Error al reenviar correo de verificación", [
             'user_id' => $user['id'],
             'email' => $email
         ]);
-        header("Location: ../login.php?reenvio=error");
+        header("Location: ../pages/login.php?reenvio=error");
         exit();
     }
 } catch (Exception $e) {
@@ -82,6 +82,6 @@ try {
         'email' => $email,
         'error' => $e->getMessage()
     ]);
-    header("Location: ../login.php?reenvio=error");
+    header("Location: ../pages/login.php?reenvio=error");
     exit();
 }

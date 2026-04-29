@@ -1,0 +1,30 @@
+# Habilitar rewrite engine
+RewriteEngine On
+RewriteBase /david/MMCINEMA/
+
+# Definir archivo índice
+DirectoryIndex index.php index.html
+
+# Permitir acceso directo a carpetas
+RewriteRule ^(admin|backend|assets|components|config|database|docs|helpers|includes|logs|storage|tests|vendor|pages)/ - [L]
+
+# Permitir acceso a archivos estáticos
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule \.(css|js|jpg|jpeg|png|gif|webp|svg|ico|woff|woff2|ttf|eot|pdf)$ - [L]
+
+# Redireccionar páginas principales a pages/ (interno, sin cambiar URL)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(cartelera|series|serie|pelicula|noticia|noticias|criticas|proximamente|perfil|login|registro|logout|olvide_password|restablecer_password|reenviar_verificacion|reservar_entradas|ticket|crear_ticket|verificar_email)\.php$ pages/$1.php [L]
+
+# Bloquear acceso a archivos sensibles
+<FilesMatch "\.(env|log|sql)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Bloquear listado de directorios
+Options -Indexes
+
+# Bloquear acceso a carpetas sensibles
+RedirectMatch 403 ^/david/MMCINEMA/(config|helpers|includes|logs|tests|database)/.*$

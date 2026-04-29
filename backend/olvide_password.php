@@ -5,7 +5,7 @@ require_once "../config/mail.php";
 $email = trim($_POST['email'] ?? '');
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    header("Location: ../olvide_password.php?error=email_invalido");
+    header("Location: ../pages/olvide_password.php?error=email_invalido");
     exit();
 }
 
@@ -36,5 +36,5 @@ if ($usuario) {
  No decimos si el email existe o no.
  Así queda más seguro.
 */
-header("Location: ../olvide_password.php?ok=1");
+header("Location: ../pages/olvide_password.php?ok=1");
 exit();

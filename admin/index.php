@@ -49,7 +49,7 @@ $ultimosTickets = $pdo->query("SELECT codigo, total, created_at FROM ticket ORDE
                     <a class="admin-quick-link" href="noticia_form.php"><strong>Aúadir Noticias</strong></a>
                     <a class="admin-quick-link" href="usuario_form.php"><strong>Aúadir Usuarios</strong></a>
                     <a class="admin-quick-link" href="criticas.php"><strong>Aúadir Críticas</strong></a>
-                    <a class="admin-quick-link" href="../cartelera.php" target="_blank" rel="noopener"><strong>Volver a web</strong></a>
+                    <a class="admin-quick-link" href="../pages/cartelera.php" target="_blank" rel="noopener"><strong>Volver a web</strong></a>
                 </div>
             </div>
         </div>

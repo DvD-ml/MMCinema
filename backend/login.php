@@ -14,7 +14,7 @@ CSRF::validarOAbortar();
 
 if ($email === '' || $pass === '') {
     Logger::warning("Intento de login con campos vacíos", ['email' => $email]);
-    header("Location: ../login.php?error=1");
+    header("Location: ../pages/login.php?error=1");
     exit();
 }
 
@@ -22,7 +22,7 @@ if ($email === '' || $pass === '') {
 if (RateLimiter::estaBloqueado($email)) {
     $tiempoRestante = RateLimiter::getTiempoRestante($email);
     Logger::security("Intento de login bloqueado por rate limiting", ['email' => $email, 'tiempo_restante' => $tiempoRestante]);
-    header("Location: ../login.php?error=bloqueado&tiempo=" . ceil($tiempoRestante / 60));
+    header("Location: ../pages/login.php?error=bloqueado&tiempo=" . ceil($tiempoRestante / 60));
     exit();
 }
 
@@ -38,7 +38,7 @@ $user = $stm->fetch(PDO::FETCH_ASSOC);
 if (!$user) {
     Logger::security("Intento de login con email inexistente", ['email' => $email]);
     RateLimiter::registrarIntentoFallido($email);
-    header("Location: ../login.php?error=1");
+    header("Location: ../pages/login.php?error=1");
     exit();
 }
 
@@ -48,13 +48,13 @@ if (!password_verify($pass, $user['password_hash'])) {
         'user_id' => $user['id']
     ]);
     RateLimiter::registrarIntentoFallido($email);
-    header("Location: ../login.php?error=1");
+    header("Location: ../pages/login.php?error=1");
     exit();
 }
 
 if ((int)$user['verificado'] !== 1) {
     Logger::warning("Intento de login sin verificar email", ['user_id' => $user['id']]);
-    header("Location: ../login.php?error=no_verificado&email=" . urlencode($email));
+    header("Location: ../pages/login.php?error=no_verificado&email=" . urlencode($email));
     exit();
 }
 
@@ -111,5 +111,5 @@ CSRF::regenerarToken();
 // y ofrezca guardar la contraseúa
 usleep(100000); // 100ms
 
-header("Location: ../index.php");
+header("Location: ../pages/index.php");
 exit();

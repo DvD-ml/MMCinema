@@ -3,7 +3,7 @@ session_start();
 require_once "../config/conexion.php";
 
 if (!isset($_SESSION['usuario_id'])) {
-  header("Location: ../login.php");
+  header("Location: ../pages/login.php");
   exit();
 }
 
@@ -25,7 +25,7 @@ if ($puntuacion_raw !== "") {
 
 // Contenido obligatorio; película válida obligatoria.
 if ($pelicula_id <= 0 || $contenido === "") {
-  header("Location: ../pelicula.php?id=".$pelicula_id);
+  header("Location: ../pages/pelicula.php?id=".$pelicula_id);
   exit();
 }
 
@@ -53,5 +53,5 @@ if ($existe) {
     $stm->execute([$usuario_id, $pelicula_id, $contenido, $puntuacion]);
 }
 
-header("Location: ../pelicula.php?id=".$pelicula_id);
+header("Location: ../pages/pelicula.php?id=".$pelicula_id);
 exit();

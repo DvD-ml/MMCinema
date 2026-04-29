@@ -5,7 +5,7 @@ require_once "../helpers/Logger.php";
 
 // Verificar que el usuario esté logueado
 if (!isset($_SESSION['usuario_id'])) {
-    header("Location: ../login.php");
+    header("Location: ../pages/login.php");
     exit();
 }
 

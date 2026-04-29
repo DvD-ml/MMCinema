@@ -37,7 +37,7 @@ $paginaActualAdmin = basename($_SERVER['PHP_SELF']);
             'editar_episodio.php',
             'criticas_series.php'
         ], $paginaActualAdmin) ?>">Series</a>
-        <a href="../cartelera.php" target="_blank" rel="noopener">Ver web</a>
-        <a href="../logout.php" class="logout-link">Cerrar sesión</a>
+        <a href="../pages/cartelera.php" target="_blank" rel="noopener">Ver web</a>
+        <a href="../pages/logout.php" class="logout-link">Cerrar sesión</a>
     </div>
 </div>

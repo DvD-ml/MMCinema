@@ -41,5 +41,5 @@ if ($existe) {
     $stmtInsert->execute([$id_usuario, $id_serie, $contenido, $puntuacion]);
 }
 
-header("Location: ../serie.php?id=" . $id_serie . "#criticas-series");
+header("Location: ../pages/serie.php?id=" . $id_serie . "#criticas-series");
 exit;

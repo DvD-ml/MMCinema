@@ -24,10 +24,10 @@ try {
   $reserva_id = (int)$pdo->lastInsertId();
 
   // Creamos ticket automáticamente
-  header("Location: ../crear_ticket.php?reserva_id=" . $reserva_id);
+  header("Location: ../pages/crear_ticket.php?reserva_id=" . $reserva_id);
   exit();
 } catch (PDOException $e) {
-  header("Location: ../pelicula.php?id=" . $id_pelicula . "&reserva=error");
+  header("Location: ../pages/pelicula.php?id=" . $id_pelicula . "&reserva=error");
   exit();
 }
 

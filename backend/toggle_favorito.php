@@ -3,21 +3,21 @@ session_start();
 require_once "../config/conexion.php";
 
 if (!isset($_SESSION['usuario_id'])) {
-    header("Location: ../login.php");
+    header("Location: ../pages/login.php");
     exit();
 }
 
 $usuario_id = (int)$_SESSION['usuario_id'];
 $pelicula_id = (int)($_POST['pelicula_id'] ?? 0);
-$redirect = trim($_POST['redirect'] ?? '../index.php');
+$redirect = trim($_POST['redirect'] ?? '../pages/index.php');
 
 if ($pelicula_id <= 0) {
-    header("Location: ../index.php");
+    header("Location: ../pages/index.php");
     exit();
 }
 
 if ($redirect === '') {
-    $redirect = '../index.php';
+    $redirect = '../pages/index.php';
 }
 
 $stm = $pdo->prepare("SELECT id FROM favorito WHERE id_usuario = ? AND id_pelicula = ? LIMIT 1");

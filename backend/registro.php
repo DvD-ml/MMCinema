@@ -13,22 +13,22 @@ $pass1 = $_POST['password'] ?? '';
 $pass2 = $_POST['password_confirm'] ?? '';
 
 if ($username === '' || $email === '' || $pass1 === '' || $pass2 === '') {
-    header("Location: ../registro.php?error=campos");
+    header("Location: ../pages/registro.php?error=campos");
     exit();
 }
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    header("Location: ../registro.php?error=email_invalido");
+    header("Location: ../pages/registro.php?error=email_invalido");
     exit();
 }
 
 if ($pass1 !== $pass2) {
-    header("Location: ../registro.php?error=pass_distintas");
+    header("Location: ../pages/registro.php?error=pass_distintas");
     exit();
 }
 
 if (strlen($pass1) < 6) {
-    header("Location: ../registro.php?error=pass_corta");
+    header("Location: ../pages/registro.php?error=pass_corta");
     exit();
 }
 
@@ -36,7 +36,7 @@ $stm = $pdo->prepare("SELECT id FROM usuario WHERE email = ? LIMIT 1");
 $stm->execute([$email]);
 
 if ($stm->fetch()) {
-    header("Location: ../registro.php?error=email_duplicado");
+    header("Location: ../pages/registro.php?error=email_duplicado");
     exit();
 }
 
@@ -55,13 +55,13 @@ try {
     $correoEnviado = enviarCorreoVerificacion($email, $username, $token);
 
     if ($correoEnviado) {
-        header("Location: ../login.php?registro=1&verificacion=1");
+        header("Location: ../pages/login.php?registro=1&verificacion=1");
         exit();
     } else {
-        header("Location: ../login.php?registro=1&verificacion=0");
+        header("Location: ../pages/login.php?registro=1&verificacion=0");
         exit();
     }
 } catch (PDOException $e) {
-    header("Location: ../registro.php?error=bd");
+    header("Location: ../pages/registro.php?error=bd");
     exit();
 }

@@ -111,7 +111,7 @@ require_once __DIR__ . '/conexion.php';
         ?>
         
         <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd;">
-            <p><a href="../index.php" style="color: #007bff; text-decoration: none;">← Volver al inicio</a></p>
+            <p><a href="../pages/index.php" style="color: #007bff; text-decoration: none;">← Volver al inicio</a></p>
         </div>
     </div>
 </body>

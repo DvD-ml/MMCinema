@@ -6,7 +6,7 @@ require_once __DIR__ . "/../config/mail.php";
 require_once __DIR__ . "/../helpers/generar_ticket_pdf.php";
 
 if (!isset($_SESSION['usuario_id'])) {
-    header("Location: ../login.php");
+    header("Location: ../pages/login.php");
     exit();
 }
 
@@ -21,7 +21,7 @@ if (!is_array($asientos)) {
 }
 
 if ($proyeccion_id <= 0) {
-    header("Location: ../index.php");
+    header("Location: ../pages/index.php");
     exit();
 }
 
@@ -52,7 +52,7 @@ $stm->execute([$proyeccion_id]);
 $info = $stm->fetch(PDO::FETCH_ASSOC);
 
 if (!$info) {
-    header("Location: ../index.php");
+    header("Location: ../pages/index.php");
     exit();
 }
 
@@ -137,9 +137,9 @@ $correoEnviado = enviarCorreoEntrada(
 );
 
 if ($correoEnviado) {
-    header("Location: ../ticket.php?id=" . $ticket_id . "&correo=1");
+    header("Location: ../pages/ticket.php?id=" . $ticket_id . "&correo=1");
     exit();
 } else {
-    header("Location: ../ticket.php?id=" . $ticket_id . "&correo=0");
+    header("Location: ../pages/ticket.php?id=" . $ticket_id . "&correo=0");
     exit();
 }

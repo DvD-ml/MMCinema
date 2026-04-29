@@ -6,17 +6,17 @@ $pass1 = $_POST['password'] ?? '';
 $pass2 = $_POST['password_confirm'] ?? '';
 
 if ($token === '') {
-    header("Location: ../login.php?reset=token_invalido");
+    header("Location: ../pages/login.php?reset=token_invalido");
     exit();
 }
 
 if ($pass1 !== $pass2) {
-    header("Location: ../restablecer_password.php?token=" . urlencode($token) . "&error=pass_distintas");
+    header("Location: ../pages/restablecer_password.php?token=" . urlencode($token) . "&error=pass_distintas");
     exit();
 }
 
 if (strlen($pass1) < 6) {
-    header("Location: ../restablecer_password.php?token=" . urlencode($token) . "&error=pass_corta");
+    header("Location: ../pages/restablecer_password.php?token=" . urlencode($token) . "&error=pass_corta");
     exit();
 }
 
@@ -30,12 +30,12 @@ $stm->execute([$token]);
 $usuario = $stm->fetch(PDO::FETCH_ASSOC);
 
 if (!$usuario) {
-    header("Location: ../login.php?reset=token_invalido");
+    header("Location: ../pages/login.php?reset=token_invalido");
     exit();
 }
 
 if (empty($usuario['reset_expira']) || strtotime($usuario['reset_expira']) < time()) {
-    header("Location: ../login.php?reset=expirado");
+    header("Location: ../pages/login.php?reset=expirado");
     exit();
 }
 
@@ -50,5 +50,5 @@ $upd = $pdo->prepare("
 ");
 $upd->execute([$hash, $usuario['id']]);
 
-header("Location: ../login.php?reset=ok");
+header("Location: ../pages/login.php?reset=ok");
 exit();
