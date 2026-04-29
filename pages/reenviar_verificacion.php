@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 require_once "../config/conexion.php";
 require_once "../config/mail.php";
@@ -15,9 +15,7 @@ if (empty($email)) {
         <meta charset="utf-8">
         <title>MMCinema | Reenviar Verificación</title>
         <meta name="viewport" content="width=device-width,initial-scale=1">
-        <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
-        <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+        <link rel="icon" type="image/svg+xml" href="../favicon.svg">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="../assets/css/styles.css">
 
@@ -30,7 +28,7 @@ if (empty($email)) {
             <h3 class="text-center mb-3">Reenviar Verificación</h3>
             
             <div class="alert alert-info" style="border-left: 4px solid #3b82f6;">
-                <h5 class="alert-heading mb-2">ðŸ“§ Reenviar correo de verificación</h5>
+                <h5 class="alert-heading mb-2">📧 Reenviar correo de verificación</h5>
                 <p class="mb-0">Introduce tu email y te enviaremos un nuevo enlace de verificación.</p>
             </div>
 
@@ -50,14 +48,14 @@ if (empty($email)) {
             </form>
 
             <div class="text-center mt-3">
-                <small><a href="../pages/login.php">† Volver al login</a></small>
+                <small><a href="../pages/login.php">← Volver al login</a></small>
             </div>
         </div>
     </div>
 
     <?php include "../components/footer.php"; ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <?php include "../includes/lenis-scripts.php"; ?>
+    <?php // include "../includes/lenis-scripts.php"; // Lenis desactivado ?>
     </body>
     </html>
     <?php

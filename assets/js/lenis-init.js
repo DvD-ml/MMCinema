@@ -3,17 +3,18 @@
  * Proporciona un scroll suave y natural en toda la aplicación
  */
 
-// Inicializar Lenis
+// Inicializar Lenis con configuración optimizada para máxima suavidad
 const lenis = new Lenis({
-    duration: 1.2,        // Duración de la animación (segundos)
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Easing suave
+    duration: 1.8,        // Duración más larga para scroll más suave (segundos)
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Easing suave exponencial
     direction: 'vertical', // Dirección del scroll
     gestureDirection: 'vertical',
     smooth: true,
-    mouseMultiplier: 1,
-    smoothTouch: false,   // Desactivado en touch para mejor rendimiento
-    touchMultiplier: 2,
+    mouseMultiplier: 0.8,  // Reducido para scroll más controlado con mouse
+    smoothTouch: false,    // Desactivado en touch para mejor rendimiento
+    touchMultiplier: 1.5,  // Reducido para mejor control en touch
     infinite: false,
+    lerp: 0.08,           // Interpolación lineal - más bajo = más suave (0.1 por defecto)
 });
 
 // Función de animación
@@ -50,7 +51,8 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         if (target) {
             lenis.scrollTo(target, {
                 offset: -80, // Offset para navbar fija
-                duration: 1.5
+                duration: 2.0, // Duración más larga para scroll a anclas
+                easing: (t) => t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1 // Cubic ease in-out
             });
         }
     });
@@ -59,4 +61,4 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 // Exponer Lenis globalmente para uso en otros scripts
 window.lenis = lenis;
 
-console.log('✨ Lenis Smooth Scroll inicializado');
+console.log('✨ Lenis Smooth Scroll inicializado con configuración ultra-suave');

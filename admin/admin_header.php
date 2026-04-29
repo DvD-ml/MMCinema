@@ -11,8 +11,7 @@ $paginaActualAdmin = basename($_SERVER['PHP_SELF']);
 ?>
 <div class="admin-shell-topbar">
     <div class="admin-brand-wrap">
-        <a href="index.php" class="admin-logo">MMCinema <span>Admin</span></a>
-        <div class="admin-brand-subtitle">Control total del catálogo y de los usuarios</div>
+        <img src="logo/logo_admin.png" alt="MMCinema Admin" width="150">
     </div>
 
     <div class="admin-topbar-right">

@@ -2,7 +2,6 @@
 require_once "auth.php";
 verificarAuth();
 
-session_start();
 require_once("../config/conexion.php");
 
 if (empty($_SESSION['rol']) || $_SESSION['rol'] !== 'admin') {

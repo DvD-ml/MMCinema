@@ -24,6 +24,7 @@ $criticasSeries = $pdo->query("
     <meta charset="UTF-8">
     <title>Gestionar críticas</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
     <link rel="stylesheet" href="../assets/css/styles.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -37,8 +38,8 @@ $criticasSeries = $pdo->query("
             <p>Desde aquí puedes crear, editar y borrar críticas de películas y series.</p>
         </div>
         <div class="d-flex gap-2 flex-wrap">
-            <a href="critica_form.php?tipo=pelicula" class="btn btn-primary">Aúadir crítica de película</a>
-            <a href="critica_form.php?tipo=serie" class="btn btn-warning">Aúadir crítica de serie</a>
+            <a href="critica_form.php?tipo=pelicula" class="btn btn-primary">Añadir crítica de película</a>
+            <a href="critica_form.php?tipo=serie" class="btn btn-warning">Añadir crítica de serie</a>
             <a href="index.php" class="btn btn-outline-light">Volver al panel</a>
         </div>
     </div>

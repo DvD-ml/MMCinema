@@ -639,3 +639,59 @@
         grid-template-columns: 1fr;
     }
 }
+
+
+/* ===========================================
+   CAROUSEL CONTROLS - FLECHAS
+=========================================== */
+.carousel-control-prev,
+.carousel-control-next {
+    width: 50px;
+    height: 50px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+    background: rgba(245, 158, 11, 0.8);
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    width: 24px;
+    height: 24px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* Personalizar iconos con SVG inline */
+.carousel-control-prev-icon::before {
+    content: "‹";
+    font-size: 28px;
+    color: #fff;
+    font-weight: bold;
+    display: block;
+    line-height: 1;
+}
+
+.carousel-control-next-icon::before {
+    content: "›";
+    font-size: 28px;
+    color: #fff;
+    font-weight: bold;
+    display: block;
+    line-height: 1;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-image: none !important;
+}

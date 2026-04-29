@@ -10,6 +10,7 @@ $salas = $pdo->query("SELECT * FROM sala_config ORDER BY sala ASC")->fetchAll(PD
     <meta charset="UTF-8">
     <title>Administrar salas</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
     <link rel="stylesheet" href="../assets/css/styles.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -22,7 +23,7 @@ $salas = $pdo->query("SELECT * FROM sala_config ORDER BY sala ASC")->fetchAll(PD
             <h1>Administrar salas</h1>
             <p>Gestiona las salas de cine y su configuración.</p>
         </div>
-        <a href="sala_form.php" class="btn btn-primary">Aúadir sala</a>
+        <a href="sala_form.php" class="btn btn-primary">Añadir sala</a>
     </div>
 
     <?php if (isset($_GET['ok'])): ?>

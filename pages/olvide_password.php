@@ -9,11 +9,9 @@ if (!empty($_SESSION['usuario_id'])) {
 <html lang="es">
 <head>
     <meta charset="utf-8">
-    <title>MMCinema | Recuperar contraseúa</title>
+    <title>MMCinema | Recuperar contraseña</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/styles.css">
 </head>
@@ -22,11 +20,11 @@ if (!empty($_SESSION['usuario_id'])) {
 
 <div class="container form-container-wrapper">
     <div class="card form-card" style="max-width:520px; width:100%;">
-        <h3 class="text-center mb-3">Recuperar contraseúa</h3>
+        <h3 class="text-center mb-3">Recuperar contraseña</h3>
 
         <?php if (isset($_GET['ok']) && $_GET['ok'] === '1'): ?>
             <div class="alert alert-success">
-                Si el correo existe en nuestra base de datos, te hemos enviado un enlace para restablecer tu contraseúa.
+                Si el correo existe en nuestra base de datos, te hemos enviado un enlace para restablecer tu contraseña.
             </div>
         <?php endif; ?>
 
@@ -37,7 +35,7 @@ if (!empty($_SESSION['usuario_id'])) {
         <?php endif; ?>
 
         <p class="text-center text-muted mb-4">
-            Introduce tu correo y te enviaremos un enlace para cambiar tu contraseúa.
+            Introduce tu correo y te enviaremos un enlace para cambiar tu contraseña.
         </p>
 
         <form action="../backend/olvide_password.php" method="POST">
@@ -57,6 +55,6 @@ if (!empty($_SESSION['usuario_id'])) {
 
 <?php include "../components/footer.php"; ?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<?php include "../includes/lenis-scripts.php"; ?>
+<?php // include "../includes/lenis-scripts.php"; // Lenis desactivado ?>
 </body>
 </html>

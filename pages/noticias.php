@@ -45,6 +45,7 @@ function mm_noticias_url(int $paginaDestino): string {
     <meta charset="UTF-8">
     <title>MMCinema — Noticias</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -132,6 +133,6 @@ function mm_noticias_url(int $paginaDestino): string {
 <?php include "../components/footer.php"; ?>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<?php include "../includes/lenis-scripts.php"; ?>
+<?php // include "../includes/lenis-scripts.php"; // Lenis desactivado ?>
 </body>
 </html>

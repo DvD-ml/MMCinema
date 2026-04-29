@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 if (session_status() == PHP_SESSION_NONE) session_start();
 require_once "../config/conexion.php";
 
@@ -31,7 +31,7 @@ $hace = ($diff->days === 0) ? "hoy" : "hace " . $diff->days . " día(s)";
 function topKeywordsES(string $text, int $limit = 5): array {
     $stop = [
         "para","pero","porque","como","que","qué","con","sin","sobre","entre","desde",
-        "este","esta","estos","estas","ese","esa","esos","esas","aqui","aquí","allí",
+        "este","esta","estos","estas","ese","esa","esos","esas","aqui","aquí","allá",
         "los","las","del","por","una","uno","unos","unas","más","menos","muy","también",
         "ser","estar","hay","han","fue","son","era","sus","mis","tus","tu","su","se",
         "al","lo","la","el","y","o","u","de","en","a","un","is","are"
@@ -56,7 +56,7 @@ function topKeywordsES(string $text, int $limit = 5): array {
 
 $keywords = topKeywordsES($contenido, 5);
 
-/* -------- Noticias relacionadas (3 Úºltimas) -------- */
+/* -------- Noticias relacionadas (3 últimas) -------- */
 $stmRel = $pdo->prepare("SELECT id, titulo, imagen, publicado, contenido
                          FROM noticia
                          WHERE id <> ?
@@ -73,9 +73,7 @@ $img = $noticia["imagen"] ?: "noticia-placeholder.jpg";
     <meta charset="utf-8">
     <title>MMCinema | <?= htmlspecialchars($noticia["titulo"]) ?></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/styles.css">
 </head>
@@ -83,13 +81,13 @@ $img = $noticia["imagen"] ?: "noticia-placeholder.jpg";
 <?php include "../components/navbar.php"; ?>
 
 <main class="container my-5">
-    <a href="../pages/noticias.php" class="btn btn-outline-light mb-4">† Volver a noticias</a>
+    <a href="../pages/noticias.php" class="btn btn-outline-light mb-4">← Volver a noticias</a>
 
     <article class="noticia-detalle">
         <header class="mb-4">
             <h1 class="fw-bold"><?= htmlspecialchars($noticia["titulo"]) ?></h1>
             <p class="text-muted">
-                Publicado: <?= date("d/m/Y H:i", strtotime($noticia["publicado"])) ?> · <?= htmlspecialchars($hace) ?>
+                Publicado: <?= date("d/m/Y H:i", strtotime($noticia["publicado"])) ?> • <?= htmlspecialchars($hace) ?>
             </p>
         </header>
 
@@ -136,7 +134,7 @@ $img = $noticia["imagen"] ?: "noticia-placeholder.jpg";
 
 <?php include "../components/footer.php"; ?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<?php include "../includes/lenis-scripts.php"; ?>
+<?php // include "../includes/lenis-scripts.php"; // Lenis desactivado ?>
 </body>
 </html>
 

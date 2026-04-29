@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 if (session_status() === PHP_SESSION_NONE) session_start();
 require_once "../config/conexion.php";
 
@@ -70,7 +70,7 @@ $stmCarousel->execute();
 $carouselPeliculas = $stmCarousel->fetchAll(PDO::FETCH_ASSOC);
 
 /* =========================================
-   PRÚ“XIMOS ESTRENOS
+   PRÓXIMOS ESTRENOS
 ========================================= */
 $sqlProximas = "
     SELECT
@@ -148,7 +148,7 @@ $stmMejorUsuario->execute();
 $mejorUsuario = $stmMejorUsuario->fetch(PDO::FETCH_ASSOC);
 
 /* =========================================
-   ESTADÚSTICAS GENERALES
+   ESTADÍSTICAS GENERALES
 ========================================= */
 $totalCartelera = (int)$pdo->query("SELECT COUNT(*) FROM pelicula WHERE fecha_estreno <= CURDATE()")->fetchColumn();
 $totalProximas  = (int)$pdo->query("SELECT COUNT(*) FROM pelicula WHERE fecha_estreno > CURDATE()")->fetchColumn();
@@ -156,7 +156,7 @@ $totalNoticias  = (int)$pdo->query("SELECT COUNT(*) FROM noticia")->fetchColumn(
 $totalUsuarios  = (int)$pdo->query("SELECT COUNT(*) FROM usuario")->fetchColumn();
 
 /* =========================================
-   FUNCIÚ“N ESTRELLAS
+   FUNCIÓN ESTRELLAS
 ========================================= */
 function mm_stars($media): string
 {
@@ -171,11 +171,11 @@ function mm_stars($media): string
     $html = '<span class="stars">';
     for ($i = 1; $i <= 5; $i++) {
         if ($i <= $full) {
-            $html .= '<span class="star on">★</span>';
+            $html .= '<span class="star on">?</span>';
         } elseif ($i == $full + 1 && $half) {
-            $html .= '<span class="star half">★</span>';
+            $html .= '<span class="star half">?</span>';
         } else {
-            $html .= '<span class="star off">★</span>';
+            $html .= '<span class="star off">?</span>';
         }
     }
     $html .= '</span>';
@@ -190,9 +190,7 @@ function mm_stars($media): string
     <meta charset="utf-8">
     <title>MMCinema | Inicio</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/styles.css">
 </head>
@@ -253,7 +251,7 @@ function mm_stars($media): string
                                 $categorias_con_badge = ['proximamente', 'nueva_temporada', 'nuevo_episodio'];
                                 $categoria_lower = strtolower($p['categoria']);
                                 if (in_array($categoria_lower, $categorias_con_badge)): 
-                                    // Determinar el texto del badge segÚºn la categoría
+                                    // Determinar el texto del badge según la categoría
                                     $badge_texto = '';
                                     if ($categoria_lower === 'proximamente' && $p['fecha_estreno_contenido']) {
                                         $meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
@@ -322,7 +320,7 @@ function mm_stars($media): string
     </section>
 
     <!-- =========================================
-         ESTADÚSTICAS
+         ESTADÍSTICAS
     ========================================== -->
     <section class="home-section">
         <div class="container">
@@ -348,7 +346,7 @@ function mm_stars($media): string
     </section>
 
     <!-- =========================================
-         PRÚ“XIMOS ESTRENOS
+         PRÓXIMOS ESTRENOS
     ========================================== -->
     <section class="home-section">
         <div class="container">
@@ -503,7 +501,7 @@ function mm_stars($media): string
 <?php include "../components/footer.php"; ?>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<?php include "../includes/lenis-scripts.php"; ?>
+<?php // include "../includes/lenis-scripts.php"; // Lenis desactivado ?>
 </body>
 </html>
 

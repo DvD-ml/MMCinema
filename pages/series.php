@@ -1,4 +1,5 @@
-﻿<?php
+<?php
+header('Content-Type: text/html; charset=UTF-8');
 require_once("../config/conexion.php");
 
 function estrellasSerie($puntuacion) {
@@ -103,7 +104,7 @@ if ($plataformaFiltro > 0) {
     $stmtTopPlataforma->execute([$plataformaFiltro]);
     $topPlataforma = $stmtTopPlataforma->fetchAll(PDO::FETCH_ASSOC);
 
-    /* TODAS LAS SERIES DE ESA PLATAFORMA, 6 POR PÚGINA */
+    /* TODAS LAS SERIES DE ESA PLATAFORMA, 6 POR PÁGINA */
     $sqlSeries = "
         SELECT
             s.*,
@@ -158,9 +159,7 @@ unset($queryBase['pagina']);
     <meta charset="UTF-8">
     <title>Series | MMCINEMA</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
 <link rel="stylesheet" href="../assets/css/styles.css">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -186,7 +185,7 @@ unset($queryBase['pagina']);
                     ?>
                     <a href="<?= htmlspecialchars($link) ?>" class="streaming-pill <?= $esActiva ? 'active' : '' ?>">
                         <?php if (!empty($plataforma['logo'])): ?>
-                            <img src="<?= htmlspecialchars($plataforma['logo']) ?>" alt="<?= htmlspecialchars($plataforma['nombre']) ?>">
+                            <img src="../<?= htmlspecialchars($plataforma['logo']) ?>" alt="<?= htmlspecialchars($plataforma['nombre']) ?>">
                         <?php else: ?>
                             <span class="streaming-pill-text"><?= htmlspecialchars($plataforma['nombre']) ?></span>
                         <?php endif; ?>
@@ -212,7 +211,7 @@ unset($queryBase['pagina']);
                     ?>
                         <article class="series-featured-item">
                             <div class="card pelicula-card serie-card h-100">
-                                <img src="<?= htmlspecialchars($serie['poster']) ?>" alt="<?= htmlspecialchars($serie['titulo']) ?>">
+                                <img src="../<?= htmlspecialchars($serie['poster']) ?>" alt="<?= htmlspecialchars($serie['titulo']) ?>">
                                 <div class="card-body">
                                     <h5 class="card-title"><?= htmlspecialchars($serie['titulo']) ?></h5>
 
@@ -259,7 +258,7 @@ unset($queryBase['pagina']);
                         ?>
                             <article class="series-featured-item">
                                 <div class="card pelicula-card serie-card h-100">
-                                    <img src="<?= htmlspecialchars($serie['poster']) ?>" alt="<?= htmlspecialchars($serie['titulo']) ?>">
+                                    <img src="../<?= htmlspecialchars($serie['poster']) ?>" alt="<?= htmlspecialchars($serie['titulo']) ?>">
                                     <div class="card-body">
                                         <h5 class="card-title"><?= htmlspecialchars($serie['titulo']) ?></h5>
 
@@ -300,7 +299,7 @@ unset($queryBase['pagina']);
                         <?php foreach ($series as $serie): ?>
                             <div class="col-12 col-sm-6 col-lg-4">
                                 <div class="card pelicula-card serie-card h-100 reveal-card">
-                                    <img src="<?= htmlspecialchars($serie['poster']) ?>" alt="<?= htmlspecialchars($serie['titulo']) ?>">
+                                    <img src="../<?= htmlspecialchars($serie['poster']) ?>" alt="<?= htmlspecialchars($serie['titulo']) ?>">
                                     <div class="card-body">
                                         <h5 class="card-title"><?= htmlspecialchars($serie['titulo']) ?></h5>
 
@@ -376,7 +375,7 @@ unset($queryBase['pagina']);
                                 <article class="serie-mini-card reveal-card">
                                     <a href="../pages/serie.php?id=<?= (int)$serie['id'] ?>" class="serie-mini-link">
                                         <div class="serie-mini-poster">
-                                            <img src="<?= htmlspecialchars($serie['poster']) ?>" alt="<?= htmlspecialchars($serie['titulo']) ?>">
+                                            <img src="../<?= htmlspecialchars($serie['poster']) ?>" alt="<?= htmlspecialchars($serie['titulo']) ?>">
                                         </div>
                                         <div class="serie-mini-body">
                                             <h3><?= htmlspecialchars($serie['titulo']) ?></h3>
@@ -398,7 +397,7 @@ unset($queryBase['pagina']);
 
 </main>
 
-<?php include("footer.php"); ?>
+<?php include("../components/footer.php"); ?>
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -500,7 +499,7 @@ unset($queryBase['pagina']);
         });
     });
 </script>
-<?php include "../includes/lenis-scripts.php"; ?>
+<?php // include "../includes/lenis-scripts.php"; // Lenis desactivado ?>
 </body>
 </html>
 

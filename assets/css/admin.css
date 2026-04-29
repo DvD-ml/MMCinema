@@ -211,3 +211,39 @@
         display: none;
     }
 }
+
+
+/* ===========================================
+   FIX PARA EPISODIOS, TEMPORADAS Y CRÍTICAS
+=========================================== */
+.admin-glass-card {
+    background: rgba(10, 18, 32, 0.84) !important;
+}
+
+.admin-glass-card .admin-table-wrap {
+    background: transparent !important;
+}
+
+.admin-glass-card .admin-table {
+    background: transparent !important;
+}
+
+.admin-glass-card .admin-table th {
+    background: rgba(255,255,255,0.04) !important;
+    color: #fff !important;
+    font-weight: 600 !important;
+}
+
+.admin-glass-card .admin-table tbody tr {
+    background: transparent !important;
+    transition: background 0.2s ease;
+}
+
+.admin-glass-card .admin-table tbody tr:hover {
+    background: rgba(249,115,22,0.08) !important;
+}
+
+.admin-glass-card .admin-table td {
+    color: #e5e7eb !important;
+    background: transparent !important;
+}

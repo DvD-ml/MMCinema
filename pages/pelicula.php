@@ -94,9 +94,7 @@ if (!empty($pelicula['fecha_estreno']) && strtotime($pelicula['fecha_estreno']) 
     <meta charset="utf-8">
     <title>MMCinema | <?= htmlspecialchars($pelicula['titulo']) ?></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/styles.css">
 </head>
@@ -185,8 +183,8 @@ if (!empty($pelicula['fecha_estreno']) && strtotime($pelicula['fecha_estreno']) 
                                 </span>
                                 <span>
                                     <?= $esProximamente
-                                        ? ($esFavorita ? 'En mi lista' : 'Aúadir a mi lista')
-                                        : ($esFavorita ? 'En favoritas' : 'Aúadir a favoritas') ?>
+                                        ? ($esFavorita ? 'En mi lista' : 'Añadir a mi lista')
+                                        : ($esFavorita ? 'En favoritas' : 'Añadir a favoritas') ?>
                                 </span>
                             </button>
                         </form>
@@ -305,6 +303,6 @@ if (!empty($pelicula['fecha_estreno']) && strtotime($pelicula['fecha_estreno']) 
 
 <?php include "../components/footer.php"; ?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<?php include "../includes/lenis-scripts.php"; ?>
+<?php // include "../includes/lenis-scripts.php"; // Lenis desactivado ?>
 </body>
 </html>

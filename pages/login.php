@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 if (session_status() === PHP_SESSION_NONE) session_start();
 if (!empty($_SESSION['usuario_id'])) {
     header("Location: index.php");
@@ -11,6 +11,7 @@ if (!empty($_SESSION['usuario_id'])) {
   <meta charset="utf-8">
   <title>MMCinema | Login</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/styles.css">
   <link rel="stylesheet" href="../assets/css/custom-checkbox.css">
@@ -193,6 +194,6 @@ document.addEventListener('DOMContentLoaded', function() {
     form.setAttribute('data-form-type', 'login');
 });
 </script>
-<?php include "../includes/lenis-scripts.php"; ?>
+<?php // include "../includes/lenis-scripts.php"; // Lenis desactivado ?>
 </body>
 </html>

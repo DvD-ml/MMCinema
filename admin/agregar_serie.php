@@ -2,11 +2,9 @@
 require_once "auth.php";
 verificarAuth();
 
-session_start();
 require_once("../config/conexion.php");
 require_once(__DIR__ . "/includes/series_admin_ui.php");
 require_once(__DIR__ . "/includes/upload_helper.php");
-require_once(__DIR__ . "/auth.php");
 
 $generos = $pdo->query("SELECT id, nombre FROM genero ORDER BY nombre ASC")->fetchAll(PDO::FETCH_ASSOC);
 $plataformas = $pdo->query("SELECT id, nombre FROM plataforma ORDER BY nombre ASC")->fetchAll(PDO::FETCH_ASSOC);
@@ -53,8 +51,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Aúadir serie | MMCINEMA</title>
+    <title>Añadir serie | MMCINEMA</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
     <link rel="stylesheet" href="../assets/css/styles.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -64,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 require_once "../helpers/FileValidation.php";
 
 <div class="container py-4">
-    <h1 class="mb-4">Aúadir nueva serie</h1>
+    <h1 class="mb-4">Añadir nueva serie</h1>
 
     <?php mm_render_series_admin_nav('series'); ?>
 

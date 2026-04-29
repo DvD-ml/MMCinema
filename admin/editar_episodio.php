@@ -2,7 +2,6 @@
 require_once "auth.php";
 verificarAuth();
 
-session_start();
 require_once("../config/conexion.php");
 require_once(__DIR__ . "/includes/series_admin_ui.php");
 require_once "../helpers/CSRF.php";
@@ -56,6 +55,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <head>
     <meta charset="UTF-8">
     <title>Editar episodio | MMCINEMA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../assets/css/styles.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">

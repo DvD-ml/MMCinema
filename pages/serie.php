@@ -1,4 +1,5 @@
 <?php
+header('Content-Type: text/html; charset=UTF-8');
 require_once("../config/conexion.php");
 if (session_status() === PHP_SESSION_NONE) session_start();
 
@@ -185,29 +186,31 @@ $criticas = $stmtCriticas->fetchAll(PDO::FETCH_ASSOC);
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title><?= htmlspecialchars($serie['titulo']) ?> | MMCINEMA</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
     <link rel="stylesheet" href="../assets/css/styles.css">
     <link rel="stylesheet" href="../assets/css/series.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 
-<?php include("navbar.php"); ?>
+<?php include("../components/navbar.php"); ?>
 
 <main class="serie-detalle-page">
 
     <section class="serie-hero-detalle" style="
         background:
         linear-gradient(90deg, rgba(7,10,18,.95) 0%, rgba(7,10,18,.75) 45%, rgba(7,10,18,.92) 100%),
-        url('<?= !empty($serie['banner']) ? htmlspecialchars($serie['banner']) : 'assets/img/series/banners/default-banner.webp' ?>') center/cover no-repeat;
+        url('../<?= !empty($serie['banner']) ? htmlspecialchars($serie['banner']) : 'assets/img/series/banners/default-banner.webp' ?>') center/cover no-repeat;
     ">
         <div class="container py-5">
             <div class="row align-items-center g-4">
                 <div class="col-md-4 col-lg-3">
                     <img
-                        src="<?= htmlspecialchars($serie['poster']) ?>"
+                        src="../<?= htmlspecialchars($serie['poster']) ?>"
                         alt="<?= htmlspecialchars($serie['titulo']) ?>"
                         class="img-fluid rounded-4 shadow-lg"
                         style="width:100%; max-width:320px; object-fit:cover;"
@@ -215,18 +218,20 @@ $criticas = $stmtCriticas->fetchAll(PDO::FETCH_ASSOC);
                 </div>
 
                 <div class="col-md-8 col-lg-9 text-white">
-                    <span class="badge bg-warning text-dark mb-3">
-                        <?= htmlspecialchars($serie['plataforma_nombre'] ?? 'Plataforma') ?>
-                    </span>
+                    <?php if (!empty($serie['plataforma_logo'])): ?>
+                        <div class="mb-3">
+                            <img src="../<?= htmlspecialchars($serie['plataforma_logo']) ?>" alt="<?= htmlspecialchars($serie['plataforma_nombre'] ?? 'Plataforma') ?>" style="height: 40px; width: auto; object-fit: contain;">
+                        </div>
+                    <?php endif; ?>
 
                     <h1 class="display-5 fw-bold mb-3"><?= htmlspecialchars($serie['titulo']) ?></h1>
 
                     <div class="d-flex flex-wrap gap-2 mb-3">
-                        <span class="badge bg-dark-subtle text-light"><?= htmlspecialchars($serie['genero_nombre'] ?? 'Sin género') ?></span>
-                        <span class="badge bg-dark-subtle text-light"><?= htmlspecialchars($serie['estado'] ?? 'Sin estado') ?></span>
-                        <span class="badge bg-dark-subtle text-light"><?= htmlspecialchars($serie['edad'] ?? 'TP') ?></span>
+                        <span class="badge" style="background-color: #f59e0b; color: #000;"><?= htmlspecialchars($serie['genero_nombre'] ?? 'Sin género') ?></span>
+                        <span class="badge" style="background-color: #f59e0b; color: #000;"><?= htmlspecialchars($serie['estado'] ?? 'Sin estado') ?></span>
+                        <span class="badge" style="background-color: #f59e0b; color: #000;"><?= htmlspecialchars($serie['edad'] ?? 'TP') ?></span>
                         <?php if (!empty($serie['fecha_estreno'])): ?>
-                            <span class="badge bg-dark-subtle text-light"><?= date("Y", strtotime($serie['fecha_estreno'])) ?></span>
+                            <span class="badge" style="background-color: #f59e0b; color: #000;"><?= date("Y", strtotime($serie['fecha_estreno'])) ?></span>
                         <?php endif; ?>
                     </div>
 
@@ -240,7 +245,13 @@ $criticas = $stmtCriticas->fetchAll(PDO::FETCH_ASSOC);
                     <p class="lead mb-4"><?= nl2br(htmlspecialchars($serie['sinopsis'])) ?></p>
 
                     <div class="d-flex flex-wrap gap-2">
-                        <a href="#temporadas" class="btn btn-primary">Ver temporadas</a>
+                        <a href="series.php" class="btn-volver-series">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+                            </svg>
+                            Volver a Series
+                        </a>
+                        
                         <?php if (!empty($serie['trailer'])): ?>
                             <a href="<?= htmlspecialchars($serie['trailer']) ?>" target="_blank" class="btn btn-warning fw-semibold">
                                 ▶ Ver tráiler
@@ -252,7 +263,7 @@ $criticas = $stmtCriticas->fetchAll(PDO::FETCH_ASSOC);
                                 <input type="hidden" name="serie_id" value="<?= (int)$serie['id'] ?>">
                                 <input type="hidden" name="redirect" value="serie.php?id=<?= (int)$serie['id'] ?>">
                                 <button type="submit" class="btn <?= $esFavorito ? 'btn-success' : 'btn-outline-light' ?> fw-semibold">
-                                    <?= $esFavorito ? '✓ En favoritas' : '+ Aúadir a favoritas' ?>
+                                    <?= $esFavorito ? '✓ En favoritas' : '+ Añadir a favoritas' ?>
                                 </button>
                             </form>
                         <?php endif; ?>
@@ -261,17 +272,42 @@ $criticas = $stmtCriticas->fetchAll(PDO::FETCH_ASSOC);
             </div>
         </div>
     </section>
-    <section class="serie-subnav-wrap">
-        <div class="container">
-            <div class="serie-subnav">
-                <a href="../pages/series.php" class="serie-subnav-link">Volver a series</a>
 
-                <a href="#temporadas" class="serie-subnav-link">Temporadas</a>
-
-                <a href="#criticas-series" class="serie-subnav-link">Críticas</a>
-            </div>
-        </div>
-    </section>
+    <style>
+        .btn-volver-series {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: #f59e0b;
+            color: #000;
+            font-weight: 600;
+            border-radius: 0.375rem;
+            padding: 0.375rem 0.75rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(245, 158, 11, 0.3);
+            border: none;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        
+        .btn-volver-series:hover {
+            background-color: #d97706;
+            color: #000;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(245, 158, 11, 0.4);
+        }
+        
+        .btn-volver-series svg {
+            transition: transform 0.3s ease;
+            width: 16px;
+            height: 16px;
+        }
+        
+        .btn-volver-series:hover svg {
+            transform: translateX(-4px);
+        }
+    </style>
 
     <section class="home-section" id="temporadas">
         <div class="container">
@@ -320,7 +356,7 @@ $criticas = $stmtCriticas->fetchAll(PDO::FETCH_ASSOC);
                                     <div class="col-md-3 col-lg-2">
                                         <?php if (!empty($temporada['poster'])): ?>
                                             <img
-                                                src="<?= htmlspecialchars($temporada['poster']) ?>"
+                                                src="../<?= htmlspecialchars($temporada['poster']) ?>"
                                                 alt="<?= htmlspecialchars($temporada['titulo'] ?: 'Temporada ' . $temporada['numero_temporada']) ?>"
                                                 class="img-fluid rounded-4 season-poster"
                                             >
@@ -444,7 +480,7 @@ $criticas = $stmtCriticas->fetchAll(PDO::FETCH_ASSOC);
 
 </main>
 
-<?php include("footer.php"); ?>
+<?php include("../components/footer.php"); ?>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
@@ -483,6 +519,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 </script>
-<?php include "../includes/lenis-scripts.php"; ?>
+<?php // include "../includes/lenis-scripts.php"; // Lenis desactivado ?>
 </body>
 </html>

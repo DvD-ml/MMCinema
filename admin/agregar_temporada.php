@@ -2,11 +2,9 @@
 require_once "auth.php";
 verificarAuth();
 
-session_start();
 require_once("../config/conexion.php");
 require_once(__DIR__ . "/includes/series_admin_ui.php");
 require_once(__DIR__ . "/includes/upload_helper.php");
-require_once(__DIR__ . "/auth.php");
 
 $series = $pdo->query("SELECT id, titulo FROM serie ORDER BY titulo ASC")->fetchAll(PDO::FETCH_ASSOC);
 $idSeriePre = isset($_GET['id_serie']) ? (int)$_GET['id_serie'] : 0;
@@ -34,8 +32,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Aúadir temporada | MMCINEMA</title>
+    <title>Añadir temporada | MMCINEMA</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
     <link rel="stylesheet" href="../assets/css/styles.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -44,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <?php require_once __DIR__ . "/admin_header.php"; ?>
 
 <div class="container py-4">
-    <h1 class="mb-4">Aúadir temporada</h1>
+    <h1 class="mb-4">Añadir temporada</h1>
 
     <?php mm_render_series_admin_nav('temporadas', ['id_serie' => $idSeriePre]); ?>
 

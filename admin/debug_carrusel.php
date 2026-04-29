@@ -2,7 +2,6 @@
 require_once "auth.php";
 verificarAuth();
 
-session_start();
 require_once "../config/conexion.php";
 
 echo "<h1>Debug - Acceso al Carrusel</h1>";

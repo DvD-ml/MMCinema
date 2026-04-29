@@ -3,11 +3,12 @@ require_once "auth.php";
 require_once "../config/conexion.php";
 
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+$pelicula_id_preseleccionada = isset($_GET['pelicula_id']) ? (int)$_GET['pelicula_id'] : 0;
 $modoEdicion = $id > 0;
 
 $proyeccion = [
     'id' => '',
-    'id_pelicula' => '',
+    'id_pelicula' => $pelicula_id_preseleccionada, // Pre-seleccionar si viene de la URL
     'fecha' => '',
     'hora' => '',
     'sala' => ''
@@ -33,6 +34,7 @@ $salas = $pdo->query("SELECT sala FROM sala_config ORDER BY sala ASC")->fetchAll
     <meta charset="UTF-8">
     <title><?= $modoEdicion ? 'Editar proyección' : 'Nueva proyección' ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
     <link rel="stylesheet" href="../assets/css/styles.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>

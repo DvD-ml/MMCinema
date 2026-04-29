@@ -45,8 +45,9 @@ if ($modoEdicion) {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title><?= $modoEdicion ? 'Editar crítica' : 'Aúadir crítica' ?></title>
+    <title><?= $modoEdicion ? 'Editar crítica' : 'Añadir crítica' ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
     <link rel="stylesheet" href="../assets/css/styles.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -56,7 +57,7 @@ if ($modoEdicion) {
 <div class="container py-4 py-lg-5">
     <div class="admin-page-head">
         <div>
-            <h1><?= $modoEdicion ? 'Editar crítica' : 'Aúadir crítica' ?></h1>
+            <h1><?= $modoEdicion ? 'Editar crítica' : 'Añadir crítica' ?></h1>
             <p><?= $tipo === 'pelicula' ? 'Gestiona una crítica de película.' : 'Gestiona una crítica de serie.' ?></p>
         </div>
         <a href="criticas.php" class="btn btn-outline-light">Volver</a>

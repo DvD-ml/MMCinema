@@ -67,6 +67,7 @@ $posterOk   = ($posterFile !== '' && file_exists($posterAbs));
   <meta charset="utf-8">
   <title>Reservar entradas</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
   <style>
     body { margin:0; font-family: Arial, sans-serif; background:#0b1220; color:#e5e7eb; }
     .wrap { max-width: 1100px; margin: 0 auto; padding: 20px; }

@@ -13,6 +13,7 @@ $usuarios = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <title>Gestionar usuarios</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
     <link rel="stylesheet" href="../assets/css/styles.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -26,7 +27,7 @@ $usuarios = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
             <p>Revisa roles, correos, crea nuevas cuentas y elimina las que ya no necesites.</p>
         </div>
         <div class="d-flex gap-2">
-            <a href="usuario_form.php" class="btn btn-primary">Aúadir usuario</a>
+            <a href="usuario_form.php" class="btn btn-primary">Añadir usuario</a>
             <a href="index.php" class="btn btn-outline-light">Volver al panel</a>
         </div>
     </div>
