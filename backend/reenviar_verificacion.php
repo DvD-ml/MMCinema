@@ -69,7 +69,7 @@ try {
         header("Location: ../pages/login.php?reenvio=ok");
         exit();
     } else {
-        Logger::error("Error al reenviar correo de verificación", [
+        Logger::error("Error al reenviar correo de verificación", null, [
             'user_id' => $user['id'],
             'email' => $email
         ]);
@@ -77,7 +77,7 @@ try {
         exit();
     }
 } catch (Exception $e) {
-    Logger::error("Excepción al reenviar correo de verificación", [
+    Logger::error("Excepción al reenviar correo de verificación", $e, [
         'user_id' => $user['id'],
         'email' => $email,
         'error' => $e->getMessage()

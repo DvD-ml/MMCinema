@@ -1,6 +1,7 @@
 <?php
 require_once "auth.php";
 require_once "../config/conexion.php";
+require_once "../helpers/CSRF.php";
 
 // Obtener películas en cartelera (ya estrenadas)
 $sqlCartelera = "
@@ -433,6 +434,7 @@ $peliculasProximamente = $pdo->query($sqlProximamente)->fetchAll(PDO::FETCH_ASSO
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 let peliculaIdActual = null;
+const csrfToken = '<?php echo CSRF::obtenerToken(); ?>';
 
 function abrirModalProyecciones(peliculaId, titulo, poster) {
     peliculaIdActual = peliculaId;
@@ -473,7 +475,11 @@ function abrirModalProyecciones(peliculaId, titulo, poster) {
                         </div>
                         <div class="proyeccion-actions">
                             <a href="proyeccion_form.php?id=${proy.id}" class="btn btn-warning btn-sm">Editar</a>
-                            <a href="proyeccion_borrar.php?id=${proy.id}" class="btn btn-danger btn-sm" onclick="return confirm('¿Eliminar esta proyección?')">Eliminar</a>
+                            <form method="POST" action="proyeccion_borrar.php" style="display: inline;" onsubmit="return confirm('¿Eliminar esta proyección?')">
+                                <input type="hidden" name="id" value="${proy.id}">
+                                <input type="hidden" name="csrf_token" value="${csrfToken}">
+                                <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                            </form>
                         </div>
                     </div>
                 `).join('');

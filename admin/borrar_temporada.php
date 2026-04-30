@@ -5,6 +5,12 @@ verificarAuth();
 require_once("../config/conexion.php");
 require_once "../helpers/CSRF.php";
 
+// Validar que sea POST
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header("Location: temporadas.php");
+    exit();
+}
+
 CSRF::validarOAbortar();
 
 if (empty($_SESSION['rol']) || $_SESSION['rol'] !== 'admin') {
@@ -13,8 +19,8 @@ if (empty($_SESSION['rol']) || $_SESSION['rol'] !== 'admin') {
 }
 
 $id = 0;
-if (isset($_GET["id"])) {
-    $id = (int)$_GET["id"];
+if (isset($_POST["id"])) {
+    $id = (int)$_POST["id"];
 }
 
 $idSerie = 0;

@@ -1,6 +1,7 @@
 <?php
 require_once "auth.php";
 require_once "../config/conexion.php";
+require_once "../helpers/CSRF.php";
 
 $sql = "SELECT p.*, g.nombre AS genero FROM pelicula p LEFT JOIN genero g ON p.id_genero = g.id ORDER BY p.id DESC";
 $peliculas = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
@@ -57,7 +58,11 @@ $peliculas = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
                             <td>
                                 <div class="admin-actions">
                                     <a href="pelicula_form.php?id=<?= (int)$p['id'] ?>" class="btn btn-warning btn-sm">Editar</a>
-                                    <a href="pelicula_borrar.php?id=<?= (int)$p['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que quieres borrar esta película?')">Borrar</a>
+                                    <form method="POST" action="pelicula_borrar.php" style="display: inline;" onsubmit="return confirm('¿Seguro que quieres borrar esta película?')">
+                                        <input type="hidden" name="id" value="<?= (int)$p['id'] ?>">
+                                        <?php echo CSRF::campoFormulario(); ?>
+                                        <button type="submit" class="btn btn-danger btn-sm">Borrar</button>
+                                    </form>
                                 </div>
                             </td>
                         </tr>

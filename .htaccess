@@ -1,6 +1,6 @@
 # Habilitar rewrite engine
 RewriteEngine On
-RewriteBase /david/MMCINEMA/
+RewriteBase /
 
 # Definir archivo índice
 DirectoryIndex index.php index.html
@@ -27,4 +27,4 @@ RewriteRule ^(cartelera|series|serie|pelicula|noticia|noticias|criticas|proximam
 Options -Indexes
 
 # Bloquear acceso a carpetas sensibles
-RedirectMatch 403 ^/david/MMCINEMA/(config|helpers|includes|logs|tests|database)/.*$
+RedirectMatch 403 ^/(config|helpers|includes|logs|tests|database)/.*$

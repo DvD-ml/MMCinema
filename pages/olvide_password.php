@@ -39,6 +39,7 @@ if (!empty($_SESSION['usuario_id'])) {
         </p>
 
         <form action="../backend/olvide_password.php" method="POST">
+            <?php require_once "../helpers/CSRF.php"; echo CSRF::campoFormulario(); ?>
             <div class="mb-3">
                 <label class="form-label" for="email">Correo electrónico</label>
                 <input type="email" id="email" name="email" class="form-control" required>

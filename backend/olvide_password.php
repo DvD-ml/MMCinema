@@ -1,6 +1,9 @@
 <?php
 require_once "../config/conexion.php";
 require_once "../config/mail.php";
+require_once "../helpers/CSRF.php";
+
+CSRF::validarOAbortar();
 
 $email = '';
 if (isset($_POST['email'])) {

@@ -54,6 +54,7 @@ if (empty($usuario['reset_expira']) || strtotime($usuario['reset_expira']) < tim
 
         <form action="../backend/restablecer_password.php" method="POST">
             <input type="hidden" name="token" value="<?= htmlspecialchars($token) ?>">
+            <?php require_once "../helpers/CSRF.php"; echo CSRF::campoFormulario(); ?>
 
             <div class="mb-3">
                 <label class="form-label" for="password">Nueva contraseña</label>

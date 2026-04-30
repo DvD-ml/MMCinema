@@ -33,6 +33,7 @@ if (empty($email)) {
             </div>
 
             <form action="../backend/reenviar_verificacion.php" method="POST">
+                <?php require_once "../helpers/CSRF.php"; echo CSRF::campoFormulario(); ?>
                 <div class="mb-3">
                     <label class="form-label" for="email">Email</label>
                     <input 
@@ -117,7 +118,7 @@ try {
         header("Location: login.php?reenvio=ok");
         exit();
     } else {
-        Logger::error("Error al reenviar correo de verificación", [
+        Logger::error("Error al reenviar correo de verificación", null, [
             'user_id' => $user['id'],
             'email' => $email
         ]);
@@ -125,7 +126,7 @@ try {
         exit();
     }
 } catch (Exception $e) {
-    Logger::error("Excepción al reenviar correo de verificación", [
+    Logger::error("Excepción al reenviar correo de verificación", $e, [
         'user_id' => $user['id'],
         'email' => $email,
         'error' => $e->getMessage()

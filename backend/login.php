@@ -56,11 +56,12 @@ if (!$passwordCorrecta) {
     exit();
 }
 
-$usuarioVerificado = (int)$user['verificado'];
-if ($usuarioVerificado !== 1) {
-    header("Location: ../pages/login.php?error=no_verificado&email=" . urlencode($email));
-    exit();
-}
+// Verificación de email deshabilitada (emails no funcionan en este servidor)
+// $usuarioVerificado = (int)$user['verificado'];
+// if ($usuarioVerificado !== 1) {
+//     header("Location: ../pages/login.php?error=no_verificado&email=" . urlencode($email));
+//     exit();
+// }
 
 $_SESSION['usuario_id'] = (int)$user['id'];
 $_SESSION['usuario'] = $user['username'];

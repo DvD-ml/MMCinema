@@ -3,6 +3,7 @@ require_once "auth.php";
 verificarAuth();
 
 require_once("../config/conexion.php");
+require_once "../helpers/CSRF.php";
 require_once(__DIR__ . "/includes/series_admin_ui.php");
 
 $idTemporadaFiltro = isset($_GET['id_temporada']) ? (int)$_GET['id_temporada'] : 0;
@@ -82,7 +83,11 @@ $episodios = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <td>
                                 <div class="acciones">
                                     <a href="editar_episodio.php?id=<?= (int)$episodio['id'] ?>" class="btn btn-sm btn-primary">Editar</a>
-                                    <a href="borrar_episodio.php?id=<?= (int)$episodio['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro que quieres borrar este episodio?');">Borrar</a>
+                                    <form method="POST" action="borrar_episodio.php" style="display: inline;" onsubmit="return confirm('¿Seguro que quieres borrar este episodio?');">
+                                        <input type="hidden" name="id" value="<?= (int)$episodio['id'] ?>">
+                                        <?php echo CSRF::campoFormulario(); ?>
+                                        <button type="submit" class="btn btn-sm btn-danger">Borrar</button>
+                                    </form>
                                 </div>
                             </td>
                         </tr>

@@ -1,6 +1,7 @@
 <?php
 require_once "auth.php";
 require_once "../config/conexion.php";
+require_once "../helpers/CSRF.php";
 
 verificarAuth();
 
@@ -87,11 +88,11 @@ $usuarios = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
                                     <a href="usuario_form.php?id=<?= (int)$u['id'] ?>" class="btn btn-warning btn-sm">Editar</a>
 
                                     <?php if ((int)$u['id'] !== (int)$_SESSION['usuario_id']): ?>
-                                        <a href="usuario_borrar.php?id=<?= (int)$u['id'] ?>"
-                                           class="btn btn-danger btn-sm"
-                                           onclick="return confirm('¿Seguro que quieres borrar este usuario?')">
-                                            Borrar
-                                        </a>
+                                        <form method="POST" action="usuario_borrar.php" style="display: inline;" onsubmit="return confirm('¿Seguro que quieres borrar este usuario?')">
+                                            <input type="hidden" name="id" value="<?= (int)$u['id'] ?>">
+                                            <?php echo CSRF::campoFormulario(); ?>
+                                            <button type="submit" class="btn btn-danger btn-sm">Borrar</button>
+                                        </form>
                                     <?php else: ?>
                                         <button class="btn btn-secondary btn-sm" disabled>Tu cuenta</button>
                                     <?php endif; ?>

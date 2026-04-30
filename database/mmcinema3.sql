@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-03-2026 a las 13:16:06
+-- Tiempo de generación: 29-04-2026 a las 12:16:50
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -20,6 +20,39 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `mmcinema3`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `carrusel_destacado`
+--
+
+CREATE TABLE `carrusel_destacado` (
+  `id` int(11) NOT NULL,
+  `titulo` varchar(255) NOT NULL,
+  `tipo` enum('pelicula','serie') NOT NULL,
+  `id_contenido` int(11) NOT NULL,
+  `imagen_fondo` varchar(255) NOT NULL,
+  `imagen_posicion` varchar(50) DEFAULT 'center',
+  `logo_titulo` varchar(255) DEFAULT NULL,
+  `categoria` enum('destacada','mejores','proximamente','nueva_temporada','nuevo_episodio','nuevos','populares') DEFAULT 'destacada',
+  `descripcion` text DEFAULT NULL,
+  `activo` tinyint(1) DEFAULT 1,
+  `orden` int(11) DEFAULT 0,
+  `fecha_inicio` date DEFAULT NULL,
+  `fecha_fin` date DEFAULT NULL,
+  `creado` timestamp NOT NULL DEFAULT current_timestamp(),
+  `actualizado` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `carrusel_destacado`
+--
+
+INSERT INTO `carrusel_destacado` (`id`, `titulo`, `tipo`, `id_contenido`, `imagen_fondo`, `imagen_posicion`, `logo_titulo`, `categoria`, `descripcion`, `activo`, `orden`, `fecha_inicio`, `fecha_fin`, `creado`, `actualizado`) VALUES
+(8, 's', 'pelicula', 5, 'carrusel-s_20260428_103952_a64eb070.webp', 'center', 'logo-s_20260428_103952_9d152a52.webp', 'proximamente', 'as', 1, 1, NULL, NULL, '2026-04-28 08:39:52', '2026-04-28 08:44:39'),
+(9, 'boys t5', 'serie', 3, 'carrusel-boys-t5_20260428_105711_999d029a.webp', 'center', 'logo-boys-t5_20260428_105711_c1b7f793.webp', 'nueva_temporada', 'Nueva Temporada', 1, 0, NULL, NULL, '2026-04-28 08:57:11', '2026-04-28 08:57:11'),
+(10, 'C3', 'pelicula', 27, 'carrusel-c3_20260428_133501_6e54a2d4.webp', 'center', 'logo-c3_20260428_133501_faf0677c.webp', 'proximamente', 'P', 1, 2, NULL, NULL, '2026-04-28 11:35:01', '2026-04-28 11:35:01');
 
 -- --------------------------------------------------------
 
@@ -54,7 +87,13 @@ INSERT INTO `critica` (`id`, `id_usuario`, `id_pelicula`, `contenido`, `puntuaci
 (17, 1, 22, 'rfe', 5, '2026-03-23 11:28:38'),
 (18, 8, 4, 'wq', 4, '2026-03-23 12:42:18'),
 (19, 17, 22, 'cv', 2, '2026-03-24 08:56:01'),
-(20, 17, 4, 'sds', 1, '2026-03-24 11:21:32');
+(20, 17, 4, 'sds', 1, '2026-03-24 11:21:32'),
+(21, 17, 18, 'fhg', 1, '2026-04-28 08:41:36'),
+(22, 17, 23, 'fbf', 2, '2026-04-27 08:19:09'),
+(23, 17, 21, 'dfvfd', 4, '2026-04-27 08:19:16'),
+(24, 17, 24, 'fdgvfeg', 5, '2026-04-27 08:19:29'),
+(25, 17, 20, 'gythyt', 4, '2026-04-27 08:19:39'),
+(26, 9, 27, 'y', 2, '2026-04-29 09:55:53');
 
 -- --------------------------------------------------------
 
@@ -78,11 +117,13 @@ CREATE TABLE `critica_serie` (
 INSERT INTO `critica_serie` (`id`, `id_usuario`, `id_serie`, `contenido`, `puntuacion`, `creado`) VALUES
 (1, 17, 2, 'dsfds', 2, '2026-03-25 09:50:02'),
 (2, 17, 10, 'fdf', 3, '2026-03-26 09:26:40'),
-(3, 17, 12, 'vdf', 5, '2026-03-26 08:15:37'),
+(3, 17, 12, 's', 1, '2026-04-27 08:40:31'),
 (4, 17, 4, 's', 1, '2026-03-26 09:29:11'),
 (5, 17, 18, 'swd', 5, '2026-03-26 09:29:23'),
-(6, 17, 9, 'dv', 4, '2026-03-26 09:29:38'),
-(7, 17, 21, 'fdgv', 4, '2026-03-26 12:14:04');
+(6, 17, 9, 'rgfr', 2, '2026-04-27 08:20:10'),
+(7, 17, 21, 'fdgv', 4, '2026-03-26 12:14:04'),
+(8, 17, 25, 'top', 1, '2026-04-28 11:45:15'),
+(9, 11, 4, 'tg', 2, '2026-04-29 09:56:05');
 
 -- --------------------------------------------------------
 
@@ -285,7 +326,7 @@ INSERT INTO `episodio` (`id`, `id_temporada`, `numero_episodio`, `titulo`, `desc
 (302, 42, 3, 'Something Beautiful', 'Mike se adentra más en la organización de Gus.', 60, '2018-08-20', '2026-03-26 09:12:49'),
 (303, 42, 4, 'Talk', 'Jimmy se adapta a un trabajo inesperado.', 60, '2018-08-27', '2026-03-26 09:12:49'),
 (304, 42, 5, 'Quite a Ride', 'El futuro de Saul Goodman deja nuevas pistas.', 60, '2018-09-03', '2026-03-26 09:12:49'),
-(305, 42, 6, 'Piñata', 'Jimmy vuelve a probar suerte con sus viejos métodos.', 60, '2018-09-10', '2026-03-26 09:12:49'),
+(305, 42, 6, 'Piúata', 'Jimmy vuelve a probar suerte con sus viejos métodos.', 60, '2018-09-10', '2026-03-26 09:12:49'),
 (306, 42, 7, 'Something Stupid', 'La relación entre Kim y Jimmy cambia.', 60, '2018-09-17', '2026-03-26 09:12:49'),
 (307, 42, 8, 'Coushatta', 'Jimmy idea un plan creativo para ayudar a Huell.', 60, '2018-09-24', '2026-03-26 09:12:49'),
 (308, 42, 9, 'Wiedersehen', 'Todos los personajes se acercan a un cambio importante.', 60, '2018-10-01', '2026-03-26 09:12:49'),
@@ -383,7 +424,7 @@ INSERT INTO `episodio` (`id`, `id_temporada`, `numero_episodio`, `titulo`, `desc
 (422, 57, 8, 'La última patrulla', 'La compañía realiza una peligrosa misión antes del final de la guerra.', 60, '2001-10-28', '2026-03-26 12:02:17'),
 (423, 57, 9, 'Por qué luchamos', 'Los soldados descubren de primera mano el horror del nazismo.', 60, '2001-11-04', '2026-03-26 12:02:17'),
 (424, 57, 10, 'Puntos', 'La guerra termina y cada hombre afronta su regreso de forma distinta.', 90, '2001-11-04', '2026-03-26 12:02:17'),
-(425, 58, 1, '3 de la mañana', 'Frank Castle empieza a descubrir que su guerra todavía no ha terminado.', 55, '2017-11-17', '2026-03-26 12:02:17'),
+(425, 58, 1, '3 de la maúana', 'Frank Castle empieza a descubrir que su guerra todavía no ha terminado.', 55, '2017-11-17', '2026-03-26 12:02:17'),
 (426, 58, 2, 'Dos hombres muertos', 'La conspiración se hace más grande y más peligrosa.', 55, '2017-11-17', '2026-03-26 12:02:17'),
 (427, 58, 3, 'Kandahar', 'El pasado militar de Frank vuelve a perseguirlo.', 55, '2017-11-17', '2026-03-26 12:02:17'),
 (428, 58, 4, 'Reabastecimiento', 'Frank intenta recomponer piezas mientras aumentan los enemigos.', 55, '2017-11-17', '2026-03-26 12:02:17'),
@@ -405,10 +446,52 @@ INSERT INTO `episodio` (`id`, `id_temporada`, `numero_episodio`, `titulo`, `desc
 (444, 59, 7, 'Una última vez', 'Los personajes se acercan a un punto de no retorno.', 55, '2019-01-18', '2026-03-26 12:02:17'),
 (445, 59, 8, 'Mi hermano guardián', 'Las relaciones personales se ven empujadas al límite.', 55, '2019-01-18', '2026-03-26 12:02:17'),
 (446, 59, 9, 'Explosionando para siempre', 'La guerra se vuelve abierta e inevitable.', 55, '2019-01-18', '2026-03-26 12:02:17'),
-(447, 59, 10, 'Oscura entraña', 'Frank y sus enemigos ajustan cuentas.', 55, '2019-01-18', '2026-03-26 12:02:17'),
+(447, 59, 10, 'Oscura entraúa', 'Frank y sus enemigos ajustan cuentas.', 55, '2019-01-18', '2026-03-26 12:02:17'),
 (448, 59, 11, 'La tormenta', 'Todo empieza a derrumbarse antes del final.', 55, '2019-01-18', '2026-03-26 12:02:17'),
 (449, 59, 12, 'Colisión', 'Los caminos de todos los implicados chocan violentamente.', 55, '2019-01-18', '2026-03-26 12:02:17'),
-(450, 59, 13, 'El remolino', 'La serie concluye con Frank Castle totalmente convertido en The Punisher.', 55, '2019-01-18', '2026-03-26 12:02:17');
+(450, 59, 13, 'El remolino', 'La serie concluye con Frank Castle totalmente convertido en The Punisher.', 55, '2019-01-18', '2026-03-26 12:02:17'),
+(451, 60, 1, 'Ya era hora', 'Mark empieza a descubrir lo que significa ser un héroe.', 50, '2021-03-25', '2026-04-27 09:40:24'),
+(452, 60, 2, 'Aquí va nada', 'Mark intenta equilibrar vida normal y superheroica.', 46, '2021-03-25', '2026-04-27 09:40:24'),
+(453, 60, 3, '¿A quién llamas feo?', 'Nuevos enemigos aparecen mientras crece la amenaza.', 46, '2021-04-01', '2026-04-27 09:40:24'),
+(454, 60, 4, 'Neil Armstrong, come tu corazón', 'Una misión en Marte cambia las cosas.', 46, '2021-04-08', '2026-04-27 09:40:24'),
+(455, 60, 5, 'Eso dolió', 'Mark empieza a entender el coste real de ser héroe.', 46, '2021-04-15', '2026-04-27 09:40:24'),
+(456, 60, 6, 'No puedes estar triste para siempre', 'Los secretos empiezan a salir a la luz.', 46, '2021-04-22', '2026-04-27 09:40:24'),
+(457, 60, 7, 'Tenemos que hablar', 'Omni-Man revela su verdadera naturaleza.', 46, '2021-04-29', '2026-04-27 09:40:24'),
+(458, 60, 8, '¿De dónde vengo realmente?', 'La temporada culmina con un enfrentamiento brutal.', 48, '2021-04-30', '2026-04-27 09:40:24'),
+(459, 61, 1, 'Una lección para tu próxima vida', 'Mark intenta reconstruirse tras los traumas del pasado.', 50, '2023-11-03', '2026-04-27 09:40:25'),
+(460, 61, 2, 'En unos seis horas perderé mi virginidad con un pez', 'Una nueva amenaza dimensional aparece.', 48, '2023-11-10', '2026-04-27 09:40:25'),
+(461, 61, 3, 'Este fantasma me está volviendo loco', 'Mark se enfrenta a versiones alternativas.', 48, '2023-11-17', '2026-04-27 09:40:25'),
+(462, 61, 4, 'Hace tiempo que no te veo', 'Viejos enemigos regresan.', 50, '2023-11-24', '2026-04-27 09:40:25'),
+(463, 61, 5, 'Esto debe de ser un shock', 'El conflicto viltrumita crece.', 50, '2024-03-14', '2026-04-27 09:40:25'),
+(464, 61, 6, 'No es tan sencillo', 'Mark debe elegir entre deber y humanidad.', 50, '2024-03-21', '2026-04-27 09:40:25'),
+(465, 61, 7, 'No me iré a ninguna parte', 'Todo se acerca al choque inevitable.', 50, '2024-03-28', '2026-04-27 09:40:25'),
+(466, 61, 8, 'Pensé que nunca te callarías', 'Gran cierre de temporada con guerra abierta.', 55, '2024-04-04', '2026-04-27 09:40:25'),
+(467, 62, 1, 'Vale, creo que ya eres tú quien manda', 'Mark asume nuevas responsabilidades.', 50, '2025-02-06', '2026-04-27 09:40:25'),
+(468, 62, 2, 'Una guerra se acerca', 'Los viltrumitas se mueven.', 50, '2025-02-13', '2026-04-27 09:40:25'),
+(469, 62, 3, 'No todo puede salvarse', 'Las decisiones empiezan a romper alianzas.', 50, '2025-02-20', '2026-04-27 09:40:25'),
+(470, 62, 4, 'Te dije que esto pasaría', 'Mark entra en una nueva fase más oscura.', 50, '2025-02-27', '2026-04-27 09:40:25'),
+(471, 62, 5, 'Esto ya es personal', 'La escala del conflicto se dispara.', 50, '2025-03-06', '2026-04-27 09:40:25'),
+(472, 62, 6, 'No puedes volver atrás', 'Todo empieza a colapsar.', 50, '2025-03-13', '2026-04-27 09:40:25'),
+(473, 62, 7, 'La guerra Viltrumita', 'Se libra una batalla decisiva.', 55, '2025-03-20', '2026-04-27 09:40:25'),
+(474, 62, 8, 'Invencible', 'Final brutal que deja abierto el siguiente gran arco.', 60, '2025-03-27', '2026-04-27 09:40:25'),
+(475, 63, 1, 'Bienvenidos al patio de recreo', 'Vi y Powder sobreviven en Zaun mientras una misión sale terriblemente mal.', 43, '2021-11-06', '2026-04-28 11:43:17'),
+(476, 63, 2, 'Algunos misterios es mejor dejarlos sin resolver', 'Jayce investiga una tecnología peligrosa que puede cambiar Piltover para siempre.', 40, '2021-11-06', '2026-04-28 11:43:17'),
+(477, 63, 3, 'La violencia básica necesaria para el cambio', 'Una traición separa a las hermanas y marca el nacimiento de Jinx.', 44, '2021-11-06', '2026-04-28 11:43:17'),
+(478, 63, 4, 'Feliz Día del Progreso', 'Años después, Piltover celebra sus avances mientras Zaun sigue en tensión.', 40, '2021-11-13', '2026-04-28 11:43:17'),
+(479, 63, 5, 'Todos quieren ser mis enemigos', 'Vi regresa al mundo exterior y Caitlyn empieza a descubrir la verdad de Zaun.', 40, '2021-11-13', '2026-04-28 11:43:17'),
+(480, 63, 6, 'Cuando estos muros se derrumben', 'Vi y Jinx vuelven a cruzar caminos, pero ya nada es como antes.', 41, '2021-11-13', '2026-04-28 11:43:17'),
+(481, 63, 7, 'El salvador', 'Ekko protege a los suyos mientras la guerra entre facciones se acerca.', 40, '2021-11-20', '2026-04-28 11:43:17'),
+(482, 63, 8, 'Agua y aceite', 'Vi y Caitlyn intentan convencer a Piltover de la amenaza real.', 40, '2021-11-20', '2026-04-28 11:43:17'),
+(483, 63, 9, 'El monstruo que creaste', 'Jinx toma una decisión que cambia el futuro de Piltover y Zaun.', 44, '2021-11-20', '2026-04-28 11:43:17'),
+(484, 64, 1, 'Pesado es el peso', 'Piltover afronta las consecuencias del ataque de Jinx.', 40, '2024-11-09', '2026-04-28 11:43:17'),
+(485, 64, 2, 'Verlo todo arder', 'Zaun y Piltover se preparan para una guerra inevitable.', 40, '2024-11-09', '2026-04-28 11:43:17'),
+(486, 64, 3, 'Por fin tienes el nombre correcto', 'Vi y Caitlyn se adentran en el caos mientras Jinx gana influencia.', 41, '2024-11-09', '2026-04-28 11:43:17'),
+(487, 64, 4, 'Pintar la ciudad de azul', 'La rebelión de Zaun crece y los símbolos empiezan a cambiar.', 40, '2024-11-16', '2026-04-28 11:43:17'),
+(488, 64, 5, 'Ampollas y roca madre', 'Los personajes buscan respuestas entre ciencia, poder y dolor.', 42, '2024-11-16', '2026-04-28 11:43:17'),
+(489, 64, 6, 'El mensaje oculto en el patrón', 'Las piezas del conflicto empiezan a encajar de forma peligrosa.', 42, '2024-11-16', '2026-04-28 11:43:17'),
+(490, 64, 7, 'Fingir como si fuera la primera vez', 'Viejas heridas vuelven mientras cada personaje elige su lugar.', 43, '2024-11-23', '2026-04-28 11:43:17'),
+(491, 64, 8, 'Matar es un ciclo', 'El enfrentamiento final se acerca y nadie saldrá igual.', 43, '2024-11-23', '2026-04-28 11:43:17'),
+(492, 64, 9, 'La suciedad bajo tus uúas', 'La historia de Vi, Jinx, Piltover y Zaun llega a su desenlace.', 50, '2024-11-23', '2026-04-28 11:43:17');
 
 -- --------------------------------------------------------
 
@@ -431,7 +514,33 @@ INSERT INTO `favorito` (`id`, `id_usuario`, `id_pelicula`, `creado`) VALUES
 (6, 17, 18, '2026-03-24 08:21:33'),
 (7, 17, 14, '2026-03-24 08:54:35'),
 (9, 17, 5, '2026-03-24 11:23:46'),
-(10, 17, 24, '2026-03-24 11:48:36');
+(10, 17, 24, '2026-03-24 11:48:36'),
+(11, 17, 15, '2026-04-27 08:09:41'),
+(12, 17, 23, '2026-04-27 08:11:55'),
+(13, 17, 16, '2026-04-27 08:12:12'),
+(15, 17, 20, '2026-04-27 08:12:36');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `favorito_serie`
+--
+
+CREATE TABLE `favorito_serie` (
+  `id` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `id_serie` int(11) NOT NULL,
+  `creado` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `favorito_serie`
+--
+
+INSERT INTO `favorito_serie` (`id`, `id_usuario`, `id_serie`, `creado`) VALUES
+(1, 17, 21, '2026-04-27 10:09:34'),
+(2, 17, 12, '2026-04-27 10:14:43'),
+(3, 17, 9, '2026-04-27 10:17:01');
 
 -- --------------------------------------------------------
 
@@ -481,14 +590,15 @@ INSERT INTO `noticia` (`id`, `titulo`, `contenido`, `imagen`, `publicado`) VALUE
 (1, 'Nominaciones a los Premios Globo de Oro Anunciadas', 'Empiezan las nominaciones para los globos de oro', 'noticia-nominaciones-a-los-premios-globo-de-oro-anunciadas_20260325_133537_715e4d1f.webp', '2025-11-27 23:00:00'),
 (2, 'Primer Vistazo a \"Avengers Doomsday\"', 'Se revela una parte del elenco para la próxima entrega de los Vengadores, entre ellos vuelve la estrella Robert Downey J.R (Iron Man)', 'noticia-primer-vistazo-a-avengers-doomsday_20260325_133544_363fdef7.webp', '2025-03-12 23:00:00'),
 (3, 'No hay episodio final', 'El supuesto episodio final de Stranger Things se ha emitido sin grandes giros ni acontecimientos relevantes. La historia transcurre con normalidad en Hawkins, sin nuevas amenazas ni cambios.', 'noticia-no-hay-episodio-final_20260325_122943_559b5057.webp', '2026-01-09 10:22:53'),
-(4, 'Amazon revela el actor de Kratos en la serie de \'God of War\'', 'Prime Video ha anunciado que Ryan Hurst, conocido por ser Opie Winston en \'Sons of Anarchy\' o Beta en \'The Walking Dead\', será el encargado de interpretar a Kratos en \'God of War\', la adaptación televisiva y en acción real de la famosa serie de videojuegos distribuidos por Sony Computer Entertainment.\r\n\r\nPor su parte Deadline asegura que Teresa Palmer será la encargada de interpretar a Phoebe/Sif, la diosa nórdica de la Tierra y la Cosecha y esposa de un Thor a quien interpretará Ólafur Darri Ólafsson, si bien por el momento Prime Video no lo ha confirmado (o desmentido) de manera oficial el fichaje de ninguno de los dos.\r\n\r\nRonald D. Moore será el creador y showrunner de esta serie en la que lleva trabajando desde octubre de 2024, cuando entró en el proyecto para sustituir a Rafe Judkins (guionista de \'Uncharted\' y creador de \'La rueda del tiempo\') y a los productores ejecutivos Hawk Ostby y Mark Fergus (guionistas de \'Hijos de los hombres\' y creadores de \'The Expanse\').\r\n\r\nUna serie ya en preproducción en Vancouver que, según la sinopsis facilitada por Prime Video, seguirá a un padre y a un hijo, Kratos y Atreus, en su viaje para esparcir las cenizas de su esposa y madre, Faye. A lo largo de sus aventuras, Kratos intentará enseñar a su hijo a ser un mejor Dios... mientras que Atreus intentará enseñar a su padre a ser un mejor ser humano.\r\n\r\nFrederick E.O. Toye (\'The Boys\', \'Fallout\') será el director de los dos primeros episodios de \'God of War\', una producción de Sony Pictures Television, PlayStation Productions, Amazon MGM Studios y Tall Ship Productions que contará con al menos dos temporadas. \r\n\r\nPor último comentar que si bien es conocido sobre todo por su trabajo al frente de \'Star Trek: La nueva generación\', \'Star Trek: Espacio Profundo Nueve\' y \'Galáctica, estrella de combate\', entre los créditos de Moore también destacan otros títulos como \'Carnivàle\', \'Caprica\', \'Helix\' y sobre todo \'Outlander\' y \'Para toda la humanidad\', las exitosas series de Starz y Apple.', 'noticia-amazon-revela-el-actor-de-kratos-en-la-serie-de-god-of-war_20260325_122923_0c720776.webp', '2026-01-16 11:15:00'),
+(4, 'Amazon revela el actor de Kratos en la serie de \'God of War\'', 'Prime Video ha anunciado que Ryan Hurst, conocido por ser Opie Winston en \'Sons of Anarchy\' o Beta en \'The Walking Dead\', será el encargado de interpretar a Kratos en \'God of War\', la adaptación televisiva y en acción real de la famosa serie de videojuegos distribuidos por Sony Computer Entertainment.\r\n\r\nPor su parte Deadline asegura que Teresa Palmer será la encargada de interpretar a Phoebe/Sif, la diosa nórdica de la Tierra y la Cosecha y esposa de un Thor a quien interpretará Ólafur Darri Ólafsson, si bien por el momento Prime Video no lo ha confirmado (o desmentido) de manera oficial el fichaje de ninguno de los dos.\r\n\r\nRonald D. Moore será el creador y showrunner de esta serie en la que lleva trabajando desde octubre de 2024, cuando entró en el proyecto para sustituir a Rafe Judkins (guionista de \'Uncharted\' y creador de \'La rueda del tiempo\') y a los productores ejecutivos Hawk Ostby y Mark Fergus (guionistas de \'Hijos de los hombres\' y creadores de \'The Expanse\').\r\n\r\nUna serie ya en preproducción en Vancouver que, según la sinopsis facilitada por Prime Video, seguirá a un padre y a un hijo, Kratos y Atreus, en su viaje para esparcir las cenizas de su esposa y madre, Faye. A lo largo de sus aventuras, Kratos intentará enseúar a su hijo a ser un mejor Dios... mientras que Atreus intentará enseúar a su padre a ser un mejor ser humano.\r\n\r\nFrederick E.O. Toye (\'The Boys\', \'Fallout\') será el director de los dos primeros episodios de \'God of War\', una producción de Sony Pictures Television, PlayStation Productions, Amazon MGM Studios y Tall Ship Productions que contará con al menos dos temporadas. \r\n\r\nPor último comentar que si bien es conocido sobre todo por su trabajo al frente de \'Star Trek: La nueva generación\', \'Star Trek: Espacio Profundo Nueve\' y \'Galáctica, estrella de combate\', entre los créditos de Moore también destacan otros títulos como \'Carnivàle\', \'Caprica\', \'Helix\' y sobre todo \'Outlander\' y \'Para toda la humanidad\', las exitosas series de Starz y Apple.', 'noticia-amazon-revela-el-actor-de-kratos-en-la-serie-de-god-of-war_20260325_122923_0c720776.webp', '2026-01-16 11:15:00'),
 (5, 'Nominados a la 98ª edición de los Premios Oscar', 'Con ustedes, las nominaciones a la 98ª edición de los premios Óscar. Una edición cuya gala tendrá lugar el próximo 15 de marzo en el Dolby Theatre de Hollywood de Los Ángeles, California. Sin más, a continuación, el listado completo con los nominados.', 'noticia-nominados-a-la-98-edicion-de-los-premios-oscar_20260325_122915_d0df1874.webp', '2026-01-25 17:30:30'),
-(6, 'Las películas más esperadas de 2026', 'Llega la hora de echar un vistazo a las fechas clave de cara a los estrenos más esperados, principalmente en cines, de un 2026 que apenas comienza en unas horas. Sin más dilación, aquí les dejo un listado con las que bien podrían ser las películas más exitosas del año ordenadas por fecha de estreno.', 'noticia-las-peliculas-mas-esperadas-de-2026_20260325_133508_150371fd.webp', '2025-12-31 22:00:00'),
+(6, 'Las películas más esperadas de 2026', 'Llega la hora de echar un vistazo a las fechas clave de cara a los estrenos más esperados, principalmente en cines, de un 2026 que apenas comienza en unas horas. Sin más dilación, aquí les dejo un listado con las que bien podrían ser las películas más exitosas del aúo ordenadas por fecha de estreno.', 'noticia-las-peliculas-mas-esperadas-de-2026_20260325_133508_150371fd.webp', '2025-12-31 22:00:00'),
 (7, 'Primer avance de \'Vengadores: Doomsday\'', 'Marvel Studios presenta online el primero de los cuatro (o cinco...) avances de \'Vengadores: Doomsday\' que actuarán como teloneros de \'Avatar: Fuego y ceniza\' en sus primeras semanas en cines, a razón de uno por semana.', 'noticia-primer-avance-de-vengadores-doomsday_20260325_133524_13e7ed7e.webp', '2025-12-23 11:00:00'),
 (8, 'Segundo avance de \'Vengadores: Doomsday\'', 'Marvel Studios presenta online el segundo de los cuatro (o cinco...) avances de \'Vengadores: Doomsday\' que actuarán como teloneros de \'Avatar: Fuego y ceniza\' en sus primeras semanas en cines, a razón de uno por semana.', 'noticia-segundo-avance-de-vengadores-doomsday_20260325_133513_0f82b2b9.webp', '2025-12-30 11:00:00'),
 (9, 'Tercer avance de \'Vengadores: Doomsday\'', 'Marvel Studios presenta online el tercero de los cuatro (o cinco...) avances de \'Vengadores: Doomsday\' que han ido actuando estas últimas semanas como teloneros de \'Avatar: Fuego y ceniza\', a razón de uno por semana.', 'noticia-tercer-avance-de-vengadores-doomsday_20260325_122952_b79cc587.webp', '2026-01-06 11:00:00'),
 (10, 'Cuarto avance de \'Vengadores: Doomsday\'', 'Marvel Studios presenta online el cuarto (y puede o no que el último) de los avances de \'Vengadores: Doomsday\' que han ido actuando estas últimas semanas como teloneros de \'Avatar: Fuego y ceniza\', a razón de uno por semana.', 'noticia-cuarto-avance-de-vengadores-doomsday_20260325_122935_3b32b019.webp', '2026-01-13 11:00:00'),
-(11, 'Ocho horas han sido suficientes para que el tráiler de \'Spider-Man 4\' se haga con un récord histórico', 'Spider-Man: Brand New Day, la cuarta entrega en solitario del hombre araña de Tom Holland, llega a los cines el 31 de julio, pero el filme ya ha roto un récord con su tráiler. El primer adelanto de la nueva aventura del superhéroe de Marvel se ha convertido, básicamente, en el más visto de la historia.\r\n\r\nSegún informa Sony Pictures a través de la firma WaveMetrix, el tráiler de Spider-Man 4 ha alcanzado las 718.6 millones de visualizaciones desde su estreno el pasado miércoles. En solo ocho horas, el adelanto del filme superó al de Deadpool y Lobezno (2024), que consiguió 365 millones de visualizaciones hace dos años. Además, en el caso de la tercera entrega del mercenario bocazas, esa cifra incluía 100 millones de visualizaciones en televisión porque el adelanto se emitió durante la Super Bowl. \r\n\r\nSi lo comparamos con los números de la anterior entrega, No Way Home (2021) alcanzó las 355.5 millones de visualizaciones en las primeras 24 horas. La tercera película del trepamuros, que recuperó a Andrew Garfield y Tobey Maguire como sus respectivos Peter Parker, es la película más taquillera de Sony Pictures. No Way Home recaudó 1.910 millones de dólares y fue el título más exitoso de todo 2021.', 'noticia-ocho-horas-han-sido-suficientes-para-que-el-trailer-de-spider-man-4-se-haga-con-un-record-historico_20260325_122828_c1eb4a6c.webp', '2026-03-20 21:08:13');
+(11, 'Ocho horas han sido suficientes para que el tráiler de \'Spider-Man 4\' se haga con un récord histórico', 'Spider-Man: Brand New Day, la cuarta entrega en solitario del hombre araúa de Tom Holland, llega a los cines el 31 de julio, pero el filme ya ha roto un récord con su tráiler. El primer adelanto de la nueva aventura del superhéroe de Marvel se ha convertido, básicamente, en el más visto de la historia.\r\n\r\nSegún informa Sony Pictures a través de la firma WaveMetrix, el tráiler de Spider-Man 4 ha alcanzado las 718.6 millones de visualizaciones desde su estreno el pasado miércoles. En solo ocho horas, el adelanto del filme superó al de Deadpool y Lobezno (2024), que consiguió 365 millones de visualizaciones hace dos aúos. Además, en el caso de la tercera entrega del mercenario bocazas, esa cifra incluía 100 millones de visualizaciones en televisión porque el adelanto se emitió durante la Super Bowl. \r\n\r\nSi lo comparamos con los números de la anterior entrega, No Way Home (2021) alcanzó las 355.5 millones de visualizaciones en las primeras 24 horas. La tercera película del trepamuros, que recuperó a Andrew Garfield y Tobey Maguire como sus respectivos Peter Parker, es la película más taquillera de Sony Pictures. No Way Home recaudó 1.910 millones de dólares y fue el título más exitoso de todo 2021.', 'noticia-ocho-horas-han-sido-suficientes-para-que-el-trailer-de-spider-man-4-se-haga-con-un-record-historico_20260325_122828_c1eb4a6c.webp', '2026-03-20 21:08:13'),
+(13, 'Se ha compartido el logotipo de Resident Evil de Zach Cregger', 'En menos de cinco meses, los fans de Resident Evil tendrán otro regalo que esperar, ya que la adaptación de Zach Cregger se estrenará en los cines de todo el mundo. Aunque aún no hemos visto un tráiler de la película para hacernos una idea clara y profunda de lo que podemos esperar de ella, se ha activado un sitio web para la película, lo que sugiere que hay más información cerca en el horizonte.\r\n\r\nAdemás, el sitio web ofrece un primer vistazo al logotipo de la película, que sin duda tiene un diseúo hostil.', 'noticia-se-ha-compartido-el-logotipo-de-resident-evil-de-zach-cregger_20260428_133716_423de0f3.webp', '2026-04-28 11:37:16');
 
 -- --------------------------------------------------------
 
@@ -521,22 +631,24 @@ INSERT INTO `pelicula` (`id`, `titulo`, `sinopsis`, `poster`, `fecha_estreno`, `
 (6, 'F1', 'Una película emocionante sobre la temporada más intensa de la Fórmula 1, con rivalidades y velocidad extrema.', 'pelicula-f1_20260325_133334_3909c31b.webp', '2025-11-30', 140, '+7', 3, 'https://www.youtube.com/embed/pA1bcofwBLQ'),
 (7, 'FNAF 2', 'Un thriller de terror basado en el popular videojuego Five Nights at Freddy\'s 2. Sustos asegurados.', 'pelicula-fnaf-2_20260325_133326_fa36d99c.webp', '2025-12-08', 95, '+16', 5, 'https://www.youtube.com/embed/d_St1yVHIsI'),
 (8, 'Vengadores: Doomsday', 'Los Vengadores se enfrentan a una amenaza apocalíptica que pondrá en riesgo todo el universo. Acción y aventuras épicas aseguradas.', 'pelicula-vengadores-doomsday_20260325_133318_66fa3f64.webp', '2026-12-18', 160, '+12', 1, ''),
-(9, 'Spiderman: Brand New Day', 'Spiderman enfrenta nuevos villanos y desafíos en la ciudad de Nueva York mientras equilibra su vida personal y sus responsabilidades heroicas.', 'pelicula-spiderman-brand-new-day_20260325_133259_5ebd41d9.webp', '2026-07-31', 145, '+12', 1, 'https://www.youtube.com/embed/owfWVJoxXR4?si=-mfM18_6_iMgFaeM'),
+(9, 'Spiderman: Brand New Day', 'Spiderman enfrenta nuevos villanos y desafíos en la ciudad de Nueva York mientras equilibra su vida personal y sus responsabilidades heroicas.', 'pelicula-spiderman-brand-new-day_20260428_104324_309415b5.webp', '2026-07-31', 145, '+12', 1, 'https://www.youtube.com/embed/owfWVJoxXR4?si=-mfM18_6_iMgFaeM'),
 (10, 'Return to Silent Hill', 'Una nueva entrega del terror psicológico en Silent Hill donde los secretos oscuros del pueblo emergen nuevamente, poniendo a los protagonistas al límite.', 'pelicula-return-to-silent-hill_20260325_133238_6e95565d.webp', '2026-01-23', 100, '+16', 5, 'https://www.youtube.com/embed/L8FDqD_PkBk'),
 (11, 'Zootropolis 2', 'Judy y Nick se encuentran tras la retorcida pista de un misterioso reptil que llega a Zootopia y pone patas arriba la metrópolis de los mamíferos. Para resolver el caso, Judy y Nick deben ir de incógnito a nuevas partes inesperadas de la ciudad, donde su creciente asociación se pone a prueba como nunca antes.', 'pelicula-zootropolis-2_20260325_133231_bc0f5c20.webp', '2025-11-28', 115, '+7', 4, 'https:///www.youtube.com/embed/io6VfjLpgaU'),
-(12, 'Toy story 5', 'Toy Story 5 es una anunciada cinta animada, que, por estar en etapas iniciales de preproducción, no se sabe sobre su historia, solo que, después de la aparente despedida de los personajes, la cinta volverá a reunir a Woody y a Buzz para una aventura completamente renovada y con nuevos y entrañables personajes', 'pelicula-toy-story-5_20260325_133222_c27bdc1b.webp', '2026-06-19', 125, '+7', 3, 'https://www.youtube.com/embed/OzoF4O_JVGg'),
+(12, 'Toy story 5', 'Toy Story 5 es una anunciada cinta animada, que, por estar en etapas iniciales de preproducción, no se sabe sobre su historia, solo que, después de la aparente despedida de los personajes, la cinta volverá a reunir a Woody y a Buzz para una aventura completamente renovada y con nuevos y entraúables personajes', 'pelicula-toy-story-5_20260325_133222_c27bdc1b.webp', '2026-06-19', 125, '+7', 3, 'https://www.youtube.com/embed/OzoF4O_JVGg'),
 (13, 'La Odisea', 'El épico y peligroso viaje de Odiseo, rey de Ítaca, para regresar a casa después de la Guerra de Troya, enfrentándose a dioses, monstruos (cíclopes, sirenas) y retos sobrenaturales, mientras su leal esposa Penélope y su hijo Telémaco lidian con pretendientes en su reino.', 'pelicula-la-odisea_20260325_133205_5088c840.webp', '2026-07-17', 176, '+18', 3, 'https://www.youtube.com/embed/NUIIc9gZOcQ'),
 (14, 'Super Mario Galaxy: La película', 'Nuestro plomero favorito estará de regreso en una nueva aventura! Tras el rotundo éxito en taquilla con ‘Super Mario Bros. La película´, el director de Illumination Entertainment, Chris Melandri y el propio creador, Shigeru Miyamoto, anunciaron la tan esperada secuela del personaje más emblemático de los videojuegos de Nintendo. Con una trama desconocida hasta la fecha, se reveló que expandirán aún más el universo de Mario Bros con una historia aún más brillante y divertida.', 'pelicula-super-mario-galaxy-la-pelicula_20260325_133156_6b76a282.webp', '2026-04-03', 120, '+6', 4, 'https://www.youtube.com/embed/Hz57G2KaAp8'),
-(15, 'Supergirl: La Mujer del Mañana', 'se centra en una Supergirl más ruda y traumatizada, inspirada en el cómic de Tom King, donde Kara Zor-El, criada en los restos de Krypton y testigo de horrores, se embarca en una aventura vengativa junto a una niña kryptoniana llamada Rutie, buscando venganza por el asesinato del padre de Rutie, en un viaje galáctico que explora la diferencia entre su visión del heroísmo y la de Superman, con tonos más salvajes y maduros.', 'pelicula-supergirl-la-mujer-del-manana_20260325_133138_588c6d4b.webp', '2026-06-26', 135, '+12', 1, 'https://www.youtube.com/embed//BqmDRWORkbI'),
+(15, 'Supergirl: La Mujer del Maúana', 'se centra en una Supergirl más ruda y traumatizada, inspirada en el cómic de Tom King, donde Kara Zor-El, criada en los restos de Krypton y testigo de horrores, se embarca en una aventura vengativa junto a una niúa kryptoniana llamada Rutie, buscando venganza por el asesinato del padre de Rutie, en un viaje galáctico que explora la diferencia entre su visión del heroísmo y la de Superman, con tonos más salvajes y maduros.', 'pelicula-supergirl-la-mujer-del-manana_20260325_133138_588c6d4b.webp', '2026-06-26', 135, '+12', 1, 'https://www.youtube.com/embed//BqmDRWORkbI'),
 (16, 'Aída y Vuelta', 'Tras la muerte de su padre, Aída hereda la vieja casa familiar en el barrio y se muda con sus dos hijos. Pero las dificultades económicas la obligan a trabajar como empleada de limpieza, mientras debe compartir la vivienda con su madre y su hermano.', 'pelicula-aida-y-vuelta_20260325_133127_7491b982.webp', '2026-01-30', 90, '+6', 4, 'https://www.youtube.com/embed/O82ibLC4bmM'),
-(17, '28 Años Despues: El templo de los Huesos', 'Ampliando el mundo creado por Danny Boyle y Alex Garland en ‘28 años después’, pero dándole un giro radical, Nia DaCosta dirige ‘28 años después: El templo de los huesos’. En la continuación de esta épica historia, el Dr. Kelson (Ralph Fiennes) se ve envuelto en una nueva y sorprendente relación, cuyas consecuencias podrían cambiar el mundo tal y como lo conocen, y el encuentro de Spike (Alfie Williams) con Jimmy Crystal (Jack O\'Connell) se convierte en una pesadilla de la que no puede escapar. En el mundo de The Bone Temple, los infectados ya no son la mayor amenaza para la supervivencia: la inhumanidad de los supervivientes puede ser aún más extraña y aterradora.', 'pelicula-28-anos-despues-el-templo-de-los-huesos_20260325_133117_09bb4d61.webp', '2026-01-16', 150, '+18', 5, 'https://www.youtube.com/embed/PTQ1naoCw88'),
+(17, '28 Aúos Despues: El templo de los Huesos', 'Ampliando el mundo creado por Danny Boyle y Alex Garland en ‘28 aúos después’, pero dándole un giro radical, Nia DaCosta dirige ‘28 aúos después: El templo de los huesos’. En la continuación de esta épica historia, el Dr. Kelson (Ralph Fiennes) se ve envuelto en una nueva y sorprendente relación, cuyas consecuencias podrían cambiar el mundo tal y como lo conocen, y el encuentro de Spike (Alfie Williams) con Jimmy Crystal (Jack O\'Connell) se convierte en una pesadilla de la que no puede escapar. En el mundo de The Bone Temple, los infectados ya no son la mayor amenaza para la supervivencia: la inhumanidad de los supervivientes puede ser aún más extraúa y aterradora.', 'pelicula-28-anos-despues-el-templo-de-los-huesos_20260325_133117_09bb4d61.webp', '2026-01-16', 150, '+18', 5, 'https://www.youtube.com/embed/PTQ1naoCw88'),
 (18, 'Michael', 'biopic dirigida por Antoine Fuqua que narra la vida del \"Rey del Pop\", desde sus inicios en los Jackson 5 hasta su ascenso a ícono global, explorando su talento, desafíos, su obra maestra como Thriller, su compra de Neverland, y culminando con su trágica muerte en 2009, ofreciendo una mirada íntima a su legado y humanidad, protagonizada por su sobrino Jaafar Jackson.', 'pelicula-michael_20260325_133107_dd994d8d.webp', '2026-04-24', 210, '+12', 2, 'https://www.youtube.com/embed/j-JXqygdRnE'),
 (19, 'Dune: Parte tres', 'Dirigida por Denis Villeneuve y se estrenará el 18 de diciembre de 2026. Será la conclusión de la trilogía de Villeneuve, adaptando la novela de Frank Herbert y mostrando las consecuencias del ascenso mesiánico de Paul Atreides, con el regreso de Timothée Chalamet, Zendaya, Rebecca Ferguson, Florence Pugh y la posible incorporación de Robert Pattinson.', 'pelicula-dune-parte-tres_20260325_133057_d468e2eb.webp', '2026-12-18', 175, '+18', 1, 'https://www.youtube.com/embed/Tkb_GGcJ8j8?si=gif4Ieoj_uGfjPG8'),
 (20, 'Ruben y los pesaos', 'Rubén y su grupo de amigos, los Pesados, pasan de los líos cotidianos a verse envueltos en un conflicto épico que amenaza su mundo. Entre acción, humor y caos, Rubén tendrá que convertirse en líder y demostrar que la amistad y el valor pueden plantar cara a cualquier guerra.', 'pelicula-ruben-y-los-pesaos_20260325_122745_385ae554.webp', '2026-01-28', 200, '+18', 1, ''),
 (21, 'Los amantes Prohibidos 💔', 'Darío, un agente de élite atrapado en una organización peligrosa, ve cómo su mundo se tambalea al conocer a Turpin, alguien que guarda un secreto capaz de destruirlo todo. Entre persecuciones, traiciones y acción constante, ambos inician un amor prohibido que los obliga a elegir entre obedecer al sistema o arriesgarlo todo por estar juntos.', 'pelicula-los-amantes-prohibidos_20260325_122730_4d465a73.webp', '2026-01-28', 180, '+18', 2, ''),
-(22, 'Cars', 'El aspirante a campeón de carreras Rayo McQueen parece que está a punto de conseguir el éxito. Su actitud arrogante se desvanece cuando llega a una pequeña comunidad olvidada que le enseña las cosas importantes de la vida que había olvidado.', 'pelicula-cars_20260325_122719_c629494d.webp', '2026-03-23', 110, '+7', 8, 'https://www.youtube.com/embed/1uq5eJHwio4?si=V-VCU4azRW_zmXs4'),
-(23, 'Spider-Man: un nuevo universo', 'Tras ser picado por una araña y adquirir superpoderes, el adolescente Miles Morales se dedica a llevar una doble vida en la que compagina su rutina en el instituto con patrullar la ciudad y perseguir a villanos.', 'pelicula-spider-man-un-nuevo-universo_20260325_122709_4231e688.webp', '2026-02-13', 120, '+7', 8, 'https://www.youtube.com/embed/k-8ZFn1Askc?si=5wbDcrqoEAyANyjF'),
-(24, 'THE BATMAN', 'En su segundo año luchando contra el crimen, Batman explora la corrupción existente en la ciudad de Gotham y el vínculo de esta con su propia familia. Además, entrará en conflicto con un asesino en serie conocido como \"el Acertijo\".', 'pelicula-the-batman_20260325_122351_eba3e307.webp', '2026-01-28', 180, '+16', 9, 'https://www.youtube.com/embed/IqRRLA6pZvo');
+(22, 'Cars', 'El aspirante a campeón de carreras Rayo McQueen parece que está a punto de conseguir el éxito. Su actitud arrogante se desvanece cuando llega a una pequeúa comunidad olvidada que le enseúa las cosas importantes de la vida que había olvidado.', 'pelicula-cars_20260325_122719_c629494d.webp', '2026-03-23', 110, '+7', 8, 'https://www.youtube.com/embed/1uq5eJHwio4?si=V-VCU4azRW_zmXs4'),
+(23, 'Spider-Man: un nuevo universo', 'Tras ser picado por una araúa y adquirir superpoderes, el adolescente Miles Morales se dedica a llevar una doble vida en la que compagina su rutina en el instituto con patrullar la ciudad y perseguir a villanos.', 'pelicula-spider-man-un-nuevo-universo_20260325_122709_4231e688.webp', '2026-02-13', 120, '+7', 8, 'https://www.youtube.com/embed/k-8ZFn1Askc?si=5wbDcrqoEAyANyjF'),
+(24, 'THE BATMAN', 'En su segundo aúo luchando contra el crimen, Batman explora la corrupción existente en la ciudad de Gotham y el vínculo de esta con su propia familia. Además, entrará en conflicto con un asesino en serie conocido como \"el Acertijo\".', 'pelicula-the-batman_20260325_122351_eba3e307.webp', '2026-01-28', 180, '+16', 9, 'https://www.youtube.com/embed/IqRRLA6pZvo'),
+(27, 'Spider-Man: Cruzando el Multiverso', 'Miles Morales se enfrenta a una guerra entre universos mientras descubre que ser Spider-Man puede significar romper todas las reglas.', 'pelicula-a_20260428_133234_dd705437.webp', '2026-05-29', 120, '+12', 8, 'https://youtube.com/embed/b_yMOiRgMmQ'),
+(28, 'fgf', 'fgf', '', '2026-04-29', 2, '+12', 9, '');
 
 -- --------------------------------------------------------
 
@@ -557,10 +669,10 @@ CREATE TABLE `plataforma` (
 --
 
 INSERT INTO `plataforma` (`id`, `nombre`, `logo`, `color`, `creado`) VALUES
-(1, 'Netflix', 'img/plataformas/netflix.png', '#e50914', '2026-03-25 08:13:09'),
-(2, 'HBO Max', 'img/plataformas/hbo.png', '#7f5af0', '2026-03-25 08:13:09'),
-(3, 'Disney+', 'img/plataformas/disney.png', '#1f80e0', '2026-03-25 08:13:09'),
-(4, 'Prime Video', 'img/plataformas/primevideo.png', '#00a8e1', '2026-03-25 08:13:09');
+(1, 'Netflix', 'assets/img/plataformas/netflix.png', '#e50914', '2026-03-25 08:13:09'),
+(2, 'HBO Max', 'assets/img/plataformas/hbo.png', '#7f5af0', '2026-03-25 08:13:09'),
+(3, 'Disney+', 'assets/img/plataformas/disney.png', '#1f80e0', '2026-03-25 08:13:09'),
+(4, 'Prime Video', 'assets/img/plataformas/primevideo.png', '#00a8e1', '2026-03-25 08:13:09');
 
 -- --------------------------------------------------------
 
@@ -602,7 +714,8 @@ INSERT INTO `proyeccion` (`id`, `id_pelicula`, `fecha`, `hora`, `sala`) VALUES
 (32, 7, '2026-12-08', '22:00:00', 'Sala 4'),
 (33, 7, '2026-12-08', '20:30:00', 'Sala 5'),
 (34, 10, '2026-01-29', '19:00:00', 'Sala 2'),
-(35, 20, '2026-01-28', '14:00:00', 'Sala 6');
+(35, 20, '2026-01-28', '14:00:00', 'Sala 6'),
+(36, 22, '2026-04-30', '15:00:00', 'Sala 1');
 
 -- --------------------------------------------------------
 
@@ -695,20 +808,23 @@ CREATE TABLE `serie` (
 --
 
 INSERT INTO `serie` (`id`, `titulo`, `sinopsis`, `poster`, `banner`, `fecha_estreno`, `edad`, `id_genero`, `id_plataforma`, `estado`, `destacada`, `puntuacion`, `creado`, `trailer`) VALUES
-(1, 'Stranger Things', 'Un grupo de amigos se enfrenta a sucesos paranormales, experimentos secretos y criaturas aterradoras en un pequeño pueblo.', 'img/series/posters/serie-poster_20260325_132512_ea9929fb.webp', 'img/series/banners/serie-banner_20260325_132513_47b974d9.webp', '2016-07-15', '+16', 1, 1, 'en_emision', 1, 4.80, '2026-03-25 08:16:33', 'https://www.youtube.com/watch?v=b9EkMc79ZSU'),
-(2, 'The Last of Us', 'En un mundo devastado, Joel y Ellie emprenden un viaje marcado por la supervivencia, la pérdida y la esperanza.', 'img/series/posters/serie-poster_20260325_132558_838794db.webp', 'img/series/banners/serie-banner_20260325_132558_811ddb65.webp', '2023-01-15', '+18', 1, 2, 'en_emision', 1, 4.90, '2026-03-25 08:16:33', NULL),
-(3, 'The Boys', 'Un grupo de vigilantes intenta frenar a unos supuestos superhéroes corruptos y peligrosos.', 'img/series/posters/serie-poster_20260325_132613_67aaef69.webp', 'img/series/banners/serie-banner_20260325_132614_37dd92c1.webp', '2019-07-26', '+18', 1, 4, 'en_emision', 0, 4.60, '2026-03-25 08:16:33', NULL),
-(4, 'The Mandalorian', 'Un cazarrecompensas solitario recorre la galaxia en una aventura cargada de acción y misterio.', 'img/series/posters/serie-poster_20260325_132632_4a0bcd5b.webp', 'img/series/banners/serie-banner_20260326_084010_06218907.webp', '2019-11-12', '+12', 1, 3, 'en_emision', 0, 4.50, '2026-03-25 08:16:33', NULL),
-(9, 'Los Soprano', 'Un jefe de la mafia de Nueva Jersey intenta equilibrar su vida criminal con los problemas de su familia mientras acude a terapia.', 'img/series/posters/serie-poster_20260326_084914_ef84d781.webp', 'img/series/banners/serie-banner_20260326_093017_69b3bc3c.webp', '1999-01-10', '+18', 2, 2, 'finalizada', 0, 0.00, '2026-03-26 07:49:14', NULL),
-(10, 'The Bear', 'Un chef joven y brillante regresa a Chicago para hacerse cargo del pequeño restaurante de su familia.', 'img/series/posters/serie-poster_20260326_085526_5175fa25.webp', 'img/series/banners/serie-banner_20260326_085527_59eb6437.webp', '2022-06-23', '+16', 2, 3, 'en_emision', 0, 0.00, '2026-03-26 07:55:27', NULL),
-(12, 'Juego de Tronos', 'Varias familias nobles luchan por el control del Trono de Hierro en un mundo marcado por guerras, traiciones y dragones.', 'img/series/posters/serie-poster_20260326_091000_baeeef11.webp', 'img/series/banners/serie-banner_20260326_091000_9c60fb49.webp', '2011-04-17', '+18', 2, 2, 'finalizada', 1, 4.80, '2026-03-26 08:09:17', NULL),
-(16, 'Breaking Bad', 'Un profesor de química con problemas económicos entra en el mundo de la metanfetamina tras recibir un diagnóstico de cáncer.', 'img/series/posters/serie-poster_20260326_101514_f29bdcba.webp', 'img/series/banners/serie-banner_20260326_101612_ae83d74b.webp', '2008-01-20', '+18', 2, 1, 'finalizada', 1, 5.00, '2026-03-26 09:12:49', NULL),
-(17, 'Better Call Saul', 'Antes de convertirse en Saul Goodman, Jimmy McGill lucha por abrirse camino como abogado en Albuquerque.', 'img/series/posters/serie-poster_20260326_102238_378e8df3.webp', 'img/series/banners/serie-banner_20260326_102004_9b00f964.webp', '2015-02-08', '+18', 1, 1, 'finalizada', 1, 4.90, '2026-03-26 09:12:49', NULL),
-(18, 'True Detective', 'Serie antológica criminal en la que cada temporada presenta un nuevo caso, un nuevo escenario y nuevos protagonistas.', 'img/series/posters/serie-poster_20260326_102403_70aa35fd.webp', 'img/series/banners/serie-banner_20260326_102432_c0357315.webp', '2014-01-12', '+18', 2, 2, 'en_emision', 1, 4.70, '2026-03-26 09:12:49', NULL),
-(19, 'Peaky Blinders', 'Thomas Shelby lidera a una peligrosa familia de Birmingham que quiere ascender en el mundo del crimen tras la Primera Guerra Mundial.', 'img/series/posters/serie-poster_20260326_130354_bac2e540.webp', 'img/series/banners/serie-banner_20260326_130354_15cccd0d.webp', '2013-09-12', '+18', 1, 1, 'finalizada', 1, 4.90, '2026-03-26 12:02:16', NULL),
-(20, 'Fallout', 'En un mundo arrasado por la guerra nuclear, una joven del Refugio sale al exterior y descubre el verdadero rostro del Yermo.', 'img/series/posters/serie-poster_20260326_131204_294accd0.webp', 'img/series/banners/serie-banner_20260326_131204_7dca9d22.webp', '2024-04-10', '+18', 1, 4, 'en_emision', 1, 4.70, '2026-03-26 12:02:17', NULL),
-(21, 'Hermanos de sangre', 'La Compañía Easy recorre Europa durante la Segunda Guerra Mundial en una historia de sacrificio, compañerismo y supervivencia.', 'img/series/posters/serie-poster_20260326_131048_4ff0c8e8.webp', 'img/series/banners/serie-banner_20260326_131048_dc6ca9e0.webp', '2001-09-09', '+16', 1, 2, 'finalizada', 1, 4.90, '2026-03-26 12:02:17', NULL),
-(22, 'The Punisher', 'Frank Castle busca venganza y descubre una conspiración que va mucho más allá del asesinato de su familia.', 'img/series/posters/serie-poster_20260326_130739_607f0a0b.webp', 'img/series/banners/serie-banner_20260326_130739_92fa4833.webp', '2017-11-17', '+18', 1, 1, 'finalizada', 1, 4.60, '2026-03-26 12:02:17', NULL);
+(1, 'Stranger Things', 'Un grupo de amigos se enfrenta a sucesos paranormales, experimentos secretos y criaturas aterradoras en un pequeúo pueblo.', 'assets/img/series/posters/serie-poster_20260325_132512_ea9929fb.webp', 'assets/img/series/banners/serie-banner_20260325_132513_47b974d9.webp', '2016-07-15', '+16', 1, 1, 'en_emision', 1, 4.80, '2026-03-25 08:16:33', 'https://www.youtube.com/watch?v=b9EkMc79ZSU'),
+(2, 'The Last of Us', 'En un mundo devastado, Joel y Ellie emprenden un viaje marcado por la supervivencia, la pérdida y la esperanza.', 'assets/img/series/posters/serie-poster_20260325_132558_838794db.webp', 'assets/img/series/banners/serie-banner_20260325_132558_811ddb65.webp', '2023-01-15', '+18', 1, 2, 'en_emision', 1, 4.90, '2026-03-25 08:16:33', NULL),
+(3, 'The Boys', 'Un grupo de vigilantes intenta frenar a unos supuestos superhéroes corruptos y peligrosos.', 'assets/img/series/posters/serie-poster_20260325_132613_67aaef69.webp', 'assets/img/series/banners/serie-banner_20260325_132614_37dd92c1.webp', '2019-07-26', '+18', 1, 4, 'en_emision', 0, 4.60, '2026-03-25 08:16:33', NULL),
+(4, 'The Mandalorian', 'Un cazarrecompensas solitario recorre la galaxia en una aventura cargada de acción y misterio.', 'assets/img/series/posters/serie-poster_20260325_132632_4a0bcd5b.webp', 'assets/img/series/banners/serie-banner_20260326_084010_06218907.webp', '2019-11-12', '+12', 1, 3, 'en_emision', 0, 4.50, '2026-03-25 08:16:33', NULL),
+(9, 'Los Soprano', 'Un jefe de la mafia de Nueva Jersey intenta equilibrar su vida criminal con los problemas de su familia mientras acude a terapia.', 'assets/img/series/posters/serie-poster_20260326_084914_ef84d781.webp', 'assets/img/series/banners/serie-banner_20260326_084914_7579e3e3.jpg', '1999-01-10', '+18', 2, 2, 'finalizada', 0, 0.00, '2026-03-26 07:49:14', NULL),
+(10, 'The Bear', 'Un chef joven y brillante regresa a Chicago para hacerse cargo del pequeúo restaurante de su familia.', 'assets/img/series/posters/serie-poster_20260326_085526_5175fa25.webp', 'assets/img/series/banners/serie-banner_20260326_085527_59eb6437.webp', '2022-06-23', '+16', 2, 3, 'en_emision', 0, 0.00, '2026-03-26 07:55:27', NULL),
+(12, 'Juego de Tronos', 'Varias familias nobles luchan por el control del Trono de Hierro en un mundo marcado por guerras, traiciones y dragones.', 'assets/img/series/posters/serie-poster_20260326_091000_baeeef11.webp', 'assets/img/series/banners/serie-banner_20260326_090317_4f81058f.webp', '2011-04-17', '+18', 2, 2, 'finalizada', 1, 4.80, '2026-03-26 08:09:17', NULL),
+(16, 'Breaking Bad', 'Un profesor de química con problemas económicos entra en el mundo de la metanfetamina tras recibir un diagnóstico de cáncer.', 'assets/img/series/posters/serie-poster_20260326_101514_f29bdcba.webp', 'assets/img/series/banners/serie-banner_20260428_120928_d5ab858d.webp', '2008-01-20', '+18', 2, 1, 'finalizada', 1, 5.00, '2026-03-26 09:12:49', NULL),
+(17, 'Better Call Saul', 'Antes de convertirse en Saul Goodman, Jimmy McGill lucha por abrirse camino como abogado en Albuquerque.', 'assets/img/series/posters/serie-poster_20260326_102238_378e8df3.webp', 'assets/img/series/banners/serie-banner_20260428_121126_fe9bc556.webp', '2015-02-08', '+18', 1, 1, 'finalizada', 1, 4.90, '2026-03-26 09:12:49', NULL),
+(18, 'True Detective', 'Serie antológica criminal en la que cada temporada presenta un nuevo caso, un nuevo escenario y nuevos protagonistas.', 'assets/img/series/posters/serie-poster_20260326_102403_70aa35fd.webp', 'assets/img/series/banners/serie-banner_20260428_121139_146c7539.webp', '2014-01-12', '+18', 2, 2, 'en_emision', 1, 4.70, '2026-03-26 09:12:49', NULL),
+(19, 'Peaky Blinders', 'Thomas Shelby lidera a una peligrosa familia de Birmingham que quiere ascender en el mundo del crimen tras la Primera Guerra Mundial.', 'assets/img/series/posters/serie-poster_20260326_130354_bac2e540.webp', 'assets/img/series/banners/serie-banner_20260428_120716_9b81e06b.webp', '2013-09-12', '+18', 1, 1, 'finalizada', 1, 4.90, '2026-03-26 12:02:16', NULL),
+(20, 'Fallout', 'En un mundo arrasado por la guerra nuclear, una joven del Refugio sale al exterior y descubre el verdadero rostro del Yermo.', 'assets/img/series/posters/serie-poster_20260326_131204_294accd0.webp', 'assets/img/series/banners/serie-banner_20260428_120649_b698a16e.webp', '2024-04-10', '+18', 1, 4, 'en_emision', 1, 4.70, '2026-03-26 12:02:17', NULL),
+(21, 'Hermanos de sangre', 'La Compaúía Easy recorre Europa durante la Segunda Guerra Mundial en una historia de sacrificio, compaúerismo y supervivencia.', 'assets/img/series/posters/serie-poster_20260326_131048_4ff0c8e8.webp', 'assets/img/series/banners/serie-banner_20260428_120658_fba2f8c0.webp', '2001-09-09', '+16', 1, 2, 'finalizada', 1, 4.90, '2026-03-26 12:02:17', NULL),
+(22, 'The Punisher', 'Frank Castle busca venganza y descubre una conspiración que va mucho más allá del asesinato de su familia.', 'assets/img/series/posters/serie-poster_20260326_130739_607f0a0b.webp', 'assets/img/series/banners/serie-banner_20260428_120706_ca754d28.webp', '2017-11-17', '+18', 1, 1, 'finalizada', 1, 4.60, '2026-03-26 12:02:17', NULL),
+(23, 'Invencible', 'Mark Grayson descubre que heredar los poderes de su padre es solo el comienzo de algo mucho más grande y peligroso.', 'assets/img/series/posters/serie-poster_20260428_114018_15930da5.webp', 'assets/img/series/banners/serie-banner_20260428_121238_3bfc68d4.webp', '2021-03-25', '+18', 1, 4, 'en_emision', 1, 4.90, '2026-04-27 09:40:24', 'https://youtu.be/-484_VA6v78'),
+(25, 'Arcane', 'Dos hermanas separadas por la guerra entre Piltover y Zaun quedan atrapadas en un conflicto de poder, tecnología y traición.', 'assets/img/series/posters/serie-poster_20260428_134338_e33ea864.webp', 'assets/img/series/banners/serie-banner_20260428_134338_4d53ba24.webp', '2021-11-06', '+16', 1, 1, 'finalizada', 1, 4.90, '2026-04-28 11:43:17', NULL),
+(26, 'hg', 'ghg', NULL, NULL, NULL, '', NULL, 3, 'en_emision', 0, 0.00, '2026-04-29 09:56:29', NULL);
 
 -- --------------------------------------------------------
 
@@ -732,45 +848,51 @@ CREATE TABLE `temporada` (
 --
 
 INSERT INTO `temporada` (`id`, `id_serie`, `numero_temporada`, `titulo`, `descripcion`, `poster`, `fecha_estreno`, `creado`) VALUES
-(1, 1, 1, '', 'La desaparición de Will desata una serie de sucesos extraños.', 'img/series/temporadas/temporada_poster_20260325_105751_5baee7e3.jpg', '2016-07-15', '2026-03-25 08:16:58'),
-(2, 1, 2, '', 'Nuevas amenazas llegan desde el Otro Lado.', 'img/series/temporadas/temporada-poster_20260325_132938_9160f2cb.webp', '2017-10-27', '2026-03-25 08:16:58'),
-(3, 2, 1, '', 'Joel y Ellie comienzan su peligroso viaje.', 'img/series/temporadas/tlou1.jpg', '2023-01-15', '2026-03-25 08:16:58'),
-(4, 3, 1, '', 'Los superhéroes no son lo que parecen.', 'img/series/temporadas/boys1.jpg', '2019-07-26', '2026-03-25 08:16:58'),
-(5, 9, 1, '', 'Tony Soprano comienza a mostrar signos de ansiedad mientras intenta mantener el control de su familia y del negocio.', 'img/series/temporadas/temporada-poster_20260326_085023_112baadf.webp', '1999-01-10', '2026-03-26 07:50:23'),
-(6, 9, 2, '', 'Nuevos conflictos internos y rivalidades ponen a prueba el liderazgo de Tony.', 'img/series/temporadas/temporada-poster_20260326_085219_434404a0.webp', '2000-01-16', '2026-03-26 07:52:19'),
-(7, 10, 1, '', 'Carmy intenta levantar el negocio familiar mientras choca con la presión y el caos de la cocina.', 'img/series/temporadas/temporada-poster_20260326_085932_f05aa11b.webp', '2022-06-23', '2026-03-26 07:56:36'),
-(8, 10, 2, '', 'El equipo busca reinventar el restaurante y llevarlo a un nuevo nivel.', 'img/series/temporadas/temporada-poster_20260326_085937_2fdda88e.webp', '2023-06-22', '2026-03-26 07:57:48'),
-(11, 12, 1, '', 'La familia Stark se ve arrastrada al juego político de Poniente.', 'img/series/temporadas/temporada-poster_20260326_091012_13267f3c.webp', '2011-04-17', '2026-03-26 08:09:17'),
-(12, 12, 2, '', 'La guerra por el Trono de Hierro se intensifica mientras nuevas amenazas crecen.', 'img/series/temporadas/temporada-poster_20260326_091022_842b6262.webp', '2012-04-01', '2026-03-26 08:09:17'),
-(13, 12, 3, '', 'Las alianzas cambian y la guerra deja algunas de sus consecuencias más crueles.', 'img/series/temporadas/temporada-poster_20260326_091048_6a68b7d6.webp', '2013-03-31', '2026-03-26 08:09:17'),
-(14, 12, 4, '', 'La caída de grandes figuras altera el equilibrio del poder en Poniente.', 'img/series/temporadas/temporada-poster_20260326_091117_8f7b6496.webp', '2014-04-06', '2026-03-26 08:09:17'),
-(15, 12, 5, '', 'Nuevos líderes surgen mientras crece la amenaza más allá del Muro.', 'img/series/temporadas/temporada-poster_20260326_091134_27c85e2e.webp', '2015-04-12', '2026-03-26 08:09:17'),
-(16, 12, 6, '', 'Viejas deudas se cobran y el futuro de los reinos empieza a definirse.', 'img/series/temporadas/temporada-poster_20260326_091240_19803d7b.webp', '2016-04-24', '2026-03-26 08:09:17'),
-(17, 12, 7, '', 'La guerra final se aproxima y los grandes bandos se preparan para el choque definitivo.', 'img/series/temporadas/temporada-poster_20260326_091258_3b3b868b.webp', '2017-07-16', '2026-03-26 08:09:17'),
-(18, 12, 8, '', 'La batalla por el destino de Poniente llega a su desenlace.', 'img/series/temporadas/temporada-poster_20260326_091331_7765783f.webp', '2019-04-14', '2026-03-26 08:09:17'),
-(34, 16, 1, 'Temporada 1', 'Walter White da sus primeros pasos en el mundo criminal junto a Jesse Pinkman.', 'img/series/temporadas/temporada-poster_20260326_101741_f38324e3.webp', '2008-01-20', '2026-03-26 09:12:49'),
-(35, 16, 2, 'Temporada 2', 'El negocio crece y las consecuencias personales se vuelven más peligrosas.', 'img/series/temporadas/temporada-poster_20260326_101748_7541c360.webp', '2009-03-08', '2026-03-26 09:12:49'),
-(36, 16, 3, 'Temporada 3', 'Walter se hunde cada vez más en una espiral de poder, violencia y decisiones irreversibles.', 'img/series/temporadas/temporada-poster_20260326_101755_42b0a255.webp', '2010-03-21', '2026-03-26 09:12:49'),
-(37, 16, 4, 'Temporada 4', 'La guerra con Gus Fring eleva la tensión al máximo.', 'img/series/temporadas/temporada-poster_20260326_101800_adcc9224.webp', '2011-07-17', '2026-03-26 09:12:49'),
-(38, 16, 5, 'Temporada 5', 'Walter alcanza su punto más alto y también el principio de su caída definitiva.', 'img/series/temporadas/temporada-poster_20260326_101826_b4f7417a.webp', '2012-07-15', '2026-03-26 09:12:49'),
-(39, 17, 1, '', 'Jimmy intenta abrirse camino en el mundo legal mientras lidia con su pasado.', 'img/series/temporadas/temporada-poster_20260326_102047_291ff9b9.webp', '2015-02-08', '2026-03-26 09:12:49'),
-(40, 17, 2, '', 'Jimmy se acerca cada vez más al abogado que será Saul Goodman.', 'img/series/temporadas/temporada-poster_20260326_102053_6be2a753.webp', '2016-02-15', '2026-03-26 09:12:49'),
-(41, 17, 3, '', 'Las tensiones con Chuck y el ascenso criminal de Gus y Mike cambian las reglas del juego.', 'img/series/temporadas/temporada-poster_20260326_102128_b4a82916.webp', '2017-04-10', '2026-03-26 09:12:49'),
-(42, 17, 4, '', 'Jimmy intenta rehacer su vida tras una pérdida decisiva.', 'img/series/temporadas/temporada-poster_20260326_102152_2e91afc7.webp', '2018-08-06', '2026-03-26 09:12:49'),
-(43, 17, 5, '', 'Saul Goodman toma forma definitiva mientras el peligro aumenta alrededor de Kim y Jimmy.', 'img/series/temporadas/temporada-poster_20260326_102223_801defaf.webp', '2020-02-23', '2026-03-26 09:12:49'),
-(44, 17, 6, '', 'La historia se acerca al universo de Breaking Bad y al destino final de Jimmy.', 'img/series/temporadas/temporada-poster_20260326_102229_17564311.webp', '2022-04-18', '2026-03-26 09:12:49'),
-(45, 18, 1, 'Temporada 1', 'Dos detectives de Luisiana reabren un caso de asesinato ritual años después.', 'img/series/temporadas/temporada-poster_20260326_102413_fb091278.webp', '2014-01-12', '2026-03-26 09:12:49'),
-(49, 19, 1, 'Temporada 1', 'Tommy Shelby intenta expandir el negocio de su familia mientras un inspector llega a Birmingham.', 'img/series/temporadas/temporada-poster_20260326_130447_77369173.webp', '2013-09-12', '2026-03-26 12:02:16'),
-(50, 19, 2, 'Temporada 2', 'Los Shelby amplían su poder hacia Londres y se enfrentan a nuevos enemigos.', 'img/series/temporadas/temporada-poster_20260326_130454_b492cd38.webp', '2014-10-02', '2026-03-26 12:02:16'),
-(51, 19, 3, 'Temporada 3', 'La familia entra en un escenario internacional lleno de política, traiciones y peligro.', 'img/series/temporadas/temporada-poster_20260326_130501_e1cbf0a3.webp', '2016-05-05', '2026-03-26 12:02:16'),
-(52, 19, 4, 'Temporada 4', 'Una vieja venganza pone contra las cuerdas a los Shelby.', 'img/series/temporadas/temporada-poster_20260326_130550_d33035c0.webp', '2017-11-15', '2026-03-26 12:02:16'),
-(53, 19, 5, 'Temporada 5', 'Tommy se mete de lleno en la política mientras crece la amenaza del fascismo.', 'img/series/temporadas/temporada-poster_20260326_130556_8201ad66.webp', '2019-08-25', '2026-03-26 12:02:16'),
-(54, 19, 6, 'Temporada 6', 'Tommy encara sus demonios finales en el cierre de la historia principal.', 'img/series/temporadas/temporada-poster_20260326_130603_9696fd62.webp', '2022-02-27', '2026-03-26 12:02:16'),
-(55, 20, 1, '', 'Lucy abandona el refugio y descubre un mundo postapocalíptico brutal y absurdo.', 'img/series/temporadas/temporada-poster_20260326_131303_14c0c624.webp', '2024-04-10', '2026-03-26 12:02:17'),
-(56, 20, 2, '', 'La historia continúa con Lucy, Maximus y el Necrófago adentrándose en nuevos territorios.', 'img/series/temporadas/temporada-poster_20260326_131311_9d394b08.webp', '2025-12-16', '2026-03-26 12:02:17'),
-(57, 21, 1, '', 'La Compañía Easy vive el infierno de la guerra desde el entrenamiento hasta el final del conflicto.', 'img/series/temporadas/temporada-poster_20260326_131059_de0dc989.webp', '2001-09-09', '2026-03-26 12:02:17'),
-(58, 22, 1, '', 'Frank Castle descubre una conspiración mientras intenta vengar a su familia.', 'img/series/temporadas/temporada-poster_20260326_130841_e6ae9bb5.webp', '2017-11-17', '2026-03-26 12:02:17'),
-(59, 22, 2, '', 'Frank se ve arrastrado a un nuevo conflicto que lo obliga a volver a la guerra.', 'img/series/temporadas/temporada-poster_20260326_130849_3ec820b9.webp', '2019-01-18', '2026-03-26 12:02:17');
+(1, 1, 1, '', 'La desaparición de Will desata una serie de sucesos extraños.', 'assets/img/series/temporadas/temporada_poster_20260325_105751_5baee7e3.jpg', '2016-07-15', '2026-03-25 08:16:58'),
+(2, 1, 2, '', 'Nuevas amenazas llegan desde el Otro Lado.', 'assets/img/series/temporadas/temporada-poster_20260325_132938_9160f2cb.webp', '2017-10-27', '2026-03-25 08:16:58'),
+(3, 2, 1, '', 'Joel y Ellie comienzan su peligroso viaje.', 'assets/img/series/temporadas/tlou1.jpg', '2023-01-15', '2026-03-25 08:16:58'),
+(4, 3, 1, '', 'Los superhéroes no son lo que parecen.', 'assets/img/series/temporadas/boys1.jpg', '2019-07-26', '2026-03-25 08:16:58'),
+(5, 9, 1, '', 'Tony Soprano comienza a mostrar signos de ansiedad mientras intenta mantener el control de su familia y del negocio.', 'assets/img/series/temporadas/temporada-poster_20260326_085023_112baadf.webp', '1999-01-10', '2026-03-26 07:50:23'),
+(6, 9, 2, '', 'Nuevos conflictos internos y rivalidades ponen a prueba el liderazgo de Tony.', 'assets/img/series/temporadas/temporada-poster_20260326_085219_434404a0.webp', '2000-01-16', '2026-03-26 07:52:19'),
+(7, 10, 1, '', 'Carmy intenta levantar el negocio familiar mientras choca con la presión y el caos de la cocina.', 'assets/img/series/temporadas/temporada-poster_20260326_085932_f05aa11b.webp', '2022-06-23', '2026-03-26 07:56:36'),
+(8, 10, 2, '', 'El equipo busca reinventar el restaurante y llevarlo a un nuevo nivel.', 'assets/img/series/temporadas/temporada-poster_20260326_085937_2fdda88e.webp', '2023-06-22', '2026-03-26 07:57:48'),
+(11, 12, 1, '', 'La familia Stark se ve arrastrada al juego político de Poniente.', 'assets/img/series/temporadas/temporada-poster_20260326_091012_13267f3c.webp', '2011-04-17', '2026-03-26 08:09:17'),
+(12, 12, 2, '', 'La guerra por el Trono de Hierro se intensifica mientras nuevas amenazas crecen.', 'assets/img/series/temporadas/temporada-poster_20260326_091022_842b6262.webp', '2012-04-01', '2026-03-26 08:09:17'),
+(13, 12, 3, '', 'Las alianzas cambian y la guerra deja algunas de sus consecuencias más crueles.', 'assets/img/series/temporadas/temporada-poster_20260326_091048_6a68b7d6.webp', '2013-03-31', '2026-03-26 08:09:17'),
+(14, 12, 4, '', 'La caída de grandes figuras altera el equilibrio del poder en Poniente.', 'assets/img/series/temporadas/temporada-poster_20260326_091117_8f7b6496.webp', '2014-04-06', '2026-03-26 08:09:17'),
+(15, 12, 5, '', 'Nuevos líderes surgen mientras crece la amenaza más allá del Muro.', 'assets/img/series/temporadas/temporada-poster_20260326_091134_27c85e2e.webp', '2015-04-12', '2026-03-26 08:09:17'),
+(16, 12, 6, '', 'Viejas deudas se cobran y el futuro de los reinos empieza a definirse.', 'assets/img/series/temporadas/temporada-poster_20260326_091240_19803d7b.webp', '2016-04-24', '2026-03-26 08:09:17'),
+(17, 12, 7, '', 'La guerra final se aproxima y los grandes bandos se preparan para el choque definitivo.', 'assets/img/series/temporadas/temporada-poster_20260326_091258_3b3b868b.webp', '2017-07-16', '2026-03-26 08:09:17'),
+(18, 12, 8, '', 'La batalla por el destino de Poniente llega a su desenlace.', 'assets/img/series/temporadas/temporada-poster_20260326_091331_7765783f.webp', '2019-04-14', '2026-03-26 08:09:17'),
+(34, 16, 1, '', 'Walter White da sus primeros pasos en el mundo criminal junto a Jesse Pinkman.', 'assets/img/series/temporadas/temporada-poster_20260326_101741_f38324e3.webp', '2008-01-20', '2026-03-26 09:12:49'),
+(35, 16, 2, '', 'El negocio crece y las consecuencias personales se vuelven más peligrosas.', 'assets/img/series/temporadas/temporada-poster_20260326_101748_7541c360.webp', '2009-03-08', '2026-03-26 09:12:49'),
+(36, 16, 3, '', 'Walter se hunde cada vez más en una espiral de poder, violencia y decisiones irreversibles.', 'assets/img/series/temporadas/temporada-poster_20260326_101755_42b0a255.webp', '2010-03-21', '2026-03-26 09:12:49'),
+(37, 16, 4, '', 'La guerra con Gus Fring eleva la tensión al máximo.', 'assets/img/series/temporadas/temporada-poster_20260326_101800_adcc9224.webp', '2011-07-17', '2026-03-26 09:12:49'),
+(38, 16, 5, '', 'Walter alcanza su punto más alto y también el principio de su caída definitiva.', 'assets/img/series/temporadas/temporada-poster_20260326_101826_b4f7417a.webp', '2012-07-15', '2026-03-26 09:12:49'),
+(39, 17, 1, '', 'Jimmy intenta abrirse camino en el mundo legal mientras lidia con su pasado.', 'assets/img/series/temporadas/temporada-poster_20260326_102047_291ff9b9.webp', '2015-02-08', '2026-03-26 09:12:49'),
+(40, 17, 2, '', 'Jimmy se acerca cada vez más al abogado que será Saul Goodman.', 'assets/img/series/temporadas/temporada-poster_20260326_102053_6be2a753.webp', '2016-02-15', '2026-03-26 09:12:49'),
+(41, 17, 3, '', 'Las tensiones con Chuck y el ascenso criminal de Gus y Mike cambian las reglas del juego.', 'assets/img/series/temporadas/temporada-poster_20260326_102128_b4a82916.webp', '2017-04-10', '2026-03-26 09:12:49'),
+(42, 17, 4, '', 'Jimmy intenta rehacer su vida tras una pérdida decisiva.', 'assets/img/series/temporadas/temporada-poster_20260326_102152_2e91afc7.webp', '2018-08-06', '2026-03-26 09:12:49'),
+(43, 17, 5, '', 'Saul Goodman toma forma definitiva mientras el peligro aumenta alrededor de Kim y Jimmy.', 'assets/img/series/temporadas/temporada-poster_20260326_102223_801defaf.webp', '2020-02-23', '2026-03-26 09:12:49'),
+(44, 17, 6, '', 'La historia se acerca al universo de Breaking Bad y al destino final de Jimmy.', 'assets/img/series/temporadas/temporada-poster_20260326_102229_17564311.webp', '2022-04-18', '2026-03-26 09:12:49'),
+(45, 18, 1, 'Temporada 1', 'Dos detectives de Luisiana reabren un caso de asesinato ritual años después.', 'assets/img/series/temporadas/temporada-poster_20260326_102413_fb091278.webp', '2014-01-12', '2026-03-26 09:12:49'),
+(49, 19, 1, 'Temporada 1', 'Tommy Shelby intenta expandir el negocio de su familia mientras un inspector llega a Birmingham.', 'assets/img/series/temporadas/temporada-poster_20260326_130447_77369173.webp', '2013-09-12', '2026-03-26 12:02:16'),
+(50, 19, 2, 'Temporada 2', 'Los Shelby amplían su poder hacia Londres y se enfrentan a nuevos enemigos.', 'assets/img/series/temporadas/temporada-poster_20260326_130454_b492cd38.webp', '2014-10-02', '2026-03-26 12:02:16'),
+(51, 19, 3, 'Temporada 3', 'La familia entra en un escenario internacional lleno de política, traiciones y peligro.', 'assets/img/series/temporadas/temporada-poster_20260326_130501_e1cbf0a3.webp', '2016-05-05', '2026-03-26 12:02:16'),
+(52, 19, 4, 'Temporada 4', 'Una vieja venganza pone contra las cuerdas a los Shelby.', 'assets/img/series/temporadas/temporada-poster_20260326_130550_d33035c0.webp', '2017-11-15', '2026-03-26 12:02:16'),
+(53, 19, 5, 'Temporada 5', 'Tommy se mete de lleno en la política mientras crece la amenaza del fascismo.', 'assets/img/series/temporadas/temporada-poster_20260326_130556_8201ad66.webp', '2019-08-25', '2026-03-26 12:02:16'),
+(54, 19, 6, 'Temporada 6', 'Tommy encara sus demonios finales en el cierre de la historia principal.', 'assets/img/series/temporadas/temporada-poster_20260326_130603_9696fd62.webp', '2022-02-27', '2026-03-26 12:02:16'),
+(55, 20, 1, '', 'Lucy abandona el refugio y descubre un mundo postapocalíptico brutal y absurdo.', 'assets/img/series/temporadas/temporada-poster_20260326_131303_14c0c624.webp', '2024-04-10', '2026-03-26 12:02:17'),
+(56, 20, 2, '', 'La historia continúa con Lucy, Maximus y el Necrófago adentrándose en nuevos territorios.', 'assets/img/series/temporadas/temporada-poster_20260326_131311_9d394b08.webp', '2025-12-16', '2026-03-26 12:02:17'),
+(57, 21, 1, '', 'La Compañía Easy vive el infierno de la guerra desde el entrenamiento hasta el final del conflicto.', 'assets/img/series/temporadas/temporada-poster_20260326_131059_de0dc989.webp', '2001-09-09', '2026-03-26 12:02:17'),
+(58, 22, 1, '', 'Frank Castle descubre una conspiración mientras intenta vengar a su familia.', 'assets/img/series/temporadas/temporada-poster_20260326_130841_e6ae9bb5.webp', '2017-11-17', '2026-03-26 12:02:17'),
+(59, 22, 2, '', 'Frank se ve arrastrado a un nuevo conflicto que lo obliga a volver a la guerra.', 'assets/img/series/temporadas/temporada-poster_20260326_130849_3ec820b9.webp', '2019-01-18', '2026-03-26 12:02:17'),
+(60, 23, 1, '', 'Mark descubre sus poderes y una verdad brutal sobre su padre cambia todo.', 'assets/img/series/temporadas/temporada-poster_20260427_114446_84095c94.webp', '2021-03-25', '2026-04-27 09:40:24'),
+(61, 23, 2, '', 'Mark afronta amenazas mayores mientras carga con las consecuencias del pasado.', 'assets/img/series/temporadas/temporada-poster_20260427_114517_35db52b6.webp', '2023-11-03', '2026-04-27 09:40:24'),
+(62, 23, 3, '', 'La guerra se acerca y Mark se enfrenta a decisiones cada vez más oscuras.', 'assets/img/series/temporadas/temporada-poster_20260427_114535_48b45740.webp', '2025-02-06', '2026-04-27 09:40:24'),
+(63, 25, 1, '', 'Vi y Powder quedan separadas mientras Zaun y Piltover entran en una espiral de tensión.', 'assets/img/series/temporadas/temporada-poster_20260428_134417_94673ba4.webp', '2021-11-06', '2026-04-28 11:43:17'),
+(64, 25, 2, '', 'La guerra entre ciudades estalla y las consecuencias de Jinx cambian el destino de todos.', 'assets/img/series/temporadas/temporada-poster_20260428_134423_fe6273ac.webp', '2024-11-09', '2026-04-28 11:43:17'),
+(65, 26, 1, 'q', 'qqq', NULL, NULL, '2026-04-29 09:57:23');
 
 -- --------------------------------------------------------
 
@@ -821,7 +943,17 @@ INSERT INTO `ticket` (`id`, `id_usuario`, `id_proyeccion`, `cantidad`, `precio_u
 (27, 17, 14, 1, 7.50, 7.50, '28A98FB3063B', '2026-03-25 13:08:08'),
 (28, 17, 23, 1, 7.50, 7.50, 'E2DBE1097ED4', '2026-03-26 09:51:01'),
 (29, 17, 23, 1, 7.50, 7.50, 'DA90014C118F', '2026-03-26 10:10:26'),
-(30, 17, 23, 1, 7.50, 7.50, '581BFD988B05', '2026-03-26 10:36:40');
+(30, 17, 23, 1, 7.50, 7.50, '581BFD988B05', '2026-03-26 10:36:40'),
+(31, 17, 22, 1, 7.50, 7.50, 'EDCD0A2D4F18', '2026-03-26 13:18:10'),
+(32, 17, 23, 1, 7.50, 7.50, 'BAA1E8C5737F', '2026-03-26 13:34:45'),
+(33, 17, 22, 1, 7.50, 7.50, 'D0B6C5C60E27', '2026-03-31 13:42:30'),
+(34, 17, 27, 1, 7.50, 7.50, '2C59E54C5A87', '2026-04-28 09:15:32'),
+(35, 17, 23, 1, 7.50, 7.50, '52584A4D97FE', '2026-04-28 10:41:54'),
+(36, 17, 23, 1, 7.50, 7.50, 'A6E465C9A5D5', '2026-04-28 12:25:55'),
+(37, 17, 23, 1, 7.50, 7.50, '272E6050213C', '2026-04-29 09:19:47'),
+(38, 17, 23, 1, 7.50, 7.50, '9956D850A3FA', '2026-04-29 10:19:41'),
+(39, 17, 24, 1, 7.50, 7.50, 'E78AD2938DBC', '2026-04-29 10:24:39'),
+(40, 17, 23, 1, 7.50, 7.50, '7C85B9E27E3A', '2026-04-29 10:30:44');
 
 -- --------------------------------------------------------
 
@@ -894,7 +1026,17 @@ INSERT INTO `ticket_asiento` (`id`, `id_ticket`, `id_proyeccion`, `asiento`, `cr
 (52, 27, 14, 'A4', '2026-03-25 13:08:08'),
 (53, 28, 23, 'D6', '2026-03-26 09:51:01'),
 (54, 29, 23, 'C1', '2026-03-26 10:10:26'),
-(55, 30, 23, 'C2', '2026-03-26 10:36:40');
+(55, 30, 23, 'C2', '2026-03-26 10:36:40'),
+(56, 31, 22, 'D1', '2026-03-26 13:18:10'),
+(57, 32, 23, 'B7', '2026-03-26 13:34:45'),
+(58, 33, 22, 'E5', '2026-03-31 13:42:30'),
+(59, 34, 27, 'A1', '2026-04-28 09:15:32'),
+(60, 35, 23, 'A4', '2026-04-28 10:41:54'),
+(61, 36, 23, 'B3', '2026-04-28 12:25:55'),
+(62, 37, 23, 'D2', '2026-04-29 09:19:47'),
+(63, 38, 23, 'C6', '2026-04-29 10:19:41'),
+(64, 39, 24, 'B5', '2026-04-29 10:24:39'),
+(65, 40, 23, 'G4', '2026-04-29 10:30:44');
 
 -- --------------------------------------------------------
 
@@ -913,27 +1055,42 @@ CREATE TABLE `usuario` (
   `token_verificacion` varchar(64) DEFAULT NULL,
   `token_expira` datetime DEFAULT NULL,
   `reset_token` varchar(64) DEFAULT NULL,
-  `reset_expira` datetime DEFAULT NULL
+  `reset_expira` datetime DEFAULT NULL,
+  `remember_token` varchar(64) DEFAULT NULL,
+  `remember_expira` datetime DEFAULT NULL,
+  `es_admin` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`id`, `username`, `email`, `password_hash`, `rol`, `creado`, `verificado`, `token_verificacion`, `token_expira`, `reset_token`, `reset_expira`) VALUES
-(1, 'admin', 'admin@gmail.com', '$2y$10$ruwJc684UCt3oE.EKSNPBu3A.u.FmQLv0fOdScu/bwmEcB1NdMqiG', 'admin', '2026-03-23 09:32:25', 0, NULL, NULL, NULL, NULL),
-(2, 'critico', 'critico@mmc.com', '$2y$10$iGgI0zQ6.t5pW3uN0D1L3uA2uXb9n9h0O0X7G9w1E4.Q2t5pW3uN', 'usuario', '2025-12-01 09:06:49', 0, NULL, NULL, NULL, NULL),
-(3, 'user1', 'user1@mmc.com', '$2y$10$pLwS7gY2wB8cK9xZ0t5jK2M8rD4n7o6i1D5S7e8f9g4h2j1k0l9m', 'usuario', '2025-12-01 09:31:29', 0, NULL, NULL, NULL, NULL),
-(6, 'rubentopesao', 'ruben@gmail.com', '$2y$10$ZpuwP.0cEBh93VOSwGzdwexdo0c.XuHCYSIAgMMBtrV2gZf/OTQMW', 'usuario', '2025-12-01 09:46:56', 0, NULL, NULL, NULL, NULL),
-(8, 'turpinicius', 'turpin@gmail.com', '$2y$10$gt5AmqgXNfwxr1XCDxdLruRFn/tyWV6fONm4Co9ZoQl1ifiZkw5Ku', 'usuario', '2025-12-01 12:29:05', 0, NULL, NULL, NULL, NULL),
-(9, 'a', 'a@gmail.com', '$2y$10$J08rFl6smVZVTSSyrrw/5uvOMG2xuz9TMTD1/Is9g1MWhgARqWc6.', 'usuario', '2026-01-28 08:08:40', 0, NULL, NULL, NULL, NULL),
-(11, 'alexxx', 'elmasguapo@gmail.com', '$2y$10$8YkO78IIGZwAHdeEP9hddO6dpAdxAfx23msUiXX2ic.mFkYhD.b9e', 'usuario', '2026-03-09 08:33:54', 0, NULL, NULL, NULL, NULL),
-(16, 'alvaro', 'alvaromurada1@gmail.com', '$2y$10$SEZnDTTcud3Y1q5htZ3vJ.3P4WE6ub6NI3haH9cGpambi4BcWdo3O', 'usuario', '2026-03-23 10:29:37', 0, NULL, NULL, NULL, NULL),
-(17, 'b', 'david.monzonlopez@gmail.com', '$2y$10$QG47kKX6vA96KuVa2jop9e5tua54zvPmjURQWlY8bEdwMm3WtW4CC', 'admin', '2026-03-24 07:28:38', 1, NULL, NULL, NULL, NULL);
+INSERT INTO `usuario` (`id`, `username`, `email`, `password_hash`, `rol`, `creado`, `verificado`, `token_verificacion`, `token_expira`, `reset_token`, `reset_expira`, `remember_token`, `remember_expira`, `es_admin`) VALUES
+(1, 'admin', 'admin@gmail.com', '$2y$10$ruwJc684UCt3oE.EKSNPBu3A.u.FmQLv0fOdScu/bwmEcB1NdMqiG', 'admin', '2026-03-23 09:32:25', 0, NULL, NULL, NULL, NULL, NULL, NULL, 0),
+(2, 'critico', 'critico@mmc.com', '$2y$10$iGgI0zQ6.t5pW3uN0D1L3uA2uXb9n9h0O0X7G9w1E4.Q2t5pW3uN', 'usuario', '2025-12-01 09:06:49', 0, NULL, NULL, NULL, NULL, NULL, NULL, 0),
+(3, 'user1', 'user1@mmc.com', '$2y$10$pLwS7gY2wB8cK9xZ0t5jK2M8rD4n7o6i1D5S7e8f9g4h2j1k0l9m', 'usuario', '2025-12-01 09:31:29', 0, NULL, NULL, NULL, NULL, NULL, NULL, 0),
+(6, 'rubentopesao', 'ruben@gmail.com', '$2y$10$ZpuwP.0cEBh93VOSwGzdwexdo0c.XuHCYSIAgMMBtrV2gZf/OTQMW', 'usuario', '2025-12-01 09:46:56', 0, NULL, NULL, NULL, NULL, NULL, NULL, 0),
+(8, 'turpinicius', 'turpin@gmail.com', '$2y$10$gt5AmqgXNfwxr1XCDxdLruRFn/tyWV6fONm4Co9ZoQl1ifiZkw5Ku', 'usuario', '2025-12-01 12:29:05', 0, NULL, NULL, NULL, NULL, NULL, NULL, 0),
+(9, 'a', 'a@gmail.com', '$2y$10$J08rFl6smVZVTSSyrrw/5uvOMG2xuz9TMTD1/Is9g1MWhgARqWc6.', 'usuario', '2026-01-28 08:08:40', 0, NULL, NULL, NULL, NULL, NULL, NULL, 0),
+(11, 'alexxx', 'elmasguapo@gmail.com', '$2y$10$8YkO78IIGZwAHdeEP9hddO6dpAdxAfx23msUiXX2ic.mFkYhD.b9e', 'usuario', '2026-03-09 08:33:54', 0, NULL, NULL, NULL, NULL, NULL, NULL, 0),
+(16, 'alvaro', 'alvaromurada1@gmail.com', '$2y$10$SEZnDTTcud3Y1q5htZ3vJ.3P4WE6ub6NI3haH9cGpambi4BcWdo3O', 'usuario', '2026-03-23 10:29:37', 0, NULL, NULL, NULL, NULL, NULL, NULL, 0),
+(17, 'b', 'david.monzonlopez@gmail.com', '$2y$10$QG47kKX6vA96KuVa2jop9e5tua54zvPmjURQWlY8bEdwMm3WtW4CC', 'admin', '2026-03-24 07:28:38', 1, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+(18, 'u', 'rubenavarro555@gmail.com', '$2y$10$BS0AGjysaAAKkYcG4Gy1l.Dh6qILfGDTpaDKk9AsuCZY6aSJWbOEe', 'usuario', '2026-03-31 11:36:52', 0, '20724b7661526974f6c4b0eed453087717ee981904e8dbe8384fd183f33ac25c', '2026-04-01 13:36:52', NULL, NULL, NULL, NULL, 0),
+(20, 'd', 'davidmonzon@navegatel.es', '$2y$10$dOuZ3fFLQv4oYMuAfPjek.JyA460to6xe2zLW/qOQfa37LWaGFffa', 'usuario', '2026-04-27 07:42:17', 1, NULL, NULL, NULL, NULL, NULL, NULL, 0);
 
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `carrusel_destacado`
+--
+ALTER TABLE `carrusel_destacado`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_activo` (`activo`),
+  ADD KEY `idx_categoria` (`categoria`),
+  ADD KEY `idx_orden` (`orden`),
+  ADD KEY `idx_tipo_contenido` (`tipo`,`id_contenido`);
 
 --
 -- Indices de la tabla `critica`
@@ -965,6 +1122,15 @@ ALTER TABLE `favorito`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `uq_favorito` (`id_usuario`,`id_pelicula`),
   ADD KEY `fk_favorito_pelicula` (`id_pelicula`);
+
+--
+-- Indices de la tabla `favorito_serie`
+--
+ALTER TABLE `favorito_serie`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `unique_favorito_serie` (`id_usuario`,`id_serie`),
+  ADD KEY `idx_usuario_serie` (`id_usuario`),
+  ADD KEY `idx_serie` (`id_serie`);
 
 --
 -- Indices de la tabla `genero`
@@ -1052,17 +1218,24 @@ ALTER TABLE `ticket_asiento`
 ALTER TABLE `usuario`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `email` (`email`),
-  ADD UNIQUE KEY `uq_token_verificacion` (`token_verificacion`);
+  ADD UNIQUE KEY `uq_token_verificacion` (`token_verificacion`),
+  ADD KEY `idx_remember_token` (`remember_token`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
 --
+-- AUTO_INCREMENT de la tabla `carrusel_destacado`
+--
+ALTER TABLE `carrusel_destacado`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
 -- AUTO_INCREMENT de la tabla `critica`
 --
 ALTER TABLE `critica`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT de la tabla `critica_serie`
@@ -1074,13 +1247,19 @@ ALTER TABLE `critica_serie`
 -- AUTO_INCREMENT de la tabla `episodio`
 --
 ALTER TABLE `episodio`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=451;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=493;
 
 --
 -- AUTO_INCREMENT de la tabla `favorito`
 --
 ALTER TABLE `favorito`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
+-- AUTO_INCREMENT de la tabla `favorito_serie`
+--
+ALTER TABLE `favorito_serie`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `genero`
@@ -1092,13 +1271,13 @@ ALTER TABLE `genero`
 -- AUTO_INCREMENT de la tabla `noticia`
 --
 ALTER TABLE `noticia`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `pelicula`
 --
 ALTER TABLE `pelicula`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT de la tabla `plataforma`
@@ -1110,7 +1289,7 @@ ALTER TABLE `plataforma`
 -- AUTO_INCREMENT de la tabla `proyeccion`
 --
 ALTER TABLE `proyeccion`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT de la tabla `reserva`
@@ -1122,31 +1301,31 @@ ALTER TABLE `reserva`
 -- AUTO_INCREMENT de la tabla `serie`
 --
 ALTER TABLE `serie`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT de la tabla `temporada`
 --
 ALTER TABLE `temporada`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT de la tabla `ticket`
 --
 ALTER TABLE `ticket`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT de la tabla `ticket_asiento`
 --
 ALTER TABLE `ticket_asiento`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- Restricciones para tablas volcadas
@@ -1178,6 +1357,13 @@ ALTER TABLE `episodio`
 ALTER TABLE `favorito`
   ADD CONSTRAINT `fk_favorito_pelicula` FOREIGN KEY (`id_pelicula`) REFERENCES `pelicula` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_favorito_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`) ON DELETE CASCADE;
+
+--
+-- Filtros para la tabla `favorito_serie`
+--
+ALTER TABLE `favorito_serie`
+  ADD CONSTRAINT `fk_favorito_serie_serie` FOREIGN KEY (`id_serie`) REFERENCES `serie` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_favorito_serie_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `pelicula`

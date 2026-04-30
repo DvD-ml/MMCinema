@@ -186,6 +186,7 @@ $posterOk   = ($posterFile !== '' && file_exists($posterAbs));
       <form id="formReserva" action="../backend/crear_ticket.php" method="POST">
         <input type="hidden" name="proyeccion_id" value="<?= (int)$info['proyeccion_id'] ?>">
         <input type="hidden" name="asientos_json" id="asientos_json" value="[]">
+        <?php require_once "../helpers/CSRF.php"; echo CSRF::campoFormulario(); ?>
 
         <div class="box">
           <label for="cantidad">Cantidad</label>

@@ -1,5 +1,8 @@
 <?php
 require_once "../config/conexion.php";
+require_once "../helpers/CSRF.php";
+
+CSRF::validarOAbortar();
 
 $token = trim($_POST['token'] ?? '');
 $pass1 = $_POST['password'] ?? '';

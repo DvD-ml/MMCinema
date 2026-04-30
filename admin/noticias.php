@@ -1,6 +1,7 @@
 <?php
 require_once "auth.php";
 require_once "../config/conexion.php";
+require_once "../helpers/CSRF.php";
 
 $sql = "SELECT * FROM noticia ORDER BY publicado DESC, id DESC";
 $noticias = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
@@ -51,7 +52,11 @@ $noticias = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
                             <td>
                                 <div class="admin-actions">
                                     <a href="noticia_form.php?id=<?= (int)$n['id'] ?>" class="btn btn-warning btn-sm">Editar</a>
-                                    <a href="noticia_borrar.php?id=<?= (int)$n['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que quieres borrar esta noticia?')">Borrar</a>
+                                    <form method="POST" action="noticia_borrar.php" style="display: inline;" onsubmit="return confirm('¿Seguro que quieres borrar esta noticia?')">
+                                        <input type="hidden" name="id" value="<?= (int)$n['id'] ?>">
+                                        <?php echo CSRF::campoFormulario(); ?>
+                                        <button type="submit" class="btn btn-danger btn-sm">Borrar</button>
+                                    </form>
                                 </div>
                             </td>
                         </tr>

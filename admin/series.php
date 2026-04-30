@@ -2,6 +2,7 @@
 require_once "auth.php";
 verificarAuth();
 require_once("../config/conexion.php");
+require_once "../helpers/CSRF.php";
 require_once(__DIR__ . "/includes/series_admin_ui.php");
 
 $series = $pdo->query("
@@ -89,7 +90,11 @@ $series = $pdo->query("
                             <div class="acciones">
                                 <a href="editar_serie.php?id=<?= (int)$serie['id'] ?>" class="btn btn-sm btn-primary">Editar</a>
                                 <a href="temporadas.php?id_serie=<?= (int)$serie['id'] ?>" class="btn btn-sm btn-outline-light">Temporadas</a>
-                                <a href="borrar_serie.php?id=<?= (int)$serie['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro que quieres borrar esta serie?');">Borrar</a>
+                                <form method="POST" action="borrar_serie.php" style="display: inline;" onsubmit="return confirm('¿Seguro que quieres borrar esta serie?');">
+                                    <input type="hidden" name="id" value="<?= (int)$serie['id'] ?>">
+                                    <?php echo CSRF::campoFormulario(); ?>
+                                    <button type="submit" class="btn btn-sm btn-danger">Borrar</button>
+                                </form>
                             </div>
                         </td>
                     </tr>

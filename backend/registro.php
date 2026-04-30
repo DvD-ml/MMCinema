@@ -70,15 +70,13 @@ $stm = $pdo->prepare($sql);
 try {
     $stm->execute([$username, $email, $hash, $fechaActual, 0, $token, $fechaExpira]);
 
-    $correoEnviado = enviarCorreoVerificacion($email, $username, $token);
+    // Agregar a cola de emails (no bloquea)
+    $sql = "INSERT INTO email_queue (tipo, destinatario_email, destinatario_nombre, token) VALUES (?, ?, ?, ?)";
+    $stm = $pdo->prepare($sql);
+    $stm->execute(['verificacion', $email, $username, $token]);
 
-    if ($correoEnviado) {
-        header("Location: ../pages/login.php?registro=1&verificacion=1");
-        exit();
-    } else {
-        header("Location: ../pages/login.php?registro=1&verificacion=0");
-        exit();
-    }
+    header("Location: ../pages/login.php?registro=1&verificacion=1");
+    exit();
 } catch (PDOException $e) {
     header("Location: ../pages/registro.php?error=bd");
     exit();

@@ -3,11 +3,17 @@ require_once "auth.php";
 require_once "../config/conexion.php";
 require_once "../helpers/CSRF.php";
 
+// Validar que sea POST
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header("Location: proyecciones.php");
+    exit();
+}
+
 CSRF::validarOAbortar();
 
 $id = 0;
-if (isset($_GET['id'])) {
-    $id = (int)$_GET['id'];
+if (isset($_POST['id'])) {
+    $id = (int)$_POST['id'];
 }
 
 if ($id <= 0) {
