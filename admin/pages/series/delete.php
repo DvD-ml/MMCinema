@@ -1,5 +1,5 @@
-﻿<?php
-require_once "../../../auth.php";
+<?php
+require_once __DIR__ . "/../../../admin/auth.php";
 verificarAuth();
 
 require_once __DIR__ . "/../../../config/conexion.php";
@@ -20,12 +20,16 @@ if (empty($_SESSION['rol']) || $_SESSION['rol'] !== 'admin') {
 
 $id = (int)($_POST['id'] ?? 0);
 
-if ($id > 0) {
-    $stmt = $pdo->prepare("DELETE FROM serie WHERE id = ?");
-    $stmt->execute([$id]);
+try {
+    if ($id > 0) {
+        $stmt = $pdo->prepare("DELETE FROM serie WHERE id = ?");
+        $stmt->execute([$id]);
+    }
+    header("Location: list.php");
+} catch (PDOException $e) {
+    error_log("Error en series/delete.php: " . $e->getMessage());
+    header("Location: list.php?error=1");
 }
-
-header("Location: list.php");
 exit;
 ?>
 

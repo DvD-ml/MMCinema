@@ -1,8 +1,7 @@
-﻿<?php
-require_once "../../../auth.php";
+<?php
+require_once __DIR__ . "/../../../admin/auth.php";
 verificarAuth();
-require_once("../../../config/conexion.php");
-require_once(__DIR__ . "/../../../helpers/series_admin_ui.php");
+require_once __DIR__ . "/../../../config/conexion.php";
 
 $stats = [
     'series' => 0,
@@ -12,37 +11,44 @@ $stats = [
     'destacadas' => 0,
 ];
 
-$queries = [
-    'series' => "SELECT COUNT(*) FROM serie",
-    'temporadas' => "SELECT COUNT(*) FROM temporada",
-    'episodios' => "SELECT COUNT(*) FROM episodio",
-    'criticas' => "SELECT COUNT(*) FROM critica_serie",
-    'destacadas' => "SELECT COUNT(*) FROM serie WHERE destacada = 1",
-];
+$series = [];
+$ultimasCriticas = [];
 
-foreach ($queries as $key => $sql) {
-    $stats[$key] = (int)$pdo->query($sql)->fetchColumn();
+try {
+    $queries = [
+        'series' => "SELECT COUNT(*) FROM serie",
+        'temporadas' => "SELECT COUNT(*) FROM temporada",
+        'episodios' => "SELECT COUNT(*) FROM episodio",
+        'criticas' => "SELECT COUNT(*) FROM critica_serie",
+        'destacadas' => "SELECT COUNT(*) FROM serie WHERE destacada = 1",
+    ];
+
+    foreach ($queries as $key => $sql) {
+        $stats[$key] = (int)$pdo->query($sql)->fetchColumn();
+    }
+
+    $series = $pdo->query("
+        SELECT id, titulo, estado, destacada, creado
+        FROM serie
+        ORDER BY creado DESC, id DESC
+        LIMIT 8
+    ")->fetchAll(PDO::FETCH_ASSOC);
+
+    $ultimasCriticas = $pdo->query("
+        SELECT 
+            cs.puntuacion,
+            cs.creado,
+            s.titulo AS serie_titulo,
+            u.username
+        FROM critica_serie cs
+        INNER JOIN serie s ON s.id = cs.id_serie
+        INNER JOIN usuario u ON u.id = cs.id_usuario
+        ORDER BY cs.creado DESC
+        LIMIT 6
+    ")->fetchAll(PDO::FETCH_ASSOC);
+} catch (Exception $e) {
+    error_log("Error en series/panel.php: " . $e->getMessage());
 }
-
-$series = $pdo->query("
-    SELECT id, titulo, estado, destacada, creado
-    FROM serie
-    ORDER BY creado DESC, id DESC
-    LIMIT 8
-")->fetchAll(PDO::FETCH_ASSOC);
-
-$ultimasCriticas = $pdo->query("
-    SELECT 
-        cs.puntuacion,
-        cs.creado,
-        s.titulo AS serie_titulo,
-        u.username
-    FROM critica_serie cs
-    INNER JOIN serie s ON s.id = cs.id_serie
-    INNER JOIN usuario u ON u.id = cs.id_usuario
-    ORDER BY cs.creado DESC
-    LIMIT 6
-")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -57,7 +63,7 @@ $ultimasCriticas = $pdo->query("
 </head>
 <body class="admin-body">
 
-<?php require_once __DIR__ . "/../../../admin_header.php"; ?>
+<?php require_once __DIR__ . "/../../../admin/admin_header.php"; ?>
 
 <div class="container py-4">
     <div class="d-flex flex-wrap justify-content-between gap-3 align-items-center mb-3">
@@ -66,13 +72,10 @@ $ultimasCriticas = $pdo->query("
             <p class="text-muted mb-0">Desde aquí controlas catálogo, temporadas, episodios y críticas sin ir saltando entre páginas.</p>
         </div>
         <div class="d-flex flex-wrap gap-2">
-            <a href="form.php" class="btn btn-primary">+ Nueva serie</a>
-            <a href="form.php" class="btn btn-outline-light">+ Nueva temporada</a>
-            <a href="form.php" class="btn btn-outline-light">+ Nuevo episodio</a>
+            <a href="<?= htmlspecialchars(mm_admin_url('series/form.php')) ?>" class="btn btn-primary">+ Nueva serie</a>
+            <a href="<?= htmlspecialchars(mm_admin_url('series/list.php')) ?>" class="btn btn-outline-light">Ver todas</a>
         </div>
     </div>
-
-    <?php mm_render_series_admin_nav('panel'); ?>
 
     <div class="row g-3 mb-4">
         <div class="col-md-6 col-xl-3">
@@ -118,7 +121,7 @@ $ultimasCriticas = $pdo->query("
             <div class="card bg-dark text-white h-100">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <span>Últimas series</span>
-                    <a href="list.php" class="btn btn-sm btn-outline-light">Ver todas</a>
+                    <a href="<?= htmlspecialchars(mm_admin_url('series/list.php')) ?>" class="btn btn-sm btn-outline-light">Ver todas</a>
                 </div>
 
                 <div class="table-responsive">
@@ -138,7 +141,7 @@ $ultimasCriticas = $pdo->query("
                                     <td><?= htmlspecialchars($serie['estado']) ?></td>
                                     <td><?= (int)$serie['destacada'] ? 'Sí' : 'No' ?></td>
                                     <td class="text-end">
-                                        <a href="temporadas/list.php?id_serie=<?= (int)$serie['id'] ?>" class="btn btn-sm btn-outline-light">Abrir</a>
+                                        <a href="<?= htmlspecialchars(mm_admin_url('series/temporadas/list.php') . '?id_serie=' . (int)$serie['id']) ?>" class="btn btn-sm btn-outline-light">Abrir</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -156,7 +159,7 @@ $ultimasCriticas = $pdo->query("
             <div class="card bg-dark text-white h-100">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <span>Últimas críticas</span>
-                    <a href="criticas/list.php" class="btn btn-sm btn-outline-light">Moderar</a>
+                    <a href="<?= htmlspecialchars(mm_admin_url('series/criticas/list.php')) ?>" class="btn btn-sm btn-outline-light">Moderar</a>
                 </div>
 
                 <div class="card-body">

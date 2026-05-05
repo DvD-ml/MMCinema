@@ -1,0 +1,10 @@
+# Permitir acceso directo a archivos PHP en admin/pages
+RewriteEngine On
+
+# Permitir acceso a todos los archivos PHP
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule \.(php|css|js|jpg|jpeg|png|gif|webp|svg|ico)$ - [L]
+
+# Permitir acceso a directorios
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^.*$ - [L]

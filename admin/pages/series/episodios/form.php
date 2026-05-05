@@ -1,9 +1,9 @@
-﻿<?php
-require_once "../../../../auth.php";
+<?php
+require_once __DIR__ . "/../../../../admin/auth.php";
 verificarAuth();
 
 require_once __DIR__ . "/../../../../config/conexion.php";
-require_once __DIR__ . "/../../../../helpers/series_admin_ui.php";
+require_once __DIR__ . "/../../../helpers/series_admin_ui.php";
 require_once __DIR__ . "/../../../../helpers/CSRF.php";
 
 if (empty($_SESSION['rol']) || $_SESSION['rol'] !== 'admin') {
@@ -62,7 +62,7 @@ $csrfToken = CSRF::generarToken();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="admin-body">
-<?php require_once __DIR__ . "/../../../../admin_header.php"; ?>
+<?php require_once __DIR__ . "/../../../../admin/admin_header.php"; ?>
 
 <div class="container py-4 py-lg-5">
     <div class="admin-page-head">
@@ -70,13 +70,13 @@ $csrfToken = CSRF::generarToken();
             <h1><?= $modoEdicion ? 'Editar episodio' : 'Añadir episodio' ?></h1>
             <p><?= $modoEdicion ? 'Modifica los datos del episodio.' : 'Crea un nuevo episodio.' ?></p>
         </div>
-        <a href="list.php<?= $idTemporadaPre > 0 ? '?id_temporada=' . $idTemporadaPre : '' ?>" class="btn btn-outline-light">Volver</a>
+        <a href="<?= htmlspecialchars(mm_admin_url('series/episodios/list.php') . ($idTemporadaPre > 0 ? '?id_temporada=' . $idTemporadaPre : '')) ?>" class="btn btn-outline-light">Volver</a>
     </div>
 
     <?php mm_render_series_admin_nav('episodios'); ?>
 
     <div class="admin-glass-card p-4">
-        <form method="POST" action="save.php">
+        <form method="POST" action="<?= htmlspecialchars(mm_admin_url('series/episodios/save.php')) ?>">
             <?php echo CSRF::campoFormulario(); ?>
             <input type="hidden" name="id" value="<?= htmlspecialchars($episodio['id'] ?? '') ?>">
 
@@ -122,8 +122,8 @@ $csrfToken = CSRF::generarToken();
                 <button class="btn btn-primary btn-lg" type="submit">
                     <?= $modoEdicion ? 'Guardar cambios' : 'Crear episodio' ?>
                 </button>
-                <a href="list.php<?= $idTemporadaPre > 0 ? '?id_temporada=' . $idTemporadaPre : '' ?>" class="btn btn-outline-light btn-lg">Volver</a>
-                <a href="../panel.php" class="btn btn-outline-warning btn-lg">Resumen</a>
+                <a href="<?= htmlspecialchars(mm_admin_url('series/episodios/list.php') . ($idTemporadaPre > 0 ? '?id_temporada=' . $idTemporadaPre : '')) ?>" class="btn btn-outline-light btn-lg">Volver</a>
+                <a href="<?= htmlspecialchars(mm_admin_url('series/panel.php')) ?>" class="btn btn-outline-warning btn-lg">Resumen</a>
             </div>
         </form>
     </div>

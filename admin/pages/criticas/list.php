@@ -1,22 +1,34 @@
-﻿<?php
-require_once "../../../auth.php";
+<?php
+require_once __DIR__ . "/../../../admin/auth.php";
+verificarAuth();
 require_once __DIR__ . "/../../../config/conexion.php";
 
-$criticasPeliculas = $pdo->query("
-    SELECT c.*, u.username, u.email, p.titulo
-    FROM critica c
-    LEFT JOIN usuario u ON c.id_usuario = u.id
-    LEFT JOIN pelicula p ON c.id_pelicula = p.id
-    ORDER BY c.creado DESC, c.id DESC
-")->fetchAll(PDO::FETCH_ASSOC);
+$criticasPeliculas = [];
+$criticasSeries = [];
 
-$criticasSeries = $pdo->query("
-    SELECT cs.*, u.username, u.email, s.titulo
-    FROM critica_serie cs
-    LEFT JOIN usuario u ON cs.id_usuario = u.id
-    LEFT JOIN serie s ON cs.id_serie = s.id
-    ORDER BY cs.creado DESC, cs.id DESC
-")->fetchAll(PDO::FETCH_ASSOC);
+try {
+    $criticasPeliculas = $pdo->query("
+        SELECT c.*, u.username, u.email, p.titulo
+        FROM critica c
+        LEFT JOIN usuario u ON c.id_usuario = u.id
+        LEFT JOIN pelicula p ON c.id_pelicula = p.id
+        ORDER BY c.creado DESC, c.id DESC
+    ")->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    error_log("Error en criticas/list.php (películas): " . $e->getMessage());
+}
+
+try {
+    $criticasSeries = $pdo->query("
+        SELECT cs.*, u.username, u.email, s.titulo
+        FROM critica_serie cs
+        LEFT JOIN usuario u ON cs.id_usuario = u.id
+        LEFT JOIN serie s ON cs.id_serie = s.id
+        ORDER BY cs.creado DESC, cs.id DESC
+    ")->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    error_log("Error en criticas/list.php (series): " . $e->getMessage());
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -29,7 +41,7 @@ $criticasSeries = $pdo->query("
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="admin-body">
-<?php require_once __DIR__ . "/../../../admin_header.php"; ?>
+<?php require_once __DIR__ . "/../../../admin/admin_header.php"; ?>
 
 <div class="container py-4 py-lg-5">
     <div class="admin-page-head">

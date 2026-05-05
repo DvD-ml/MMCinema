@@ -1,10 +1,13 @@
-﻿<?php
-require_once "../../../../auth.php";
+<?php
+require_once __DIR__ . "/../../../../admin/auth.php";
 verificarAuth();
 
 require_once __DIR__ . "/../../../../config/conexion.php";
-require_once __DIR__ . "/../../../../helpers/upload_helper.php";
+require_once __DIR__ . "/../../../helpers/upload_helper.php";
 require_once __DIR__ . "/../../../../helpers/CSRF.php";
+
+// Validar CSRF
+CSRF::validarOAbortar();
 
 $id = (int)($_POST['id'] ?? 0);
 $id_serie = (int)($_POST['id_serie'] ?? 0);
@@ -28,19 +31,23 @@ if (isset($_FILES['poster_file']) && $_FILES['poster_file']['error'] === UPLOAD_
 // Normalizar valores
 $fecha_estreno = ($fecha_estreno !== '' && $fecha_estreno !== null) ? $fecha_estreno : null;
 
-if ($id > 0) {
-    // Editar
-    $sql = "UPDATE temporada SET id_serie = ?, numero_temporada = ?, titulo = ?, descripcion = ?, poster = ?, fecha_estreno = ? WHERE id = ?";
-    $stm = $pdo->prepare($sql);
-    $stm->execute([$id_serie, $numero_temporada, $titulo, $descripcion, $poster, $fecha_estreno, $id]);
-} else {
-    // Crear
-    $sql = "INSERT INTO temporada (id_serie, numero_temporada, titulo, descripcion, poster, fecha_estreno) VALUES (?, ?, ?, ?, ?, ?)";
-    $stm = $pdo->prepare($sql);
-    $stm->execute([$id_serie, $numero_temporada, $titulo, $descripcion, $poster, $fecha_estreno]);
+try {
+    if ($id > 0) {
+        // Editar
+        $sql = "UPDATE temporada SET id_serie = ?, numero_temporada = ?, titulo = ?, descripcion = ?, poster = ?, fecha_estreno = ? WHERE id = ?";
+        $stm = $pdo->prepare($sql);
+        $stm->execute([$id_serie, $numero_temporada, $titulo, $descripcion, $poster, $fecha_estreno, $id]);
+    } else {
+        // Crear
+        $sql = "INSERT INTO temporada (id_serie, numero_temporada, titulo, descripcion, poster, fecha_estreno) VALUES (?, ?, ?, ?, ?, ?)";
+        $stm = $pdo->prepare($sql);
+        $stm->execute([$id_serie, $numero_temporada, $titulo, $descripcion, $poster, $fecha_estreno]);
+    }
+    header("Location: list.php?id_serie=" . $id_serie . "&ok=1");
+} catch (PDOException $e) {
+    error_log("Error en series/temporadas/save.php: " . $e->getMessage());
+    header("Location: form.php?id=" . $id . "&error=1");
 }
-
-header("Location: list.php?id_serie=" . $id_serie . "&ok=1");
 exit();
 ?>
 

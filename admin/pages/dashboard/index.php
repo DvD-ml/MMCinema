@@ -1,23 +1,47 @@
-﻿<?php
-require_once "../../../auth.php";
+<?php
+require_once __DIR__ . "/../../../admin/auth.php";
+verificarAuth();
+
 require_once __DIR__ . "/../../../config/conexion.php";
 
+// Initialize stats with safe defaults
 $stats = [
-    'peliculas' => (int)$pdo->query("SELECT COUNT(*) FROM pelicula")->fetchColumn(),
-    'proyecciones' => (int)$pdo->query("SELECT COUNT(*) FROM proyeccion")->fetchColumn(),
-    'tickets' => (int)$pdo->query("SELECT COUNT(*) FROM ticket")->fetchColumn(),
-    'noticias' => (int)$pdo->query("SELECT COUNT(*) FROM noticia")->fetchColumn(),
-    'criticas' => (int)$pdo->query("SELECT COUNT(*) FROM critica")->fetchColumn(),
-    'usuarios' => (int)$pdo->query("SELECT COUNT(*) FROM usuario")->fetchColumn(),
-    'series' => (int)$pdo->query("SELECT COUNT(*) FROM serie")->fetchColumn(),
-    'temporadas' => (int)$pdo->query("SELECT COUNT(*) FROM temporada")->fetchColumn(),
-    'episodios' => (int)$pdo->query("SELECT COUNT(*) FROM episodio")->fetchColumn(),
-    'criticas_series' => (int)$pdo->query("SELECT COUNT(*) FROM critica_serie")->fetchColumn(),
+    'peliculas' => 0,
+    'proyecciones' => 0,
+    'tickets' => 0,
+    'noticias' => 0,
+    'criticas' => 0,
+    'usuarios' => 0,
+    'series' => 0,
+    'temporadas' => 0,
+    'episodios' => 0,
+    'criticas_series' => 0,
 ];
 
-$ultimasPeliculas = $pdo->query("SELECT id, titulo, poster, fecha_estreno FROM pelicula ORDER BY id DESC LIMIT 5")->fetchAll(PDO::FETCH_ASSOC);
-$ultimasNoticias = $pdo->query("SELECT id, titulo, publicado FROM noticia ORDER BY publicado DESC, id DESC LIMIT 5")->fetchAll(PDO::FETCH_ASSOC);
-$ultimosTickets = $pdo->query("SELECT codigo, total, created_at FROM ticket ORDER BY id DESC LIMIT 5")->fetchAll(PDO::FETCH_ASSOC);
+$ultimasPeliculas = [];
+$ultimasNoticias = [];
+$ultimosTickets = [];
+
+try {
+    // Get stats safely
+    $stats['peliculas'] = (int)$pdo->query("SELECT COUNT(*) FROM pelicula")->fetchColumn();
+    $stats['proyecciones'] = (int)$pdo->query("SELECT COUNT(*) FROM proyeccion")->fetchColumn();
+    $stats['tickets'] = (int)$pdo->query("SELECT COUNT(*) FROM ticket")->fetchColumn();
+    $stats['noticias'] = (int)$pdo->query("SELECT COUNT(*) FROM noticia")->fetchColumn();
+    $stats['criticas'] = (int)$pdo->query("SELECT COUNT(*) FROM critica")->fetchColumn();
+    $stats['usuarios'] = (int)$pdo->query("SELECT COUNT(*) FROM usuario")->fetchColumn();
+    $stats['series'] = (int)$pdo->query("SELECT COUNT(*) FROM serie")->fetchColumn();
+    $stats['temporadas'] = (int)$pdo->query("SELECT COUNT(*) FROM temporada")->fetchColumn();
+    $stats['episodios'] = (int)$pdo->query("SELECT COUNT(*) FROM episodio")->fetchColumn();
+    $stats['criticas_series'] = (int)$pdo->query("SELECT COUNT(*) FROM critica_serie")->fetchColumn();
+
+    $ultimasPeliculas = $pdo->query("SELECT id, titulo, poster, fecha_estreno FROM pelicula ORDER BY id DESC LIMIT 5")->fetchAll(PDO::FETCH_ASSOC);
+    $ultimasNoticias = $pdo->query("SELECT id, titulo, publicado FROM noticia ORDER BY publicado DESC, id DESC LIMIT 5")->fetchAll(PDO::FETCH_ASSOC);
+    $ultimosTickets = $pdo->query("SELECT codigo, total, created_at FROM ticket ORDER BY id DESC LIMIT 5")->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    // Log error but don't crash the page
+    error_log("Dashboard query error: " . $e->getMessage());
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -31,7 +55,7 @@ $ultimosTickets = $pdo->query("SELECT codigo, total, created_at FROM ticket ORDE
 </head>
 <body class="admin-body">
 
-<?php require_once __DIR__ . "/../../../admin_header.php"; ?>
+<?php require_once __DIR__ . "/../../../admin/admin_header.php"; ?>
 
 <div class="container py-4 py-lg-5">
     <div class="admin-page-head">

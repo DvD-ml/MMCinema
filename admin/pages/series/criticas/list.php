@@ -1,20 +1,24 @@
-﻿<?php
-require_once "../../../../auth.php";
+<?php
+require_once __DIR__ . "/../../../../admin/auth.php";
 verificarAuth();
+require_once __DIR__ . "/../../../../config/conexion.php";
+require_once __DIR__ . "/../../../../helpers/CSRF.php";
 
-require_once("../../../config/conexion.php");
-require_once(__DIR__ . "/../../../../helpers/series_admin_ui.php");
-
-$criticas = $pdo->query("
-    SELECT 
-        cs.*,
-        u.username,
-        s.titulo AS serie_titulo
-    FROM critica_serie cs
-    INNER JOIN usuario u ON cs.id_usuario = u.id
-    INNER JOIN serie s ON cs.id_serie = s.id
-    ORDER BY cs.creado DESC
-")->fetchAll(PDO::FETCH_ASSOC);
+$criticas = [];
+try {
+    $criticas = $pdo->query("
+        SELECT 
+            cs.*,
+            u.username,
+            s.titulo AS serie_titulo
+        FROM critica_serie cs
+        INNER JOIN usuario u ON cs.id_usuario = u.id
+        INNER JOIN serie s ON cs.id_serie = s.id
+        ORDER BY cs.creado DESC
+    ")->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    error_log("Error en series/criticas/list.php: " . $e->getMessage());
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -28,7 +32,7 @@ $criticas = $pdo->query("
 </head>
 <body class="admin-body">
 
-<?php require_once __DIR__ . "/../../../../admin_header.php"; ?>
+<?php require_once __DIR__ . "/../../../../admin/admin_header.php"; ?>
 
 <div class="container py-4 py-lg-5">
     <div class="admin-page-head">
@@ -36,14 +40,12 @@ $criticas = $pdo->query("
             <h1>Críticas de series</h1>
         </div>
         <div>
-            <a href="form.php?tipo=serie" class="btn btn-primary">+ Añadir crítica</a>
-            <a href="panel.php" class="btn btn-outline-light">Resumen</a>
+            <a href="<?= htmlspecialchars(mm_admin_url('criticas/form.php') . '?tipo=serie') ?>" class="btn btn-primary">+ Añadir crítica</a>
+            <a href="<?= htmlspecialchars(mm_admin_url('series/panel.php')) ?>" class="btn btn-outline-light">Resumen</a>
         </div>
     </div>
 
-    <?php mm_render_series_admin_nav('criticas'); ?>
-
-    <div class="admin-glass-card p-3 p-lg-4">
+    <div class="admin-glass-card p-3 p-lg-4">    <div class="admin-glass-card p-3 p-lg-4">
         <div class="admin-table-wrap">
             <table class="admin-table table align-middle mb-0">
                 <thead>
@@ -68,9 +70,9 @@ $criticas = $pdo->query("
                             <td><?= htmlspecialchars($critica['creado']) ?></td>
                             <td>
                                 <div class="acciones">
-                                    <a href="form.php?id=<?= (int)$critica['id'] ?>&tipo=serie" class="btn btn-sm btn-primary">Editar</a>
-                                    <form method="POST" action="delete.php" style="display:inline;">
-                                        <?php require_once __DIR__ . "/../../../../helpers/CSRF.php"; echo CSRF::campoFormulario(); ?>
+                                    <a href="<?= htmlspecialchars(mm_admin_url('criticas/form.php') . '?id=' . (int)$critica['id'] . '&tipo=serie') ?>" class="btn btn-sm btn-primary">Editar</a>
+                                    <form method="POST" action="<?= htmlspecialchars(mm_admin_url('criticas/delete.php')) ?>" style="display:inline;">
+                                        <?php echo CSRF::campoFormulario(); ?>
                                         <input type="hidden" name="id" value="<?= (int)$critica['id'] ?>">
                                         <input type="hidden" name="tipo" value="serie">
                                         <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro que quieres borrar esta crítica?');">Borrar</button>

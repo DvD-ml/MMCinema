@@ -1,15 +1,27 @@
-﻿<?php
-require_once "../../../auth.php";
+<?php
+require_once __DIR__ . "/../../../admin/auth.php";
+verificarAuth();
 require_once __DIR__ . "/../../../config/conexion.php";
 require_once __DIR__ . "/../../../helpers/CSRF.php";
 
+$peliculasCartelera = [];
+$peliculasProximamente = [];
+
 // Obtener películas en cartelera
-$sqlCartelera = "SELECT p.id, p.titulo, p.poster, p.fecha_estreno, COUNT(DISTINCT pr.id) as total_proyecciones FROM pelicula p LEFT JOIN proyeccion pr ON p.id = pr.id_pelicula WHERE p.fecha_estreno <= CURDATE() GROUP BY p.id ORDER BY p.fecha_estreno DESC";
-$peliculasCartelera = $pdo->query($sqlCartelera)->fetchAll(PDO::FETCH_ASSOC);
+try {
+    $sqlCartelera = "SELECT p.id, p.titulo, p.poster, p.fecha_estreno, COUNT(DISTINCT pr.id) as total_proyecciones FROM pelicula p LEFT JOIN proyeccion pr ON p.id = pr.id_pelicula WHERE p.fecha_estreno <= CURDATE() GROUP BY p.id ORDER BY p.fecha_estreno DESC";
+    $peliculasCartelera = $pdo->query($sqlCartelera)->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    error_log("Error en proyecciones/list.php (cartelera): " . $e->getMessage());
+}
 
 // Obtener películas próximamente
-$sqlProximamente = "SELECT p.id, p.titulo, p.poster, p.fecha_estreno, COUNT(DISTINCT pr.id) as total_proyecciones FROM pelicula p LEFT JOIN proyeccion pr ON p.id = pr.id_pelicula WHERE p.fecha_estreno > CURDATE() GROUP BY p.id ORDER BY p.fecha_estreno ASC";
-$peliculasProximamente = $pdo->query($sqlProximamente)->fetchAll(PDO::FETCH_ASSOC);
+try {
+    $sqlProximamente = "SELECT p.id, p.titulo, p.poster, p.fecha_estreno, COUNT(DISTINCT pr.id) as total_proyecciones FROM pelicula p LEFT JOIN proyeccion pr ON p.id = pr.id_pelicula WHERE p.fecha_estreno > CURDATE() GROUP BY p.id ORDER BY p.fecha_estreno ASC";
+    $peliculasProximamente = $pdo->query($sqlProximamente)->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    error_log("Error en proyecciones/list.php (próximamente): " . $e->getMessage());
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -140,7 +152,7 @@ $peliculasProximamente = $pdo->query($sqlProximamente)->fetchAll(PDO::FETCH_ASSO
     </style>
 </head>
 <body class="admin-body">
-<?php require_once __DIR__ . "/../../../admin_header.php"; ?>
+<?php require_once __DIR__ . "/../../../admin/admin_header.php"; ?>
 
 <div class="container py-4 py-lg-5">
     <div class="admin-page-head">

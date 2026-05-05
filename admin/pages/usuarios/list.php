@@ -1,12 +1,17 @@
-﻿<?php
-require_once "../../../auth.php";
+<?php
+require_once __DIR__ . "/../../../admin/auth.php";
 require_once __DIR__ . "/../../../config/conexion.php";
 require_once __DIR__ . "/../../../helpers/CSRF.php";
 
 verificarAuth();
 
-$sql = "SELECT id, username, email, rol, creado FROM usuario ORDER BY id DESC";
-$usuarios = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+$usuarios = [];
+try {
+    $sql = "SELECT id, username, email, rol, creado FROM usuario ORDER BY id DESC";
+    $usuarios = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    error_log("Error en usuarios/list.php: " . $e->getMessage());
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -19,7 +24,7 @@ $usuarios = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="admin-body">
-<?php require_once __DIR__ . "/../../../admin_header.php"; ?>
+<?php require_once __DIR__ . "/../../../admin/admin_header.php"; ?>
 
 <div class="container py-4 py-lg-5">
     <div class="admin-page-head">

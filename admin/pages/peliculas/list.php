@@ -1,10 +1,16 @@
-﻿<?php
-require_once "../../../auth.php";
+<?php
+require_once __DIR__ . "/../../../admin/auth.php";
+verificarAuth();
 require_once __DIR__ . "/../../../config/conexion.php";
 require_once __DIR__ . "/../../../helpers/CSRF.php";
 
-$sql = "SELECT p.*, g.nombre AS genero FROM pelicula p LEFT JOIN genero g ON p.id_genero = g.id ORDER BY p.id DESC";
-$peliculas = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+$peliculas = [];
+try {
+    $sql = "SELECT p.*, g.nombre AS genero FROM pelicula p LEFT JOIN genero g ON p.id_genero = g.id ORDER BY p.id DESC";
+    $peliculas = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    error_log("Error en peliculas/list.php: " . $e->getMessage());
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -17,7 +23,7 @@ $peliculas = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="admin-body">
-<?php require_once __DIR__ . "/../../../admin_header.php"; ?>
+<?php require_once __DIR__ . "/../../../admin/admin_header.php"; ?>
 <div class="container py-4 py-lg-5">
     <div class="admin-page-head">
         <div>

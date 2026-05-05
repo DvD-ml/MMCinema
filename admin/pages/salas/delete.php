@@ -1,5 +1,5 @@
-﻿<?php
-require_once "../../../auth.php";
+<?php
+require_once __DIR__ . "/../../../admin/auth.php";
 verificarAuth();
 
 require_once __DIR__ . "/../../../config/conexion.php";

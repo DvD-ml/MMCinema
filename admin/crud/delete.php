@@ -14,9 +14,10 @@
  * - $checkDependencies: función para verificar dependencias
  */
 
-require_once "auth.php";
-require_once __DIR__ . "/../config/conexion.php";
-require_once __DIR__ . "/../helpers/CSRF.php";
+require_once __DIR__ . "/../auth.php";
+verificarAuth();
+require_once __DIR__ . "/../../config/conexion.php";
+require_once __DIR__ . "/../../helpers/CSRF.php";
 
 // Validar que sea POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {

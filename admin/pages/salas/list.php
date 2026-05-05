@@ -1,8 +1,14 @@
-﻿<?php
-require_once "../../../auth.php";
+<?php
+require_once __DIR__ . "/../../../admin/auth.php";
+verificarAuth();
 require_once __DIR__ . "/../../../config/conexion.php";
 
-$salas = $pdo->query("SELECT * FROM sala_config ORDER BY sala ASC")->fetchAll(PDO::FETCH_ASSOC);
+$salas = [];
+try {
+    $salas = $pdo->query("SELECT * FROM sala_config ORDER BY sala ASC")->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    error_log("Error en salas/list.php: " . $e->getMessage());
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -15,7 +21,7 @@ $salas = $pdo->query("SELECT * FROM sala_config ORDER BY sala ASC")->fetchAll(PD
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="admin-body">
-<?php require_once __DIR__ . "/../../../admin_header.php"; ?>
+<?php require_once __DIR__ . "/../../../admin/admin_header.php"; ?>
 
 <div class="container py-4 py-lg-5">
     <div class="admin-page-head">

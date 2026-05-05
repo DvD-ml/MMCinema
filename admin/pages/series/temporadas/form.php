@@ -1,9 +1,9 @@
-﻿<?php
-require_once "../../../../auth.php";
+<?php
+require_once __DIR__ . "/../../../../admin/auth.php";
 verificarAuth();
 
 require_once __DIR__ . "/../../../../config/conexion.php";
-require_once __DIR__ . "/../../../../helpers/series_admin_ui.php";
+require_once __DIR__ . "/../../../helpers/series_admin_ui.php";
 require_once __DIR__ . "/../../../../helpers/CSRF.php";
 
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
@@ -53,7 +53,7 @@ $csrfToken = CSRF::generarToken();
 </head>
 <body class="admin-body">
 
-<?php require_once __DIR__ . "/../../../../admin_header.php"; ?>
+<?php require_once __DIR__ . "/../../../../admin/admin_header.php"; ?>
 
 <div class="container py-4 py-lg-5">
     <div class="admin-page-head">
@@ -61,13 +61,13 @@ $csrfToken = CSRF::generarToken();
             <h1><?= $modoEdicion ? 'Editar temporada' : 'Añadir temporada' ?></h1>
             <p><?= $modoEdicion ? 'Modifica los datos de la temporada.' : 'Crea una nueva temporada.' ?></p>
         </div>
-        <a href="list.php<?= $idSeriePre > 0 ? '?id_serie=' . $idSeriePre : '' ?>" class="btn btn-outline-light">Volver</a>
+        <a href="<?= htmlspecialchars(mm_admin_url('series/temporadas/list.php') . ($idSeriePre > 0 ? '?id_serie=' . $idSeriePre : '')) ?>" class="btn btn-outline-light">Volver</a>
     </div>
 
     <?php mm_render_series_admin_nav('temporadas', ['id_serie' => $idSeriePre]); ?>
 
     <div class="admin-glass-card p-4">
-        <form method="POST" action="save.php" enctype="multipart/form-data">
+        <form method="POST" action="<?= htmlspecialchars(mm_admin_url('series/temporadas/save.php')) ?>" enctype="multipart/form-data">
             <?php echo CSRF::campoFormulario(); ?>
             <input type="hidden" name="id" value="<?= htmlspecialchars($temporada['id'] ?? '') ?>">
             <input type="hidden" name="poster_actual" value="<?= htmlspecialchars($temporada['poster'] ?? '') ?>">
@@ -106,7 +106,7 @@ $csrfToken = CSRF::generarToken();
                 <?php if (!empty($temporada['poster'])): ?>
                     <div class="mt-3">
                         <p class="mb-2 small text-light">Poster actual:</p>
-                        <img src="../../../assets/img/posters/<?= htmlspecialchars($temporada['poster']) ?>" alt="Poster actual" style="max-width:180px;border-radius:10px;">
+                        <img src="<?= htmlspecialchars(mm_asset_url($temporada['poster'])) ?>" alt="Poster actual" style="max-width:180px;border-radius:10px;">
                     </div>
                 <?php endif; ?>
 
@@ -124,8 +124,8 @@ $csrfToken = CSRF::generarToken();
                 <button class="btn btn-primary btn-lg" type="submit">
                     <?= $modoEdicion ? 'Guardar cambios' : 'Crear temporada' ?>
                 </button>
-                <a href="list.php<?= $idSeriePre > 0 ? '?id_serie=' . $idSeriePre : '' ?>" class="btn btn-outline-light btn-lg">Volver</a>
-                <a href="../panel.php" class="btn btn-outline-warning btn-lg">Resumen</a>
+                <a href="<?= htmlspecialchars(mm_admin_url('series/temporadas/list.php') . ($idSeriePre > 0 ? '?id_serie=' . $idSeriePre : '')) ?>" class="btn btn-outline-light btn-lg">Volver</a>
+                <a href="<?= htmlspecialchars(mm_admin_url('series/panel.php')) ?>" class="btn btn-outline-warning btn-lg">Resumen</a>
             </div>
         </form>
     </div>

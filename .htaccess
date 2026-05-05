@@ -1,15 +1,15 @@
 # Habilitar rewrite engine
 RewriteEngine On
-RewriteBase /mmcinema/
 
 # Definir archivo índice
 DirectoryIndex index.php index.html
 
-# Permitir acceso directo a carpetas
-RewriteRule ^(admin|backend|assets|components|config|database|docs|helpers|includes|logs|storage|tests|vendor|pages)/ - [L]
+# Permitir acceso a todos los archivos y directorios que existen
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
 
 # Permitir acceso a archivos estáticos
-RewriteCond %{REQUEST_FILENAME} -f
 RewriteRule \.(css|js|jpg|jpeg|png|gif|webp|svg|ico|woff|woff2|ttf|eot|pdf)$ - [L]
 
 # Redireccionar páginas principales a pages/ (interno, sin cambiar URL)
@@ -25,6 +25,3 @@ RewriteRule ^(cartelera|series|serie|pelicula|noticia|noticias|criticas|proximam
 
 # Bloquear listado de directorios
 Options -Indexes
-
-# Bloquear acceso a carpetas sensibles
-RedirectMatch 403 ^/(config|helpers|includes|logs|tests|database)/.*$

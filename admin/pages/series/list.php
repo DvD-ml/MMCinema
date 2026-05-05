@@ -1,24 +1,41 @@
-﻿<?php
-require_once "../../../auth.php";
+<?php
+require_once __DIR__ . "/../../../admin/auth.php";
 verificarAuth();
 require_once __DIR__ . "/../../../config/conexion.php";
 require_once __DIR__ . "/../../../helpers/CSRF.php";
-require_once(__DIR__ . "/../../../helpers/series_admin_ui.php");
 
-$series = $pdo->query("
-    SELECT 
-        s.*,
-        p.nombre AS plataforma_nombre,
-        g.nombre AS genero_nombre,
-        COALESCE(AVG(cs.puntuacion), 0) AS puntuacion_media,
-        COUNT(cs.id) AS total_criticas
-    FROM serie s
-    LEFT JOIN plataforma p ON s.id_plataforma = p.id
-    LEFT JOIN genero g ON s.id_genero = g.id
-    LEFT JOIN critica_serie cs ON cs.id_serie = s.id
-    GROUP BY s.id
-    ORDER BY s.creado DESC
-")->fetchAll(PDO::FETCH_ASSOC);
+$series = [];
+try {
+    $series = $pdo->query("
+        SELECT 
+            s.id,
+            s.titulo,
+            s.sinopsis,
+            s.poster,
+            s.banner,
+            s.fecha_estreno,
+            s.edad,
+            s.id_genero,
+            s.id_plataforma,
+            s.estado,
+            s.destacada,
+            s.puntuacion,
+            s.creado,
+            s.trailer,
+            p.nombre AS plataforma_nombre,
+            g.nombre AS genero_nombre,
+            COALESCE(AVG(cs.puntuacion), 0) AS puntuacion_media,
+            COUNT(cs.id) AS total_criticas
+        FROM serie s
+        LEFT JOIN plataforma p ON s.id_plataforma = p.id
+        LEFT JOIN genero g ON s.id_genero = g.id
+        LEFT JOIN critica_serie cs ON cs.id_serie = s.id
+        GROUP BY s.id, s.titulo, s.sinopsis, s.poster, s.banner, s.fecha_estreno, s.edad, s.id_genero, s.id_plataforma, s.estado, s.destacada, s.puntuacion, s.creado, s.trailer, p.nombre, g.nombre
+        ORDER BY s.creado DESC
+    ")->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    error_log("Error en series/list.php: " . $e->getMessage());
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -32,7 +49,7 @@ $series = $pdo->query("
 </head>
 <body class="admin-body">
 
-<?php require_once __DIR__ . "/../../../admin_header.php"; ?>
+<?php require_once __DIR__ . "/../../../admin/admin_header.php"; ?>
 
 <div class="container py-4">
     <div class="d-flex flex-wrap gap-2 justify-content-between align-items-center mb-4">
@@ -41,13 +58,21 @@ $series = $pdo->query("
             <p class="text-muted mb-0">Gestiona catálogo, temporadas, episodios y críticas.</p>
         </div>
         <div class="d-flex flex-wrap gap-2">
-            <a href="form.php" class="btn btn-primary">+ Añadir serie</a>
-            <a href="panel.php" class="btn btn-outline-light">Resumen</a>
-            <a href="criticas/list.php" class="btn btn-outline-light">Críticas</a>
+            <a href="<?= htmlspecialchars(mm_admin_url('series/form.php')) ?>" class="btn btn-primary">+ Añadir serie</a>
+            <a href="<?= htmlspecialchars(mm_admin_url('series/panel.php')) ?>" class="btn btn-outline-light">Resumen</a>
+            <a href="<?= htmlspecialchars(mm_admin_url('series/criticas/list.php')) ?>" class="btn btn-outline-light">Críticas</a>
         </div>
     </div>
 
-    <?php mm_render_series_admin_nav('series'); ?>
+    <?php if (isset($_GET['ok'])): ?>
+        <div class="admin-alert-inline success">
+            <div class="admin-alert-icon">✓</div>
+            <div class="admin-alert-content">
+                <div class="admin-alert-title">Serie guardada</div>
+                <div class="admin-alert-message">La serie se ha guardado correctamente.</div>
+            </div>
+        </div>
+    <?php endif; ?>
 
     <div class="admin-table-wrap">
         <table class="admin-table table table-dark table-hover align-middle mb-0">
@@ -72,7 +97,7 @@ $series = $pdo->query("
 
                         <td>
                             <?php if (!empty($serie['poster'])): ?>
-                                <img src="/assets/img/posters/<?= htmlspecialchars($serie['poster']) ?>" alt="<?= htmlspecialchars($serie['titulo']) ?>" style="width:60px;height:90px;object-fit:cover;border-radius:8px;">
+                                <img src="<?= htmlspecialchars(mm_asset_url($serie['poster'])) ?>" alt="<?= htmlspecialchars($serie['titulo']) ?>" style="width:60px;height:90px;object-fit:cover;border-radius:8px;">
                             <?php else: ?>
                                 —
                             <?php endif; ?>
@@ -88,9 +113,9 @@ $series = $pdo->query("
 
                         <td>
                             <div class="acciones">
-                                <a href="form.php?id=<?= (int)$serie['id'] ?>" class="btn btn-sm btn-primary">Editar</a>
-                                <a href="temporadas/list.php?id_serie=<?= (int)$serie['id'] ?>" class="btn btn-sm btn-outline-light">Temporadas</a>
-                                <form method="POST" action="delete.php" style="display: inline;" onsubmit="return confirm('¿Seguro que quieres borrar esta serie?');">
+                                <a href="<?= htmlspecialchars(mm_admin_url('series/form.php') . '?id=' . (int)$serie['id']) ?>" class="btn btn-sm btn-primary">Editar</a>
+                                <a href="<?= htmlspecialchars(mm_admin_url('series/temporadas/list.php') . '?id_serie=' . (int)$serie['id']) ?>" class="btn btn-sm btn-outline-light">Temporadas</a>
+                                <form method="POST" action="<?= htmlspecialchars(mm_admin_url('series/delete.php')) ?>" style="display: inline;" onsubmit="return confirm('¿Seguro que quieres borrar esta serie?');">
                                     <input type="hidden" name="id" value="<?= (int)$serie['id'] ?>">
                                     <?php echo CSRF::campoFormulario(); ?>
                                     <button type="submit" class="btn btn-sm btn-danger">Borrar</button>

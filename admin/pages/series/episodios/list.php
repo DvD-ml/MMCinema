@@ -1,34 +1,39 @@
-﻿<?php
-require_once "../../../../auth.php";
+<?php
+require_once __DIR__ . "/../../../../admin/auth.php";
 verificarAuth();
 
 require_once __DIR__ . "/../../../../config/conexion.php";
 require_once __DIR__ . "/../../../../helpers/CSRF.php";
-require_once __DIR__ . "/../../../../helpers/series_admin_ui.php";
+require_once __DIR__ . "/../../../helpers/series_admin_ui.php";
 
 $idTemporadaFiltro = isset($_GET['id_temporada']) ? (int)$_GET['id_temporada'] : 0;
+$episodios = [];
 
-$sql = "
-    SELECT 
-        e.*,
-        t.numero_temporada,
-        s.titulo AS serie_titulo
-    FROM episodio e
-    INNER JOIN temporada t ON e.id_temporada = t.id
-    INNER JOIN serie s ON t.id_serie = s.id
-";
-$params = [];
+try {
+    $sql = "
+        SELECT 
+            e.*,
+            t.numero_temporada,
+            s.titulo AS serie_titulo
+        FROM episodio e
+        INNER JOIN temporada t ON e.id_temporada = t.id
+        INNER JOIN serie s ON t.id_serie = s.id
+    ";
+    $params = [];
 
-if ($idTemporadaFiltro > 0) {
-    $sql .= " WHERE e.id_temporada = ? ";
-    $params[] = $idTemporadaFiltro;
+    if ($idTemporadaFiltro > 0) {
+        $sql .= " WHERE e.id_temporada = ? ";
+        $params[] = $idTemporadaFiltro;
+    }
+
+    $sql .= " ORDER BY s.titulo ASC, t.numero_temporada ASC, e.numero_episodio ASC";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute($params);
+    $episodios = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    error_log("Error en series/episodios/list.php: " . $e->getMessage());
 }
-
-$sql .= " ORDER BY s.titulo ASC, t.numero_temporada ASC, e.numero_episodio ASC";
-
-$stmt = $pdo->prepare($sql);
-$stmt->execute($params);
-$episodios = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -42,7 +47,7 @@ $episodios = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 <body class="admin-body">
 
-<?php require_once __DIR__ . "/../../../../admin_header.php"; ?>
+<?php require_once __DIR__ . "/../../../../admin/admin_header.php"; ?>
 
 <div class="container py-4 py-lg-5">
     <div class="admin-page-head">
@@ -50,10 +55,8 @@ $episodios = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <h1>Episodios</h1>
             <p>Puedes filtrar por temporada para tenerlo ordenado.</p>
         </div>
-        <a href="form.php<?= $idTemporadaFiltro > 0 ? '?id_temporada=' . $idTemporadaFiltro : '' ?>" class="btn btn-primary">+ Añadir episodio</a>
+        <a href="<?= htmlspecialchars(mm_admin_url('series/episodios/form.php') . ($idTemporadaFiltro > 0 ? '?id_temporada=' . $idTemporadaFiltro : '')) ?>" class="btn btn-primary">+ Añadir episodio</a>
     </div>
-
-    <?php mm_render_series_admin_nav('episodios', ['id_temporada' => $idTemporadaFiltro]); ?>
 
     <div class="admin-glass-card p-3 p-lg-4">
         <div class="admin-table-wrap">
@@ -82,8 +85,8 @@ $episodios = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <td><?= !empty($episodio['fecha_estreno']) ? htmlspecialchars($episodio['fecha_estreno']) : '—' ?></td>
                             <td>
                                 <div class="acciones">
-                                    <a href="form.php?id=<?= (int)$episodio['id'] ?>" class="btn btn-sm btn-primary">Editar</a>
-                                    <form method="POST" action="delete.php" style="display: inline;" onsubmit="return confirm('¿Seguro que quieres borrar este episodio?');">
+                                    <a href="<?= htmlspecialchars(mm_admin_url('series/episodios/form.php') . '?id=' . (int)$episodio['id']) ?>" class="btn btn-sm btn-primary">Editar</a>
+                                    <form method="POST" action="<?= htmlspecialchars(mm_admin_url('series/episodios/delete.php')) ?>" style="display: inline;" onsubmit="return confirm('¿Seguro que quieres borrar este episodio?');">
                                         <input type="hidden" name="id" value="<?= (int)$episodio['id'] ?>">
                                         <?php echo CSRF::campoFormulario(); ?>
                                         <button type="submit" class="btn btn-sm btn-danger">Borrar</button>
@@ -103,7 +106,6 @@ $episodios = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </div>
 </body>
 </html>
-
 
 
 

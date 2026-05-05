@@ -1,10 +1,13 @@
-﻿<?php
-require_once "../../../auth.php";
+<?php
+require_once __DIR__ . "/../../../admin/auth.php";
 verificarAuth();
 
 require_once __DIR__ . "/../../../config/conexion.php";
-require_once __DIR__ . "/../../../helpers/upload_helper.php";
+require_once __DIR__ . "/../../helpers/upload_helper.php";
 require_once __DIR__ . "/../../../helpers/CSRF.php";
+
+// Validar CSRF
+CSRF::validarOAbortar();
 
 $id = (int)($_POST['id'] ?? 0);
 $titulo = trim($_POST['titulo'] ?? '');
@@ -40,19 +43,23 @@ if (isset($_FILES['banner_file']) && $_FILES['banner_file']['error'] === UPLOAD_
 $fecha_estreno = ($fecha_estreno !== '' && $fecha_estreno !== null) ? $fecha_estreno : null;
 $trailer = ($trailer !== '') ? $trailer : null;
 
-if ($id > 0) {
-    // Editar
-    $sql = "UPDATE serie SET titulo = ?, sinopsis = ?, poster = ?, banner = ?, fecha_estreno = ?, edad = ?, id_genero = ?, id_plataforma = ?, estado = ?, destacada = ?, trailer = ? WHERE id = ?";
-    $stm = $pdo->prepare($sql);
-    $stm->execute([$titulo, $sinopsis, $poster, $banner, $fecha_estreno, $edad, $id_genero, $id_plataforma, $estado, $destacada, $trailer, $id]);
-} else {
-    // Crear
-    $sql = "INSERT INTO serie (titulo, sinopsis, poster, banner, fecha_estreno, edad, id_genero, id_plataforma, estado, destacada, trailer) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    $stm = $pdo->prepare($sql);
-    $stm->execute([$titulo, $sinopsis, $poster, $banner, $fecha_estreno, $edad, $id_genero, $id_plataforma, $estado, $destacada, $trailer]);
+try {
+    if ($id > 0) {
+        // Editar
+        $sql = "UPDATE serie SET titulo = ?, sinopsis = ?, poster = ?, banner = ?, fecha_estreno = ?, edad = ?, id_genero = ?, id_plataforma = ?, estado = ?, destacada = ?, trailer = ? WHERE id = ?";
+        $stm = $pdo->prepare($sql);
+        $stm->execute([$titulo, $sinopsis, $poster, $banner, $fecha_estreno, $edad, $id_genero, $id_plataforma, $estado, $destacada, $trailer, $id]);
+    } else {
+        // Crear
+        $sql = "INSERT INTO serie (titulo, sinopsis, poster, banner, fecha_estreno, edad, id_genero, id_plataforma, estado, destacada, trailer) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $stm = $pdo->prepare($sql);
+        $stm->execute([$titulo, $sinopsis, $poster, $banner, $fecha_estreno, $edad, $id_genero, $id_plataforma, $estado, $destacada, $trailer]);
+    }
+    header("Location: list.php?ok=1");
+} catch (PDOException $e) {
+    error_log("Error en series/save.php: " . $e->getMessage());
+    header("Location: form.php?id=" . $id . "&error=1");
 }
-
-header("Location: list.php?ok=1");
 exit();
 ?>
 

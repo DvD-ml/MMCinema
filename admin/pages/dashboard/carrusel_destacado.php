@@ -1,8 +1,8 @@
-﻿<?php
+<?php
 session_start();
 require_once __DIR__ . "/../../../config/conexion.php";
 require_once __DIR__ . "/../../../includes/optimizar_imagen.php";
-require_once "../../../auth.php";
+require_once __DIR__ . "/../../../admin/auth.php";
 require_once __DIR__ . "/../../../helpers/CSRF.php";
 
 // Verificar autenticación
@@ -348,7 +348,7 @@ function toggleActivo($id) {
 </head>
 <body class="admin-body">
 
-<?php require_once __DIR__ . "/../../../admin_header.php"; ?>
+<?php require_once __DIR__ . "/../../../admin/admin_header.php"; ?>
 
 <div class="container py-4 py-lg-5">
     <div class="admin-page-head">
