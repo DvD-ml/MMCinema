@@ -130,3 +130,456 @@ footer,
         filter: none;
     }
 }
+
+/* ===========================================
+   TEXT CONTRAST FIXES
+=========================================== */
+
+/* PERFIL */
+.perfil-meta {
+    color: #ffffff !important;
+}
+
+.perfil-vacio {
+    color: #ffffff !important;
+}
+
+/* TABLAS */
+.table {
+    color: #ffffff !important;
+}
+
+.table thead th {
+    color: #ffffff !important;
+}
+
+.table tbody td {
+    color: #ffffff !important;
+}
+
+/* FORMULARIOS */
+.form-label {
+    color: #ffffff !important;
+}
+
+.form-text {
+    color: #ffffff !important;
+}
+
+.form-control {
+    color: #ffffff !important;
+    background-color: #1b1e27 !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.form-select {
+    color: #ffffff !important;
+    background-color: #1b1e27 !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* CARDS */
+.card {
+    background-color: #1b1e27 !important;
+    color: #ffffff !important;
+}
+
+.card-header {
+    background-color: #0b0f1a !important;
+    color: #ffffff !important;
+}
+
+.card-body {
+    color: #ffffff !important;
+}
+
+.card-title {
+    color: #ffffff !important;
+}
+
+.card-text {
+    color: #ffffff !important;
+}
+
+/* ALERTAS */
+.alert {
+    color: #ffffff !important;
+}
+
+.alert-info {
+    background-color: rgba(59, 130, 246, 0.1) !important;
+    border-color: #3b82f6 !important;
+    color: #ffffff !important;
+}
+
+.alert-warning {
+    background-color: rgba(249, 115, 22, 0.1) !important;
+    border-color: #f97316 !important;
+    color: #ffffff !important;
+}
+
+.alert-danger {
+    background-color: rgba(220, 38, 38, 0.1) !important;
+    border-color: #dc2626 !important;
+    color: #ffffff !important;
+}
+
+/* MODALES */
+.modal-content {
+    background-color: #1b1e27 !important;
+    color: #ffffff !important;
+}
+
+.modal-header {
+    background-color: #0b0f1a !important;
+    color: #ffffff !important;
+}
+
+.modal-body {
+    color: #ffffff !important;
+}
+
+.modal-title {
+    color: #ffffff !important;
+}
+
+/* TABS */
+.nav-tabs .nav-link {
+    color: #ffffff !important;
+}
+
+.nav-tabs .nav-link.active {
+    color: #f97316 !important;
+    border-color: #f97316 !important;
+}
+
+/* PAGINACIÓN */
+.pagination .page-link {
+    background-color: #1b1e27 !important;
+    color: #ffffff !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #f97316 !important;
+    border-color: #f97316 !important;
+    color: #ffffff !important;
+}
+
+/* PAGINACIÓN CINE */
+.cine-page-number {
+    color: #ffffff !important;
+}
+
+.cine-page-number.active {
+    background: #f97316 !important;
+    color: #ffffff !important;
+}
+
+/* TEXTOS GENERALES */
+p {
+    color: #ffffff !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #ffffff !important;
+}
+
+label {
+    color: #ffffff !important;
+}
+
+/* LINKS */
+a {
+    color: #f97316 !important;
+}
+
+a:hover {
+    color: #ffb84d !important;
+}
+
+/* DETALLES */
+.detalle-sinopsis-netflix {
+    color: #ffffff !important;
+}
+
+/* CRÍTICAS */
+.critica-titulo {
+    color: #ffffff !important;
+}
+
+.critica-info {
+    color: #ffffff !important;
+}
+
+/* MENSAJE LOGIN */
+.criticas-login-message {
+    color: #ffffff !important;
+}
+
+.criticas-login-message a {
+    color: #f97316 !important;
+}
+
+
+/* ===========================================
+   TEXT CONTRAST FIX (Consolidado)
+=========================================== */
+
+/* PERFIL */
+.perfil-meta {
+    color: #ffffff !important;
+}
+
+.perfil-vacio {
+    color: #ffffff !important;
+}
+
+/* ADMIN */
+.admin-topbar-right a {
+    color: #ffffff !important;
+}
+
+/* TABLAS */
+.table {
+    color: #ffffff !important;
+}
+
+.table thead th {
+    color: #ffffff !important;
+}
+
+.table tbody td {
+    color: #ffffff !important;
+}
+
+/* FORMULARIOS */
+.form-label {
+    color: #ffffff !important;
+}
+
+.form-text {
+    color: #ffffff !important;
+}
+
+.form-control {
+    color: #ffffff !important;
+    background-color: #1b1e27 !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.form-select {
+    color: #ffffff !important;
+    background-color: #1b1e27 !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* CARDS */
+.card {
+    background-color: #1b1e27 !important;
+    color: #ffffff !important;
+}
+
+.card-header {
+    background-color: #0b0f1a !important;
+    color: #ffffff !important;
+}
+
+.card-body {
+    color: #ffffff !important;
+}
+
+.card-title {
+    color: #ffffff !important;
+}
+
+.card-text {
+    color: #ffffff !important;
+}
+
+/* ALERTAS */
+.alert {
+    color: #ffffff !important;
+}
+
+.alert-info {
+    background-color: rgba(59, 130, 246, 0.1) !important;
+    border-color: #3b82f6 !important;
+    color: #ffffff !important;
+}
+
+.alert-warning {
+    background-color: rgba(249, 115, 22, 0.1) !important;
+    border-color: #f97316 !important;
+    color: #ffffff !important;
+}
+
+.alert-danger {
+    background-color: rgba(220, 38, 38, 0.1) !important;
+    border-color: #dc2626 !important;
+    color: #ffffff !important;
+}
+
+/* MODALES */
+.modal-content {
+    background-color: #1b1e27 !important;
+    color: #ffffff !important;
+}
+
+.modal-header {
+    background-color: #0b0f1a !important;
+    color: #ffffff !important;
+}
+
+.modal-body {
+    color: #ffffff !important;
+}
+
+.modal-title {
+    color: #ffffff !important;
+}
+
+/* TABS */
+.nav-tabs .nav-link {
+    color: #ffffff !important;
+}
+
+.nav-tabs .nav-link.active {
+    color: #f97316 !important;
+    border-color: #f97316 !important;
+}
+
+/* PAGINACIÓN */
+.pagination .page-link {
+    background-color: #1b1e27 !important;
+    color: #ffffff !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #f97316 !important;
+    border-color: #f97316 !important;
+    color: #ffffff !important;
+}
+
+/* PAGINACIÓN CINE */
+.cine-page-number {
+    color: #ffffff !important;
+}
+
+.cine-page-number.active {
+    background: #f97316 !important;
+    color: #ffffff !important;
+}
+
+/* TEXTOS GENERALES */
+p {
+    color: #ffffff !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #ffffff !important;
+}
+
+label {
+    color: #ffffff !important;
+}
+
+/* LINKS */
+a {
+    color: #f97316 !important;
+}
+
+a:hover {
+    color: #ffb84d !important;
+}
+
+/* DETALLES */
+.detalle-sinopsis-netflix {
+    color: #ffffff !important;
+}
+
+/* CRÍTICAS */
+.critica-titulo {
+    color: #ffffff !important;
+}
+
+.critica-info {
+    color: #ffffff !important;
+}
+
+/* MENSAJE LOGIN */
+.criticas-login-message {
+    color: #ffffff !important;
+}
+
+.criticas-login-message a {
+    color: #f97316 !important;
+}
+
+/* BOTÓN VOLVER SERIES */
+.btn-volver-series {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: #f97316 !important;
+    color: #ffffff !important;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.2s ease;
+}
+
+.btn-volver-series:hover {
+    background: #ea580c !important;
+    color: #ffffff !important;
+    transform: translateY(-2px);
+}
+
+/* BOTÓN VOLVER GENERAL */
+.btn-volver {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: #f97316 !important;
+    color: #ffffff !important;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.2s ease;
+}
+
+.btn-volver:hover {
+    background: #ea580c !important;
+    color: #ffffff !important;
+    transform: translateY(-2px);
+}
+
+/* BOTÓN GENERAL */
+.btn {
+    color: #ffffff !important;
+}
+
+.btn-success {
+    background-color: #16a34a !important;
+    border-color: #16a34a !important;
+    color: #ffffff !important;
+}
+
+.btn-success:hover {
+    background-color: #15803d !important;
+    color: #ffffff !important;
+}
+
+.btn-secondary {
+    background-color: #6b7280 !important;
+    border-color: #6b7280 !important;
+    color: #ffffff !important;
+}
+
+.btn-secondary:hover {
+    background-color: #4b5563 !important;
+    color: #ffffff !important;
+}

@@ -26,6 +26,14 @@ if (!empty($_SESSION['usuario_id'])) {
       <div class="alert alert-danger">Debes rellenar todos los campos.</div>
     <?php endif; ?>
 
+    <?php if (isset($_GET['error']) && $_GET['error'] === 'username_largo'): ?>
+      <div class="alert alert-danger">El nombre de usuario no puede exceder 25 caracteres.</div>
+    <?php endif; ?>
+
+    <?php if (isset($_GET['error']) && $_GET['error'] === 'email_largo'): ?>
+      <div class="alert alert-danger">El email no puede exceder 25 caracteres.</div>
+    <?php endif; ?>
+
     <?php if (isset($_GET['error']) && $_GET['error'] === 'email_invalido'): ?>
       <div class="alert alert-danger">El correo no tiene un formato válido.</div>
     <?php endif; ?>
@@ -47,7 +55,7 @@ if (!empty($_SESSION['usuario_id'])) {
     <?php endif; ?>
 
     <form action="../backend/registro.php" method="POST" autocomplete="on">
-      <?php require_once "../helpers/CSRF.php"; echo CSRF::campoFormulario(); ?>
+      <?php require_once __DIR__ . "/../helpers/CSRF.php"; echo CSRF::campoFormulario(); ?>
       <div class="mb-3">
         <label class="form-label" for="username">Nombre de usuario</label>
         <input 
@@ -56,7 +64,9 @@ if (!empty($_SESSION['usuario_id'])) {
           name="username" 
           class="form-control" 
           autocomplete="username"
+          maxlength="25"
           required>
+        <small class="form-text text-muted">Máximo 25 caracteres</small>
       </div>
 
       <div class="mb-3">
@@ -67,7 +77,9 @@ if (!empty($_SESSION['usuario_id'])) {
           name="email" 
           class="form-control" 
           autocomplete="email"
+          maxlength="50"
           required>
+        <small class="form-text text-muted">Máximo 50 caracteres</small>
       </div>
 
       <div class="mb-3">

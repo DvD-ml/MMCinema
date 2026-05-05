@@ -1046,8 +1046,8 @@ INSERT INTO `ticket_asiento` (`id`, `id_ticket`, `id_proyeccion`, `asiento`, `cr
 
 CREATE TABLE `usuario` (
   `id` int(11) NOT NULL,
-  `username` varchar(100) NOT NULL,
-  `email` varchar(100) NOT NULL,
+  `username` varchar(25) NOT NULL,
+  `email` varchar(25) NOT NULL,
   `password_hash` varchar(255) NOT NULL,
   `rol` enum('admin','usuario') NOT NULL DEFAULT 'usuario',
   `creado` timestamp NULL DEFAULT current_timestamp(),

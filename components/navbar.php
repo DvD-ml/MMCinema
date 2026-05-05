@@ -4,7 +4,7 @@ if (session_status() === PHP_SESSION_NONE) session_start();
 $paginaActual = basename($_SERVER['PHP_SELF']);
 
 function mm_nav_active(array $archivos, string $paginaActual): string {
-    return in_array($archivos, $archivos, true) ? 'active' : '';
+    return in_array($paginaActual, $archivos, true) ? 'active' : '';
 }
 
 // Detectar la ruta base del proyecto dinámicamente

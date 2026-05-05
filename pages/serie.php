@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: text/html; charset=UTF-8');
-require_once("../config/conexion.php");
+require_once __DIR__ . "/../config/conexion.php";
 if (session_status() === PHP_SESSION_NONE) session_start();
 
 function estrellasSerie($puntuacion) {
@@ -457,7 +457,10 @@ $criticas = $stmtCriticas->fetchAll(PDO::FETCH_ASSOC);
 
                     <div class="mb-3">
                         <label class="form-label">Tu opinión</label>
-                        <textarea name="contenido" class="form-control" rows="4" required></textarea>
+                        <textarea name="contenido" class="form-control critica-textarea-serie" rows="4" required maxlength="1000" placeholder="Máximo 150 palabras..."></textarea>
+                        <small class="form-text text-muted">
+                            <span id="word-count-serie">0</span> / 150 palabras
+                        </small>
                     </div>
 
                     <div class="mb-3">
@@ -472,6 +475,32 @@ $criticas = $stmtCriticas->fetchAll(PDO::FETCH_ASSOC);
 
                     <button class="btn btn-primary">Enviar crítica</button>
                 </form>
+
+                <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const textarea = document.querySelector('.critica-textarea-serie');
+                    const wordCount = document.getElementById('word-count-serie');
+                    const maxWords = 150;
+
+                    function updateWordCount() {
+                        const text = textarea.value.trim();
+                        const words = text === '' ? 0 : text.split(/\s+/).length;
+                        wordCount.textContent = Math.min(words, maxWords);
+                        
+                        if (words > maxWords) {
+                            // Limitar a 150 palabras
+                            const wordArray = text.split(/\s+/);
+                            textarea.value = wordArray.slice(0, maxWords).join(' ');
+                            wordCount.textContent = maxWords;
+                        }
+                    }
+
+                    textarea.addEventListener('input', updateWordCount);
+                    textarea.addEventListener('paste', function() {
+                        setTimeout(updateWordCount, 10);
+                    });
+                });
+                </script>
             <?php else: ?>
                 <p class="text-muted">Debes <a href="../pages/login.php">iniciar sesión</a> para escribir una crítica.</p>
             <?php endif; ?>

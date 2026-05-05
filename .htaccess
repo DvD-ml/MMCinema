@@ -1,6 +1,6 @@
 # Habilitar rewrite engine
 RewriteEngine On
-RewriteBase /
+RewriteBase /mmcinema/
 
 # Definir archivo índice
 DirectoryIndex index.php index.html

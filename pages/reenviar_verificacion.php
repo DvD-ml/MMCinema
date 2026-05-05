@@ -1,8 +1,8 @@
 <?php
 session_start();
-require_once "../config/conexion.php";
-require_once "../config/mail.php";
-require_once "../helpers/Logger.php";
+require_once __DIR__ . "/../config/conexion.php";
+require_once __DIR__ . "/../config/mail.php";
+require_once __DIR__ . "/../helpers/Logger.php";
 
 $email = trim($_GET['email'] ?? $_POST['email'] ?? '');
 
@@ -33,7 +33,7 @@ if (empty($email)) {
             </div>
 
             <form action="../backend/reenviar_verificacion.php" method="POST">
-                <?php require_once "../helpers/CSRF.php"; echo CSRF::campoFormulario(); ?>
+                <?php require_once __DIR__ . "/../helpers/CSRF.php"; echo CSRF::campoFormulario(); ?>
                 <div class="mb-3">
                     <label class="form-label" for="email">Email</label>
                     <input 

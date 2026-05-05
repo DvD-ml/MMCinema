@@ -1,6 +1,6 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) session_start();
-require_once "../config/conexion.php";
+require_once __DIR__ . "/../config/conexion.php";
 
 $usuario_id = isset($_SESSION['usuario_id']) ? (int)$_SESSION['usuario_id'] : 0;
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
@@ -156,11 +156,6 @@ if (!empty($pelicula['fecha_estreno']) && strtotime($pelicula['fecha_estreno']) 
                 </p>
 
                 <div class="detalle-acciones-netflix">
-                    <?php if (!$esProximamente && !empty($proyecciones)): ?>
-                        <a href="#horarios" class="btn btn-primary btn-lg detalle-btn-main">
-                            ▶ Reservar entradas
-                        </a>
-                    <?php endif; ?>
                     
                     <?php if (!$esProximamente): ?>
                         <a href="javascript:history.back()" class="btn btn-primary btn-lg detalle-btn-main">
@@ -280,7 +275,10 @@ if (!empty($pelicula['fecha_estreno']) && strtotime($pelicula['fecha_estreno']) 
 
             <div class="mb-2">
                 <label class="form-label">Tu opinión</label>
-                <textarea name="contenido" class="form-control" rows="4" required></textarea>
+                <textarea name="contenido" class="form-control critica-textarea" rows="4" required maxlength="1000" placeholder="Máximo 150 palabras..."></textarea>
+                <small class="form-text text-muted">
+                    <span id="word-count">0</span> / 150 palabras
+                </small>
             </div>
 
             <div class="mb-2">
@@ -293,10 +291,36 @@ if (!empty($pelicula['fecha_estreno']) && strtotime($pelicula['fecha_estreno']) 
                 </select>
             </div>
 
-            <button class="btn btn-primary">Enviar crítica</button>
+            <button class="btn btn-primary" type="submit">Enviar crítica</button>
         </form>
+
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const textarea = document.querySelector('.critica-textarea');
+            const wordCount = document.getElementById('word-count');
+            const maxWords = 150;
+
+            function updateWordCount() {
+                const text = textarea.value.trim();
+                const words = text === '' ? 0 : text.split(/\s+/).length;
+                wordCount.textContent = Math.min(words, maxWords);
+                
+                if (words > maxWords) {
+                    // Limitar a 150 palabras
+                    const wordArray = text.split(/\s+/);
+                    textarea.value = wordArray.slice(0, maxWords).join(' ');
+                    wordCount.textContent = maxWords;
+                }
+            }
+
+            textarea.addEventListener('input', updateWordCount);
+            textarea.addEventListener('paste', function() {
+                setTimeout(updateWordCount, 10);
+            });
+        });
+        </script>
     <?php else: ?>
-        <p class="text-muted">Debes <a href="../pages/login.php">iniciar sesión</a> para escribir una crítica o reservar.</p>
+        <p class="criticas-login-message">Debes <a href="../pages/login.php">iniciar sesión</a> para escribir una crítica o reservar.</p>
     <?php endif; ?>
 
 </main>

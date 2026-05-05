@@ -36,8 +36,8 @@
     justify-content: center;
     font-weight: 900;
     font-size: 22px;
-    background: rgba(255,138,0,.14);
-    border: 1px solid rgba(255,138,0,.38);
+    background: rgba(249,115,22,.14);
+    border: 1px solid rgba(249,115,22,.38);
     color: #ffb04a;
 }
 
@@ -67,11 +67,31 @@
     margin-bottom: 42px;
     width: 100%;
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
     border-radius: 14px;
     border: 1px solid rgba(255,255,255,.12);
     background: rgba(0,0,0,.22);
     backdrop-filter: blur(8px);
     box-shadow: 0 12px 28px rgba(0,0,0,0.2);
+    scroll-behavior: smooth;
+}
+
+.perfil-table-wrap::-webkit-scrollbar {
+    height: 8px;
+}
+
+.perfil-table-wrap::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+.perfil-table-wrap::-webkit-scrollbar-thumb {
+    background: rgba(249, 115, 22, 0.4);
+    border-radius: 10px;
+}
+
+.perfil-table-wrap::-webkit-scrollbar-thumb:hover {
+    background: rgba(249, 115, 22, 0.6);
 }
 
 .perfil-table-extended {
@@ -114,7 +134,7 @@
 }
 
 .perfil-tabla tbody tr:hover {
-    background: rgba(255,138,0,.07);
+    background: rgba(249,115,22,.07);
 }
 
 /* Anchos específicos de columnas */
@@ -176,7 +196,7 @@
 
 .col-total {
     font-weight: 900;
-    color: #ffb04a;
+    color: #fb923c;
 }
 
 .col-codigo {
@@ -198,8 +218,8 @@
 .btn-pdf {
     display: inline-block;
     padding: 5px 10px;
-    background: #f59e0b;
-    color: #000;
+    background: #f97316;
+    color: #ffffff !important;
     text-decoration: none;
     border-radius: 6px;
     font-weight: 700;
@@ -209,8 +229,8 @@
 }
 
 .btn-pdf:hover {
-    background: #fbbf24;
-    transform: translateY(-1px);
+    background: #f97316;
+    opacity: 0.8;
 }
 
 /* ===========================================
@@ -283,6 +303,42 @@
     gap: 16px;
     margin-bottom: 30px;
     justify-items: center;
+}
+
+/* Contenedor scrollable para móviles */
+.letterboxd-scroll-container {
+    display: none;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    padding: 10px 0;
+    margin-bottom: 30px;
+}
+
+.letterboxd-scroll-container::-webkit-scrollbar {
+    height: 6px;
+}
+
+.letterboxd-scroll-container::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+.letterboxd-scroll-container::-webkit-scrollbar-thumb {
+    background: rgba(249, 115, 22, 0.4);
+    border-radius: 10px;
+}
+
+.letterboxd-scroll-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(249, 115, 22, 0.6);
+}
+
+.letterboxd-scroll-grid {
+    display: flex;
+    gap: 16px;
+    width: max-content;
+    padding: 0 10px;
 }
 
 .letterboxd-item {
@@ -361,6 +417,42 @@
     justify-items: center;
 }
 
+/* Contenedor scrollable para móviles */
+.lista-scroll-container {
+    display: none;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    padding: 10px 0;
+    margin-bottom: 30px;
+}
+
+.lista-scroll-container::-webkit-scrollbar {
+    height: 6px;
+}
+
+.lista-scroll-container::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+.lista-scroll-container::-webkit-scrollbar-thumb {
+    background: rgba(249, 115, 22, 0.4);
+    border-radius: 10px;
+}
+
+.lista-scroll-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(249, 115, 22, 0.6);
+}
+
+.lista-scroll-grid {
+    display: flex;
+    gap: 16px;
+    width: max-content;
+    padding: 0 10px;
+}
+
 .lista-item {
     position: relative;
     width: 100%;
@@ -378,14 +470,14 @@
     border-radius: 4px;
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(0,0,0,0.5);
-    border: 1px solid rgba(245, 158, 11, 0.3);
+    border: 1px solid rgba(249, 115, 22, 0.3);
     transition: all 0.2s ease;
 }
 
 .lista-poster:hover {
     transform: translateY(-4px);
-    box-shadow: 0 8px 16px rgba(245, 158, 11, 0.4);
-    border-color: rgba(245, 158, 11, 0.6);
+    box-shadow: 0 8px 16px rgba(249, 115, 22, 0.4);
+    border-color: rgba(249, 115, 22, 0.6);
 }
 
 .lista-poster img {
@@ -399,8 +491,8 @@
     position: absolute;
     top: 6px;
     right: 6px;
-    background: rgba(245, 158, 11, 0.95);
-    color: #000;
+    background: rgba(249, 115, 22, 0.95);
+    color: #fff;
     padding: 3px 8px;
     border-radius: 3px;
     font-size: 0.65rem;
@@ -557,8 +649,8 @@
 }
 
 .carousel-arrow:hover {
-    background: rgba(245, 158, 11, 0.9);
-    border-color: #f59e0b;
+    background: rgba(249, 115, 22, 0.9);
+    border-color: #f97316;
     transform: scale(1.1);
 }
 
@@ -773,5 +865,299 @@
     
     .critica-modal-title {
         font-size: 1.2rem;
+    }
+}
+
+
+/* ===========================================
+   CRÍTICAS - ESTILOS (Consolidado)
+=========================================== */
+
+/* Buscador Simple */
+.criticas-search-simple {
+    margin-bottom: 24px;
+}
+
+.search-input-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    max-width: 400px;
+}
+
+.search-input {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 138, 0, 0.3);
+    color: #fff;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.search-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.search-input:focus {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 138, 0, 0.6);
+}
+
+.search-btn {
+    background: rgba(255, 138, 0, 0.2);
+    border: 1px solid rgba(255, 138, 0, 0.4);
+    color: #ffb04a;
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 0;
+}
+
+.search-btn:hover {
+    background: rgba(255, 138, 0, 0.4);
+    border-color: rgba(255, 138, 0, 0.6);
+}
+
+.search-clear {
+    color: rgba(255, 255, 255, 0.5);
+    text-decoration: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    padding: 0 4px;
+}
+
+.search-clear:hover {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* ===========================================
+   TARJETA DE CRÍTICA
+=========================================== */
+
+.critica-card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 20px;
+    transition: all 0.3s ease;
+}
+
+.critica-card:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 138, 0, 0.3);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* ===========================================
+   POSTER EN CRÍTICA
+=========================================== */
+
+.critica-poster-wrap {
+    width: 100px;
+    height: 150px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 138, 0, 0.2);
+    flex-shrink: 0;
+}
+
+.critica-poster {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.critica-poster-placeholder {
+    background: linear-gradient(135deg, rgba(255, 138, 0, 0.1), rgba(255, 138, 0, 0.05));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.critica-poster-placeholder .placeholder-content {
+    text-align: center;
+    color: rgba(255, 138, 0, 0.5);
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+/* ===========================================
+   CONTENIDO DE CRÍTICA
+=========================================== */
+
+.critica-obra {
+    color: #ffffff !important;
+    font-size: 0.95rem;
+    margin-bottom: 12px;
+}
+
+.critica-obra a {
+    color: #ffb04a;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.critica-obra a:hover {
+    color: #fbbf24;
+    text-decoration: underline;
+}
+
+.critica-contenido {
+    color: #ffffff !important;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    word-wrap: break-word;
+}
+
+/* ===========================================
+   ESTRELLAS EN CRÍTICA
+=========================================== */
+
+.critica-stars-display {
+    display: flex;
+    gap: 4px;
+    font-size: 1.2rem;
+}
+
+.critica-stars-display .star {
+    color: #6b7280;
+    transition: color 0.2s ease;
+}
+
+.critica-stars-display .star.on {
+    color: #fbbf24;
+}
+
+/* ===========================================
+   TABS DE CRÍTICAS
+=========================================== */
+
+.criticas-tabs-wrap {
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 30px;
+}
+
+.criticas-tabs {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.criticas-tab-btn {
+    background: none;
+    border: none;
+    color: #94a3b8;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 12px 4px;
+    cursor: pointer;
+    position: relative;
+    transition: 0.25s ease;
+    border-bottom: 3px solid transparent;
+}
+
+.criticas-tab-btn:hover {
+    color: #ffffff;
+}
+
+.criticas-tab-btn.active {
+    color: #ffffff;
+    border-bottom-color: #f97316;
+}
+
+.criticas-tab-panel {
+    display: none;
+}
+
+.criticas-tab-panel.active {
+    display: block;
+}
+
+/* ===========================================
+   RESPONSIVE CRÍTICAS
+=========================================== */
+
+@media (max-width: 768px) {
+    .critica-card {
+        padding: 16px;
+    }
+
+    .critica-card .row {
+        gap: 16px;
+    }
+
+    .critica-poster-wrap {
+        width: 80px;
+        height: 120px;
+    }
+
+    .search-input-wrap {
+        max-width: 100%;
+    }
+
+    .criticas-tabs {
+        gap: 20px;
+    }
+
+    .criticas-tab-btn {
+        font-size: 0.9rem;
+        padding: 10px 2px;
+    }
+}
+
+@media (max-width: 576px) {
+    .critica-card {
+        padding: 12px;
+    }
+
+    .critica-poster-wrap {
+        width: 70px;
+        height: 105px;
+    }
+
+    .critica-obra {
+        font-size: 0.85rem;
+    }
+
+    .critica-contenido {
+        font-size: 0.85rem;
+    }
+
+    .search-input-wrap {
+        max-width: 100%;
+    }
+
+    .search-input {
+        font-size: 0.85rem;
+        padding: 8px 12px;
+    }
+
+    .search-btn {
+        width: 32px;
+        height: 32px;
+    }
+
+    .criticas-tabs {
+        gap: 15px;
+    }
+
+    .criticas-tab-btn {
+        font-size: 0.8rem;
+        padding: 8px 2px;
+    }
+
+    .critica-stars-display {
+        font-size: 1rem;
     }
 }

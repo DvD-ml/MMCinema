@@ -1,0 +1,244 @@
+/* ===========================================
+   ADMIN ALERTS - SISTEMA PERSONALIZADO
+   Alertas integradas con el diseño del admin
+=========================================== */
+
+/* Contenedor de alertas */
+.admin-alerts-container {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 400px;
+    pointer-events: none;
+}
+
+/* Alerta base */
+.admin-alert {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: 8px;
+    border-left: 4px solid #f97316;
+    background: rgba(10, 18, 32, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    animation: slideInRight 0.3s ease-out;
+    pointer-events: auto;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+/* Animación de entrada */
+@keyframes slideInRight {
+    from {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Animación de salida */
+@keyframes slideOutRight {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+}
+
+.admin-alert.removing {
+    animation: slideOutRight 0.3s ease-out forwards;
+}
+
+/* Icono de alerta */
+.admin-alert-icon {
+    flex-shrink: 0;
+    font-size: 18px;
+    margin-top: 2px;
+}
+
+/* Contenido de alerta */
+.admin-alert-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.admin-alert-title {
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.admin-alert-message {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 13px;
+}
+
+/* Botón cerrar */
+.admin-alert-close {
+    flex-shrink: 0;
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    font-size: 18px;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease;
+}
+
+.admin-alert-close:hover {
+    color: rgba(255, 255, 255, 1);
+}
+
+/* VARIANTES DE ALERTA */
+
+/* Success - Naranja */
+.admin-alert.success {
+    border-left-color: #f97316;
+}
+
+.admin-alert.success .admin-alert-icon {
+    color: #f97316;
+}
+
+.admin-alert.success .admin-alert-title {
+    color: #ffffff;
+}
+
+/* Error - Naranja */
+.admin-alert.error {
+    border-left-color: #f97316;
+}
+
+.admin-alert.error .admin-alert-icon {
+    color: #f97316;
+}
+
+.admin-alert.error .admin-alert-title {
+    color: #ffffff;
+}
+
+/* Warning - Naranja */
+.admin-alert.warning {
+    border-left-color: #f97316;
+}
+
+.admin-alert.warning .admin-alert-icon {
+    color: #f97316;
+}
+
+.admin-alert.warning .admin-alert-title {
+    color: #ffffff;
+}
+
+/* Info - Naranja */
+.admin-alert.info {
+    border-left-color: #f97316;
+}
+
+.admin-alert.info .admin-alert-icon {
+    color: #f97316;
+}
+
+.admin-alert.info .admin-alert-title {
+    color: #ffffff;
+}
+
+/* ALERTAS INLINE (para mostrar en la página) */
+.admin-alert-inline {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px;
+    border-radius: 8px;
+    border-left: 4px solid #f97316;
+    background: rgba(10, 18, 32, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    margin-bottom: 20px;
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.admin-alert-inline.success {
+    border-left-color: #f97316;
+    background: rgba(10, 18, 32, 0.6);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.admin-alert-inline.error {
+    border-left-color: #f97316;
+    background: rgba(10, 18, 32, 0.6);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.admin-alert-inline.warning {
+    border-left-color: #f97316;
+    background: rgba(10, 18, 32, 0.6);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.admin-alert-inline.info {
+    border-left-color: #f97316;
+    background: rgba(10, 18, 32, 0.6);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.admin-alert-inline .admin-alert-icon {
+    font-size: 20px;
+    margin-top: 1px;
+}
+
+.admin-alert-inline .admin-alert-title {
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.admin-alert-inline .admin-alert-message {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 14px;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    .admin-alerts-container {
+        top: 70px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+    }
+
+    .admin-alert {
+        font-size: 13px;
+    }
+
+    .admin-alert-icon {
+        font-size: 16px;
+    }
+}

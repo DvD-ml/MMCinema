@@ -127,7 +127,7 @@ if (!empty($_SESSION['usuario_id'])) {
     <?php endif; ?>
 
     <form action="../backend/login.php" method="POST" autocomplete="on" id="loginForm">
-      <?php require_once "../helpers/CSRF.php"; echo CSRF::campoFormulario(); ?>
+      <?php require_once __DIR__ . "/../helpers/CSRF.php"; echo CSRF::campoFormulario(); ?>
       <div class="mb-3">
         <label class="form-label" for="email">Email</label>
         <input 

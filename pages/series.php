@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: text/html; charset=UTF-8');
-require_once("../config/conexion.php");
+require_once __DIR__ . "/../config/conexion.php";
 
 function estrellasSerie($puntuacion) {
     $max = 5;

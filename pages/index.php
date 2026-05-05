@@ -1,6 +1,6 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) session_start();
-require_once "../config/conexion.php";
+require_once __DIR__ . "/../config/conexion.php";
 
 /* =========================================
    CARRUSEL DESTACADO - DESDE BD
@@ -320,32 +320,6 @@ function mm_stars($media): string
     </section>
 
     <!-- =========================================
-         ESTADÍSTICAS
-    ========================================== -->
-    <section class="home-section">
-        <div class="container">
-            <div class="home-stats-grid">
-                <div class="home-stat-card">
-                    <strong><?= $totalCartelera ?></strong>
-                    <span>Películas en cartelera</span>
-                </div>
-                <div class="home-stat-card">
-                    <strong><?= $totalProximas ?></strong>
-                    <span>Próximos estrenos</span>
-                </div>
-                <div class="home-stat-card">
-                    <strong><?= $totalNoticias ?></strong>
-                    <span>Noticias publicadas</span>
-                </div>
-                <div class="home-stat-card">
-                    <strong><?= $totalUsuarios ?></strong>
-                    <span>Usuarios registrados</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- =========================================
          PRÓXIMOS ESTRENOS
     ========================================== -->
     <section class="home-section">
@@ -405,7 +379,6 @@ function mm_stars($media): string
     <section class="home-section">
         <div class="container">
             <div class="section-heading">
-                <span class="section-kicker">Comunidad MMCinema</span>
                 <h2>Usuario destacado</h2>
                 <p>El perfil con mayor actividad dentro de la plataforma.</p>
             </div>

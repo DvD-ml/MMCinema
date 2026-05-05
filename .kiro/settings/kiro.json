@@ -1,0 +1,7 @@
+{
+  "trustedCommands": [
+    "scp assets/js/sala.js root@200.234.233.50:/var/www/html/mmcinema/assets/js/sala.js",
+    "scp assets/css/styles.css root@200.234.233.50:/var/www/html/mmcinema/assets/css/styles.css",
+    "scp assets/css/components.css root@200.234.233.50:/var/www/html/mmcinema/assets/css/components.css"
+  ]
+}

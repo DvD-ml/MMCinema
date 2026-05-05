@@ -1,0 +1,94 @@
+/* ============================================
+   NAVBAR - CONSOLIDADO (navbar-active.css + navbar-mobile.css)
+   ============================================ */
+
+/* NAVBAR ACTIVE LINK STYLING */
+.nav-link {
+    position: relative;
+    transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+    color: #f97316 !important;
+}
+
+.nav-link.active {
+    color: #f97316 !important;
+    font-weight: 600;
+}
+
+.nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background-color: #f97316;
+    border-radius: 2px;
+    animation: lineGrow 0.5s ease-out;
+}
+
+@keyframes lineGrow {
+    from {
+        width: 0;
+        left: 50%;
+    }
+    to {
+        width: 100%;
+        left: 0;
+    }
+}
+
+/* ============================================
+   NAVBAR MOBILE - Sin cambios en escritorio
+   ============================================ */
+
+/* Móvil: Asegurar que el navbar sea visible */
+@media (max-width: 991px) {
+    .navbar {
+        padding: 0.5rem 0;
+    }
+
+    .navbar-brand img {
+        max-width: 90px;
+        height: auto;
+    }
+
+    .navbar-toggler {
+        min-width: 44px;
+        min-height: 44px;
+        padding: 0.25rem 0.5rem;
+    }
+
+    .navbar-collapse {
+        background-color: #0b0f1a;
+        margin-top: 0.5rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .navbar-nav {
+        flex-direction: column;
+    }
+
+    .nav-item {
+        width: 100%;
+    }
+
+    .nav-link {
+        padding: 0.75rem 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+    }
+
+    .nav-link:hover {
+        background-color: rgba(249, 115, 22, 0.1);
+    }
+}
+
+/* Escritorio: Sin cambios */
+@media (min-width: 992px) {
+    /* Bootstrap maneja esto automáticamente */
+}

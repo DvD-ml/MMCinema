@@ -1,6 +1,6 @@
 <?php
 if (session_status() == PHP_SESSION_NONE) session_start();
-require_once "../config/conexion.php";
+require_once __DIR__ . "/../config/conexion.php";
 
 $id = isset($_GET["id"]) ? (int)$_GET["id"] : 0;
 if ($id <= 0) {
@@ -108,7 +108,7 @@ $img = $noticia["imagen"] ?: "noticia-placeholder.jpg";
 
     <?php if (!empty($relacionadas)): ?>
         <section class="mt-5">
-            <h2 class="fw-bold mb-3">Noticias relacionadas</h2>
+            <h2 class="fw-bold mb-3">Mas Noticias</h2>
             <div class="row gy-4">
                 <?php foreach($relacionadas as $r): ?>
                     <?php $imgR = $r["imagen"] ?: "noticia-placeholder.jpg"; ?>

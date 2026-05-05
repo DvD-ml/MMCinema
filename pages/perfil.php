@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once "../config/conexion.php";
+require_once __DIR__ . "/../config/conexion.php";
 
 if (!isset($_SESSION['usuario_id'])) {
     header("Location: login.php");
@@ -266,6 +266,7 @@ if ($count_val > 0) {
         <?php if (empty($favoritasPeliculas)): ?>
             <p class="perfil-vacio">Todavía no has añadido películas a favoritas.</p>
         <?php else: ?>
+            <!-- Grid normal para desktop -->
             <div class="letterboxd-grid">
                 <?php foreach ($favoritasPeliculas as $f): ?>
                     <div class="letterboxd-item">
@@ -282,6 +283,26 @@ if ($count_val > 0) {
                     </div>
                 <?php endforeach; ?>
             </div>
+            
+            <!-- Scroll container para móvil -->
+            <div class="letterboxd-scroll-container">
+                <div class="letterboxd-scroll-grid">
+                    <?php foreach ($favoritasPeliculas as $f): ?>
+                        <div class="letterboxd-item">
+                            <a href="../pages/pelicula.php?id=<?= (int)$f['id'] ?>" class="letterboxd-poster-link">
+                                <div class="letterboxd-poster">
+<img src="../assets/img/posters/<?= htmlspecialchars($f['poster'] ?: 'placeholder.jpg') ?>" 
+
+                                         alt="<?= htmlspecialchars($f['titulo']) ?>">
+                                    <div class="letterboxd-overlay">
+                                        <div class="letterboxd-title"><?= htmlspecialchars($f['titulo']) ?></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
         <?php endif; ?>
     </div>
 
@@ -290,6 +311,7 @@ if ($count_val > 0) {
         <?php if (empty($favoritasSeries)): ?>
             <p class="perfil-vacio">Todavía no has añadido series a favoritas.</p>
         <?php else: ?>
+            <!-- Grid normal para desktop -->
             <div class="letterboxd-grid">
                 <?php foreach ($favoritasSeries as $f): ?>
                     <div class="letterboxd-item">
@@ -304,6 +326,25 @@ if ($count_val > 0) {
                         </a>
                     </div>
                 <?php endforeach; ?>
+            </div>
+            
+            <!-- Scroll container para móvil -->
+            <div class="letterboxd-scroll-container">
+                <div class="letterboxd-scroll-grid">
+                    <?php foreach ($favoritasSeries as $f): ?>
+                        <div class="letterboxd-item">
+                            <a href="../pages/serie.php?id=<?= (int)$f['id'] ?>" class="letterboxd-poster-link">
+                                <div class="letterboxd-poster">
+                                    <img src="../<?= htmlspecialchars($f['poster'] ?: 'assets/img/series/posters/placeholder.jpg') ?>" 
+                                         alt="<?= htmlspecialchars($f['titulo']) ?>">
+                                    <div class="letterboxd-overlay">
+                                        <div class="letterboxd-title"><?= htmlspecialchars($f['titulo']) ?></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
             </div>
         <?php endif; ?>
     </div>
@@ -673,6 +714,7 @@ if ($count_val > 0) {
 <?php include "../components/footer.php"; ?>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/mobile-scroll.js"></script>
 <?php // include "../includes/lenis-scripts.php"; // Lenis desactivado ?>
 <script>
 document.querySelectorAll('.perfil-tab').forEach(btn => {

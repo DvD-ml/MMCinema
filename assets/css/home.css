@@ -501,26 +501,37 @@
         padding: 20px 0 40px;
     }
     
+    .netflix-slide {
+        aspect-ratio: 9/16;
+        min-height: 400px;
+    }
+    
     .netflix-slide-content {
-        max-width: 90%;
-        bottom: 10%;
+        max-width: 100%;
+        bottom: 15%;
         left: 5%;
         right: 5%;
     }
     
     .netflix-logo h1 {
-        font-size: clamp(1.5rem, 4vw, 2.5rem);
+        font-size: clamp(1.8rem, 5vw, 2.8rem);
+        margin-bottom: 8px;
+    }
+    
+    .netflix-logo-img {
+        max-width: 100%;
+        max-height: 100px;
     }
     
     .netflix-info {
-        margin-top: 10px;
+        margin-top: 12px;
         gap: 10px;
-        flex-direction: column;
-        align-items: flex-start;
+        flex-wrap: wrap;
     }
     
     .netflix-meta {
-        gap: 5px;
+        gap: 8px;
+        flex-wrap: wrap;
     }
     
     .netflix-type,
@@ -528,23 +539,27 @@
     .netflix-year,
     .netflix-seasons,
     .netflix-duration {
-        font-size: 0.75rem;
+        font-size: 0.9rem;
+        padding: 4px 8px;
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 4px;
     }
     
     .netflix-btn-info {
-        padding: 7px 16px;
-        font-size: 0.8rem;
+        padding: 10px 20px;
+        font-size: 0.9rem;
+        margin-top: 8px;
     }
     
     .netflix-category-badge {
-        bottom: 20px;
+        bottom: 25px;
         right: 20px;
-        padding: 6px 12px;
-        font-size: 0.75rem;
+        padding: 8px 12px;
+        font-size: 0.8rem;
     }
     
     .netflix-indicators {
-        bottom: 15px;
+        bottom: 20px;
         gap: 8px;
     }
     
@@ -561,6 +576,13 @@
     .best-user-box {
         flex-direction: column;
         text-align: center;
+        padding: 24px;
+    }
+
+    .best-user-avatar {
+        width: 90px;
+        height: 90px;
+        font-size: 2rem;
     }
 
     .best-user-stats {
@@ -573,23 +595,35 @@
         padding: 15px 0 30px;
     }
     
+    .netflix-slide {
+        aspect-ratio: 9/16;
+        min-height: 350px;
+    }
+    
     .netflix-slide-content {
-        bottom: 8%;
+        bottom: 12%;
         left: 4%;
         right: 4%;
     }
     
     .netflix-logo h1 {
-        font-size: clamp(1.3rem, 3vw, 2rem);
+        font-size: clamp(1.5rem, 4vw, 2.2rem);
+        margin-bottom: 6px;
+    }
+    
+    .netflix-logo-img {
+        max-width: 100%;
+        max-height: 80px;
     }
     
     .netflix-info {
-        margin-top: 8px;
+        margin-top: 10px;
         gap: 8px;
     }
     
     .netflix-meta {
-        gap: 4px;
+        gap: 6px;
+        flex-wrap: wrap;
     }
     
     .netflix-type,
@@ -597,21 +631,23 @@
     .netflix-year,
     .netflix-seasons,
     .netflix-duration {
-        font-size: 0.7rem;
+        font-size: 0.8rem;
+        padding: 3px 6px;
     }
     
     .netflix-separator {
-        font-size: 0.7rem;
+        font-size: 0.8rem;
     }
     
     .netflix-rating {
-        font-size: 0.65rem;
-        padding: 1px 6px;
+        font-size: 0.7rem;
+        padding: 2px 5px;
     }
     
     .netflix-btn-info {
-        padding: 6px 14px;
-        font-size: 0.75rem;
+        padding: 8px 16px;
+        font-size: 0.85rem;
+        margin-top: 6px;
     }
     
     .netflix-info-icon {
@@ -619,14 +655,14 @@
     }
     
     .netflix-category-badge {
-        bottom: 15px;
+        bottom: 18px;
         right: 15px;
-        padding: 5px 10px;
-        font-size: 0.7rem;
+        padding: 6px 10px;
+        font-size: 0.75rem;
     }
     
     .netflix-indicators {
-        bottom: 10px;
+        bottom: 12px;
         gap: 6px;
     }
     
@@ -637,6 +673,19 @@
 
     .home-stats-grid {
         grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .home-stat-card {
+        padding: 16px 12px;
+    }
+
+    .home-stat-card strong {
+        font-size: 1.5rem;
+    }
+
+    .home-stat-card span {
+        font-size: 0.85rem;
     }
 }
 

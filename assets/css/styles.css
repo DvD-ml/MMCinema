@@ -1,9 +1,21 @@
+/* ============================================
+   MMCINEMA - MAIN STYLESHEET
+   Consolidated CSS imports (optimized)
+   ============================================ */
+
+/* Core Styling */
 @import url("base.css");
 @import url("layout.css");
 @import url("components.css");
-@import url("profile.css");
-@import url("detail.css");
+
+/* Page-Specific */
 @import url("home.css");
 @import url("series.css");
+@import url("profile.css");
+
+/* Admin */
 @import url("admin.css");
-@import url("responsive.css");
+
+/* Components */
+@import url("navbar.css");
+@import url("custom-checkbox.css");

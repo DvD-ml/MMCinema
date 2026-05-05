@@ -1,8 +1,8 @@
 <?php
 session_start();
-require_once "../config/conexion.php";
-require_once "../config/mail.php";
-require_once "../helpers/CSRF.php";
+require_once __DIR__ . "/../config/conexion.php";
+require_once __DIR__ . "/../config/mail.php";
+require_once __DIR__ . "/../helpers/CSRF.php";
 
 CSRF::validarOAbortar();
 
@@ -29,6 +29,18 @@ if (isset($_POST['password_confirm'])) {
 
 if ($username === '' || $email === '' || $pass1 === '' || $pass2 === '') {
     header("Location: ../pages/registro.php?error=campos");
+    exit();
+}
+
+// Validar longitud de username
+if (strlen($username) > 25) {
+    header("Location: ../pages/registro.php?error=username_largo");
+    exit();
+}
+
+// Validar longitud de email
+if (strlen($email) > 25) {
+    header("Location: ../pages/registro.php?error=email_largo");
     exit();
 }
 
