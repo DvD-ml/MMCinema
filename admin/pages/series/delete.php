@@ -25,7 +25,7 @@ try {
         $stmt = $pdo->prepare("DELETE FROM serie WHERE id = ?");
         $stmt->execute([$id]);
     }
-    header("Location: list.php");
+    header("Location: list.php?deleted=1");
 } catch (PDOException $e) {
     error_log("Error en series/delete.php: " . $e->getMessage());
     header("Location: list.php?error=1");

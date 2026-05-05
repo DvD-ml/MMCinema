@@ -65,11 +65,22 @@ try {
     </div>
 
     <?php if (isset($_GET['ok'])): ?>
+        <?php $serieActualizada = ($_GET['ok'] ?? '') === 'updated'; ?>
         <div class="admin-alert-inline success">
             <div class="admin-alert-icon">✓</div>
             <div class="admin-alert-content">
-                <div class="admin-alert-title">Serie guardada</div>
-                <div class="admin-alert-message">La serie se ha guardado correctamente.</div>
+                <div class="admin-alert-title"><?= $serieActualizada ? 'Serie modificada' : 'Serie creada' ?></div>
+                <div class="admin-alert-message"><?= $serieActualizada ? 'La serie se ha modificado correctamente.' : 'La serie se ha creado correctamente.' ?></div>
+            </div>
+        </div>
+    <?php endif; ?>
+
+    <?php if (isset($_GET['deleted']) || isset($_GET['borrado'])): ?>
+        <div class="admin-alert-inline success">
+            <div class="admin-alert-icon">✓</div>
+            <div class="admin-alert-content">
+                <div class="admin-alert-title">Serie eliminada</div>
+                <div class="admin-alert-message">La serie se ha eliminado correctamente.</div>
             </div>
         </div>
     <?php endif; ?>
@@ -136,7 +147,6 @@ try {
 </div>
 </body>
 </html>
-
 
 
 

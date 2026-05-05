@@ -121,11 +121,11 @@ $csrfToken = CSRF::generarToken();
             </div>
 
             <div class="d-flex gap-2 flex-wrap">
-                <button class="btn btn-primary btn-lg" type="submit">
+                <button class="btn btn-primary" type="submit">
                     <?= $modoEdicion ? 'Guardar cambios' : 'Crear temporada' ?>
                 </button>
-                <a href="<?= htmlspecialchars(mm_admin_url('series/temporadas/list.php') . ($idSeriePre > 0 ? '?id_serie=' . $idSeriePre : '')) ?>" class="btn btn-outline-light btn-lg">Volver</a>
-                <a href="<?= htmlspecialchars(mm_admin_url('series/panel.php')) ?>" class="btn btn-outline-warning btn-lg">Resumen</a>
+                <a href="<?= htmlspecialchars(mm_admin_url('series/temporadas/list.php') . ($idSeriePre > 0 ? '?id_serie=' . $idSeriePre : '')) ?>" class="btn btn-outline-light">Volver</a>
+                <a href="<?= htmlspecialchars(mm_admin_url('series/panel.php')) ?>" class="btn btn-outline-warning">Resumen</a>
             </div>
         </form>
     </div>

@@ -35,7 +35,7 @@ if (!function_exists('mm_render_series_admin_nav')) {
                     <a href="<?= htmlspecialchars(mm_admin_url('series/list.php')) ?>" class="<?= mm_admin_badge_active($active, 'series') ?>">Series</a>
                     <a href="<?= htmlspecialchars(mm_admin_url('series/temporadas/list.php') . ($idSerie > 0 ? '?id_serie=' . $idSerie : '')) ?>" class="<?= mm_admin_badge_active($active, 'temporadas') ?>">Temporadas</a>
                     <a href="<?= htmlspecialchars(mm_admin_url('series/episodios/list.php') . ($idTemporada > 0 ? '?id_temporada=' . $idTemporada : '')) ?>" class="<?= mm_admin_badge_active($active, 'episodios') ?>">Episodios</a>
-                    <a href="<?= htmlspecialchars(mm_admin_url('series/criticas/list.php')) ?>" class="<?= mm_admin_badge_active($active, 'criticas') ?>">Criticas</a>
+                    <a href="<?= htmlspecialchars(mm_admin_url('series/criticas/list.php')) ?>" class="<?= mm_admin_badge_active($active, 'criticas') ?>">Críticas</a>
                 </div>
             </div>
         </div>

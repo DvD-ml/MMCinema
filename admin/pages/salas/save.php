@@ -10,6 +10,7 @@ CSRF::validarOAbortar();
 
 $sala = trim($_POST['sala'] ?? '');
 $salaAnterior = trim($_POST['sala_anterior'] ?? '');
+$action = $salaAnterior !== '' ? 'updated' : 'created';
 $filas = (int)($_POST['filas'] ?? 0);
 $columnas = (int)($_POST['columnas'] ?? 0);
 
@@ -38,7 +39,7 @@ if ($salaAnterior === '') {
     $stm->execute([$filas, $columnas, $salaAnterior]);
 }
 
-header("Location: list.php?ok=1");
+header("Location: list.php?ok=" . $action);
 exit();
 ?>
 

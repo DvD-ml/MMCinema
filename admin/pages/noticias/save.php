@@ -11,6 +11,7 @@ $entity = 'noticia';
 $table = 'noticia';
 $fields = ['titulo', 'contenido', 'imagen'];
 $redirect = 'list.php';
+$optionalFields = ['imagen'];
 
 // Función para procesar imagen antes de guardar
 $beforeSave = function(&$data, $pdo) {

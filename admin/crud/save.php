@@ -34,6 +34,7 @@ if (!isset($optionalFields)) {
 }
 
 $id = (int)($_POST['id'] ?? 0);
+$action = $id > 0 ? 'updated' : 'created';
 $data = [];
 $errors = [];
 
@@ -92,7 +93,7 @@ try {
         $afterSave($data, $pdo);
     }
     
-    header("Location: $redirect?ok=1");
+    header("Location: $redirect?ok=$action");
     exit();
     
 } catch (Exception $e) {

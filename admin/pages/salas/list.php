@@ -33,18 +33,29 @@ try {
     </div>
 
     <?php if (isset($_GET['ok'])): ?>
+        <?php $salaActualizada = ($_GET['ok'] ?? '') === 'updated'; ?>
         <div class="admin-alert-inline success">
-            <div class="admin-alert-icon">?</div>
+            <div class="admin-alert-icon">✓</div>
             <div class="admin-alert-content">
-                <div class="admin-alert-title">Sala guardada</div>
-                <div class="admin-alert-message">La sala se ha guardado correctamente.</div>
+                <div class="admin-alert-title"><?= $salaActualizada ? 'Sala modificada' : 'Sala creada' ?></div>
+                <div class="admin-alert-message"><?= $salaActualizada ? 'La sala se ha modificado correctamente.' : 'La sala se ha creado correctamente.' ?></div>
+            </div>
+        </div>
+    <?php endif; ?>
+
+    <?php if (isset($_GET['deleted']) || isset($_GET['borrado'])): ?>
+        <div class="admin-alert-inline success">
+            <div class="admin-alert-icon">✓</div>
+            <div class="admin-alert-content">
+                <div class="admin-alert-title">Sala eliminada</div>
+                <div class="admin-alert-message">La sala se ha eliminado correctamente.</div>
             </div>
         </div>
     <?php endif; ?>
 
     <?php if (isset($_GET['error'])): ?>
         <div class="admin-alert-inline error">
-            <div class="admin-alert-icon">?</div>
+            <div class="admin-alert-icon">✕</div>
             <div class="admin-alert-content">
                 <div class="admin-alert-title">Error</div>
                 <div class="admin-alert-message">Error al procesar la sala.</div>

@@ -147,10 +147,10 @@ $selectOptions = $getSelectOptions($pdo);
             </div>
 
             <div class="d-flex gap-3 flex-wrap">
-                <button type="submit" class="btn btn-primary btn-lg">
+                <button type="submit" class="btn btn-primary">
                     <?= $modoEdicion ? 'Guardar cambios' : 'Crear película' ?>
                 </button>
-                <a href="list.php" class="btn btn-outline-light btn-lg">Cancelar</a>
+                <a href="list.php" class="btn btn-outline-light">Cancelar</a>
             </div>
         </form>
     </div>

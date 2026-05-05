@@ -1,10 +1,8 @@
 <?php
 require_once __DIR__ . "/../../../admin/auth.php";
 verificarAuth();
-
 require_once __DIR__ . "/../../../config/conexion.php";
 
-// Initialize stats with safe defaults
 $stats = [
     'peliculas' => 0,
     'proyecciones' => 0,
@@ -23,7 +21,6 @@ $ultimasNoticias = [];
 $ultimosTickets = [];
 
 try {
-    // Get stats safely
     $stats['peliculas'] = (int)$pdo->query("SELECT COUNT(*) FROM pelicula")->fetchColumn();
     $stats['proyecciones'] = (int)$pdo->query("SELECT COUNT(*) FROM proyeccion")->fetchColumn();
     $stats['tickets'] = (int)$pdo->query("SELECT COUNT(*) FROM ticket")->fetchColumn();
@@ -39,7 +36,6 @@ try {
     $ultimasNoticias = $pdo->query("SELECT id, titulo, publicado FROM noticia ORDER BY publicado DESC, id DESC LIMIT 5")->fetchAll(PDO::FETCH_ASSOC);
     $ultimosTickets = $pdo->query("SELECT codigo, total, created_at FROM ticket ORDER BY id DESC LIMIT 5")->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-    // Log error but don't crash the page
     error_log("Dashboard query error: " . $e->getMessage());
 }
 ?>
@@ -54,40 +50,48 @@ try {
     <link rel="stylesheet" href="../../../assets/css/styles.css">
 </head>
 <body class="admin-body">
-
 <?php require_once __DIR__ . "/../../../admin/admin_header.php"; ?>
 
 <div class="container py-4 py-lg-5">
     <div class="admin-page-head">
         <div>
             <h1>Panel de administración</h1>
+            <p>Accesos principales y resumen del contenido publicado.</p>
         </div>
     </div>
 
-    <div class="row g-3 mb-4">
-        <div class="col-lg-8">
-            <div class="admin-glass-card p-4 h-100">
-                <h2 class="h4 mb-3">Accesos rápidos</h2>
-                <div class="admin-quick-grid">
-                    <a class="admin-quick-link" href="../peliculas/form.php"><strong>Añadir Películas</strong></a>
-                    <a class="admin-quick-link" href="../series/form.php"><strong>Añadir Series</strong></a>
-                    <a class="admin-quick-link" href="../noticias/form.php"><strong>Añadir Noticias</strong></a>
-                    <a class="admin-quick-link" href="../usuarios/form.php"><strong>Añadir Usuarios</strong></a>
-                    <a class="admin-quick-link" href="../criticas/list.php"><strong>Añadir Críticas</strong></a>
-                    <a class="admin-quick-link" href="../../../pages/cartelera.php" target="_blank" rel="noopener"><strong>Volver a web</strong></a>
+    <div class="admin-glass-card p-4 mb-4">
+        <h2 class="h5 mb-3">Acciones rápidas</h2>
+        <div class="row g-2">
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="admin-quick-section">
+                    <div class="admin-quick-section-title">Contenido</div>
+                    <a class="admin-quick-link" href="../peliculas/form.php">Nueva película</a>
+                    <a class="admin-quick-link" href="../series/form.php">Nueva serie</a>
+                    <a class="admin-quick-link" href="../noticias/form.php">Nueva noticia</a>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-4">
-            <div class="admin-glass-card p-4 h-100">
-                <h2 class="h4 mb-3">Resumen del sistema</h2>
-                <div class="d-grid gap-2 small">
-                    <div class="d-flex justify-content-between"><span class="text-secondary">Proyecciones</span><strong><?= $stats['proyecciones'] ?></strong></div>
-                    <div class="d-flex justify-content-between"><span class="text-secondary">Críticas de películas</span><strong><?= $stats['criticas'] ?></strong></div>
-                    <div class="d-flex justify-content-between"><span class="text-secondary">Series</span><strong><?= $stats['series'] ?></strong></div>
-                    <div class="d-flex justify-content-between"><span class="text-secondary">Temporadas</span><strong><?= $stats['temporadas'] ?></strong></div>
-                    <div class="d-flex justify-content-between"><span class="text-secondary">Episodios</span><strong><?= $stats['episodios'] ?></strong></div>
-                    <div class="d-flex justify-content-between"><span class="text-secondary">Críticas de series</span><strong><?= $stats['criticas_series'] ?></strong></div>
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="admin-quick-section">
+                    <div class="admin-quick-section-title">Gestión</div>
+                    <a class="admin-quick-link" href="../proyecciones/form.php">Nueva proyección</a>
+                    <a class="admin-quick-link" href="../salas/form.php">Nueva sala</a>
+                    <a class="admin-quick-link" href="../usuarios/form.php">Nuevo usuario</a>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="admin-quick-section">
+                    <div class="admin-quick-section-title">Listas</div>
+                    <a class="admin-quick-link" href="../peliculas/list.php">Ver películas</a>
+                    <a class="admin-quick-link" href="../series/panel.php">Ver series</a>
+                    <a class="admin-quick-link" href="../criticas/list.php">Moderar críticas</a>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="admin-quick-section">
+                    <div class="admin-quick-section-title">Otros</div>
+                    <a class="admin-quick-link" href="../dashboard/carrusel_destacado.php">Carrusel destacado</a>
+                    <a class="admin-quick-link" href="../../../pages/cartelera.php" target="_blank" rel="noopener">Ver sitio web</a>
                 </div>
             </div>
         </div>
@@ -97,7 +101,7 @@ try {
         <div class="col-lg-4">
             <div class="admin-glass-card p-4 h-100">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h2 class="h5 mb-0">Últimas películas añadidas</h2>
+                    <h2 class="h5 mb-0">Últimas películas</h2>
                     <a href="../peliculas/list.php" class="btn btn-sm btn-outline-light">Abrir</a>
                 </div>
                 <?php if ($ultimasPeliculas): ?>
@@ -121,7 +125,7 @@ try {
         <div class="col-lg-4">
             <div class="admin-glass-card p-4 h-100">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h2 class="h5 mb-0">Últimas noticias añadidas</h2>
+                    <h2 class="h5 mb-0">Últimas noticias</h2>
                     <a href="../noticias/list.php" class="btn btn-sm btn-outline-light">Abrir</a>
                 </div>
                 <?php if ($ultimasNoticias): ?>
@@ -141,15 +145,13 @@ try {
 
         <div class="col-lg-4">
             <div class="admin-glass-card p-4 h-100">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h2 class="h5 mb-0">Últimos tickets generados</h2>
-                </div>
+                <h2 class="h5 mb-3">Últimos tickets</h2>
                 <?php if ($ultimosTickets): ?>
                     <div class="d-grid gap-3">
                         <?php foreach ($ultimosTickets as $t): ?>
                             <div class="border-bottom pb-2" style="border-color: rgba(255,255,255,.08)!important;">
                                 <strong><?= htmlspecialchars($t['codigo']) ?></strong>
-                                <div class="small text-secondary"><?= htmlspecialchars($t['created_at']) ?> · <?= number_format((float)$t['total'], 2) ?> EUR</div>
+                                <div class="small text-secondary"><?= htmlspecialchars($t['created_at']) ?> - <?= number_format((float)$t['total'], 2) ?> EUR</div>
                             </div>
                         <?php endforeach; ?>
                     </div>
@@ -160,12 +162,5 @@ try {
         </div>
     </div>
 </div>
-
 </body>
 </html>
-
-
-
-
-
-

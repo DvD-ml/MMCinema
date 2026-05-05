@@ -14,6 +14,7 @@ if (!in_array($tipo, ['pelicula', 'serie'], true)) {
 }
 
 $id = (int)($_POST['id'] ?? 0);
+$action = $id > 0 ? 'updated' : 'created';
 $id_usuario = (int)($_POST['id_usuario'] ?? 0);
 $id_objeto = (int)($_POST['id_objeto'] ?? 0);
 $puntuacion = (int)($_POST['puntuacion'] ?? 5);
@@ -46,7 +47,7 @@ if ($tipo === 'pelicula') {
     }
 }
 
-header("Location: list.php?ok=1");
+header("Location: list.php?ok=" . $action);
 exit();
 ?>
 

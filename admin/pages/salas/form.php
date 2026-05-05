@@ -94,7 +94,7 @@ if (isset($_GET['sala'])) {
             </div>
 
             <div class="admin-alert-inline info">
-                <div class="admin-alert-icon">?</div>
+                <div class="admin-alert-icon">ℹ</div>
                 <div class="admin-alert-content">
                     <div class="admin-alert-title">Capacidad total</div>
                     <div class="admin-alert-message"><span id="capacidad"><?= (int)$sala['filas'] * (int)$sala['columnas'] ?></span> asientos</div>

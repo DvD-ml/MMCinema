@@ -182,7 +182,7 @@ try {
                                 <img src="../../../assets/img/posters/<?= htmlspecialchars($p['poster']) ?>" alt="<?= htmlspecialchars($p['titulo']) ?>" class="pelicula-poster" onerror="this.src='../assets/img/posters/placeholder.jpg'">
                                 <div class="pelicula-info">
                                     <div class="pelicula-titulo"><?= htmlspecialchars($p['titulo']) ?></div>
-                                    <div class="pelicula-meta">?? <?= date('d/m/Y', strtotime($p['fecha_estreno'])) ?></div>
+                                    <div class="pelicula-meta"><?= date('d/m/Y', strtotime($p['fecha_estreno'])) ?></div>
                                     <span class="proyecciones-count"><?= (int)$p['total_proyecciones'] ?> proyecciones</span>
                                     <a href="form.php?pelicula_id=<?= (int)$p['id'] ?>" class="btn-editar">Editar</a>
                                 </div>
@@ -208,7 +208,7 @@ try {
                                 <img src="../../../assets/img/posters/<?= htmlspecialchars($p['poster']) ?>" alt="<?= htmlspecialchars($p['titulo']) ?>" class="pelicula-poster" onerror="this.src='../assets/img/posters/placeholder.jpg'">
                                 <div class="pelicula-info">
                                     <div class="pelicula-titulo"><?= htmlspecialchars($p['titulo']) ?></div>
-                                    <div class="pelicula-meta">?? <?= date('d/m/Y', strtotime($p['fecha_estreno'])) ?></div>
+                                    <div class="pelicula-meta"><?= date('d/m/Y', strtotime($p['fecha_estreno'])) ?></div>
                                     <span class="proyecciones-count"><?= (int)$p['total_proyecciones'] ?> proyecciones</span>
                                     <a href="form.php?pelicula_id=<?= (int)$p['id'] ?>" class="btn-editar">Editar</a>
                                 </div>

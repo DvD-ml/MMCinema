@@ -35,7 +35,7 @@ try {
     ")->fetchAll(PDO::FETCH_ASSOC);
 
     $ultimasCriticas = $pdo->query("
-        SELECT 
+        SELECT
             cs.puntuacion,
             cs.creado,
             s.titulo AS serie_titulo,
@@ -57,97 +57,84 @@ try {
     <title>Resumen series | Admin MMCINEMA</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/svg+xml" href="../../../favicon.svg">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../../assets/css/styles.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="admin-body">
-
 <?php require_once __DIR__ . "/../../../admin/admin_header.php"; ?>
 
 <div class="container py-4">
-    <div class="d-flex flex-wrap justify-content-between gap-3 align-items-center mb-3">
+    <div class="d-flex flex-wrap justify-content-between gap-3 align-items-center mb-4">
         <div>
             <h1 class="mb-1">Resumen de series</h1>
-            <p class="text-muted mb-0">Desde aquí controlas catálogo, temporadas, episodios y críticas sin ir saltando entre páginas.</p>
+            <p class="text-muted mb-0">Gestiona series, temporadas, episodios y críticas desde un solo lugar.</p>
         </div>
         <div class="d-flex flex-wrap gap-2">
-            <a href="<?= htmlspecialchars(mm_admin_url('series/form.php')) ?>" class="btn btn-primary">+ Nueva serie</a>
+            <a href="<?= htmlspecialchars(mm_admin_url('series/form.php')) ?>" class="btn btn-primary">Nueva serie</a>
             <a href="<?= htmlspecialchars(mm_admin_url('series/list.php')) ?>" class="btn btn-outline-light">Ver todas</a>
         </div>
     </div>
 
     <div class="row g-3 mb-4">
         <div class="col-md-6 col-xl-3">
-            <div class="card bg-dark text-white h-100">
-                <div class="card-body">
-                    <div class="text-secondary small">Series</div>
-                    <div class="display-6 fw-bold"><?= $stats['series'] ?></div>
-                </div>
+            <div class="admin-glass-card p-4 h-100">
+                <div class="admin-stat-label">Series</div>
+                <div class="admin-stat-value"><?= $stats['series'] ?></div>
             </div>
         </div>
-
         <div class="col-md-6 col-xl-3">
-            <div class="card bg-dark text-white h-100">
-                <div class="card-body">
-                    <div class="text-secondary small">Temporadas</div>
-                    <div class="display-6 fw-bold"><?= $stats['temporadas'] ?></div>
-                </div>
+            <div class="admin-glass-card p-4 h-100">
+                <div class="admin-stat-label">Temporadas</div>
+                <div class="admin-stat-value"><?= $stats['temporadas'] ?></div>
             </div>
         </div>
-
         <div class="col-md-6 col-xl-3">
-            <div class="card bg-dark text-white h-100">
-                <div class="card-body">
-                    <div class="text-secondary small">Episodios</div>
-                    <div class="display-6 fw-bold"><?= $stats['episodios'] ?></div>
-                </div>
+            <div class="admin-glass-card p-4 h-100">
+                <div class="admin-stat-label">Episodios</div>
+                <div class="admin-stat-value"><?= $stats['episodios'] ?></div>
             </div>
         </div>
-
         <div class="col-md-6 col-xl-3">
-            <div class="card bg-dark text-white h-100">
-                <div class="card-body">
-                    <div class="text-secondary small">Críticas</div>
-                    <div class="display-6 fw-bold"><?= $stats['criticas'] ?></div>
-                    <div class="small text-warning mt-2">Destacadas: <?= $stats['destacadas'] ?></div>
-                </div>
+            <div class="admin-glass-card p-4 h-100">
+                <div class="admin-stat-label">Críticas</div>
+                <div class="admin-stat-value"><?= $stats['criticas'] ?></div>
+                <small class="text-secondary d-block mt-2">Destacadas: <?= $stats['destacadas'] ?></small>
             </div>
         </div>
     </div>
 
     <div class="row g-4">
         <div class="col-lg-7">
-            <div class="card bg-dark text-white h-100">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <span>Últimas series</span>
+            <div class="admin-glass-card p-4 h-100">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2 class="h5 mb-0">Últimas series</h2>
                     <a href="<?= htmlspecialchars(mm_admin_url('series/list.php')) ?>" class="btn btn-sm btn-outline-light">Ver todas</a>
                 </div>
 
-                <div class="table-responsive">
-                    <table class="table table-dark table-hover align-middle mb-0">
+                <div class="admin-table-wrap">
+                    <table class="admin-table">
                         <thead>
                             <tr>
                                 <th>Título</th>
                                 <th>Estado</th>
                                 <th>Destacada</th>
-                                <th></th>
+                                <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($series as $serie): ?>
                                 <tr>
-                                    <td><?= htmlspecialchars($serie['titulo']) ?></td>
-                                    <td><?= htmlspecialchars($serie['estado']) ?></td>
+                                    <td><strong><?= htmlspecialchars($serie['titulo']) ?></strong></td>
+                                    <td><span class="badge bg-secondary"><?= htmlspecialchars($serie['estado']) ?></span></td>
                                     <td><?= (int)$serie['destacada'] ? 'Sí' : 'No' ?></td>
-                                    <td class="text-end">
-                                        <a href="<?= htmlspecialchars(mm_admin_url('series/temporadas/list.php') . '?id_serie=' . (int)$serie['id']) ?>" class="btn btn-sm btn-outline-light">Abrir</a>
+                                    <td>
+                                        <a href="<?= htmlspecialchars(mm_admin_url('series/temporadas/list.php') . '?id_serie=' . (int)$serie['id']) ?>" class="btn btn-sm btn-outline-light">Temporadas</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
 
                             <?php if (!$series): ?>
-                                <tr><td colspan="4">Todavía no hay series cargadas.</td></tr>
+                                <tr><td colspan="4" class="text-center text-secondary py-4">Todavía no hay series cargadas.</td></tr>
                             <?php endif; ?>
                         </tbody>
                     </table>
@@ -156,37 +143,30 @@ try {
         </div>
 
         <div class="col-lg-5">
-            <div class="card bg-dark text-white h-100">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <span>Últimas críticas</span>
+            <div class="admin-glass-card p-4 h-100">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2 class="h5 mb-0">Últimas críticas</h2>
                     <a href="<?= htmlspecialchars(mm_admin_url('series/criticas/list.php')) ?>" class="btn btn-sm btn-outline-light">Moderar</a>
                 </div>
 
-                <div class="card-body">
-                    <?php if ($ultimasCriticas): ?>
-                        <div class="d-grid gap-3">
-                            <?php foreach ($ultimasCriticas as $critica): ?>
-                                <div class="border rounded-3 p-3" style="border-color:rgba(255,255,255,.08)!important;">
-                                    <div class="d-flex justify-content-between gap-3">
-                                        <strong><?= htmlspecialchars($critica['serie_titulo']) ?></strong>
-                                        <span class="text-warning"><?= (int)$critica['puntuacion'] ?>/5</span>
-                                    </div>
-                                    <div class="small text-secondary"><?= htmlspecialchars($critica['username']) ?> · <?= htmlspecialchars($critica['creado']) ?></div>
+                <?php if ($ultimasCriticas): ?>
+                    <div class="d-grid gap-3">
+                        <?php foreach ($ultimasCriticas as $critica): ?>
+                            <div class="admin-critica-card">
+                                <div class="d-flex justify-content-between gap-3 mb-2">
+                                    <strong><?= htmlspecialchars($critica['serie_titulo']) ?></strong>
+                                    <span class="admin-rating"><?= (int)$critica['puntuacion'] ?>/5</span>
                                 </div>
-                            <?php endforeach; ?>
-                        </div>
-                    <?php else: ?>
-                        <p class="mb-0">Aún no hay críticas de series.</p>
-                    <?php endif; ?>
-                </div>
+                                <div class="small text-secondary"><?= htmlspecialchars($critica['username']) ?> - <?= htmlspecialchars($critica['creado']) ?></div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                <?php else: ?>
+                    <p class="mb-0 text-secondary text-center py-4">Aún no hay críticas de series.</p>
+                <?php endif; ?>
             </div>
         </div>
     </div>
 </div>
 </body>
 </html>
-
-
-
-
-

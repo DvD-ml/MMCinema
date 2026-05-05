@@ -1,7 +1,7 @@
 <?php
 /**
  * CRUD Form Genérico
- * 
+ *
  * Variables requeridas:
  * - $entity: nombre de la entidad (pelicula, noticia, etc)
  * - $table: nombre de la tabla en BD
@@ -35,7 +35,7 @@ if ($modoEdicion) {
     $stm = $pdo->prepare("SELECT * FROM $table WHERE id = ?");
     $stm->execute([$id]);
     $data = $stm->fetch(PDO::FETCH_ASSOC);
-    
+
     if (!$data) {
         header("Location: {$entity}s.php");
         exit();
@@ -50,6 +50,14 @@ $selectOptions = [];
 if (isset($getSelectOptions) && is_callable($getSelectOptions)) {
     $selectOptions = $getSelectOptions($pdo);
 }
+
+$getPlaceholder = static function (string $fieldType, string $fieldLabel): string {
+    if ($fieldType === 'email') {
+        return 'correo@ejemplo.com';
+    }
+
+    return $fieldLabel;
+};
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -83,7 +91,7 @@ if (isset($getSelectOptions) && is_callable($getSelectOptions)) {
                 $fieldType = 'text';
                 $fieldLabel = ucfirst(str_replace('_', ' ', $field));
                 $fieldValue = htmlspecialchars($data[$field] ?? '');
-                
+
                 // Detectar tipo de campo
                 if (strpos($field, 'fecha') !== false || strpos($field, 'date') !== false) {
                     $fieldType = 'date';
@@ -104,15 +112,29 @@ if (isset($getSelectOptions) && is_callable($getSelectOptions)) {
 
                 <?php if ($fieldType === 'textarea'): ?>
                     <div class="mb-3">
-                        <label class="form-label"><?= $fieldLabel ?></label>
-                        <textarea name="<?= $field ?>" class="form-control" rows="5" required><?= $fieldValue ?></textarea>
+                        <label class="form-label">
+                            <?= $fieldLabel ?>
+                            <span class="text-danger">*</span>
+                        </label>
+                        <textarea name="<?= $field ?>"
+                                  class="form-control admin-form-textarea"
+                                  rows="5"
+                                  placeholder="Escribe aquí..."
+                                  maxlength="1000"
+                                  required><?= $fieldValue ?></textarea>
+                        <small class="text-secondary d-block mt-1">
+                            <span class="char-count">0</span>/1000 caracteres
+                        </small>
                     </div>
 
                 <?php elseif ($fieldType === 'select'): ?>
                     <div class="mb-3">
-                        <label class="form-label"><?= $fieldLabel ?></label>
-                        <select name="<?= $field ?>" class="form-select" required>
-                            <option value="">Selecciona una opción</option>
+                        <label class="form-label">
+                            <?= $fieldLabel ?>
+                            <span class="text-danger">*</span>
+                        </label>
+                        <select name="<?= $field ?>" class="form-select admin-form-select" required>
+                            <option value="">-- Selecciona una opción --</option>
                             <?php if (isset($selectOptions[$field])): ?>
                                 <?php foreach ($selectOptions[$field] as $option): ?>
                                     <option value="<?= $option['id'] ?>" <?= ($data[$field] == $option['id']) ? 'selected' : '' ?>>
@@ -125,42 +147,60 @@ if (isset($getSelectOptions) && is_callable($getSelectOptions)) {
 
                 <?php elseif ($fieldType === 'file'): ?>
                     <div class="mb-3">
-                        <label class="form-label"><?= $fieldLabel ?></label>
-                        <input type="file" name="<?= $field ?>_file" class="form-control" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp">
-                        
+                        <label class="form-label">
+                            <?= $fieldLabel ?>
+                            <?php if (empty($data[$field])): ?>
+                                <span class="text-danger">*</span>
+                            <?php endif; ?>
+                        </label>
+                        <input type="file"
+                               name="<?= $field ?>_file"
+                               class="form-control admin-form-file"
+                               accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
+                               <?= empty($data[$field]) ? 'required' : '' ?>>
+
                         <?php if (!empty($data[$field])): ?>
                             <div class="mt-3">
                                 <p class="mb-2 small text-light"><?= $fieldLabel ?> actual:</p>
-                                <img src="../assets/img/<?= str_replace('_', '', $field) ?>/<?= htmlspecialchars($data[$field]) ?>" alt="<?= $fieldLabel ?> actual" style="max-width: 180px; border-radius: 10px;">
+                                <img src="../assets/img/<?= str_replace('_', '', $field) ?>/<?= htmlspecialchars($data[$field]) ?>"
+                                     alt="<?= $fieldLabel ?> actual"
+                                     style="max-width: 180px; border-radius: 10px; border: 1px solid rgba(249,115,22,.3);">
                             </div>
                         <?php endif; ?>
-                        
+
                         <small class="text-secondary d-block mt-2">
-                            Si no seleccionas una imagen nueva, se mantiene la actual.
+                            Formatos: JPG, PNG, WebP | Máximo: 5MB
                         </small>
                         <input type="hidden" name="<?= $field ?>_actual" value="<?= htmlspecialchars($data[$field] ?? '') ?>">
                     </div>
 
                 <?php else: ?>
                     <div class="mb-3">
-                        <label class="form-label"><?= $fieldLabel ?></label>
-                        <input type="<?= $fieldType ?>" name="<?= $field ?>" class="form-control" 
-                               value="<?= $fieldValue ?>" 
+                        <label class="form-label">
+                            <?= $fieldLabel ?>
+                            <span class="text-danger">*</span>
+                        </label>
+                        <input type="<?= $fieldType ?>"
+                               name="<?= $field ?>"
+                               class="form-control admin-form-input"
+                               value="<?= $fieldValue ?>"
+                               placeholder="<?= htmlspecialchars($getPlaceholder($fieldType, $fieldLabel)) ?>"
                                <?= (strpos($field, 'id') === 0 || $field === 'id') ? '' : 'required' ?>>
                     </div>
                 <?php endif; ?>
             <?php endforeach; ?>
 
             <div class="d-flex gap-3 flex-wrap">
-                <button type="submit" class="btn btn-primary btn-lg">
+                <button type="submit" class="btn btn-primary">
                     <?= $modoEdicion ? 'Guardar cambios' : 'Crear ' . $entity ?>
                 </button>
-                <a href="<?= $entity ?>s.php" class="btn btn-outline-light btn-lg">Cancelar</a>
+                <a href="<?= $entity ?>s.php" class="btn btn-outline-light">Cancelar</a>
             </div>
         </form>
     </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../../assets/js/admin-forms.js"></script>
 </body>
 </html>

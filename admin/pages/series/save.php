@@ -10,6 +10,7 @@ require_once __DIR__ . "/../../../helpers/CSRF.php";
 CSRF::validarOAbortar();
 
 $id = (int)($_POST['id'] ?? 0);
+$action = $id > 0 ? 'updated' : 'created';
 $titulo = trim($_POST['titulo'] ?? '');
 $sinopsis = trim($_POST['sinopsis'] ?? '');
 $fecha_estreno = $_POST['fecha_estreno'] ?? null;
@@ -55,7 +56,7 @@ try {
         $stm = $pdo->prepare($sql);
         $stm->execute([$titulo, $sinopsis, $poster, $banner, $fecha_estreno, $edad, $id_genero, $id_plataforma, $estado, $destacada, $trailer]);
     }
-    header("Location: list.php?ok=1");
+    header("Location: list.php?ok=" . $action);
 } catch (PDOException $e) {
     error_log("Error en series/save.php: " . $e->getMessage());
     header("Location: form.php?id=" . $id . "&error=1");

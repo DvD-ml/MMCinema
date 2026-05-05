@@ -75,7 +75,7 @@ try {
         $afterDelete($record, $pdo);
     }
     
-    header("Location: $redirect?ok=1");
+    header("Location: $redirect?deleted=1");
     exit();
     
 } catch (Exception $e) {

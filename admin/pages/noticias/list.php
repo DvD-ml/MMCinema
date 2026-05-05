@@ -36,6 +36,39 @@ try {
         </div>
     </div>
 
+    <?php if (isset($_GET['ok'])): ?>
+        <?php $noticiaActualizada = ($_GET['ok'] ?? '') === 'updated'; ?>
+        <div class="admin-alert-inline success">
+            <div class="admin-alert-icon">✓</div>
+            <div class="admin-alert-content">
+                <div class="admin-alert-title"><?= $noticiaActualizada ? 'Noticia modificada' : 'Noticia creada' ?></div>
+                <div class="admin-alert-message"><?= $noticiaActualizada ? 'La noticia se ha modificado correctamente.' : 'La noticia se ha creado correctamente.' ?></div>
+            </div>
+        </div>
+    <?php endif; ?>
+
+    <?php if (isset($_GET['deleted']) || isset($_GET['borrado'])): ?>
+        <div class="admin-alert-inline success">
+            <div class="admin-alert-icon">✓</div>
+            <div class="admin-alert-content">
+                <div class="admin-alert-title">Noticia eliminada</div>
+                <div class="admin-alert-message">La noticia se ha eliminado correctamente.</div>
+            </div>
+        </div>
+    <?php endif; ?>
+
+    <?php if (isset($_GET['error'])): ?>
+        <div class="admin-alert-inline error">
+            <div class="admin-alert-icon">✕</div>
+            <div class="admin-alert-content">
+                <div class="admin-alert-title">Error</div>
+                <div class="admin-alert-message">
+                    <?= $_GET['error'] === 'imagen' ? 'No se pudo procesar la imagen. Intenta con otro archivo.' : 'No se pudo procesar la noticia.' ?>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
+
     <div class="admin-glass-card p-3 p-lg-4">
         <div class="admin-table-wrap">
             <table class="admin-table table table-dark table-hover align-middle mb-0">

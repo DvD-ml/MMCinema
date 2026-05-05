@@ -62,7 +62,11 @@ $files = @(
     "admin/pages/usuarios/form.php",
     "admin/pages/usuarios/list.php",
     "admin/pages/usuarios/save.php",
+    "assets/css/admin-alerts.css",
     "assets/css/admin.css",
+    "assets/js/admin-alerts.js",
+    "assets/js/admin-forms.js",
+    "assets/js/admin-search.js",
     "components/navbar.php"
 )
 

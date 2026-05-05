@@ -44,7 +44,7 @@ $sql = "DELETE FROM sala_config WHERE sala = ?";
 $stm = $pdo->prepare($sql);
 $stm->execute([$sala]);
 
-header("Location: list.php?ok=1");
+header("Location: list.php?deleted=1");
 exit();
 ?>
 

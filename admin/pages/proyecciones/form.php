@@ -272,10 +272,10 @@ $salas = $pdo->query("SELECT sala FROM sala_config ORDER BY sala ASC")->fetchAll
             </div>
 
             <div class="d-flex gap-3 flex-wrap">
-                <button type="submit" class="btn-submit-custom btn-lg">
+                <button type="submit" class="btn-submit-custom">
                     <?= $modoEdicion ? 'Guardar cambios' : 'Crear proyección' ?>
                 </button>
-                <a href="list.php" class="btn btn-outline-light btn-lg">Cancelar</a>
+                <a href="list.php" class="btn btn-outline-light">Cancelar</a>
             </div>
         </form>
     </div>

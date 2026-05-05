@@ -9,6 +9,7 @@ require_once __DIR__ . "/../../../helpers/CSRF.php";
 CSRF::validarOAbortar();
 
 $id       = (int)($_POST['id'] ?? 0);
+$action   = $id > 0 ? 'updated' : 'created';
 $username = trim($_POST['username'] ?? '');
 $email    = trim($_POST['email'] ?? '');
 $rol      = trim($_POST['rol'] ?? 'usuario');
@@ -75,7 +76,7 @@ if ($id > 0) {
     $stm->execute([$username, $email, $hash, $rol]);
 }
 
-header("Location: list.php?ok=1");
+header("Location: list.php?ok=" . $action);
 exit();
 ?>
 

@@ -11,7 +11,7 @@ $entity = 'pelicula';
 $table = 'pelicula';
 $fields = ['titulo', 'sinopsis', 'poster', 'fecha_estreno', 'duracion', 'edad', 'id_genero', 'trailer'];
 $redirect = 'list.php';
-$optionalFields = ['trailer'];
+$optionalFields = ['poster', 'trailer'];
 
 // Función para procesar imagen antes de guardar
 $beforeSave = function(&$data, $pdo) {

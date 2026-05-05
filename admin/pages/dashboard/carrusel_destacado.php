@@ -428,7 +428,7 @@ function toggleActivo($id) {
                                         <input type="hidden" name="accion" value="toggle_activo">
                                         <input type="hidden" name="id" value="<?= $slide['id'] ?>">
                                         <button type="submit" class="btn btn-sm <?= $slide['activo'] ? 'btn-success' : 'btn-secondary' ?>">
-                                            <?= $slide['activo'] ? '? Activo' : '? Inactivo' ?>
+                                            <?= $slide['activo'] ? '✓ Activo' : '✕ Inactivo' ?>
                                         </button>
                                     </form>
                                 </td>
