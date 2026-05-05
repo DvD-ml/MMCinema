@@ -64,7 +64,7 @@ if (empty($baseUrl)) {
         <?php if (!empty($_SESSION['usuario_id'])): ?>
           <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'admin'): ?>
             <li class="nav-item">
-              <a class="nav-link text-warning fw-bold" href="<?= $baseUrl ?>/admin/index.php">Panel Admin</a>
+              <a class="nav-link text-warning fw-bold" href="<?= $baseUrl ?>/admin/pages/dashboard/index.php">Panel Admin</a>
             </li>
           <?php endif; ?>
 
