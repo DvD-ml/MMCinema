@@ -102,7 +102,7 @@ $criticasSeries = $stmtSeries->fetchAll(PDO::FETCH_ASSOC);
     <link rel="stylesheet" href="../assets/css/criticas.css">
 </head>
 <body>
-<?php include "../components/navbar.php"; ?>
+<?php include __DIR__ . "/../components/navbar.php"; ?>
 
 <main class="container my-5">
     <div class="text-center mb-5">
@@ -321,7 +321,7 @@ $criticasSeries = $stmtSeries->fetchAll(PDO::FETCH_ASSOC);
     </section>
 </main>
 
-<?php include "../components/footer.php"; ?>
+<?php include __DIR__ . "/../components/footer.php"; ?>
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {

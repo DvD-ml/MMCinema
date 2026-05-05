@@ -21,7 +21,7 @@ if (empty($email)) {
 
     </head>
     <body>
-    <?php include "../components/navbar.php"; ?>
+    <?php include __DIR__ . "/../components/navbar.php"; ?>
 
     <div class="container form-container-wrapper">
         <div class="card form-card" style="max-width:520px; width:100%;">
@@ -54,7 +54,7 @@ if (empty($email)) {
         </div>
     </div>
 
-    <?php include "../components/footer.php"; ?>
+    <?php include __DIR__ . "/../components/footer.php"; ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <?php // include "../includes/lenis-scripts.php"; // Lenis desactivado ?>
     </body>

@@ -217,7 +217,7 @@ if ($count_val > 0) {
 </head>
 <body>
 
-<?php include "../components/navbar.php"; ?>
+<?php include __DIR__ . "/../components/navbar.php"; ?>
 
 <div class="perfil-container">
 
@@ -711,7 +711,7 @@ if ($count_val > 0) {
 
 </div>
 
-<?php include "../components/footer.php"; ?>
+<?php include __DIR__ . "/../components/footer.php"; ?>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="../assets/js/mobile-scroll.js"></script>

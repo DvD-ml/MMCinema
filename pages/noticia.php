@@ -78,7 +78,7 @@ $img = $noticia["imagen"] ?: "noticia-placeholder.jpg";
     <link rel="stylesheet" href="../assets/css/styles.css">
 </head>
 <body>
-<?php include "../components/navbar.php"; ?>
+<?php include __DIR__ . "/../components/navbar.php"; ?>
 
 <main class="container my-5">
     <a href="../pages/noticias.php" class="btn btn-outline-light mb-4">← Volver a noticias</a>
@@ -132,7 +132,7 @@ $img = $noticia["imagen"] ?: "noticia-placeholder.jpg";
     <?php endif; ?>
 </main>
 
-<?php include "../components/footer.php"; ?>
+<?php include __DIR__ . "/../components/footer.php"; ?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <?php // include "../includes/lenis-scripts.php"; // Lenis desactivado ?>
 </body>
