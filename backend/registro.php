@@ -82,12 +82,9 @@ $stm = $pdo->prepare($sql);
 try {
     $stm->execute([$username, $email, $hash, $fechaActual, 0, $token, $fechaExpira]);
 
-    // Agregar a cola de emails (no bloquea)
-    $sql = "INSERT INTO email_queue (tipo, destinatario_email, destinatario_nombre, token) VALUES (?, ?, ?, ?)";
-    $stm = $pdo->prepare($sql);
-    $stm->execute(['verificacion', $email, $username, $token]);
+    $correoEnviado = enviarCorreoVerificacion($email, $username, $token);
 
-    header("Location: ../pages/login.php?registro=1&verificacion=1");
+    header("Location: ../pages/login.php?registro=1&verificacion=" . ($correoEnviado ? "1" : "0"));
     exit();
 } catch (PDOException $e) {
     header("Location: ../pages/registro.php?error=bd");

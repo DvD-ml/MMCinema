@@ -25,3 +25,31 @@ RewriteRule ^(cartelera|series|serie|pelicula|noticia|noticias|criticas|proximam
 
 # Bloquear listado de directorios
 Options -Indexes
+
+# Evitar que se pueda acceder al repositorio desde la web
+RedirectMatch 404 /\.git
+
+# Cache de archivos estaticos: reduce mucha carga y hace la pagina mas rapida
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType text/javascript "access plus 1 month"
+    ExpiresByType image/jpeg "access plus 6 months"
+    ExpiresByType image/png "access plus 6 months"
+    ExpiresByType image/webp "access plus 6 months"
+    ExpiresByType image/svg+xml "access plus 6 months"
+    ExpiresByType image/x-icon "access plus 6 months"
+    ExpiresByType font/woff2 "access plus 6 months"
+</IfModule>
+
+<IfModule mod_headers.c>
+    <FilesMatch "\.(css|js|jpg|jpeg|png|gif|webp|svg|ico|woff|woff2|ttf|eot)$">
+        Header set Cache-Control "public, max-age=2592000"
+    </FilesMatch>
+</IfModule>
+
+# Compresion de HTML, CSS y JS si Apache tiene el modulo activo
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/css application/javascript text/javascript application/json image/svg+xml
+</IfModule>

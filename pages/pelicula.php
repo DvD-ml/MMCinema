@@ -101,7 +101,7 @@ if (!empty($pelicula['fecha_estreno']) && strtotime($pelicula['fecha_estreno']) 
 </head>
 <body>
 
-<?php include "../components/navbar.php"; ?>
+<?php include __DIR__ . "/../components/navbar.php"; ?>
 
 <main class="container my-5">
 
@@ -326,7 +326,7 @@ if (!empty($pelicula['fecha_estreno']) && strtotime($pelicula['fecha_estreno']) 
 
 </main>
 
-<?php include "../components/footer.php"; ?>
+<?php include __DIR__ . "/../components/footer.php"; ?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <?php // include "../includes/lenis-scripts.php"; // Lenis desactivado ?>
 </body>

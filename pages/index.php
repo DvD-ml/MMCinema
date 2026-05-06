@@ -196,8 +196,8 @@ function mm_stars($media): string
 </head>
 <body>
 
-<?php include "../components/navbar.php"; ?>
-<?php include "../components/laterales.php"; ?>
+<?php include __DIR__ . "/../components/navbar.php"; ?>
+<?php include __DIR__ . "/../components/laterales.php"; ?>
 
 <main class="home-page">
 
@@ -341,6 +341,8 @@ function mm_stars($media): string
                                 class="card-img-top"
                                 src="../assets/img/posters/<?= htmlspecialchars($p['poster'] ?: 'placeholder.jpg') ?>"
                                 alt="<?= htmlspecialchars($p['titulo']) ?>"
+                                loading="lazy"
+                                decoding="async"
                             >
 
                             <div class="card-body d-flex flex-column">
@@ -441,6 +443,8 @@ function mm_stars($media): string
                                 src="../assets/img/noticias/<?= htmlspecialchars($img) ?>"
                                 class="card-img-top"
                                 alt="<?= htmlspecialchars($n['titulo']) ?>"
+                                loading="lazy"
+                                decoding="async"
                             >
 
                             <div class="card-body d-flex flex-column">
@@ -471,7 +475,7 @@ function mm_stars($media): string
 
 </main>
 
-<?php include "../components/footer.php"; ?>
+<?php include __DIR__ . "/../components/footer.php"; ?>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <?php // include "../includes/lenis-scripts.php"; // Lenis desactivado ?>

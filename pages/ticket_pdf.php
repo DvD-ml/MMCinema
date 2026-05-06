@@ -7,7 +7,11 @@ function mm_get_qr_tmp($data){
     $url = "https://api.qrserver.com/v1/create-qr-code/?size=220x220&format=png&data=" . urlencode($data);
     $tmp = sys_get_temp_dir() . DIRECTORY_SEPARATOR . "mm_qr_" . md5($data) . ".png";
     if (file_exists($tmp)) return $tmp;
-    $img = @file_get_contents($url);
+    $context = stream_context_create([
+        'http' => ['timeout' => 3],
+        'https' => ['timeout' => 3],
+    ]);
+    $img = @file_get_contents($url, false, $context);
     if ($img === false) return null;
     @file_put_contents($tmp, $img);
     return file_exists($tmp) ? $tmp : null;

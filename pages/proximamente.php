@@ -51,7 +51,7 @@ function mm_prox_url(int $paginaDestino): string {
 </head>
 <body>
 
-<?php include "../components/navbar.php"; ?>
+<?php include __DIR__ . "/../components/navbar.php"; ?>
 
 <main class="container my-4">
     <div class="hero mb-4">
@@ -126,7 +126,7 @@ function mm_prox_url(int $paginaDestino): string {
     <?php endif; ?>
 </main>
 
-<?php include "../components/footer.php"; ?>
+<?php include __DIR__ . "/../components/footer.php"; ?>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <?php // include "../includes/lenis-scripts.php"; // Lenis desactivado ?>

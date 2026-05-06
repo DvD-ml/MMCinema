@@ -17,7 +17,7 @@ if (!empty($_SESSION['usuario_id'])) {
   <link rel="stylesheet" href="../assets/css/custom-checkbox.css">
 </head>
 <body>
-<?php include "../components/navbar.php"; ?>
+<?php include __DIR__ . "/../components/navbar.php"; ?>
 
 <div class="container form-container-wrapper">
   <div class="card form-card" style="max-width:520px; width:100%;">
@@ -61,6 +61,13 @@ if (!empty($_SESSION['usuario_id'])) {
 
     <?php if (isset($_GET['error']) && $_GET['error'] === '1'): ?>
       <div class="alert alert-danger">Email o contraseña incorrectos.</div>
+    <?php endif; ?>
+
+    <?php if (isset($_GET['error']) && $_GET['error'] === 'bloqueado'): ?>
+      <div class="alert alert-danger">
+        Has superado el número de intentos permitidos. Inténtalo de nuevo en
+        <?= (int)($_GET['tiempo'] ?? 15) ?> minuto(s).
+      </div>
     <?php endif; ?>
 
     <?php if (isset($_GET['error']) && $_GET['error'] === 'no_verificado'): ?>
@@ -177,7 +184,7 @@ if (!empty($_SESSION['usuario_id'])) {
   </div>
 </div>
 
-<?php include "../components/footer.php"; ?>
+<?php include __DIR__ . "/../components/footer.php"; ?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 // Ayudar al navegador a detectar el formulario de login

@@ -366,6 +366,98 @@ input:focus, textarea:focus, select:focus {
 }
 
 /* ===========================================
+   AVISOS DE SESION Y FORMULARIOS
+=========================================== */
+.form-card .alert,
+.mm-alert {
+    position: relative;
+    margin: 0 0 18px;
+    padding: 14px 16px 14px 18px;
+    border-radius: 12px;
+    border: 1px solid #334155 !important;
+    background: #172033 !important;
+    color: #f8fafc !important;
+    box-shadow: none;
+    overflow: hidden;
+}
+
+.form-card .alert::before,
+.mm-alert::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: #f97316;
+}
+
+.form-card .alert-success,
+.mm-alert.success {
+    background: #14532d !important;
+    border-color: #22c55e !important;
+}
+
+.form-card .alert-success::before,
+.mm-alert.success::before {
+    background: #22c55e;
+}
+
+.form-card .alert-warning,
+.mm-alert.warning {
+    background: #4a2514 !important;
+    border-color: #f97316 !important;
+}
+
+.form-card .alert-danger,
+.mm-alert.danger {
+    background: #5f1f1f !important;
+    border-color: #ef4444 !important;
+}
+
+.form-card .alert-danger::before,
+.mm-alert.danger::before {
+    background: #ef4444;
+}
+
+.form-card .alert-info,
+.mm-alert.info {
+    background: #1e3a5f !important;
+    border-color: #3b82f6 !important;
+}
+
+.form-card .alert-info::before,
+.mm-alert.info::before {
+    background: #3b82f6;
+}
+
+.form-card .alert h5,
+.mm-alert h5 {
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 850;
+}
+
+.form-card .alert p,
+.mm-alert p {
+    color: #e5e7eb;
+    line-height: 1.5;
+}
+
+.form-card .alert a,
+.mm-alert a {
+    color: #fdba74;
+    font-weight: 800;
+    text-decoration-color: rgba(253,186,116,0.55);
+    text-underline-offset: 3px;
+}
+
+.form-card .alert a:hover,
+.mm-alert a:hover {
+    color: #fed7aa;
+}
+
+/* ===========================================
    CRÍTICAS Y DETALLES
 =========================================== */
 .critica {

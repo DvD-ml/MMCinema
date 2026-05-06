@@ -55,7 +55,7 @@ function mm_noticias_url(int $paginaDestino): string {
 </head>
 <body>
 
-<?php include "../components/navbar.php"; ?>
+<?php include __DIR__ . "/../components/navbar.php"; ?>
 
 <div class="container my-5">
     <h1 class="fw-bold mb-4">Noticias de cine</h1>
@@ -130,7 +130,7 @@ function mm_noticias_url(int $paginaDestino): string {
     <?php endif; ?>
 </div>
 
-<?php include "../components/footer.php"; ?>
+<?php include __DIR__ . "/../components/footer.php"; ?>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <?php // include "../includes/lenis-scripts.php"; // Lenis desactivado ?>

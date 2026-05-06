@@ -38,7 +38,7 @@ if ($estaBloqueado) {
     exit();
 }
 
-$sql = "SELECT id, username, email, password_hash, rol, verificado FROM usuario WHERE email = ? LIMIT 1";
+$sql = "SELECT id, username, email, password_hash, rol, verificado, token_verificacion FROM usuario WHERE email = ? LIMIT 1";
 $stm = $pdo->prepare($sql);
 $stm->execute([$email]);
 $user = $stm->fetch(PDO::FETCH_ASSOC);
@@ -57,11 +57,16 @@ if (!$passwordCorrecta) {
 }
 
 // Verificación de email deshabilitada (emails no funcionan en este servidor)
-// $usuarioVerificado = (int)$user['verificado'];
-// if ($usuarioVerificado !== 1) {
-//     header("Location: ../pages/login.php?error=no_verificado&email=" . urlencode($email));
-//     exit();
-// }
+$usuarioVerificado = (int)$user['verificado'];
+if ($usuarioVerificado !== 1 && !empty($user['token_verificacion'])) {
+    header("Location: ../pages/login.php?error=no_verificado&email=" . urlencode($email));
+    exit();
+}
+
+if ($usuarioVerificado !== 1) {
+    $stmVerificarLegacy = $pdo->prepare("UPDATE usuario SET verificado = 1 WHERE id = ? AND token_verificacion IS NULL");
+    $stmVerificarLegacy->execute([$user['id']]);
+}
 
 $_SESSION['usuario_id'] = (int)$user['id'];
 $_SESSION['usuario'] = $user['username'];
