@@ -19,3 +19,6 @@
 /* Components */
 @import url("navbar.css");
 @import url("custom-checkbox.css");
+
+/* Mobile Netflix Style - SOLO MOBILE, NO TOCAR DESKTOP */
+@import url("mobile-netflix.css");
