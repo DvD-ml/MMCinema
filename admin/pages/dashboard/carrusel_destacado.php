@@ -366,7 +366,7 @@ function toggleActivo($id) {
 
     <?php if ($mensaje): ?>
         <div class="admin-alert-inline <?= $tipo_mensaje === 'success' ? 'success' : 'error' ?>">
-            <div class="admin-alert-icon"><?= $tipo_mensaje === 'success' ? '?' : '?' ?></div>
+            <div class="admin-alert-icon"><?= $tipo_mensaje === 'success' ? '✓' : '✕' ?></div>
             <div class="admin-alert-content">
                 <div class="admin-alert-title"><?= $tipo_mensaje === 'success' ? 'Éxito' : 'Error' ?></div>
                 <div class="admin-alert-message"><?= htmlspecialchars($mensaje) ?></div>
@@ -598,8 +598,6 @@ function confirmarToggle(form, titulo, esActivo) {
 }
 
 function editarSlide(slide) {
-    console.log('Editando slide:', slide); // Debug
-    console.log('Categoría del slide:', slide.categoria); // Debug
     
     document.getElementById('modalSlideTitle').textContent = 'Editar Slide';
     document.getElementById('accion').value = 'actualizar';
@@ -613,7 +611,6 @@ function editarSlide(slide) {
     // IMPORTANTE: Establecer categoría ANTES de cargar contenido
     const categoriaSelect = document.getElementById('categoria');
     categoriaSelect.value = slide.categoria || 'destacada';
-    console.log('Categoría establecida a:', categoriaSelect.value); // Debug
     
     // Cargar contenido después
     cargarContenido();
@@ -621,7 +618,6 @@ function editarSlide(slide) {
     // Luego establecer el id_contenido con un pequeúo delay
     setTimeout(() => {
         document.getElementById('id_contenido').value = slide.id_contenido;
-        console.log('ID contenido establecido a:', slide.id_contenido); // Debug
     }, 100);
     
     // Hacer opcional la imagen de fondo en edición
@@ -642,21 +638,13 @@ document.getElementById('modalSlide').addEventListener('hidden.bs.modal', functi
     document.getElementById('categoria').value = 'destacada';
 });
 
-// Debug: Verificar que la categoría se envía en el formulario
 document.getElementById('formSlide').addEventListener('submit', function(e) {
     const categoria = document.getElementById('categoria').value;
-    const accion = document.getElementById('accion').value;
     
-    console.log('=== ENVIANDO FORMULARIO ===');
-    console.log('Acción:', accion);
-    console.log('Categoría seleccionada:', categoria);
-    console.log('Título:', document.getElementById('titulo').value);
-    console.log('Todas las opciones del select:');
     
     const selectCategoria = document.getElementById('categoria');
     for (let i = 0; i < selectCategoria.options.length; i++) {
         const opt = selectCategoria.options[i];
-        console.log(`  - ${opt.text}: "${opt.value}" ${opt.selected ? '(SELECCIONADA)' : ''}`);
     }
     
     // Verificar que la categoría no esté vacía
@@ -668,9 +656,6 @@ document.getElementById('formSlide').addEventListener('submit', function(e) {
     }
     
     // Verificar categorías específicas
-    if (categoria === 'nueva_temporada' || categoria === 'nuevo_episodio') {
-        console.log('?“ Categoría especial detectada:', categoria);
-    }
 });
 </script>
 

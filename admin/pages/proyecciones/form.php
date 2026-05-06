@@ -190,6 +190,28 @@ $salas = $pdo->query("SELECT sala FROM sala_config ORDER BY sala ASC")->fetchAll
         <a href="list.php" class="btn btn-outline-light">Volver</a>
     </div>
 
+    <?php if (isset($_GET['deleted'])): ?>
+        <div class="admin-alert-inline success">
+            <div class="admin-alert-icon">✓</div>
+            <div class="admin-alert-content">
+                <div class="admin-alert-title">Proyección eliminada</div>
+                <div class="admin-alert-message">La proyección se ha eliminado correctamente.</div>
+            </div>
+        </div>
+    <?php endif; ?>
+
+    <?php if (isset($_GET['error'])): ?>
+        <div class="admin-alert-inline error">
+            <div class="admin-alert-icon">✕</div>
+            <div class="admin-alert-content">
+                <div class="admin-alert-title">Error</div>
+                <div class="admin-alert-message">
+                    <?= $_GET['error'] === 'tickets' ? 'No se puede borrar una proyección con tickets vendidos.' : 'No se pudo procesar la proyección.' ?>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
+
     <!-- HEADER SECTION -->
     <!-- PROYECCIONES EXISTENTES -->
     <?php if ($pelicula_id_preseleccionada > 0): ?>

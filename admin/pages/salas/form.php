@@ -93,14 +93,6 @@ if (isset($_GET['sala'])) {
                 </div>
             </div>
 
-            <div class="admin-alert-inline info">
-                <div class="admin-alert-icon">ℹ</div>
-                <div class="admin-alert-content">
-                    <div class="admin-alert-title">Capacidad total</div>
-                    <div class="admin-alert-message"><span id="capacidad"><?= (int)$sala['filas'] * (int)$sala['columnas'] ?></span> asientos</div>
-                </div>
-            </div>
-
             <div class="d-flex gap-2 flex-wrap">
                 <button type="submit" class="btn btn-primary">
                     <?= $modoEdicion ? 'Guardar cambios' : 'Crear sala' ?>
@@ -110,17 +102,6 @@ if (isset($_GET['sala'])) {
         </form>
     </div>
 </div>
-
-<script>
-document.querySelector('input[name="filas"]').addEventListener('change', actualizarCapacidad);
-document.querySelector('input[name="columnas"]').addEventListener('change', actualizarCapacidad);
-
-function actualizarCapacidad() {
-    const filas = parseInt(document.querySelector('input[name="filas"]').value) || 0;
-    const columnas = parseInt(document.querySelector('input[name="columnas"]').value) || 0;
-    document.getElementById('capacidad').textContent = filas * columnas;
-}
-</script>
 
 </body>
 </html>

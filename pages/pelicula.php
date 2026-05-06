@@ -60,6 +60,7 @@ $stm3 = $pdo->prepare("
     LEFT JOIN usuario u ON c.id_usuario = u.id
     WHERE c.id_pelicula = ?
     ORDER BY c.creado DESC
+    LIMIT 2
 ");
 $stm3->execute([$id]);
 $criticas = $stm3->fetchAll(PDO::FETCH_ASSOC);
@@ -210,7 +211,7 @@ if (!empty($pelicula['fecha_estreno']) && strtotime($pelicula['fecha_estreno']) 
     <h2 id="horarios" class="mb-3">Horarios Disponibles</h2>
 
     <?php if ($esProximamente): ?>
-        <div class="alert alert-info">
+        <div class="alert alert-warning">
             Esta película todavía no se ha estrenado.
         </div>
     <?php elseif (empty($proyecciones)): ?>

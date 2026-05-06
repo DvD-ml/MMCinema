@@ -178,6 +178,7 @@ $stmtCriticas = $pdo->prepare("
     LEFT JOIN usuario u ON u.id = cs.id_usuario
     WHERE cs.id_serie = ?
     ORDER BY cs.creado DESC
+    LIMIT 2
 ");
 $stmtCriticas->execute([$idSerie]);
 $criticas = $stmtCriticas->fetchAll(PDO::FETCH_ASSOC);

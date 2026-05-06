@@ -11,13 +11,19 @@ Thumbs.db
 # Logs
 *.log
 
+# Configuraciones locales de herramientas
+.kiro/
+.vscode/
+
 # Cache
 /cache/*.json
 !/cache/.gitkeep
 
 # Tickets generados
 /tickets/*.pdf
+/storage/tickets/*.pdf
 !/tickets/.gitkeep
+!/storage/tickets/.gitkeep
 
 # Archivos temporales
 *.tmp

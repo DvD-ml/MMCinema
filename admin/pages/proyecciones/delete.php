@@ -50,7 +50,7 @@ $sql = "DELETE FROM proyeccion WHERE id = ?";
 $stm = $pdo->prepare($sql);
 $stm->execute([$id]);
 
-header("Location: form.php?pelicula_id=" . $id_pelicula . "&ok=1");
+header("Location: form.php?pelicula_id=" . $id_pelicula . "&deleted=1");
 exit();
 ?>
 

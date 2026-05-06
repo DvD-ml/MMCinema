@@ -67,6 +67,8 @@ $files = @(
     "assets/js/admin-alerts.js",
     "assets/js/admin-forms.js",
     "assets/js/admin-search.js",
+    "pages/pelicula.php",
+    "pages/serie.php",
     "components/navbar.php"
 )
 
