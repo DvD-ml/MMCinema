@@ -1,610 +1,921 @@
 /* ============================================
-   MOBILE NETFLIX STYLE - SOLO MOBILE
-   NO TOCAR DESKTOP
-   ============================================ */
-
-/* ============================================
-   MOBILE FIRST - BREAKPOINT < 768px
+   MMCINEMA MOBILE STREAMING EXPERIENCE
+   Mobile only. Desktop styles stay untouched.
    ============================================ */
 
 @media (max-width: 768px) {
-    
-    /* ============================================
-       NAVBAR MOBILE NETFLIX
-       ============================================ */
+    :root {
+        --mobile-bg: #050608;
+        --mobile-panel: rgba(17, 20, 28, 0.94);
+        --mobile-line: rgba(255, 255, 255, 0.09);
+        --mobile-muted: #a7b0bd;
+        --mobile-card-w: clamp(132px, 38vw, 172px);
+        --mobile-news-w: clamp(240px, 78vw, 320px);
+    }
+
+    html,
+    body {
+        background: #050608 !important;
+        overflow-x: hidden;
+    }
+
+    body {
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    .film-strip,
+    .film-strip--left,
+    .film-strip--right {
+        display: none !important;
+    }
+
     .navbar {
-        padding: 12px 0 !important;
-        background: linear-gradient(180deg, rgba(15, 17, 22, 0.95) 0%, rgba(15, 17, 22, 0.85) 100%) !important;
-        backdrop-filter: blur(8px);
-        border-bottom: 1px solid rgba(249, 115, 22, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 1040;
+        padding: 8px 0 !important;
+        background: linear-gradient(180deg, rgba(5, 6, 8, 0.98), rgba(5, 6, 8, 0.78)) !important;
+        border-bottom: 0 !important;
+        box-shadow: none !important;
+        backdrop-filter: blur(18px);
+    }
+
+    .navbar .container {
+        padding-left: 14px !important;
+        padding-right: 14px !important;
     }
 
     .navbar-brand img {
-        max-width: 80px !important;
+        width: 86px !important;
+        max-width: 86px !important;
         height: auto;
     }
 
     .navbar-toggler {
-        width: 40px;
-        height: 40px;
-        padding: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        width: 38px;
+        height: 38px;
+        padding: 0 !important;
+        border: 1px solid rgba(255, 255, 255, 0.14) !important;
+        border-radius: 999px !important;
+        background: rgba(255, 255, 255, 0.08) !important;
+        box-shadow: none !important;
+    }
+
+    .navbar-toggler:focus {
+        box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.16) !important;
     }
 
     .navbar-toggler-icon {
-        width: 24px;
-        height: 24px;
-        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255,255,255,0.8)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2.5' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        width: 19px;
+        height: 19px;
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255,255,255,.86)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2.4' d='M5 8h20M5 15h20M5 22h20'/%3e%3c/svg%3e") !important;
     }
 
     .navbar-collapse {
-        background: rgba(15, 17, 22, 0.98);
-        backdrop-filter: blur(10px);
-        border-top: 1px solid rgba(249, 115, 22, 0.1);
-        margin-top: 8px;
-        border-radius: 0 0 12px 12px;
-        padding: 12px 0;
+        margin-top: 10px;
+        padding: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 18px;
+        background: rgba(8, 10, 14, 0.98);
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.42);
     }
 
     .navbar-nav {
-        gap: 0;
+        gap: 4px;
+        align-items: stretch !important;
     }
 
-    .nav-link {
-        padding: 12px 16px !important;
-        font-size: 14px;
-        font-weight: 500;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        transition: all 0.2s ease;
+    .navbar .nav-link {
+        min-height: 42px;
+        margin: 0 !important;
+        padding: 10px 12px !important;
+        border-radius: 12px;
+        color: #f7f7f7 !important;
+        font-size: 0.92rem;
+        font-weight: 650;
     }
 
-    .nav-link:hover {
-        background: rgba(249, 115, 22, 0.08);
-        padding-left: 20px !important;
+    .navbar .nav-link.active,
+    .navbar .nav-link:hover {
+        background: rgba(255, 255, 255, 0.09) !important;
+        color: #ffffff !important;
     }
 
-    .nav-link.active {
-        background: rgba(249, 115, 22, 0.12);
-        border-left: 3px solid #f97316;
-        padding-left: 13px !important;
+    .navbar .nav-link.text-warning {
+        color: #fdba74 !important;
     }
 
-    .nav-link.active::after {
-        display: none;
+    main,
+    .home-page,
+    .series-page,
+    .serie-detail-page {
+        background: #050608 !important;
     }
 
-    /* ============================================
-       HERO CARRUSEL MOBILE NETFLIX
-       ============================================ */
-    .netflix-hero-section {
-        padding: 16px 0 24px !important;
+    main.container,
+    body > .container,
+    .home-page > .container,
+    .series-page > .container,
+    main > .container,
+    .home-section > .container {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding-left: 14px !important;
+        padding-right: 14px !important;
+    }
+
+    .my-4,
+    .my-5 {
+        margin-top: 18px !important;
         margin-bottom: 24px !important;
     }
 
-    .netflix-carousel {
-        padding: 0 12px !important;
-    }
-
-    .netflix-slide {
-        aspect-ratio: 9/16 !important;
-        min-height: 420px;
-        border-radius: 12px;
-        overflow: hidden;
-    }
-
-    .netflix-slide-content {
-        padding: 20px 16px 16px !important;
-        gap: 12px !important;
-    }
-
-    .netflix-slide-title {
-        font-size: 18px !important;
-        line-height: 1.3;
-        max-lines: 2;
-    }
-
-    .netflix-slide-meta {
-        font-size: 12px;
-        gap: 8px;
-    }
-
-    .netflix-slide-meta span {
-        padding: 4px 8px !important;
-        font-size: 11px;
-    }
-
-    .netflix-slide-desc {
-        font-size: 13px !important;
-        line-height: 1.4;
-        max-height: 60px;
-        overflow: hidden;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-    }
-
-    .netflix-slide-buttons {
-        gap: 8px !important;
-        margin-top: 12px;
-    }
-
-    .netflix-slide-buttons .btn {
-        padding: 8px 12px !important;
-        font-size: 12px !important;
-        min-height: 36px;
-        flex: 1;
-    }
-
-    .carousel-indicators {
-        bottom: 12px !important;
-        gap: 6px;
-    }
-
-    .carousel-indicators [data-bs-target] {
-        width: 6px !important;
-        height: 6px !important;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.3);
-        border: none;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-
-    .carousel-indicators .active {
-        background: #f97316 !important;
-        width: 8px !important;
-        height: 8px !important;
-    }
-
-    /* ============================================
-       SECCIONES HOME MOBILE
-       ============================================ */
     .home-section {
-        padding: 24px 0 20px !important;
+        padding: 24px 0 12px !important;
     }
 
+    .hero,
     .section-heading,
-    .section-heading-left {
-        margin: 0 16px 16px !important;
+    .section-heading-left,
+    .text-center.mb-5 {
+        margin-bottom: 14px !important;
+        text-align: left !important;
+        border-bottom: 0 !important;
+        padding-bottom: 0 !important;
     }
 
+    .hero h1,
     .section-heading h2,
-    .section-heading-left h2 {
-        font-size: 20px !important;
-        margin-bottom: 8px;
+    .section-heading-left h2,
+    .text-center.mb-5 h1,
+    main > h1,
+    .container > h1 {
+        margin-bottom: 5px !important;
+        font-size: clamp(1.42rem, 6vw, 2rem) !important;
+        line-height: 1.05 !important;
+        letter-spacing: -0.045em;
     }
 
+    .hero p,
     .section-heading p,
-    .section-heading-left p {
-        font-size: 13px !important;
+    .section-heading-left p,
+    .text-center.mb-5 p {
+        max-width: 92%;
+        color: var(--mobile-muted) !important;
+        font-size: 0.9rem !important;
+        line-height: 1.45 !important;
     }
 
     .section-kicker {
-        font-size: 10px !important;
-        padding: 5px 10px !important;
+        display: none !important;
     }
 
-    /* ============================================
-       GRID DE PELÍCULAS/NOTICIAS MOBILE
-       ============================================ */
-    .row {
-        margin: 0 !important;
+    .netflix-hero-section {
+        margin: -8px 0 8px !important;
+        padding: 0 0 16px !important;
     }
 
-    .col-md-6,
-    .col-lg-4,
-    .col-lg-3 {
-        padding: 8px !important;
+    .netflix-carousel {
+        max-width: 100% !important;
+        padding: 0 !important;
     }
 
-    @media (max-width: 768px) {
-        .col-md-6,
-        .col-lg-4,
-        .col-lg-3 {
-            flex: 0 0 50% !important;
-            max-width: 50% !important;
-        }
-    }
-
-    @media (max-width: 480px) {
-        .col-md-6,
-        .col-lg-4,
-        .col-lg-3 {
-            flex: 0 0 100% !important;
-            max-width: 100% !important;
-        }
-    }
-
-    /* ============================================
-       CARDS PELÍCULAS MOBILE
-       ============================================ */
-    .pelicula-card {
-        border-radius: 10px !important;
-        overflow: hidden;
-    }
-
-    .pelicula-card img {
-        height: 280px !important;
-        object-fit: cover;
-    }
-
-    .pelicula-card .card-body {
-        padding: 10px !important;
-    }
-
-    .pelicula-card .card-title {
-        font-size: 13px !important;
-        margin-bottom: 4px;
-        line-height: 1.3;
-        max-lines: 2;
-    }
-
-    .pelicula-card .card-text {
-        font-size: 11px !important;
-        color: var(--text-soft) !important;
-        margin-bottom: 6px;
-    }
-
-    .pelicula-card .btn {
-        padding: 6px 10px !important;
-        font-size: 11px !important;
-        width: 100%;
-    }
-
-    /* ============================================
-       CARDS NOTICIAS MOBILE
-       ============================================ */
-    .noticia-card {
-        border-radius: 10px !important;
-        overflow: hidden;
-    }
-
-    .noticia-card img {
-        height: 180px !important;
-        object-fit: cover;
-    }
-
-    .noticia-card .card-body {
-        padding: 10px !important;
-    }
-
-    .noticia-card .card-title {
-        font-size: 13px !important;
-        margin-bottom: 4px;
-        line-height: 1.3;
-        max-lines: 2;
-    }
-
-    .noticia-card .card-text {
-        font-size: 11px !important;
-        color: var(--text-soft) !important;
-        margin-bottom: 6px;
-        max-lines: 2;
-    }
-
-    .noticia-card .btn {
-        padding: 6px 10px !important;
-        font-size: 11px !important;
-        width: 100%;
-    }
-
-    /* ============================================
-       BOTONES MOBILE
-       ============================================ */
-    .btn {
-        min-height: 40px !important;
-        padding: 10px 16px !important;
-        font-size: 13px !important;
-        border-radius: 8px !important;
-        font-weight: 600;
-        transition: all 0.2s ease;
-    }
-
-    .btn-primary {
-        background: #f97316 !important;
-        border: none !important;
-        color: white !important;
-    }
-
-    .btn-primary:active {
-        background: #ea580c !important;
-        transform: scale(0.98);
-    }
-
-    .btn-outline-light {
-        border: 1px solid rgba(255, 255, 255, 0.3) !important;
-        color: white !important;
-    }
-
-    .btn-outline-light:active {
-        background: rgba(255, 255, 255, 0.1) !important;
-    }
-
-    /* ============================================
-       FORMULARIOS MOBILE
-       ============================================ */
-    .form-control,
-    .form-select {
-        padding: 12px 14px !important;
-        font-size: 14px !important;
-        min-height: 44px !important;
-        border-radius: 8px !important;
-        background: rgba(27, 30, 39, 0.8) !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        color: white !important;
-    }
-
-    .form-control:focus,
-    .form-select:focus {
-        background: rgba(27, 30, 39, 0.95) !important;
-        border-color: #f97316 !important;
-        box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1) !important;
-    }
-
-    .form-label {
-        font-size: 13px !important;
-        font-weight: 600;
-        margin-bottom: 6px;
-    }
-
-    /* ============================================
-       CONTENEDOR PRINCIPAL MOBILE
-       ============================================ */
-    .container {
-        padding: 0 12px !important;
-    }
-
-    /* ============================================
-       ESPACIADO MOBILE
-       ============================================ */
-    .py-4 {
-        padding-top: 16px !important;
-        padding-bottom: 16px !important;
-    }
-
-    .py-5 {
-        padding-top: 20px !important;
-        padding-bottom: 20px !important;
-    }
-
-    .mb-4 {
-        margin-bottom: 16px !important;
-    }
-
-    .mb-3 {
-        margin-bottom: 12px !important;
-    }
-
-    /* ============================================
-       PAGINACIÓN MOBILE
-       ============================================ */
-    .pagination {
-        gap: 4px;
-        justify-content: center;
-    }
-
-    .page-link {
-        padding: 6px 8px !important;
-        font-size: 12px !important;
-        min-width: 32px;
-        min-height: 32px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    /* ============================================
-       MODAL MOBILE
-       ============================================ */
-    .modal-content {
-        border-radius: 12px !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    }
-
-    .modal-header {
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
-        padding: 16px !important;
-    }
-
-    .modal-body {
-        padding: 16px !important;
-    }
-
-    .modal-footer {
-        border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
-        padding: 12px !important;
-        gap: 8px;
-    }
-
-    /* ============================================
-       TABLA MOBILE
-       ============================================ */
-    .table {
-        font-size: 12px !important;
-    }
-
-    .table th,
-    .table td {
-        padding: 8px !important;
-    }
-
-    /* ============================================
-       TARJETA GENÉRICA MOBILE
-       ============================================ */
-    .card {
-        border-radius: 10px !important;
-        border: 1px solid rgba(255, 255, 255, 0.08) !important;
-        margin-bottom: 12px;
-    }
-
-    .card-body {
-        padding: 12px !important;
-    }
-
-    .card-title {
-        font-size: 14px !important;
-        margin-bottom: 6px;
-    }
-
-    .card-text {
-        font-size: 12px !important;
-    }
-
-    /* ============================================
-       TIPOGRAFÍA MOBILE
-       ============================================ */
-    h1 {
-        font-size: 24px !important;
-    }
-
-    h2 {
-        font-size: 20px !important;
-    }
-
-    h3 {
-        font-size: 16px !important;
-    }
-
-    h4 {
-        font-size: 14px !important;
-    }
-
-    p {
-        font-size: 13px !important;
-        line-height: 1.5;
-    }
-
-    small {
-        font-size: 11px !important;
-    }
-
-    /* ============================================
-       SCROLL HORIZONTAL MOBILE
-       ============================================ */
-    .horizontal-scroll {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        scroll-behavior: smooth;
-        scrollbar-width: none;
-    }
-
-    .horizontal-scroll::-webkit-scrollbar {
-        display: none;
-    }
-
-    /* ============================================
-       FOOTER MOBILE
-       ============================================ */
-    footer {
-        padding: 20px 12px !important;
-        font-size: 12px !important;
-    }
-
-    /* ============================================
-       ANIMACIONES MOBILE
-       ============================================ */
-    @media (prefers-reduced-motion: no-preference) {
-        * {
-            transition-duration: 0.2s !important;
-        }
-    }
-
-    /* ============================================
-       ACCESIBILIDAD MOBILE
-       ============================================ */
-    button,
-    a,
-    input[type="button"],
-    input[type="submit"] {
-        min-height: 44px;
-        min-width: 44px;
-    }
-
-    /* ============================================
-       TOUCH TARGETS
-       ============================================ */
-    .nav-link,
-    .btn,
-    .card,
-    a {
-        -webkit-tap-highlight-color: rgba(249, 115, 22, 0.1);
-    }
-
-}
-
-/* ============================================
-   MOBILE PEQUEÑO - BREAKPOINT < 480px
-   ============================================ */
-
-@media (max-width: 480px) {
-
-    .navbar-brand img {
-        max-width: 70px !important;
+    .netflix-carousel .carousel-inner {
+        border-radius: 0 !important;
+        box-shadow: none !important;
     }
 
     .netflix-slide {
-        aspect-ratio: 9/16 !important;
-        min-height: 380px;
+        min-height: 72vh !important;
+        max-height: 660px;
+        aspect-ratio: auto !important;
+        border-radius: 0 !important;
+        background: #050608 !important;
     }
 
-    .netflix-slide-title {
-        font-size: 16px !important;
+    .netflix-slide-bg {
+        height: 100% !important;
+        object-fit: cover !important;
+        object-position: center top !important;
+        transform: scale(1.01);
     }
 
-    .netflix-slide-desc {
-        font-size: 12px !important;
+    .netflix-slide-overlay {
+        background:
+            linear-gradient(180deg, rgba(5, 6, 8, 0.02) 0%, rgba(5, 6, 8, 0.16) 34%, rgba(5, 6, 8, 0.86) 78%, #050608 100%),
+            linear-gradient(90deg, rgba(5, 6, 8, 0.28), transparent 58%) !important;
     }
 
-    .section-heading h2,
-    .section-heading-left h2 {
-        font-size: 18px !important;
+    .netflix-slide-content {
+        left: 16px !important;
+        right: 16px !important;
+        bottom: 42px !important;
+        max-width: none !important;
     }
 
-    .col-md-6,
-    .col-lg-4,
-    .col-lg-3 {
-        flex: 0 0 100% !important;
+    .netflix-logo h1,
+    .netflix-title {
+        font-size: clamp(2rem, 11vw, 3.3rem) !important;
+        line-height: 0.95 !important;
+        letter-spacing: -0.07em !important;
+        text-shadow: 0 4px 22px rgba(0, 0, 0, 0.86) !important;
+    }
+
+    .netflix-logo-img {
+        max-width: min(78vw, 290px) !important;
+        max-height: 112px !important;
+    }
+
+    .netflix-info,
+    .netflix-meta {
+        gap: 7px !important;
+        margin-top: 12px !important;
+    }
+
+    .netflix-type,
+    .netflix-genre,
+    .netflix-year,
+    .netflix-seasons,
+    .netflix-duration,
+    .netflix-rating {
+        padding: 4px 8px !important;
+        border-radius: 999px !important;
+        background: rgba(255, 255, 255, 0.12) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        font-size: 0.75rem !important;
+        color: #fff !important;
+    }
+
+    .netflix-separator {
+        display: none !important;
+    }
+
+    .netflix-category-badge {
+        top: 74px !important;
+        right: 14px !important;
+        bottom: auto !important;
+        max-width: calc(100% - 28px);
+        padding: 6px 10px !important;
+        border-radius: 999px !important;
+        background: rgba(8, 10, 14, 0.72) !important;
+        border-color: rgba(249, 115, 22, 0.42) !important;
+        font-size: 0.75rem !important;
+    }
+
+    .netflix-indicators {
+        bottom: 18px !important;
+    }
+
+    .netflix-indicators button,
+    .carousel-indicators [data-bs-target] {
+        width: 18px !important;
+        height: 3px !important;
+        border-radius: 999px !important;
+        background: rgba(255, 255, 255, 0.25) !important;
+    }
+
+    .netflix-indicators button.active,
+    .carousel-indicators .active {
+        width: 30px !important;
+        height: 3px !important;
+        background: #ffffff !important;
+    }
+
+    .criticas-search-simple,
+    .streaming-platforms {
+        margin-left: -14px;
+        margin-right: -14px;
+        padding: 0 14px 8px;
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        gap: 10px !important;
+        overflow-x: auto;
+        scroll-snap-type: x proximity;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+
+    .criticas-search-simple::-webkit-scrollbar,
+    .streaming-platforms::-webkit-scrollbar,
+    .mm-mobile-rail::-webkit-scrollbar,
+    .series-row-scroll::-webkit-scrollbar,
+    .series-featured-slider::-webkit-scrollbar {
+        display: none;
+    }
+
+    .filtro-cartelera {
+        width: 100% !important;
+        margin: 0 0 16px !important;
+        padding: 0 !important;
+        overflow: visible !important;
+        background: transparent !important;
+        border: 0 !important;
+        box-shadow: none !important;
+    }
+
+    .filtro-cartelera form {
+        width: 100% !important;
+        min-width: 0 !important;
+        margin: 0 !important;
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        gap: 10px !important;
+    }
+
+    .filtro-cartelera .row > * {
+        width: 100% !important;
         max-width: 100% !important;
-        padding: 6px !important;
+        flex: 0 0 100% !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
     }
 
-    .pelicula-card img {
-        height: 240px !important;
+    .filtro-cartelera .form-label {
+        margin-bottom: 5px !important;
+        font-size: 0.88rem !important;
+    }
+
+    .filtro-cartelera .btn {
+        width: 100% !important;
+    }
+
+    .streaming-pill {
+        flex: 0 0 auto;
+        min-width: 92px !important;
+        min-height: 58px !important;
+        padding: 10px 14px !important;
+        border-radius: 16px !important;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        scroll-snap-align: start;
+    }
+
+    .streaming-pill.active {
+        background: rgba(249, 115, 22, 0.15) !important;
+        border-color: rgba(249, 115, 22, 0.5) !important;
+    }
+
+    .streaming-pill img {
+        width: 58px !important;
+        height: 30px !important;
+    }
+
+    .mm-mobile-rail,
+    .series-row-scroll {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        gap: 10px !important;
+        margin-left: -14px !important;
+        margin-right: -14px !important;
+        padding: 0 14px 12px !important;
+        overflow-x: auto !important;
+        overflow-y: visible !important;
+        scroll-snap-type: x proximity;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+
+    .mm-mobile-rail > [class*="col-"],
+    .series-row-scroll > * {
+        display: flex !important;
+        flex: 0 0 var(--mobile-card-w) !important;
+        width: var(--mobile-card-w) !important;
+        max-width: var(--mobile-card-w) !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        scroll-snap-align: start;
+    }
+
+    .mm-mobile-news-rail > [class*="col-"],
+    .mm-mobile-news-rail > article,
+    .mm-mobile-news-rail .noticia-card {
+        flex-basis: var(--mobile-news-w) !important;
+        width: var(--mobile-news-w) !important;
+        max-width: var(--mobile-news-w) !important;
+    }
+
+    .pelicula-card,
+    .serie-card,
+    .serie-mini-card,
+    .noticia-card {
+        width: 100% !important;
+        height: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        border: 0 !important;
+        border-radius: 9px !important;
+        background: #12151d !important;
+        box-shadow: none !important;
+        transform: none !important;
+        overflow: hidden !important;
+    }
+
+    .pelicula-card,
+    .serie-card,
+    .noticia-card,
+    .critica-card {
+        cursor: pointer;
+    }
+
+    .pelicula-card::after,
+    .noticia-card::after {
+        display: none !important;
+    }
+
+    .pelicula-card img,
+    .serie-card img,
+    .serie-mini-poster img {
+        flex: 0 0 auto;
+        width: 100% !important;
+        height: auto !important;
+        aspect-ratio: 2 / 3 !important;
+        object-fit: cover !important;
+        border-radius: 9px !important;
+        filter: none !important;
     }
 
     .noticia-card img {
-        height: 160px !important;
+        flex: 0 0 auto;
+        width: 100% !important;
+        height: auto !important;
+        aspect-ratio: 16 / 9 !important;
+        object-fit: cover !important;
+        border-radius: 10px !important;
     }
 
-    .container {
-        padding: 0 8px !important;
+    .pelicula-card .card-body,
+    .serie-card .card-body,
+    .serie-mini-body,
+    .noticia-card .card-body {
+        flex: 1 1 auto !important;
+        min-height: 142px;
+        padding: 8px 2px 0 !important;
+        background: transparent !important;
+        gap: 4px !important;
+        display: flex !important;
+        flex-direction: column !important;
     }
 
-    .btn {
-        padding: 8px 12px !important;
-        font-size: 12px !important;
+    .pelicula-card .card-title,
+    .serie-card .card-title,
+    .serie-mini-body h3,
+    .noticia-card h4,
+    .noticia-card .card-title {
+        min-height: 2.3em;
+        display: -webkit-box;
+        margin-bottom: 3px !important;
+        overflow: hidden;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        color: #fff !important;
+        font-size: 0.88rem !important;
+        line-height: 1.15 !important;
+        letter-spacing: -0.02em;
     }
 
-    h1 {
-        font-size: 20px !important;
+    .pelicula-card .card-text,
+    .noticia-card .flex-grow-1,
+    .noticia-card .card-text,
+    .serie-card-meta,
+    .serie-mini-body small,
+    .premium-rating small {
+        display: none !important;
     }
 
-    h2 {
-        font-size: 18px !important;
+    .pelicula-card .text-muted.small,
+    .noticia-card .text-muted.small,
+    .serie-card small,
+    .premium-rating {
+        min-height: 1.2em;
+        font-size: 0.76rem !important;
+        line-height: 1.2 !important;
+        color: #b8c0cc !important;
     }
 
-    p {
-        font-size: 12px !important;
+    .pelicula-card .stars,
+    .serie-card .premium-rating {
+        display: block !important;
+        min-height: 18px !important;
+        line-height: 18px !important;
     }
 
+    .pelicula-card .btn,
+    .serie-card .btn,
+    .noticia-card .btn {
+        display: inline-flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        min-height: 36px !important;
+        width: 100% !important;
+        margin-top: auto !important;
+        padding: 8px 10px !important;
+        border-radius: 999px !important;
+        font-size: 0.75rem !important;
+        font-weight: 800 !important;
+        line-height: 1 !important;
+        white-space: nowrap !important;
+    }
+
+    .btn,
+    .btn-sm,
+    .btn-lg,
+    .detalle-btn-main,
+    .detalle-mi-lista-btn,
+    .btn-volver,
+    .btn-volver-series,
+    .btn-pdf {
+        min-height: 40px !important;
+        padding: 10px 14px !important;
+        border-radius: 999px !important;
+        font-size: 0.88rem !important;
+        line-height: 1.1 !important;
+        transform: none !important;
+    }
+
+    .btn-primary,
+    .detalle-btn-main {
+        background: #ffffff !important;
+        border-color: #ffffff !important;
+        color: #050608 !important;
+    }
+
+    .btn-outline-light,
+    .detalle-mi-lista-btn,
+    .btn-volver,
+    .btn-volver-series {
+        background: rgba(255, 255, 255, 0.12) !important;
+        border: 1px solid rgba(255, 255, 255, 0.12) !important;
+        color: #ffffff !important;
+    }
+
+    .detalle-mi-lista-btn.activo {
+        background: rgba(249, 115, 22, 0.92) !important;
+        border-color: rgba(249, 115, 22, 0.92) !important;
+        color: #ffffff !important;
+    }
+
+    .detalle-pelicula,
+    .serie-detail-hero .row,
+    .serie-hero-detalle .row {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    main.container.my-5:has(.detalle-pelicula),
+    .serie-detail-page {
+        margin-top: 0 !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    .detalle-pelicula {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        margin-bottom: 22px !important;
+    }
+
+    .detalle-pelicula > [class*="col-"],
+    .serie-detail-hero [class*="col-"] {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding-left: 14px !important;
+        padding-right: 14px !important;
+    }
+
+    .detalle-poster-netflix {
+        margin-left: -14px;
+        margin-right: -14px;
+        margin-bottom: 0;
+        position: relative;
+    }
+
+    .detalle-poster-netflix::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, transparent 48%, #050608 100%);
+        pointer-events: none;
+    }
+
+    .detalle-poster-netflix img {
+        width: 100% !important;
+        max-height: 62vh !important;
+        aspect-ratio: 4 / 5 !important;
+        object-fit: cover !important;
+        object-position: center top !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+    }
+
+    .detalle-top-info {
+        margin-top: -24px;
+        position: relative;
+        z-index: 3;
+    }
+
+    .detalle-badge-top {
+        margin-bottom: 8px !important;
+        padding: 5px 9px !important;
+        font-size: 0.68rem !important;
+    }
+
+    .detalle-meta-netflix,
+    .detalle-acciones-netflix,
+    .serie-subnav {
+        gap: 8px !important;
+        overflow-x: auto;
+        flex-wrap: nowrap !important;
+        padding-bottom: 4px;
+        scrollbar-width: none;
+    }
+
+    .detalle-meta-netflix::-webkit-scrollbar,
+    .detalle-acciones-netflix::-webkit-scrollbar,
+    .serie-subnav::-webkit-scrollbar {
+        display: none;
+    }
+
+    .detalle-meta-netflix span {
+        flex: 0 0 auto;
+        padding: 6px 10px !important;
+        font-size: 0.78rem !important;
+        white-space: nowrap;
+    }
+
+    .detalle-sinopsis-netflix,
+    .season-description,
+    .temporada-desc,
+    .episodio-info p {
+        color: #d6dce6 !important;
+        font-size: 0.94rem !important;
+        line-height: 1.62 !important;
+    }
+
+    .detalle-acciones-netflix > *,
+    .detalle-mi-lista-form {
+        flex: 0 0 auto;
+    }
+
+    .detalle-trailer-box {
+        margin-top: 14px;
+        padding: 0 !important;
+        border: 0 !important;
+        border-radius: 12px !important;
+        background: transparent !important;
+    }
+
+    .detalle-trailer-box iframe {
+        border-radius: 12px;
+        min-height: 210px;
+    }
+
+    .proyeccion-item,
+    .critica,
+    .critica-card,
+    .temporada-card,
+    .season-panel,
+    .season-panel-single,
+    .perfil-vacio,
+    .best-user-box,
+    .home-stat-card {
+        border-radius: 14px !important;
+        border: 1px solid var(--mobile-line) !important;
+        background: var(--mobile-panel) !important;
+        box-shadow: none !important;
+    }
+
+    .proyeccion-item,
+    .critica,
+    .critica-card {
+        padding: 14px !important;
+    }
+
+    .critica-card .row {
+        display: grid !important;
+        grid-template-columns: 72px 1fr !important;
+        gap: 12px !important;
+        margin: 0 !important;
+    }
+
+    .critica-card .col-auto,
+    .critica-card .col {
+        width: auto !important;
+        max-width: none !important;
+        padding: 0 !important;
+    }
+
+    .critica-poster-wrap,
+    .critica-poster {
+        width: 72px !important;
+        min-width: 72px !important;
+        height: 108px !important;
+        border-radius: 8px !important;
+        object-fit: cover !important;
+    }
+
+    .criticas-tabs-wrap {
+        margin-left: -14px;
+        margin-right: -14px;
+        padding: 0 14px;
+        overflow-x: auto;
+        border-bottom-color: rgba(255, 255, 255, 0.08) !important;
+    }
+
+    .criticas-tabs {
+        flex-wrap: nowrap !important;
+        gap: 18px !important;
+        min-width: max-content;
+    }
+
+    .criticas-tab-btn {
+        font-size: 0.96rem !important;
+        padding-bottom: 10px !important;
+        white-space: nowrap;
+    }
+
+    .series-featured-slider {
+        overflow-x: auto !important;
+        mask-image: none !important;
+        -webkit-mask-image: none !important;
+        cursor: grab;
+    }
+
+    .series-featured-track {
+        animation: none !important;
+        gap: 10px !important;
+        padding-bottom: 12px;
+    }
+
+    .series-featured-item {
+        display: flex !important;
+        flex: 0 0 var(--mobile-card-w) !important;
+        width: var(--mobile-card-w) !important;
+    }
+
+    #series-destacadas .serie-card img,
+    #series-plataforma-top .serie-card img,
+    #series-plataforma .serie-card img {
+        height: auto !important;
+        aspect-ratio: 2 / 3 !important;
+    }
+
+    .series-row-scroll {
+        grid-auto-flow: unset !important;
+        grid-auto-columns: unset !important;
+    }
+
+    .serie-detail-hero {
+        padding: 46vh 0 22px !important;
+        background-position: center top !important;
+    }
+
+    .serie-detail-overlay {
+        background:
+            linear-gradient(180deg, rgba(5, 6, 8, 0.05) 0%, rgba(5, 6, 8, 0.44) 42%, #050608 92%),
+            linear-gradient(90deg, rgba(5, 6, 8, 0.18), transparent 70%) !important;
+    }
+
+    .serie-detail-poster {
+        display: none !important;
+    }
+
+    .serie-subnav-link {
+        width: auto !important;
+        flex: 0 0 auto;
+        padding: 9px 13px !important;
+        border-radius: 999px !important;
+        white-space: nowrap;
+    }
+
+    .season-panel-single,
+    .season-panel,
+    .temporada-card {
+        padding: 14px !important;
+        border-radius: 16px !important;
+    }
+
+    .season-panel-head,
+    .temporada-head,
+    .season-toggle-left {
+        gap: 12px !important;
+    }
+
+    .season-number {
+        width: 42px !important;
+        height: 42px !important;
+        border-radius: 12px !important;
+        font-size: 0.88rem !important;
+    }
+
+    .episodio-item {
+        display: grid !important;
+        grid-template-columns: 42px 1fr !important;
+        gap: 10px !important;
+        padding: 12px !important;
+        border-radius: 12px !important;
+    }
+
+    .episodio-num {
+        min-width: 0 !important;
+        font-size: 0.88rem !important;
+    }
+
+    .episodio-meta {
+        grid-column: 2;
+        text-align: left !important;
+        flex-direction: row !important;
+        flex-wrap: wrap;
+    }
+
+    .home-stats-grid {
+        display: flex !important;
+        gap: 10px !important;
+        overflow-x: auto;
+        margin-left: -14px;
+        margin-right: -14px;
+        padding: 0 14px 8px;
+        scrollbar-width: none;
+    }
+
+    .home-stat-card {
+        flex: 0 0 138px;
+        padding: 16px 12px !important;
+        text-align: left !important;
+    }
+
+    .best-user-box {
+        padding: 18px !important;
+        gap: 16px !important;
+        align-items: flex-start !important;
+        text-align: left !important;
+    }
+
+    .best-user-avatar {
+        width: 62px !important;
+        height: 62px !important;
+        min-width: 62px !important;
+        font-size: 1.4rem !important;
+    }
+
+    .form-control,
+    .form-select,
+    input,
+    textarea,
+    select {
+        min-height: 44px !important;
+        border-radius: 12px !important;
+        background: rgba(255, 255, 255, 0.08) !important;
+        border-color: rgba(255, 255, 255, 0.12) !important;
+        font-size: 0.95rem !important;
+    }
+
+    .cine-pagination-wrap,
+    .pagination {
+        overflow-x: auto;
+        justify-content: center !important;
+        margin-left: -14px;
+        margin-right: -14px;
+        padding: 0 14px 8px !important;
+        scrollbar-width: none;
+    }
+
+    .cine-page,
+    .page-link {
+        min-width: 38px !important;
+        height: 38px !important;
+        border-radius: 999px !important;
+        padding: 0 12px !important;
+        font-size: 0.84rem !important;
+    }
+
+    .footer-cine {
+        margin-top: 26px !important;
+        padding: 18px 0 !important;
+        border-top-color: rgba(255, 255, 255, 0.08) !important;
+        background: #050608 !important;
+    }
 }
 
-/* ============================================
-   DESKTOP - NO CAMBIOS (> 768px)
-   ============================================ */
+@media (max-width: 430px) {
+    :root {
+        --mobile-card-w: clamp(124px, 40vw, 158px);
+        --mobile-news-w: 82vw;
+    }
 
-@media (min-width: 769px) {
-    /* Aquí NO hacemos cambios, dejamos todo como está */
+    .netflix-slide {
+        min-height: 68vh !important;
+    }
+
+    .pelicula-card .btn,
+    .serie-card .btn,
+    .noticia-card .btn {
+        display: inline-flex !important;
+        min-height: 36px !important;
+        padding: 8px 10px !important;
+        font-size: 0.72rem !important;
+    }
+
+    .detalle-trailer-box iframe {
+        min-height: 190px;
+    }
 }

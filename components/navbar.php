@@ -28,6 +28,7 @@ if (empty($baseUrl)) {
     $baseUrl = '';
 }
 ?>
+<link rel="stylesheet" href="<?= $baseUrl ?>/assets/css/mobile-netflix.css">
 <nav class="navbar navbar-expand-lg shadow-sm" style="background:#0b0f1a;">
   <div class="container">
     <a class="navbar-brand fw-bold text-white" href="<?= $baseUrl ?>/pages/index.php" style="text-decoration:none;">

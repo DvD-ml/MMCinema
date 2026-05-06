@@ -472,6 +472,26 @@ input:focus, textarea:focus, select:focus {
     margin-bottom: 0.5rem;
 }
 
+.critica-textarea,
+.critica-textarea-serie {
+    color: #f8fafc !important;
+}
+
+.critica-textarea::placeholder,
+.critica-textarea-serie::placeholder {
+    color: #e2e8f0 !important;
+    opacity: 0.95 !important;
+}
+
+.critica-textarea + .form-text,
+.critica-textarea-serie + .form-text,
+#word-count,
+#word-count-serie {
+    color: #cbd5e1 !important;
+    opacity: 1 !important;
+    font-weight: 600;
+}
+
 .proyeccion-item {
     background: rgba(24,27,35,0.9);
     padding: 10px;

@@ -20,6 +20,7 @@ $files = @(
     "admin/crud/form.php",
     "admin/crud/save.php",
     "admin/helpers/series_admin_ui.php",
+    "admin/helpers/upload_helper.php",
     "admin/pages/.htaccess",
     "admin/pages/criticas/delete.php",
     "admin/pages/criticas/form.php",
@@ -64,12 +65,22 @@ $files = @(
     "admin/pages/usuarios/save.php",
     "assets/css/admin-alerts.css",
     "assets/css/admin.css",
+    "assets/css/components.css",
+    "assets/css/mobile-netflix.css",
+    "assets/css/profile.css",
+    "assets/css/styles.css",
     "assets/js/admin-alerts.js",
     "assets/js/admin-forms.js",
     "assets/js/admin-search.js",
+    "assets/js/mobile-netflix.js",
+    "assets/js/mobile-scroll.js",
+    "components/footer.php",
+    "components/navbar.php",
+    "includes/optimizar_imagen.php",
+    "pages/cartelera.php",
     "pages/pelicula.php",
     "pages/serie.php",
-    "components/navbar.php"
+    "pages/series.php"
 )
 
 Set-Location $localRoot

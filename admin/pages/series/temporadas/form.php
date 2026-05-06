@@ -66,6 +66,12 @@ $csrfToken = CSRF::generarToken();
 
     <?php mm_render_series_admin_nav('temporadas', ['id_serie' => $idSeriePre]); ?>
 
+    <?php if (($_GET['error'] ?? '') === 'imagen'): ?>
+        <div class="alert alert-danger">
+            No se pudo guardar la imagen. Revisa permisos de la carpeta de imagenes y que PHP tenga GD con soporte WebP.
+        </div>
+    <?php endif; ?>
+
     <div class="admin-glass-card p-4">
         <form method="POST" action="<?= htmlspecialchars(mm_admin_url('series/temporadas/save.php')) ?>" enctype="multipart/form-data">
             <?php echo CSRF::campoFormulario(); ?>

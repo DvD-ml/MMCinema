@@ -8,17 +8,13 @@ function mm_slug_nombre_archivo(string $texto): string
         return 'imagen';
     }
 
-    $reemplazos = [
-        'á' => 'a', 'à' => 'a', 'ä' => 'a',
-        'é' => 'e', 'è' => 'e', 'ë' => 'e', 'ê' => 'e',
-        'í' => 'i', 'ì' => 'i', 'ï' => 'i', 'î' => 'i',
-        'ó' => 'o', 'ò' => 'o', 'ö' => 'o', 'ô' => 'o',
-        'ú' => 'u', 'ù' => 'u', 'ü' => 'u', 'û' => 'u',
-        'ñ' => 'n', 'Á' => 'a', 'É' => 'e', 'Í' => 'i',
-        'Ó' => 'o', 'Ú' => 'u', 'Ñ' => 'n'
-    ];
+    if (function_exists('iconv')) {
+        $transliterado = @iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $texto);
+        if ($transliterado !== false && $transliterado !== '') {
+            $texto = $transliterado;
+        }
+    }
 
-    $texto = strtr($texto, $reemplazos);
     $texto = strtolower($texto);
     $texto = preg_replace('/[^a-z0-9]+/', '-', $texto);
     $texto = trim($texto, '-');
@@ -37,12 +33,21 @@ function mm_crear_imagen_desde_archivo(string $tmpPath, string $mime)
 {
     switch ($mime) {
         case 'image/jpeg':
+            if (!function_exists('imagecreatefromjpeg')) {
+                throw new Exception("El servidor no soporta leer imagenes JPG con GD.");
+            }
             return imagecreatefromjpeg($tmpPath);
 
         case 'image/png':
+            if (!function_exists('imagecreatefrompng')) {
+                throw new Exception("El servidor no soporta leer imagenes PNG con GD.");
+            }
             return imagecreatefrompng($tmpPath);
 
         case 'image/webp':
+            if (!function_exists('imagecreatefromwebp')) {
+                throw new Exception("El servidor no soporta leer imagenes WebP con GD.");
+            }
             return imagecreatefromwebp($tmpPath);
 
         case 'image/avif':
@@ -65,6 +70,14 @@ function optimizarYGuardarWebp(
     int $maxAlto = 1600,
     ?string $archivoAnterior = null
 ): string {
+    if (!extension_loaded('gd')) {
+        throw new Exception("El servidor no tiene activada la extension GD de PHP.");
+    }
+
+    if (!function_exists('imagewebp')) {
+        throw new Exception("El servidor no soporta guardar imagenes WebP. Activa GD con soporte WebP.");
+    }
+
     if (
         !isset($file['tmp_name']) ||
         !isset($file['error']) ||
@@ -78,6 +91,10 @@ function optimizarYGuardarWebp(
         if (!mkdir($carpetaDestino, 0777, true)) {
             throw new Exception("No se pudo crear la carpeta destino.");
         }
+    }
+
+    if (!is_writable($carpetaDestino)) {
+        throw new Exception("La carpeta destino no tiene permisos de escritura: " . $carpetaDestino);
     }
 
     $info = getimagesize($file['tmp_name']);

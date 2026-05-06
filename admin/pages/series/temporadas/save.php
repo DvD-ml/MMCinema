@@ -24,8 +24,13 @@ if ($id_serie <= 0 || $numero_temporada <= 0) {
 // Procesar poster
 $poster = $_POST['poster_actual'] ?? '';
 if (isset($_FILES['poster_file']) && $_FILES['poster_file']['error'] === UPLOAD_ERR_OK) {
-    $posterAnterior = $_POST['poster_actual'] ?? null;
-    $poster = mm_upload_image($_FILES['poster_file'], 'assets/img/series/temporadas', 'temporada_poster', $posterAnterior);
+    try {
+        $posterAnterior = $_POST['poster_actual'] ?? null;
+        $poster = mm_upload_image($_FILES['poster_file'], 'assets/img/series/temporadas', 'temporada_poster', $posterAnterior);
+    } catch (Throwable $e) {
+        header("Location: form.php?id=" . $id . "&id_serie=" . $id_serie . "&error=imagen");
+        exit();
+    }
 }
 
 // Normalizar valores

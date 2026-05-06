@@ -70,6 +70,12 @@ $csrfToken = CSRF::generarToken();
         <a href="<?= htmlspecialchars(mm_admin_url('series/list.php')) ?>" class="btn btn-outline-light">Volver</a>
     </div>
 
+    <?php if (($_GET['error'] ?? '') === 'imagen'): ?>
+        <div class="alert alert-danger">
+            No se pudo guardar la imagen. Revisa permisos de la carpeta de imagenes y que PHP tenga GD con soporte WebP.
+        </div>
+    <?php endif; ?>
+
     <div class="admin-glass-card p-4">
         <form method="POST" action="<?= htmlspecialchars(mm_admin_url('series/save.php')) ?>" enctype="multipart/form-data">
             <?php echo CSRF::campoFormulario(); ?>

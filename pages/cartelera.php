@@ -187,7 +187,6 @@ function mm_build_page_url(array $queryBase, int $paginaDestino): string {
                                             <?php endif; ?>
                                         <?php endfor; ?>
                                     </span>
-                                    <small class="text-muted">(<?= number_format((float)$p['media_puntuacion'], 1) ?>/5)</small>
                                 </div>
                             <?php endif; ?>
 

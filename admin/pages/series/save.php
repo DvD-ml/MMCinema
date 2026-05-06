@@ -29,15 +29,25 @@ if ($titulo === '' || $sinopsis === '') {
 // Procesar poster
 $poster = $_POST['poster_actual'] ?? '';
 if (isset($_FILES['poster_file']) && $_FILES['poster_file']['error'] === UPLOAD_ERR_OK) {
-    $posterAnterior = $_POST['poster_actual'] ?? null;
-    $poster = mm_upload_image($_FILES['poster_file'], 'assets/img/series/posters', 'serie_poster', $posterAnterior);
+    try {
+        $posterAnterior = $_POST['poster_actual'] ?? null;
+        $poster = mm_upload_image($_FILES['poster_file'], 'assets/img/series/posters', 'serie_poster', $posterAnterior);
+    } catch (Throwable $e) {
+        header("Location: form.php?id=" . $id . "&error=imagen");
+        exit();
+    }
 }
 
 // Procesar banner
 $banner = $_POST['banner_actual'] ?? '';
 if (isset($_FILES['banner_file']) && $_FILES['banner_file']['error'] === UPLOAD_ERR_OK) {
-    $bannerAnterior = $_POST['banner_actual'] ?? null;
-    $banner = mm_upload_image($_FILES['banner_file'], 'assets/img/series/banners', 'serie_banner', $bannerAnterior);
+    try {
+        $bannerAnterior = $_POST['banner_actual'] ?? null;
+        $banner = mm_upload_image($_FILES['banner_file'], 'assets/img/series/banners', 'serie_banner', $bannerAnterior);
+    } catch (Throwable $e) {
+        header("Location: form.php?id=" . $id . "&error=imagen");
+        exit();
+    }
 }
 
 // Normalizar valores

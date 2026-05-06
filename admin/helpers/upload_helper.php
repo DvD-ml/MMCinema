@@ -36,7 +36,8 @@ if (!function_exists('mm_upload_image')) {
 
             return $relativeDir . '/' . $nombreFinal;
         } catch (Throwable $e) {
-            return $oldRelativePath;
+            error_log("Error subiendo imagen a {$relativeDir}: " . $e->getMessage());
+            throw new RuntimeException($e->getMessage(), 0, $e);
         }
     }
 }

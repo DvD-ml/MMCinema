@@ -4,6 +4,8 @@
  */
 
 document.addEventListener('DOMContentLoaded', function() {
+    const isTouchMobile = window.matchMedia('(max-width: 768px)').matches;
+
     // Mejorar scroll en contenedores de favoritas
     const letterboxdScroll = document.querySelector('.letterboxd-scroll-container');
     const listaScroll = document.querySelector('.lista-scroll-container');
@@ -22,7 +24,13 @@ document.addEventListener('DOMContentLoaded', function() {
     //     addScrollIndicator(tableWrap, 'Desliza para ver más datos →');
     // }
     
-    // Mejorar experiencia de scroll con momentum
+    // En movil dejamos el scroll nativo del dedo para evitar saltos y bloqueos.
+    if (isTouchMobile) {
+        smoothScroll();
+        return;
+    }
+
+    // Mejorar experiencia de scroll con momentum en escritorio.
     enableMomentumScroll(letterboxdScroll);
     enableMomentumScroll(listaScroll);
     enableMomentumScroll(tableWrap);

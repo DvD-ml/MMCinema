@@ -265,10 +265,9 @@ if (isset($queryBase['pagina'])) {
 
                                     <div class="premium-rating mb-2">
                                         <?= estrellasSerie((float)$serie['puntuacion_media']) ?>
-                                        <small><?= number_format((float)$serie['puntuacion_media'], 1) ?>/5</small>
                                     </div>
 
-                                    <small><?= (int)$serie['total_criticas'] ?> crítica(s)</small>
+                                    <small><?= (int)$serie['total_criticas'] ?> críticas</small>
 
                                     <a href="../pages/serie.php?id=<?= (int)$serie['id'] ?>" class="btn btn-primary w-100">
                                         Ver serie
