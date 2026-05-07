@@ -41,7 +41,7 @@ try {
     <?php if (isset($_GET['ok'])): ?>
         <?php $usuarioActualizado = ($_GET['ok'] ?? '') === 'updated'; ?>
         <div class="admin-alert-inline success">
-            <div class="admin-alert-icon">✓</div>
+            <div class="admin-alert-icon">&#10003;</div>
             <div class="admin-alert-content">
                 <div class="admin-alert-title"><?= $usuarioActualizado ? 'Usuario modificado' : 'Usuario creado' ?></div>
                 <div class="admin-alert-message"><?= $usuarioActualizado ? 'El usuario se ha modificado correctamente.' : 'El usuario se ha creado correctamente.' ?></div>
@@ -51,7 +51,7 @@ try {
 
     <?php if (isset($_GET['deleted']) || isset($_GET['borrado'])): ?>
         <div class="admin-alert-inline success">
-            <div class="admin-alert-icon">✓</div>
+            <div class="admin-alert-icon">&#10003;</div>
             <div class="admin-alert-content">
                 <div class="admin-alert-title">Usuario eliminado</div>
                 <div class="admin-alert-message">El usuario se ha eliminado correctamente.</div>
@@ -61,7 +61,7 @@ try {
 
     <?php if (isset($_GET['error'])): ?>
         <div class="admin-alert-inline error">
-            <div class="admin-alert-icon">✕</div>
+            <div class="admin-alert-icon">&#10005;</div>
             <div class="admin-alert-content">
                 <div class="admin-alert-title">Error</div>
                 <div class="admin-alert-message">
@@ -72,6 +72,12 @@ try {
                             break;
                         case 'username':
                             echo "Ya existe otro usuario con ese nombre de usuario.";
+                            break;
+                        case 'length':
+                            echo "El usuario y el email no pueden superar 50 caracteres.";
+                            break;
+                        case 'email_invalid':
+                            echo "El email no tiene un formato válido.";
                             break;
                         case 'password':
                             echo "Debes indicar una contraseña al crear un usuario.";
@@ -142,7 +148,6 @@ try {
 
 </body>
 </html>
-
 
 
 

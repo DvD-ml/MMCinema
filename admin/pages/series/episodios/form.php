@@ -6,11 +6,6 @@ require_once __DIR__ . "/../../../../config/conexion.php";
 require_once __DIR__ . "/../../../helpers/series_admin_ui.php";
 require_once __DIR__ . "/../../../../helpers/CSRF.php";
 
-if (empty($_SESSION['rol']) || $_SESSION['rol'] !== 'admin') {
-    header("Location: ../login.php");
-    exit;
-}
-
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $modoEdicion = $id > 0;
 

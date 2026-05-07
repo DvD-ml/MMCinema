@@ -166,7 +166,7 @@ try {
     <?php if (isset($_GET['ok'])): ?>
         <?php $proyeccionActualizada = ($_GET['ok'] ?? '') === 'updated'; ?>
         <div class="admin-alert-inline success">
-            <div class="admin-alert-icon">✓</div>
+            <div class="admin-alert-icon">&#10003;</div>
             <div class="admin-alert-content">
                 <div class="admin-alert-title"><?= $proyeccionActualizada ? 'Proyección modificada' : 'Proyección creada' ?></div>
                 <div class="admin-alert-message"><?= $proyeccionActualizada ? 'La proyección se ha modificado correctamente.' : 'La proyección se ha creado correctamente.' ?></div>
@@ -176,7 +176,7 @@ try {
 
     <?php if (isset($_GET['deleted']) || isset($_GET['borrado'])): ?>
         <div class="admin-alert-inline success">
-            <div class="admin-alert-icon">✓</div>
+            <div class="admin-alert-icon">&#10003;</div>
             <div class="admin-alert-content">
                 <div class="admin-alert-title">Proyección eliminada</div>
                 <div class="admin-alert-message">La proyección se ha eliminado correctamente.</div>
@@ -186,7 +186,7 @@ try {
 
     <?php if (isset($_GET['error'])): ?>
         <div class="admin-alert-inline error">
-            <div class="admin-alert-icon">✕</div>
+            <div class="admin-alert-icon">&#10005;</div>
             <div class="admin-alert-content">
                 <div class="admin-alert-title">Error</div>
                 <div class="admin-alert-message">No se pudo procesar la proyección.</div>

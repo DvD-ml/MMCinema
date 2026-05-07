@@ -48,7 +48,7 @@ function mm_pdf_image_path(?string $absolutePath): ?string {
 
 function generarPdfTicketGuardado(array $ticket): string
 {
-    $carpetaTickets = __DIR__ . '/../tickets';
+    $carpetaTickets = __DIR__ . '/../storage/tickets';
     if (!is_dir($carpetaTickets)) {
         mkdir($carpetaTickets, 0777, true);
     }

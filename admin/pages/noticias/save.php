@@ -28,6 +28,7 @@ $beforeSave = function(&$data, $pdo) {
                 $imagenActual !== '' ? $imagenActual : null
             );
         } catch (Throwable $e) {
+            error_log("Error procesando imagen de noticia: " . $e->getMessage());
             header("Location: list.php?error=imagen");
             exit();
         }

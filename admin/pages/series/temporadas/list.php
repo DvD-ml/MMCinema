@@ -73,8 +73,8 @@ try {
                             <td><?= (int)$temporada['id'] ?></td>
                             <td><?= htmlspecialchars($temporada['serie_titulo']) ?></td>
                             <td><?= (int)$temporada['numero_temporada'] ?></td>
-                            <td><?= htmlspecialchars($temporada['titulo'] ?? '—') ?></td>
-                            <td><?= !empty($temporada['fecha_estreno']) ? htmlspecialchars($temporada['fecha_estreno']) : '—' ?></td>
+                            <td><?= htmlspecialchars($temporada['titulo'] ?? '-') ?></td>
+                            <td><?= !empty($temporada['fecha_estreno']) ? htmlspecialchars($temporada['fecha_estreno']) : '-' ?></td>
                             <td>
                                 <div class="acciones">
                                     <a href="<?= htmlspecialchars(mm_admin_url('series/temporadas/form.php') . '?id=' . (int)$temporada['id']) ?>" class="btn btn-sm btn-primary">Editar</a>
@@ -99,7 +99,3 @@ try {
 </div>
 </body>
 </html>
-
-
-
-

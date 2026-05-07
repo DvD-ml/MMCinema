@@ -28,6 +28,7 @@ $beforeSave = function(&$data, $pdo) {
                 $posterActual !== '' ? $posterActual : null
             );
         } catch (Throwable $e) {
+            error_log("Error procesando poster de pelicula: " . $e->getMessage());
             header("Location: list.php?error=imagen");
             exit();
         }

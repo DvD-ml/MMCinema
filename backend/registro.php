@@ -33,13 +33,13 @@ if ($username === '' || $email === '' || $pass1 === '' || $pass2 === '') {
 }
 
 // Validar longitud de username
-if (strlen($username) > 25) {
+if (mb_strlen($username, 'UTF-8') > 50) {
     header("Location: ../pages/registro.php?error=username_largo");
     exit();
 }
 
 // Validar longitud de email
-if (strlen($email) > 25) {
+if (mb_strlen($email, 'UTF-8') > 50) {
     header("Location: ../pages/registro.php?error=email_largo");
     exit();
 }

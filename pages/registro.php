@@ -27,11 +27,11 @@ if (!empty($_SESSION['usuario_id'])) {
     <?php endif; ?>
 
     <?php if (isset($_GET['error']) && $_GET['error'] === 'username_largo'): ?>
-      <div class="alert alert-danger">El nombre de usuario no puede exceder 25 caracteres.</div>
+      <div class="alert alert-danger">El nombre de usuario no puede exceder 50 caracteres.</div>
     <?php endif; ?>
 
     <?php if (isset($_GET['error']) && $_GET['error'] === 'email_largo'): ?>
-      <div class="alert alert-danger">El email no puede exceder 25 caracteres.</div>
+      <div class="alert alert-danger">El email no puede exceder 50 caracteres.</div>
     <?php endif; ?>
 
     <?php if (isset($_GET['error']) && $_GET['error'] === 'email_invalido'): ?>
@@ -64,9 +64,9 @@ if (!empty($_SESSION['usuario_id'])) {
           name="username" 
           class="form-control" 
           autocomplete="username"
-          maxlength="25"
+          maxlength="50"
           required>
-        <small class="form-text text-muted">Máximo 25 caracteres</small>
+        <small class="form-text text-muted">Máximo 50 caracteres</small>
       </div>
 
       <div class="mb-3">
@@ -115,6 +115,5 @@ if (!empty($_SESSION['usuario_id'])) {
 
 <?php include __DIR__ . "/../components/footer.php"; ?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<?php // include "../includes/lenis-scripts.php"; // Lenis desactivado ?>
 </body>
 </html>

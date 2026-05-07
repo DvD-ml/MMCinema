@@ -59,7 +59,7 @@ try {
     <?php if (isset($_GET['ok'])): ?>
         <?php $criticaActualizada = ($_GET['ok'] ?? '') === 'updated'; ?>
         <div class="admin-alert-inline success">
-            <div class="admin-alert-icon">✓</div>
+            <div class="admin-alert-icon">&#10003;</div>
             <div class="admin-alert-content">
                 <div class="admin-alert-title"><?= $criticaActualizada ? 'Crítica modificada' : 'Crítica creada' ?></div>
                 <div class="admin-alert-message"><?= $criticaActualizada ? 'La crítica se ha modificado correctamente.' : 'La crítica se ha creado correctamente.' ?></div>
@@ -69,7 +69,7 @@ try {
 
     <?php if (isset($_GET['deleted']) || isset($_GET['borrado'])): ?>
         <div class="admin-alert-inline success">
-            <div class="admin-alert-icon">✓</div>
+            <div class="admin-alert-icon">&#10003;</div>
             <div class="admin-alert-content">
                 <div class="admin-alert-title">Crítica eliminada</div>
                 <div class="admin-alert-message">La crítica se ha eliminado correctamente.</div>
@@ -79,7 +79,7 @@ try {
 
     <?php if (isset($_GET['error'])): ?>
         <div class="admin-alert-inline error">
-            <div class="admin-alert-icon">✕</div>
+            <div class="admin-alert-icon">&#10005;</div>
             <div class="admin-alert-content">
                 <div class="admin-alert-title">Error</div>
                 <div class="admin-alert-message">No se pudo guardar la crítica. Revisa todos los datos.</div>

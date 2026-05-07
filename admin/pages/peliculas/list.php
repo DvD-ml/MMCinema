@@ -39,7 +39,7 @@ try {
     <?php if (isset($_GET['ok'])): ?>
         <?php $peliculaActualizada = ($_GET['ok'] ?? '') === 'updated'; ?>
         <div class="admin-alert-inline success">
-            <div class="admin-alert-icon">✓</div>
+            <div class="admin-alert-icon">&#10003;</div>
             <div class="admin-alert-content">
                 <div class="admin-alert-title"><?= $peliculaActualizada ? 'Película modificada' : 'Película creada' ?></div>
                 <div class="admin-alert-message"><?= $peliculaActualizada ? 'La película se ha modificado correctamente.' : 'La película se ha creado correctamente.' ?></div>
@@ -49,7 +49,7 @@ try {
 
     <?php if (isset($_GET['deleted'])): ?>
         <div class="admin-alert-inline success">
-            <div class="admin-alert-icon">✓</div>
+            <div class="admin-alert-icon">&#10003;</div>
             <div class="admin-alert-content">
                 <div class="admin-alert-title">Película eliminada</div>
                 <div class="admin-alert-message">La película se ha eliminado correctamente.</div>
@@ -57,9 +57,9 @@ try {
         </div>
     <?php endif; ?>
 
-    <?php if (isset($_GET['error'])): ?>
+    <?php if (isset($_GET['error']) && $_GET['error'] !== 'imagen'): ?>
         <div class="admin-alert-inline error">
-            <div class="admin-alert-icon">✕</div>
+            <div class="admin-alert-icon">&#10005;</div>
             <div class="admin-alert-content">
                 <div class="admin-alert-title">Error</div>
                 <div class="admin-alert-message">Ha ocurrido un error al procesar la película.</div>
@@ -69,7 +69,7 @@ try {
 
     <?php if (isset($_GET['error']) && $_GET['error'] === 'imagen'): ?>
         <div class="admin-alert-inline warning">
-            <div class="admin-alert-icon">⚠</div>
+            <div class="admin-alert-icon">!</div>
             <div class="admin-alert-content">
                 <div class="admin-alert-title">Error en la imagen</div>
                 <div class="admin-alert-message">No se pudo procesar la imagen. Intenta con otro archivo.</div>
@@ -124,9 +124,3 @@ try {
 </div>
 </body>
 </html>
-
-
-
-
-
-

@@ -57,9 +57,11 @@ if ($modoEdicion) {
                     type="text"
                     name="username"
                     class="form-control"
+                    maxlength="50"
                     required
                     value="<?= htmlspecialchars($usuario['username']) ?>"
                 >
+                <small class="form-text text-muted">Máximo 50 caracteres</small>
             </div>
 
             <div class="mb-3">
@@ -68,9 +70,11 @@ if ($modoEdicion) {
                     type="email"
                     name="email"
                     class="form-control"
+                    maxlength="50"
                     required
                     value="<?= htmlspecialchars($usuario['email']) ?>"
                 >
+                <small class="form-text text-muted">Máximo 50 caracteres</small>
             </div>
 
             <div class="mb-3">

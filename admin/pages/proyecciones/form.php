@@ -192,7 +192,7 @@ $salas = $pdo->query("SELECT sala FROM sala_config ORDER BY sala ASC")->fetchAll
 
     <?php if (isset($_GET['deleted'])): ?>
         <div class="admin-alert-inline success">
-            <div class="admin-alert-icon">✓</div>
+            <div class="admin-alert-icon">&#10003;</div>
             <div class="admin-alert-content">
                 <div class="admin-alert-title">Proyección eliminada</div>
                 <div class="admin-alert-message">La proyección se ha eliminado correctamente.</div>
@@ -202,7 +202,7 @@ $salas = $pdo->query("SELECT sala FROM sala_config ORDER BY sala ASC")->fetchAll
 
     <?php if (isset($_GET['error'])): ?>
         <div class="admin-alert-inline error">
-            <div class="admin-alert-icon">✕</div>
+            <div class="admin-alert-icon">&#10005;</div>
             <div class="admin-alert-content">
                 <div class="admin-alert-title">Error</div>
                 <div class="admin-alert-message">

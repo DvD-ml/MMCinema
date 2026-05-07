@@ -20,6 +20,16 @@ if ($username === '' || $email === '' || !in_array($rol, ['admin', 'usuario'], t
     exit();
 }
 
+if (mb_strlen($username, 'UTF-8') > 50 || mb_strlen($email, 'UTF-8') > 50) {
+    header("Location: list.php?error=length");
+    exit();
+}
+
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    header("Location: list.php?error=email_invalid");
+    exit();
+}
+
 // Validar contraseña si es nueva o se está cambiando
 if ($id <= 0 && $password === '') {
     // Crear nuevo usuario sin contraseña
@@ -79,7 +89,6 @@ if ($id > 0) {
 header("Location: list.php?ok=" . $action);
 exit();
 ?>
-
 
 
 

@@ -366,7 +366,7 @@ function toggleActivo($id) {
 
     <?php if ($mensaje): ?>
         <div class="admin-alert-inline <?= $tipo_mensaje === 'success' ? 'success' : 'error' ?>">
-            <div class="admin-alert-icon"><?= $tipo_mensaje === 'success' ? '✓' : '✕' ?></div>
+            <div class="admin-alert-icon"><?= $tipo_mensaje === 'success' ? '&#10003;' : '&#10005;' ?></div>
             <div class="admin-alert-content">
                 <div class="admin-alert-title"><?= $tipo_mensaje === 'success' ? 'Éxito' : 'Error' ?></div>
                 <div class="admin-alert-message"><?= htmlspecialchars($mensaje) ?></div>
@@ -428,7 +428,7 @@ function toggleActivo($id) {
                                         <input type="hidden" name="accion" value="toggle_activo">
                                         <input type="hidden" name="id" value="<?= $slide['id'] ?>">
                                         <button type="submit" class="btn btn-sm <?= $slide['activo'] ? 'btn-success' : 'btn-secondary' ?>">
-                                            <?= $slide['activo'] ? '✓ Activo' : '✕ Inactivo' ?>
+                                            <?= $slide['activo'] ? '&#10003; Activo' : '&#10005; Inactivo' ?>
                                         </button>
                                     </form>
                                 </td>

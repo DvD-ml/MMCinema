@@ -28,6 +28,7 @@ if (isset($_FILES['poster_file']) && $_FILES['poster_file']['error'] === UPLOAD_
         $posterAnterior = $_POST['poster_actual'] ?? null;
         $poster = mm_upload_image($_FILES['poster_file'], 'assets/img/series/temporadas', 'temporada_poster', $posterAnterior);
     } catch (Throwable $e) {
+        error_log("Error procesando poster de temporada: " . $e->getMessage());
         header("Location: form.php?id=" . $id . "&id_serie=" . $id_serie . "&error=imagen");
         exit();
     }

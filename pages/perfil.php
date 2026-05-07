@@ -96,7 +96,7 @@ try {
     $stmCS->execute([$usuario_id]);
     $criticasSeries = $stmCS->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-    // Tabla critica_serie no existe todav�a
+    // Tabla critica_serie no existe todavia
     $criticasSeries = [];
 }
 
@@ -151,7 +151,7 @@ try {
     $stmFavSer->execute([$usuario_id]);
     $favoritasSeries = $stmFavSer->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-    // Tabla favorito_serie no existe todav�a
+    // Tabla favorito_serie no existe todavia
     $favoritasSeries = [];
 }
 
@@ -715,7 +715,6 @@ if ($count_val > 0) {
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="../assets/js/mobile-scroll.js"></script>
-<?php // include "../includes/lenis-scripts.php"; // Lenis desactivado ?>
 <script>
 document.querySelectorAll('.perfil-tab').forEach(btn => {
     btn.addEventListener('click', () => {

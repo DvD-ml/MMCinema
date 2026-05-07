@@ -42,7 +42,7 @@ class CSRF {
         return $html;
     }
 
-    public static function validarOAbortar($mensajeError = 'Token CSRF inválido') {
+    public static function validarOAbortar($mensajeError = 'Token CSRF invalido') {
         $token = null;
         
         if (isset($_POST['csrf_token'])) {

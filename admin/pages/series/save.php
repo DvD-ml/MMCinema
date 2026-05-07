@@ -33,6 +33,7 @@ if (isset($_FILES['poster_file']) && $_FILES['poster_file']['error'] === UPLOAD_
         $posterAnterior = $_POST['poster_actual'] ?? null;
         $poster = mm_upload_image($_FILES['poster_file'], 'assets/img/series/posters', 'serie_poster', $posterAnterior);
     } catch (Throwable $e) {
+        error_log("Error procesando poster de serie: " . $e->getMessage());
         header("Location: form.php?id=" . $id . "&error=imagen");
         exit();
     }
@@ -45,6 +46,7 @@ if (isset($_FILES['banner_file']) && $_FILES['banner_file']['error'] === UPLOAD_
         $bannerAnterior = $_POST['banner_actual'] ?? null;
         $banner = mm_upload_image($_FILES['banner_file'], 'assets/img/series/banners', 'serie_banner', $bannerAnterior);
     } catch (Throwable $e) {
+        error_log("Error procesando banner de serie: " . $e->getMessage());
         header("Location: form.php?id=" . $id . "&error=imagen");
         exit();
     }
@@ -53,6 +55,8 @@ if (isset($_FILES['banner_file']) && $_FILES['banner_file']['error'] === UPLOAD_
 // Normalizar valores
 $fecha_estreno = ($fecha_estreno !== '' && $fecha_estreno !== null) ? $fecha_estreno : null;
 $trailer = ($trailer !== '') ? $trailer : null;
+$id_genero = $id_genero > 0 ? $id_genero : null;
+$id_plataforma = $id_plataforma > 0 ? $id_plataforma : null;
 
 try {
     if ($id > 0) {

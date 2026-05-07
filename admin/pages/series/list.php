@@ -67,7 +67,7 @@ try {
     <?php if (isset($_GET['ok'])): ?>
         <?php $serieActualizada = ($_GET['ok'] ?? '') === 'updated'; ?>
         <div class="admin-alert-inline success">
-            <div class="admin-alert-icon">✓</div>
+            <div class="admin-alert-icon">&#10003;</div>
             <div class="admin-alert-content">
                 <div class="admin-alert-title"><?= $serieActualizada ? 'Serie modificada' : 'Serie creada' ?></div>
                 <div class="admin-alert-message"><?= $serieActualizada ? 'La serie se ha modificado correctamente.' : 'La serie se ha creado correctamente.' ?></div>
@@ -77,7 +77,7 @@ try {
 
     <?php if (isset($_GET['deleted']) || isset($_GET['borrado'])): ?>
         <div class="admin-alert-inline success">
-            <div class="admin-alert-icon">✓</div>
+            <div class="admin-alert-icon">&#10003;</div>
             <div class="admin-alert-content">
                 <div class="admin-alert-title">Serie eliminada</div>
                 <div class="admin-alert-message">La serie se ha eliminado correctamente.</div>
@@ -105,23 +105,20 @@ try {
                 <?php foreach ($series as $serie): ?>
                     <tr>
                         <td><?= (int)$serie['id'] ?></td>
-
                         <td>
                             <?php if (!empty($serie['poster'])): ?>
                                 <img src="<?= htmlspecialchars(mm_asset_url($serie['poster'])) ?>" alt="<?= htmlspecialchars($serie['titulo']) ?>" style="width:60px;height:90px;object-fit:cover;border-radius:8px;">
                             <?php else: ?>
-                                —
+                                -
                             <?php endif; ?>
                         </td>
-
                         <td><?= htmlspecialchars($serie['titulo']) ?></td>
-                        <td><?= htmlspecialchars($serie['plataforma_nombre'] ?? '—') ?></td>
-                        <td><?= htmlspecialchars($serie['genero_nombre'] ?? '—') ?></td>
+                        <td><?= htmlspecialchars($serie['plataforma_nombre'] ?? '-') ?></td>
+                        <td><?= htmlspecialchars($serie['genero_nombre'] ?? '-') ?></td>
                         <td><?= htmlspecialchars($serie['estado']) ?></td>
                         <td><?= (int)$serie['destacada'] === 1 ? 'Sí' : 'No' ?></td>
                         <td><?= number_format((float)$serie['puntuacion_media'], 1) ?></td>
                         <td><?= (int)$serie['total_criticas'] ?></td>
-
                         <td>
                             <div class="acciones">
                                 <a href="<?= htmlspecialchars(mm_admin_url('series/form.php') . '?id=' . (int)$serie['id']) ?>" class="btn btn-sm btn-primary">Editar</a>
@@ -147,7 +144,3 @@ try {
 </div>
 </body>
 </html>
-
-
-
-

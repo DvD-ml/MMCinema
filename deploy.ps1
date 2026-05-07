@@ -1,137 +1,131 @@
-# ============================================
-# SCRIPT DE DEPLOY - MMCINEMA ADMIN PANEL
-# ============================================
+# Despliegue unico de MMCINEMA.
+# Ejecuta: .\deploy.ps1
 
-Write-Host "╔════════════════════════════════════════════════════════════╗" -ForegroundColor Cyan
-Write-Host "║                                                            ║" -ForegroundColor Cyan
-Write-Host "║         🚀 DEPLOY PANEL ADMIN MEJORADO - MMCINEMA         ║" -ForegroundColor Cyan
-Write-Host "║                                                            ║" -ForegroundColor Cyan
-Write-Host "╚════════════════════════════════════════════════════════════╝" -ForegroundColor Cyan
-Write-Host ""
-
-# Pedir datos del servidor
-$SERVER_IP = Read-Host "📍 IP del servidor"
-$SSH_USER = Read-Host "👤 Usuario SSH (ej: root)"
-$SSH_PASS = Read-Host "🔐 Contraseña SSH" -AsSecureString
-$PROJECT_PATH = Read-Host "📁 Ruta del proyecto en servidor (ej: /var/www/mmcinema)"
-
-# Convertir contraseña segura a texto plano
-$BSTR = [System.Runtime.InteropServices.Marshal]::SecureStringToGlobalAllocUnicode($SSH_PASS)
-$SSH_PASS_TEXT = [System.Runtime.InteropServices.Marshal]::PtrToStringUni($BSTR)
-[System.Runtime.InteropServices.Marshal]::ZeroFreeGlobalAllocUnicode($BSTR)
-
-# Validar que no estén vacíos
-if ([string]::IsNullOrEmpty($SERVER_IP) -or [string]::IsNullOrEmpty($SSH_USER) -or [string]::IsNullOrEmpty($SSH_PASS_TEXT) -or [string]::IsNullOrEmpty($PROJECT_PATH)) {
-    Write-Host "❌ Error: Todos los campos son requeridos" -ForegroundColor Red
-    exit 1
-}
-
-Write-Host ""
-Write-Host "📦 Preparando archivos para deploy..." -ForegroundColor Yellow
-Write-Host ""
-
-# Crear archivo zip con los cambios
-$timestamp = Get-Date -Format "yyyyMMdd_HHmmss"
-$zipFile = "mmcinema_admin_fix_$timestamp.zip"
-
-# Archivos a incluir
-$filesToZip = @(
-    "admin/admin_header.php",
-    "admin/pages/dashboard/index.php",
-    "admin/crud/form.php",
-    "admin/pages/series/panel.php",
-    "assets/css/admin.css",
-    "assets/css/admin-alerts.css",
-    "assets/js/admin-search.js",
-    "assets/js/admin-forms.js"
+param(
+    [string]$Server = "200.234.233.50",
+    [string]$User = "root",
+    [int]$Port = 22,
+    [string]$RemotePath = "/var/www/html/mmcinema",
+    [switch]$SkipMigrations
 )
 
-# Crear ZIP
-Compress-Archive -Path $filesToZip -DestinationPath $zipFile -Force
+$ErrorActionPreference = "Stop"
 
-Write-Host "✅ Archivo creado: $zipFile" -ForegroundColor Green
-Write-Host ""
-Write-Host "📤 Subiendo archivos al servidor..." -ForegroundColor Yellow
-Write-Host ""
-
-# Crear comando SCP usando sshpass (si está disponible) o plink
-$sshpassPath = "C:\Program Files\Git\usr\bin\sshpass.exe"
-$plinkPath = "C:\Program Files\PuTTY\plink.exe"
-
-if (Test-Path $sshpassPath) {
-    # Usar sshpass
-    & $sshpassPath -p $SSH_PASS_TEXT scp -o StrictHostKeyChecking=no $zipFile "$SSH_USER@$SERVER_IP`:/tmp/"
-} elseif (Test-Path $plinkPath) {
-    # Usar plink (PuTTY)
-    Write-Host "⚠️  Usando PuTTY plink (requiere confirmación manual)" -ForegroundColor Yellow
-    & $plinkPath -l $SSH_USER -pw $SSH_PASS_TEXT -P 22 $SERVER_IP "cd /tmp && echo 'Listo para recibir archivos'"
-} else {
-    Write-Host "❌ Error: No se encontró sshpass o plink" -ForegroundColor Red
-    Write-Host "Instala Git Bash o PuTTY para continuar" -ForegroundColor Red
-    exit 1
+$localRoot = $PSScriptRoot
+if ([string]::IsNullOrWhiteSpace($localRoot)) {
+    $localRoot = (Get-Location).Path
 }
 
-if ($LASTEXITCODE -eq 0) {
-    Write-Host "✅ Archivo subido correctamente" -ForegroundColor Green
-    Write-Host ""
-    Write-Host "🔧 Aplicando cambios en el servidor..." -ForegroundColor Yellow
-    Write-Host ""
-    
-    # Ejecutar comandos en el servidor
-    $commands = @"
-cd $PROJECT_PATH
-unzip -o /tmp/$zipFile
-echo '✅ Archivos extraídos'
-echo ''
-echo '📊 Cambios aplicados:'
-echo '  ✏️  admin/admin_header.php'
-echo '  ✏️  admin/pages/dashboard/index.php'
-echo '  ✏️  admin/crud/form.php'
-echo '  ✏️  admin/pages/series/panel.php'
-echo '  ✏️  assets/css/admin.css'
-echo '  ✏️  assets/css/admin-alerts.css'
-echo '  ✨ assets/js/admin-search.js'
-echo '  ✨ assets/js/admin-forms.js'
-echo ''
-echo '🧹 Limpiando archivos temporales...'
-rm /tmp/$zipFile
-echo '✅ Limpieza completada'
+$timestamp = Get-Date -Format "yyyyMMdd_HHmmss"
+$packageName = "mmcinema_deploy_$timestamp.tar.gz"
+$packagePath = Join-Path $env:TEMP $packageName
+$remotePackage = "/tmp/$packageName"
+
+$excludeArgs = @(
+    "--exclude=.git",
+    "--exclude=.env",
+    "--exclude=logs/*",
+    "--exclude=storage/cache/*",
+    "--exclude=storage/logs/*",
+    "--exclude=storage/tickets/*.pdf",
+    "--exclude=tickets/*.pdf",
+    "--exclude=*.tmp",
+    "--exclude=*.bak"
+)
+
+function Invoke-CheckedCommand {
+    param(
+        [Parameter(Mandatory = $true)]
+        [scriptblock]$Command,
+        [Parameter(Mandatory = $true)]
+        [string]$ErrorMessage
+    )
+
+    & $Command
+    if ($LASTEXITCODE -ne 0) {
+        throw $ErrorMessage
+    }
+}
+
+Set-Location -LiteralPath $localRoot
+
+$requiredRuntimeFiles = @(
+    "vendor/autoload.php",
+    "vendor/composer/autoload_static.php",
+    "vendor/composer/installed.php"
+)
+
+foreach ($requiredFile in $requiredRuntimeFiles) {
+    if (-not (Test-Path -LiteralPath (Join-Path $localRoot $requiredFile))) {
+        throw "Falta $requiredFile. Ejecuta composer install antes de desplegar."
+    }
+}
+
+if (Test-Path -LiteralPath $packagePath) {
+    Remove-Item -LiteralPath $packagePath -Force
+}
+
+Write-Host "Creando paquete unico: $packagePath" -ForegroundColor Cyan
+Invoke-CheckedCommand `
+    -Command { & tar -czf $packagePath @excludeArgs -C $localRoot . } `
+    -ErrorMessage "No se pudo crear el paquete tar.gz"
+
+Write-Host "Subiendo paquete a ${User}@${Server}:$remotePackage" -ForegroundColor Cyan
+Invoke-CheckedCommand `
+    -Command { & scp -P $Port $packagePath "${User}@${Server}:$remotePackage" } `
+    -ErrorMessage "Fallo subiendo el paquete por scp"
+
+$migrationCommand = ""
+if (-not $SkipMigrations) {
+    $migrationCommand = "if [ -f '$RemotePath/database/migrations/007_usuario_email_username_50.php' ]; then php '$RemotePath/database/migrations/007_usuario_email_username_50.php'; fi;"
+}
+
+$remoteCommand = @"
+set -e
+mkdir -p '$RemotePath'
+tar -xzf '$remotePackage' -C '$RemotePath'
+mkdir -p \
+  '$RemotePath/storage/cache' \
+  '$RemotePath/storage/logs' \
+  '$RemotePath/storage/tickets' \
+  '$RemotePath/assets/img/carrusel' \
+  '$RemotePath/assets/img/logos' \
+  '$RemotePath/assets/img/noticias' \
+  '$RemotePath/assets/img/posters' \
+  '$RemotePath/assets/img/series/banners' \
+  '$RemotePath/assets/img/series/posters' \
+  '$RemotePath/assets/img/series/temporadas'
+$migrationCommand
+rm -f '$RemotePath/admin/pages/series/debug.php' '$RemotePath/admin/pages/series/debug_links.php' '$RemotePath/admin/pages/series/test.php' '$RemotePath/admin/pages/series/test_simple.php'
+rm -f '$remotePackage'
+find '$RemotePath' -type d -exec chmod 755 {} \;
+find '$RemotePath' -type f -exec chmod 644 {} \;
+if id www-data >/dev/null 2>&1; then
+  chown -R www-data:www-data \
+    '$RemotePath/storage' \
+    '$RemotePath/assets/img/carrusel' \
+    '$RemotePath/assets/img/logos' \
+    '$RemotePath/assets/img/noticias' \
+    '$RemotePath/assets/img/posters' \
+    '$RemotePath/assets/img/series'
+fi
+chmod -R 775 \
+  '$RemotePath/storage' \
+  '$RemotePath/assets/img/carrusel' \
+  '$RemotePath/assets/img/logos' \
+  '$RemotePath/assets/img/noticias' \
+  '$RemotePath/assets/img/posters' \
+  '$RemotePath/assets/img/series'
+echo 'Deploy OK'
 "@
 
-    if (Test-Path $sshpassPath) {
-        & $sshpassPath -p $SSH_PASS_TEXT ssh -o StrictHostKeyChecking=no "$SSH_USER@$SERVER_IP" $commands
-    }
-    
-    if ($LASTEXITCODE -eq 0) {
-        Write-Host ""
-        Write-Host "╔════════════════════════════════════════════════════════════╗" -ForegroundColor Green
-        Write-Host "║                                                            ║" -ForegroundColor Green
-        Write-Host "║              ✅ DEPLOY COMPLETADO CON ÉXITO ✅             ║" -ForegroundColor Green
-        Write-Host "║                                                            ║" -ForegroundColor Green
-        Write-Host "╚════════════════════════════════════════════════════════════╝" -ForegroundColor Green
-        Write-Host ""
-        Write-Host "🎉 Tu panel admin ha sido actualizado en el servidor" -ForegroundColor Green
-        Write-Host ""
-        Write-Host "📍 Accede a: http://$SERVER_IP/admin/pages/dashboard/index.php" -ForegroundColor Cyan
-        Write-Host ""
-        Write-Host "✨ Nuevas características:" -ForegroundColor Yellow
-        Write-Host "  • Navegación con iconos" -ForegroundColor White
-        Write-Host "  • Dashboard reorganizado" -ForegroundColor White
-        Write-Host "  • Formularios mejorados" -ForegroundColor White
-        Write-Host "  • Búsqueda en tablas" -ForegroundColor White
-        Write-Host "  • Alertas diferenciadas" -ForegroundColor White
-        Write-Host "  • Panel de series mejorado" -ForegroundColor White
-        Write-Host "  • Validación de formularios" -ForegroundColor White
-        Write-Host ""
-        
-        # Limpiar archivo local
-        Remove-Item $zipFile -Force
-        Write-Host "✅ Archivo local eliminado" -ForegroundColor Green
-    } else {
-        Write-Host "❌ Error al aplicar cambios en el servidor" -ForegroundColor Red
-        exit 1
-    }
-} else {
-    Write-Host "❌ Error al subir archivo al servidor" -ForegroundColor Red
-    exit 1
-}
+Write-Host "Aplicando paquete en el servidor" -ForegroundColor Cyan
+Invoke-CheckedCommand `
+    -Command { & ssh -p $Port "${User}@${Server}" $remoteCommand } `
+    -ErrorMessage "Fallo aplicando el paquete en el servidor"
+
+Remove-Item -LiteralPath $packagePath -Force
+
+Write-Host "Despliegue completado" -ForegroundColor Green
+Write-Host "Web: http://$Server/" -ForegroundColor Green
+Write-Host "Admin: http://$Server/admin/pages/dashboard/index.php" -ForegroundColor Green

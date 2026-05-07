@@ -39,7 +39,7 @@ try {
     <?php if (isset($_GET['ok'])): ?>
         <?php $noticiaActualizada = ($_GET['ok'] ?? '') === 'updated'; ?>
         <div class="admin-alert-inline success">
-            <div class="admin-alert-icon">✓</div>
+            <div class="admin-alert-icon">&#10003;</div>
             <div class="admin-alert-content">
                 <div class="admin-alert-title"><?= $noticiaActualizada ? 'Noticia modificada' : 'Noticia creada' ?></div>
                 <div class="admin-alert-message"><?= $noticiaActualizada ? 'La noticia se ha modificado correctamente.' : 'La noticia se ha creado correctamente.' ?></div>
@@ -49,7 +49,7 @@ try {
 
     <?php if (isset($_GET['deleted']) || isset($_GET['borrado'])): ?>
         <div class="admin-alert-inline success">
-            <div class="admin-alert-icon">✓</div>
+            <div class="admin-alert-icon">&#10003;</div>
             <div class="admin-alert-content">
                 <div class="admin-alert-title">Noticia eliminada</div>
                 <div class="admin-alert-message">La noticia se ha eliminado correctamente.</div>
@@ -59,7 +59,7 @@ try {
 
     <?php if (isset($_GET['error'])): ?>
         <div class="admin-alert-inline error">
-            <div class="admin-alert-icon">✕</div>
+            <div class="admin-alert-icon">&#10005;</div>
             <div class="admin-alert-content">
                 <div class="admin-alert-title">Error</div>
                 <div class="admin-alert-message">

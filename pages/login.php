@@ -201,6 +201,5 @@ document.addEventListener('DOMContentLoaded', function() {
     form.setAttribute('data-form-type', 'login');
 });
 </script>
-<?php // include "../includes/lenis-scripts.php"; // Lenis desactivado ?>
 </body>
 </html>

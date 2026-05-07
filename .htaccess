@@ -29,6 +29,9 @@ Options -Indexes
 # Evitar que se pueda acceder al repositorio desde la web
 RedirectMatch 404 /\.git
 
+# Bloquear carpetas internas/runtime
+RedirectMatch 404 ^/(config|database|helpers|includes|scripts|storage|tests|vendor)(/|$)
+
 # Cache de archivos estaticos: reduce mucha carga y hace la pagina mas rapida
 <IfModule mod_expires.c>
     ExpiresActive On

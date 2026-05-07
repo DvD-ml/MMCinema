@@ -29,6 +29,50 @@ function mm_borrar_archivo_si_existe(string $ruta): void
     }
 }
 
+function mm_extension_desde_mime(string $mime): string
+{
+    return match ($mime) {
+        'image/jpeg' => 'jpg',
+        'image/png' => 'png',
+        'image/webp' => 'webp',
+        'image/avif' => 'avif',
+        default => 'img',
+    };
+}
+
+function mm_guardar_imagen_original_validada(
+    array $file,
+    string $carpetaDestino,
+    string $nombreBase,
+    string $mime,
+    ?string $archivoAnterior = null
+): string {
+    if (!is_dir($carpetaDestino)) {
+        if (!mkdir($carpetaDestino, 0777, true) && !is_dir($carpetaDestino)) {
+            throw new Exception("No se pudo crear la carpeta destino.");
+        }
+    }
+
+    if (!is_writable($carpetaDestino)) {
+        throw new Exception("La carpeta destino no tiene permisos de escritura: " . $carpetaDestino);
+    }
+
+    $nombreSeguro = mm_slug_nombre_archivo($nombreBase);
+    $nombreFinal = $nombreSeguro . '_' . date('Ymd_His') . '_' . bin2hex(random_bytes(4)) . '.' . mm_extension_desde_mime($mime);
+    $rutaFinal = rtrim($carpetaDestino, '/\\') . DIRECTORY_SEPARATOR . $nombreFinal;
+
+    if (!move_uploaded_file($file['tmp_name'], $rutaFinal) && !@copy($file['tmp_name'], $rutaFinal)) {
+        throw new Exception("No se pudo guardar la imagen subida.");
+    }
+
+    if (!empty($archivoAnterior)) {
+        $rutaAnterior = rtrim($carpetaDestino, '/\\') . DIRECTORY_SEPARATOR . basename($archivoAnterior);
+        mm_borrar_archivo_si_existe($rutaAnterior);
+    }
+
+    return $nombreFinal;
+}
+
 function mm_crear_imagen_desde_archivo(string $tmpPath, string $mime)
 {
     switch ($mime) {
@@ -70,14 +114,6 @@ function optimizarYGuardarWebp(
     int $maxAlto = 1600,
     ?string $archivoAnterior = null
 ): string {
-    if (!extension_loaded('gd')) {
-        throw new Exception("El servidor no tiene activada la extension GD de PHP.");
-    }
-
-    if (!function_exists('imagewebp')) {
-        throw new Exception("El servidor no soporta guardar imagenes WebP. Activa GD con soporte WebP.");
-    }
-
     if (
         !isset($file['tmp_name']) ||
         !isset($file['error']) ||
@@ -103,6 +139,16 @@ function optimizarYGuardarWebp(
     }
 
     $mime = $info['mime'];
+    $mimesPermitidos = ['image/jpeg', 'image/png', 'image/webp', 'image/avif'];
+    if (!in_array($mime, $mimesPermitidos, true)) {
+        throw new Exception("Formato no permitido. Solo JPG, PNG, WEBP o AVIF.");
+    }
+
+    if (!extension_loaded('gd')) {
+        return mm_guardar_imagen_original_validada($file, $carpetaDestino, $nombreBase, $mime, $archivoAnterior);
+    }
+
+    $guardarComoWebp = function_exists('imagewebp');
     $anchoOriginal = (int)$info[0];
     $altoOriginal = (int)$info[1];
 
@@ -110,7 +156,11 @@ function optimizarYGuardarWebp(
         throw new Exception("La imagen tiene dimensiones no válidas.");
     }
 
-    $imagenOriginal = mm_crear_imagen_desde_archivo($file['tmp_name'], $mime);
+    try {
+        $imagenOriginal = mm_crear_imagen_desde_archivo($file['tmp_name'], $mime);
+    } catch (Throwable $e) {
+        return mm_guardar_imagen_original_validada($file, $carpetaDestino, $nombreBase, $mime, $archivoAnterior);
+    }
 
     if (!$imagenOriginal) {
         throw new Exception("No se pudo procesar la imagen.");
@@ -153,20 +203,33 @@ function optimizarYGuardarWebp(
     );
 
     $nombreSeguro = mm_slug_nombre_archivo($nombreBase);
-    $nombreFinal = $nombreSeguro . '_' . date('Ymd_His') . '_' . bin2hex(random_bytes(4)) . '.webp';
+    $extensionFinal = $guardarComoWebp ? 'webp' : 'jpg';
+    $nombreFinal = $nombreSeguro . '_' . date('Ymd_His') . '_' . bin2hex(random_bytes(4)) . '.' . $extensionFinal;
     $rutaFinal = rtrim($carpetaDestino, '/\\') . DIRECTORY_SEPARATOR . $nombreFinal;
 
-    if (!imagewebp($imagenNueva, $rutaFinal, $calidad)) {
+    if ($guardarComoWebp) {
+        $guardado = imagewebp($imagenNueva, $rutaFinal, $calidad);
+    } else {
+        // Fallback para servidores sin soporte WebP: permite que el admin siga subiendo imagenes.
+        $lienzoJpeg = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
+        $fondo = imagecolorallocate($lienzoJpeg, 17, 24, 39);
+        imagefill($lienzoJpeg, 0, 0, $fondo);
+        imagecopy($lienzoJpeg, $imagenNueva, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto);
+        $guardado = imagejpeg($lienzoJpeg, $rutaFinal, max(60, min(95, $calidad)));
+        imagedestroy($lienzoJpeg);
+    }
+
+    if (!$guardado) {
         imagedestroy($imagenOriginal);
         imagedestroy($imagenNueva);
-        throw new Exception("No se pudo guardar la imagen en formato WEBP.");
+        throw new Exception("No se pudo guardar la imagen optimizada.");
     }
 
     imagedestroy($imagenOriginal);
     imagedestroy($imagenNueva);
 
     if (!empty($archivoAnterior)) {
-        $rutaAnterior = rtrim($carpetaDestino, '/\\') . DIRECTORY_SEPARATOR . $archivoAnterior;
+        $rutaAnterior = rtrim($carpetaDestino, '/\\') . DIRECTORY_SEPARATOR . basename($archivoAnterior);
         mm_borrar_archivo_si_existe($rutaAnterior);
     }
 

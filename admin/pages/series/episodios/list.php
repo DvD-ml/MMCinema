@@ -81,8 +81,8 @@ try {
                             <td><?= (int)$episodio['numero_temporada'] ?></td>
                             <td><?= (int)$episodio['numero_episodio'] ?></td>
                             <td><?= htmlspecialchars($episodio['titulo']) ?></td>
-                            <td><?= !empty($episodio['duracion']) ? (int)$episodio['duracion'] . ' min' : '—' ?></td>
-                            <td><?= !empty($episodio['fecha_estreno']) ? htmlspecialchars($episodio['fecha_estreno']) : '—' ?></td>
+                            <td><?= !empty($episodio['duracion']) ? (int)$episodio['duracion'] . ' min' : '-' ?></td>
+                            <td><?= !empty($episodio['fecha_estreno']) ? htmlspecialchars($episodio['fecha_estreno']) : '-' ?></td>
                             <td>
                                 <div class="acciones">
                                     <a href="<?= htmlspecialchars(mm_admin_url('series/episodios/form.php') . '?id=' . (int)$episodio['id']) ?>" class="btn btn-sm btn-primary">Editar</a>
@@ -106,7 +106,3 @@ try {
 </div>
 </body>
 </html>
-
-
-
-

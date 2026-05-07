@@ -2,11 +2,9 @@
 if (session_status() === PHP_SESSION_NONE) session_start();
 
 require_once __DIR__ . "/../config/conexion.php";
-require_once __DIR__ . "/../config/mail.php";
 require_once __DIR__ . "/../helpers/CSRF.php";
-require_once __DIR__ . "/../helpers/generar_ticket_pdf.php";
 
-CSRF::validarOAbortar();
+CSRF::validarOAbortar('Sesion caducada. Vuelve atras, recarga la pagina de reserva e intentalo de nuevo.');
 
 if (!isset($_SESSION['usuario_id'])) {
     header("Location: ../pages/login.php");
@@ -41,7 +39,7 @@ $stmUsuario->execute([$id_usuario]);
 $usuario = $stmUsuario->fetch(PDO::FETCH_ASSOC);
 
 if (!$usuario) {
-    die("Usuario no válido.");
+    die("Usuario no valido.");
 }
 
 $stm = $pdo->prepare("
@@ -78,7 +76,7 @@ function mm_asiento_valido($a, $numFilas, $numCols)
 
 foreach ($asientos as $a) {
     if (!mm_asiento_valido($a, $numFilas, $numCols)) {
-        die("Asiento inválido para la sala.");
+        die("Asiento invalido para la sala.");
     }
 }
 
@@ -130,14 +128,28 @@ $datosTicketCorreo = [
     'total'    => number_format((float)$total, 2, '.', '')
 ];
 
-$rutaPdf = generarPdfTicketGuardado($datosTicketCorreo);
+$rutaPdf = '';
+$correoEnviado = false;
 
-$correoEnviado = enviarCorreoEntrada(
-    $usuario['email'],
-    $usuario['username'],
-    $datosTicketCorreo,
-    $rutaPdf
-);
+try {
+    require_once __DIR__ . "/../helpers/generar_ticket_pdf.php";
+    $rutaPdf = generarPdfTicketGuardado($datosTicketCorreo);
+} catch (Throwable $e) {
+    error_log('No se pudo generar el PDF del ticket ' . $ticket_id . ': ' . $e->getMessage());
+}
+
+try {
+    require_once __DIR__ . "/../config/mail.php";
+    $correoEnviado = enviarCorreoEntrada(
+        $usuario['email'],
+        $usuario['username'],
+        $datosTicketCorreo,
+        $rutaPdf
+    );
+} catch (Throwable $e) {
+    error_log('No se pudo enviar el correo del ticket ' . $ticket_id . ': ' . $e->getMessage());
+    $correoEnviado = false;
+}
 
 if ($correoEnviado) {
     header("Location: ../pages/ticket.php?id=" . $ticket_id . "&correo=1");
