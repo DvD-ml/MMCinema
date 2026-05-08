@@ -102,7 +102,7 @@ $selectOptions = $getSelectOptions($pdo);
                 <?php endif; ?>
 
                 <small class="text-secondary d-block mt-2">
-                    Si no seleccionas una imagen nueva, se mantiene la actual.
+                    Si no seleccionas una imagen nueva, se mantiene la actual. Se guarda en assets/img/posters y se convierte a WebP cuando PHP tiene GD con soporte WebP.
                 </small>
             </div>
 

@@ -34,6 +34,9 @@ if (!function_exists('mm_upload_image')) {
                 $oldFileName
             );
 
+            $savedPath = $absoluteDir . '/' . $nombreFinal;
+            error_log("Imagen guardada en: " . $savedPath);
+
             return $relativeDir . '/' . $nombreFinal;
         } catch (Throwable $e) {
             error_log("Error subiendo imagen a {$relativeDir}: " . $e->getMessage());

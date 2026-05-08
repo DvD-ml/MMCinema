@@ -156,7 +156,7 @@ $totalNoticias  = (int)$pdo->query("SELECT COUNT(*) FROM noticia")->fetchColumn(
 $totalUsuarios  = (int)$pdo->query("SELECT COUNT(*) FROM usuario")->fetchColumn();
 
 /* =========================================
-   FUNCIÓN ESTRELLAS
+   FUNCION ESTRELLAS
 ========================================= */
 function mm_stars($media): string
 {
@@ -202,7 +202,7 @@ function mm_stars($media): string
 <main class="home-page">
 
     <!-- =========================================
-         HERO + CARRUSEL NETFLIX
+         HERO + CARRUSEL 
     ========================================== -->
     <section class="netflix-hero-section">
         <div id="netflixCarousel" class="carousel slide netflix-carousel" data-bs-ride="carousel" data-bs-interval="6000">
@@ -284,7 +284,7 @@ function mm_stars($media): string
                                         <?php endif; ?>
                                     </div>
                                     
-                                    <!-- Información del contenido -->
+                                    <!-- Info del contenido -->
                                     <div class="netflix-info">
                                         <div class="netflix-meta">
                                             <span class="netflix-type"><?= $p['tipo'] === 'pelicula' ? 'Película' : 'Serie' ?></span>
@@ -320,13 +320,13 @@ function mm_stars($media): string
     </section>
 
     <!-- =========================================
-         PRÓXIMOS ESTRENOS
+         PROXIMOS ESTRENOS
     ========================================== -->
     <section class="home-section">
         <div class="container">
             <div class="section-heading">
                 <h2>Próximos estrenos</h2>
-                <p>Las películas que llegarán próximamente a MMCinema.</p>
+                <p>Películas que llegarán próximamente a MMCinema.</p>
             </div>
 
             <div class="row">
@@ -382,7 +382,6 @@ function mm_stars($media): string
         <div class="container">
             <div class="section-heading">
                 <h2>Usuario destacado</h2>
-                <p>El perfil con mayor actividad dentro de la plataforma.</p>
             </div>
 
             <?php if (!empty($mejorUsuario) && (int)$mejorUsuario['puntuacion_total'] > 0): ?>
@@ -391,7 +390,6 @@ function mm_stars($media): string
                     <div class="best-user-avatar"><?= htmlspecialchars($inicial) ?></div>
 
                     <div class="best-user-content">
-                        <span class="best-user-badge">Top usuario</span>
                         <h3><?= htmlspecialchars($mejorUsuario['username']) ?></h3>
 
                         <div class="best-user-stats">
@@ -400,10 +398,6 @@ function mm_stars($media): string
                             <span><?= (int)$mejorUsuario['total_favoritas'] ?> favoritas</span>
                         </div>
 
-                        <p class="best-user-text">
-                            Miembro activo de la comunidad MMCinema, destacando por su participación,
-                            valoraciones y seguimiento de películas.
-                        </p>
                     </div>
                 </div>
             <?php else: ?>

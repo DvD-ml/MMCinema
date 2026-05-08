@@ -117,7 +117,7 @@ $csrfToken = CSRF::generarToken();
                 <?php endif; ?>
 
                 <small class="text-secondary d-block mt-2">
-                    Si no subes una imagen nueva, se mantiene la actual.
+                    Si no subes una imagen nueva, se mantiene la actual. Se guarda en assets/img/series/temporadas y se convierte a WebP cuando PHP tiene GD con soporte WebP.
                 </small>
             </div>
 

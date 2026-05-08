@@ -8,6 +8,10 @@ if (!in_array($tabActiva, ['peliculas', 'series'], true)) {
 }
 
 $busqueda = isset($_GET['buscar']) ? trim($_GET['buscar']) : '';
+$filtroBusqueda = $_GET['filtro'] ?? 'todo';
+if (!in_array($filtroBusqueda, ['todo', 'obra', 'usuario'], true)) {
+    $filtroBusqueda = 'todo';
+}
 $por_pagina = 8;
 
 /* Películas */
@@ -15,13 +19,21 @@ $pagina_pelis = isset($_GET['pp']) && is_numeric($_GET['pp']) ? max(1, (int)$_GE
 $offset_pelis = ($pagina_pelis - 1) * $por_pagina;
 
 if (!empty($busqueda)) {
+    $wherePelis = match ($filtroBusqueda) {
+        'obra' => 'p.titulo LIKE ?',
+        'usuario' => 'u.username LIKE ?',
+        default => 'p.titulo LIKE ? OR u.username LIKE ?',
+    };
+    $paramsPelis = $filtroBusqueda === 'todo' ? ["%$busqueda%", "%$busqueda%"] : ["%$busqueda%"];
+
     $sqlCountPelis = "
         SELECT COUNT(*) FROM critica c
         LEFT JOIN pelicula p ON c.id_pelicula = p.id
-        WHERE p.titulo LIKE ?
+        LEFT JOIN usuario u ON c.id_usuario = u.id
+        WHERE {$wherePelis}
     ";
     $stmtCount = $pdo->prepare($sqlCountPelis);
-    $stmtCount->execute(["%$busqueda%"]);
+    $stmtCount->execute($paramsPelis);
     $total_criticas_pelis = (int)$stmtCount->fetchColumn();
     
     $sqlPelis = "
@@ -29,12 +41,12 @@ if (!empty($busqueda)) {
         FROM critica c
         LEFT JOIN usuario u ON c.id_usuario = u.id
         LEFT JOIN pelicula p ON c.id_pelicula = p.id
-        WHERE p.titulo LIKE ?
+        WHERE {$wherePelis}
         ORDER BY c.creado DESC
         LIMIT $por_pagina OFFSET $offset_pelis
     ";
     $stmtPelis = $pdo->prepare($sqlPelis);
-    $stmtPelis->execute(["%$busqueda%"]);
+    $stmtPelis->execute($paramsPelis);
 } else {
     $total_criticas_pelis = (int)$pdo->query("SELECT COUNT(*) FROM critica")->fetchColumn();
     $stmtPelis = $pdo->query("
@@ -55,13 +67,21 @@ $pagina_series = isset($_GET['ps']) && is_numeric($_GET['ps']) ? max(1, (int)$_G
 $offset_series = ($pagina_series - 1) * $por_pagina;
 
 if (!empty($busqueda)) {
+    $whereSeries = match ($filtroBusqueda) {
+        'obra' => 's.titulo LIKE ?',
+        'usuario' => 'u.username LIKE ?',
+        default => 's.titulo LIKE ? OR u.username LIKE ?',
+    };
+    $paramsSeries = $filtroBusqueda === 'todo' ? ["%$busqueda%", "%$busqueda%"] : ["%$busqueda%"];
+
     $sqlCountSeries = "
         SELECT COUNT(*) FROM critica_serie cs
         LEFT JOIN serie s ON cs.id_serie = s.id
-        WHERE s.titulo LIKE ?
+        LEFT JOIN usuario u ON cs.id_usuario = u.id
+        WHERE {$whereSeries}
     ";
     $stmtCount = $pdo->prepare($sqlCountSeries);
-    $stmtCount->execute(["%$busqueda%"]);
+    $stmtCount->execute($paramsSeries);
     $total_criticas_series = (int)$stmtCount->fetchColumn();
     
     $sqlSeries = "
@@ -69,12 +89,12 @@ if (!empty($busqueda)) {
         FROM critica_serie cs
         LEFT JOIN usuario u ON cs.id_usuario = u.id
         LEFT JOIN serie s ON cs.id_serie = s.id
-        WHERE s.titulo LIKE ?
+        WHERE {$whereSeries}
         ORDER BY cs.creado DESC
         LIMIT $por_pagina OFFSET $offset_series
     ";
     $stmtSeries = $pdo->prepare($sqlSeries);
-    $stmtSeries->execute(["%$busqueda%"]);
+    $stmtSeries->execute($paramsSeries);
 } else {
     $total_criticas_series = (int)$pdo->query("SELECT COUNT(*) FROM critica_serie")->fetchColumn();
     $stmtSeries = $pdo->query("
@@ -121,17 +141,19 @@ $criticasSeries = $stmtSeries->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
 
-    <!-- Buscador Simple -->
-    <form method="GET" class="criticas-search-simple mb-4">
+    <form method="GET" class="criticas-search-simple mb-4" id="criticasSearchForm" data-api="../backend/buscar_criticas.php">
         <input type="hidden" name="tab" value="<?= htmlspecialchars($tabActiva) ?>">
+        <input type="hidden" name="filtro" id="criticasFiltroInput" value="<?= htmlspecialchars($filtroBusqueda) ?>">
         <div class="search-input-wrap">
             <input 
                 type="text" 
                 name="buscar" 
+                id="criticasSearchInput"
                 class="search-input" 
                 placeholder="<?= $tabActiva === 'peliculas' ? 'Buscar película...' : 'Buscar serie...' ?>"
                 value="<?= htmlspecialchars($busqueda) ?>"
-                autocomplete="off">
+                autocomplete="off"
+                data-initial-tab="<?= htmlspecialchars($tabActiva) ?>">
             <button class="search-btn" type="submit" title="Buscar">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <circle cx="11" cy="11" r="8"></circle>
@@ -142,6 +164,18 @@ $criticasSeries = $stmtSeries->fetchAll(PDO::FETCH_ASSOC);
                 <a href="?tab=<?= htmlspecialchars($tabActiva) ?>" class="search-clear">✕</a>
             <?php endif; ?>
         </div>
+        <div class="criticas-filter-row" aria-label="Filtros de busqueda">
+            <button type="button" class="criticas-filter-btn <?= $filtroBusqueda === 'todo' ? 'active' : '' ?>" data-filtro="todo">
+                Todo
+            </button>
+            <button type="button" class="criticas-filter-btn <?= $filtroBusqueda === 'obra' ? 'active' : '' ?>" data-filtro="obra">
+                <?= $tabActiva === 'peliculas' ? 'Pelicula' : 'Serie' ?>
+            </button>
+            <button type="button" class="criticas-filter-btn <?= $filtroBusqueda === 'usuario' ? 'active' : '' ?>" data-filtro="usuario">
+                Usuario
+            </button>
+        </div>
+        <div class="criticas-live-status" id="criticasLiveStatus" aria-live="polite"></div>
     </form>
 
     <section id="tab-peliculas" class="criticas-tab-panel <?= $tabActiva === 'peliculas' ? 'active' : '' ?>">
@@ -153,6 +187,7 @@ $criticasSeries = $stmtSeries->fetchAll(PDO::FETCH_ASSOC);
             <?php endif; ?>
         </div>
 
+        <div id="criticasPeliculasResults">
         <?php if (empty($criticasPeliculas)): ?>
             <div class="alert alert-info text-center">
                 <?= !empty($busqueda) ? 'No se encontraron críticas para tu búsqueda.' : 'Todavía no hay críticas de películas.' ?>
@@ -215,21 +250,22 @@ $criticasSeries = $stmtSeries->fetchAll(PDO::FETCH_ASSOC);
             <nav aria-label="Paginación críticas películas" class="mt-4">
                 <ul class="pagination justify-content-center">
                     <li class="page-item <?= $pagina_pelis <= 1 ? 'disabled' : '' ?>">
-                        <a class="page-link" href="?tab=peliculas&pp=<?= $pagina_pelis - 1 ?>&ps=<?= $pagina_series ?>&buscar=<?= urlencode($busqueda) ?>">&lsaquo;</a>
+                        <a class="page-link" href="?tab=peliculas&pp=<?= $pagina_pelis - 1 ?>&ps=<?= $pagina_series ?>&buscar=<?= urlencode($busqueda) ?>&filtro=<?= urlencode($filtroBusqueda) ?>">&lsaquo;</a>
                     </li>
 
                     <?php for ($i = 1; $i <= $total_paginas_pelis; $i++): ?>
                         <li class="page-item <?= $pagina_pelis == $i ? 'active' : '' ?>">
-                            <a class="page-link" href="?tab=peliculas&pp=<?= $i ?>&ps=<?= $pagina_series ?>&buscar=<?= urlencode($busqueda) ?>"><?= $i ?></a>
+                            <a class="page-link" href="?tab=peliculas&pp=<?= $i ?>&ps=<?= $pagina_series ?>&buscar=<?= urlencode($busqueda) ?>&filtro=<?= urlencode($filtroBusqueda) ?>"><?= $i ?></a>
                         </li>
                     <?php endfor; ?>
 
                     <li class="page-item <?= $pagina_pelis >= $total_paginas_pelis ? 'disabled' : '' ?>">
-                        <a class="page-link" href="?tab=peliculas&pp=<?= $pagina_pelis + 1 ?>&ps=<?= $pagina_series ?>&buscar=<?= urlencode($busqueda) ?>">&rsaquo;</a>
+                        <a class="page-link" href="?tab=peliculas&pp=<?= $pagina_pelis + 1 ?>&ps=<?= $pagina_series ?>&buscar=<?= urlencode($busqueda) ?>&filtro=<?= urlencode($filtroBusqueda) ?>">&rsaquo;</a>
                     </li>
                 </ul>
             </nav>
         <?php endif; ?>
+        </div>
     </section>
 
     <section id="tab-series" class="criticas-tab-panel <?= $tabActiva === 'series' ? 'active' : '' ?>">
@@ -241,6 +277,7 @@ $criticasSeries = $stmtSeries->fetchAll(PDO::FETCH_ASSOC);
             <?php endif; ?>
         </div>
 
+        <div id="criticasSeriesResults">
         <?php if (empty($criticasSeries)): ?>
             <div class="alert alert-info text-center">
                 <?= !empty($busqueda) ? 'No se encontraron críticas para tu búsqueda.' : 'Todavía no hay críticas de series.' ?>
@@ -303,21 +340,22 @@ $criticasSeries = $stmtSeries->fetchAll(PDO::FETCH_ASSOC);
             <nav aria-label="Paginación críticas series" class="mt-4">
                 <ul class="pagination justify-content-center">
                     <li class="page-item <?= $pagina_series <= 1 ? 'disabled' : '' ?>">
-                        <a class="page-link" href="?tab=series&pp=<?= $pagina_pelis ?>&ps=<?= $pagina_series - 1 ?>&buscar=<?= urlencode($busqueda) ?>">&lsaquo;</a>
+                        <a class="page-link" href="?tab=series&pp=<?= $pagina_pelis ?>&ps=<?= $pagina_series - 1 ?>&buscar=<?= urlencode($busqueda) ?>&filtro=<?= urlencode($filtroBusqueda) ?>">&lsaquo;</a>
                     </li>
 
                     <?php for ($i = 1; $i <= $total_paginas_series; $i++): ?>
                         <li class="page-item <?= $pagina_series == $i ? 'active' : '' ?>">
-                            <a class="page-link" href="?tab=series&pp=<?= $pagina_pelis ?>&ps=<?= $i ?>&buscar=<?= urlencode($busqueda) ?>"><?= $i ?></a>
+                            <a class="page-link" href="?tab=series&pp=<?= $pagina_pelis ?>&ps=<?= $i ?>&buscar=<?= urlencode($busqueda) ?>&filtro=<?= urlencode($filtroBusqueda) ?>"><?= $i ?></a>
                         </li>
                     <?php endfor; ?>
 
                     <li class="page-item <?= $pagina_series >= $total_paginas_series ? 'disabled' : '' ?>">
-                        <a class="page-link" href="?tab=series&pp=<?= $pagina_pelis ?>&ps=<?= $pagina_series + 1 ?>&buscar=<?= urlencode($busqueda) ?>">&rsaquo;</a>
+                        <a class="page-link" href="?tab=series&pp=<?= $pagina_pelis ?>&ps=<?= $pagina_series + 1 ?>&buscar=<?= urlencode($busqueda) ?>&filtro=<?= urlencode($filtroBusqueda) ?>">&rsaquo;</a>
                     </li>
                 </ul>
             </nav>
         <?php endif; ?>
+        </div>
     </section>
 </main>
 
@@ -344,6 +382,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 
+<script src="../assets/js/criticas.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

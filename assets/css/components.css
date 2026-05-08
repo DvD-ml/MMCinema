@@ -60,7 +60,9 @@
     object-fit: cover;
     object-position: center;
     display: block;
-    transition: filter 0.45s var(--ease-premium);
+    transition:
+        transform 0.45s var(--ease-premium),
+        filter 0.45s var(--ease-premium);
 }
 
 .noticia-card img {
@@ -69,11 +71,14 @@
     object-fit: cover;
     object-position: center;
     display: block;
-    transition: filter 0.45s var(--ease-premium);
+    transition:
+        transform 0.45s var(--ease-premium),
+        filter 0.45s var(--ease-premium);
 }
 
 .pelicula-card:hover img,
 .noticia-card:hover img {
+    transform: scale(1.035);
     filter: brightness(0.92);
 }
 

@@ -89,3 +89,4 @@ if (empty($baseUrl)) {
     </div>
   </div>
 </nav>
+<script src="<?= htmlspecialchars($baseUrl) ?>/assets/js/page-transitions.js"></script>

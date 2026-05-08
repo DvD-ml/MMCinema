@@ -3,7 +3,7 @@ require_once __DIR__ . "/../../../admin/auth.php";
 verificarAuth();
 
 require_once __DIR__ . "/../../../config/conexion.php";
-require_once __DIR__ . "/../../../includes/optimizar_imagen.php";
+require_once __DIR__ . "/../../../admin/helpers/upload_helper.php";
 require_once __DIR__ . "/../../../helpers/CSRF.php";
 
 // Configurar variables para CRUD genérico
@@ -18,15 +18,13 @@ $beforeSave = function(&$data, $pdo) {
     if (isset($_FILES['imagen_file']) && $_FILES['imagen_file']['error'] === UPLOAD_ERR_OK) {
         try {
             $imagenActual = $_POST['imagen_actual'] ?? '';
-            $data['imagen'] = optimizarYGuardarWebp(
+            $rutaImagen = mm_upload_image(
                 $_FILES['imagen_file'],
-                __DIR__ . '/../../../assets/img/noticias',
+                'assets/img/noticias',
                 'noticia_' . $data['titulo'],
-                72,
-                1400,
-                900,
-                $imagenActual !== '' ? $imagenActual : null
+                $imagenActual
             );
+            $data['imagen'] = basename((string)$rutaImagen);
         } catch (Throwable $e) {
             error_log("Error procesando imagen de noticia: " . $e->getMessage());
             header("Location: list.php?error=imagen");

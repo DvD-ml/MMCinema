@@ -58,15 +58,22 @@
     min-height: 78px;
     padding: 14px 22px;
     border-radius: 18px;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.04);
     overflow: hidden;
-    transition: all 0.2s ease;
+    transition:
+        transform 0.45s var(--ease-premium),
+        box-shadow 0.45s var(--ease-premium),
+        border-color 0.3s ease,
+        background-color 0.3s ease;
     text-decoration: none;
 }
 
 .streaming-pill:hover {
-    transform: none;
-    background: rgba(255,255,255,0.06);
-    border-color: rgba(255,255,255,0.15);
+    transform: translateY(-6px);
+    background: rgba(249,115,22,0.10);
+    border-color: rgba(249,115,22,0.18);
+    box-shadow: var(--shadow-card-hover);
 }
 
 .streaming-pill:active {
@@ -143,6 +150,18 @@
     background: rgba(20,24,36,0.95);
     border: 1px solid rgba(255,255,255,0.06);
     box-shadow: 0 14px 34px rgba(0,0,0,0.24);
+    overflow: hidden;
+    transition:
+        transform 0.45s var(--ease-premium),
+        box-shadow 0.45s var(--ease-premium),
+        border-color 0.3s ease,
+        background-color 0.3s ease;
+}
+
+.serie-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(249,115,22,0.18);
+    box-shadow: var(--shadow-card-hover);
 }
 
 .serie-card .card-body {
@@ -158,6 +177,14 @@
     object-fit: cover;
     object-position: center;
     display: block;
+    transition:
+        transform 0.45s var(--ease-premium),
+        filter 0.45s var(--ease-premium);
+}
+
+.serie-card:hover img {
+    transform: scale(1.035);
+    filter: brightness(0.92);
 }
 
 .serie-card-meta {
