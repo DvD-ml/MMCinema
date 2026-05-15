@@ -183,13 +183,6 @@ $posterOk   = ($posterFile !== '' && file_exists($posterAbs));
 <body>
 
 <div class="wrap">
-  <div class="reserve-top">
-    <div>
-      <p class="reserve-kicker">Reserva de sala</p>
-      <h1>Elige tus asientos</h1>
-    </div>
-    <a class="backLink" href="pelicula.php?id=<?= (int)$info['pelicula_id'] ?>">Volver</a>
-  </div>
 
   <div class="layout">
     <div class="card movie-card">

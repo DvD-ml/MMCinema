@@ -67,7 +67,6 @@ try {
     <div class="d-flex flex-wrap justify-content-between gap-3 align-items-center mb-4">
         <div>
             <h1 class="mb-1">Resumen de series</h1>
-            <p class="text-muted mb-0">Gestiona series, temporadas, episodios y críticas desde un solo lugar.</p>
         </div>
         <div class="d-flex flex-wrap gap-2">
             <a href="<?= htmlspecialchars(mm_admin_url('series/form.php')) ?>" class="btn btn-primary">Nueva serie</a>
@@ -75,39 +74,11 @@ try {
         </div>
     </div>
 
-    <div class="row g-3 mb-4">
-        <div class="col-md-6 col-xl-3">
-            <div class="admin-glass-card p-4 h-100">
-                <div class="admin-stat-label">Series</div>
-                <div class="admin-stat-value"><?= $stats['series'] ?></div>
-            </div>
-        </div>
-        <div class="col-md-6 col-xl-3">
-            <div class="admin-glass-card p-4 h-100">
-                <div class="admin-stat-label">Temporadas</div>
-                <div class="admin-stat-value"><?= $stats['temporadas'] ?></div>
-            </div>
-        </div>
-        <div class="col-md-6 col-xl-3">
-            <div class="admin-glass-card p-4 h-100">
-                <div class="admin-stat-label">Episodios</div>
-                <div class="admin-stat-value"><?= $stats['episodios'] ?></div>
-            </div>
-        </div>
-        <div class="col-md-6 col-xl-3">
-            <div class="admin-glass-card p-4 h-100">
-                <div class="admin-stat-label">Críticas</div>
-                <div class="admin-stat-value"><?= $stats['criticas'] ?></div>
-                <small class="text-secondary d-block mt-2">Destacadas: <?= $stats['destacadas'] ?></small>
-            </div>
-        </div>
-    </div>
-
     <div class="row g-4">
         <div class="col-lg-7">
             <div class="admin-glass-card p-4 h-100">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h2 class="h5 mb-0">Últimas series</h2>
+                    <h2 class="h5 mb-0">Últimas series Añadidas</h2>
                     <a href="<?= htmlspecialchars(mm_admin_url('series/list.php')) ?>" class="btn btn-sm btn-outline-light">Ver todas</a>
                 </div>
 

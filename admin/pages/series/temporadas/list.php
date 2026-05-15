@@ -49,7 +49,6 @@ try {
     <div class="admin-page-head">
         <div>
             <h1>Temporadas</h1>
-            <p>Puedes filtrar por serie para trabajar más cómodo.</p>
         </div>
         <a href="<?= htmlspecialchars(mm_admin_url('series/temporadas/form.php') . ($idSerieFiltro > 0 ? '?id_serie=' . $idSerieFiltro : '')) ?>" class="btn btn-primary">+ Añadir temporada</a>
     </div>

@@ -56,46 +56,10 @@ try {
     <div class="admin-page-head">
         <div>
             <h1>Panel de administración</h1>
-            <p>Accesos principales y resumen del contenido publicado.</p>
         </div>
     </div>
 
-    <div class="admin-glass-card p-4 mb-4">
-        <h2 class="h5 mb-3">Acciones rápidas</h2>
-        <div class="row g-2">
-            <div class="col-12 col-sm-6 col-lg-3">
-                <div class="admin-quick-section">
-                    <div class="admin-quick-section-title">Contenido</div>
-                    <a class="admin-quick-link" href="../peliculas/form.php">Nueva película</a>
-                    <a class="admin-quick-link" href="../series/form.php">Nueva serie</a>
-                    <a class="admin-quick-link" href="../noticias/form.php">Nueva noticia</a>
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 col-lg-3">
-                <div class="admin-quick-section">
-                    <div class="admin-quick-section-title">Gestión</div>
-                    <a class="admin-quick-link" href="../proyecciones/form.php">Nueva proyección</a>
-                    <a class="admin-quick-link" href="../salas/form.php">Nueva sala</a>
-                    <a class="admin-quick-link" href="../usuarios/form.php">Nuevo usuario</a>
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 col-lg-3">
-                <div class="admin-quick-section">
-                    <div class="admin-quick-section-title">Listas</div>
-                    <a class="admin-quick-link" href="../peliculas/list.php">Ver películas</a>
-                    <a class="admin-quick-link" href="../series/panel.php">Ver series</a>
-                    <a class="admin-quick-link" href="../criticas/list.php">Moderar críticas</a>
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 col-lg-3">
-                <div class="admin-quick-section">
-                    <div class="admin-quick-section-title">Otros</div>
-                    <a class="admin-quick-link" href="../dashboard/carrusel_destacado.php">Carrusel destacado</a>
-                    <a class="admin-quick-link" href="../../../pages/cartelera.php" target="_blank" rel="noopener">Ver sitio web</a>
-                </div>
-            </div>
-        </div>
-    </div>
+    
 
     <div class="row g-4">
         <div class="col-lg-4">

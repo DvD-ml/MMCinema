@@ -55,7 +55,6 @@ try {
     <div class="d-flex flex-wrap gap-2 justify-content-between align-items-center mb-4">
         <div>
             <h1 class="mb-1">Panel de series</h1>
-            <p class="text-muted mb-0">Gestiona catálogo, temporadas, episodios y críticas.</p>
         </div>
         <div class="d-flex flex-wrap gap-2">
             <a href="<?= htmlspecialchars(mm_admin_url('series/form.php')) ?>" class="btn btn-primary">+ Añadir serie</a>

@@ -84,40 +84,20 @@ $remoteCommand = @"
 set -e
 mkdir -p '$RemotePath'
 tar -xzf '$remotePackage' -C '$RemotePath'
-mkdir -p \
-  '$RemotePath/storage/cache' \
-  '$RemotePath/storage/logs' \
-  '$RemotePath/storage/tickets' \
-  '$RemotePath/assets/img/carrusel' \
-  '$RemotePath/assets/img/logos' \
-  '$RemotePath/assets/img/noticias' \
-  '$RemotePath/assets/img/posters' \
-  '$RemotePath/assets/img/series/banners' \
-  '$RemotePath/assets/img/series/posters' \
-  '$RemotePath/assets/img/series/temporadas'
+mkdir -p '$RemotePath/storage/cache' '$RemotePath/storage/logs' '$RemotePath/storage/tickets' '$RemotePath/assets/img/carrusel' '$RemotePath/assets/img/logos' '$RemotePath/assets/img/noticias' '$RemotePath/assets/img/posters' '$RemotePath/assets/img/series/banners' '$RemotePath/assets/img/series/posters' '$RemotePath/assets/img/series/temporadas'
 $migrationCommand
 rm -f '$RemotePath/admin/pages/series/debug.php' '$RemotePath/admin/pages/series/debug_links.php' '$RemotePath/admin/pages/series/test.php' '$RemotePath/admin/pages/series/test_simple.php'
 rm -f '$remotePackage'
 find '$RemotePath' -type d -exec chmod 755 {} \;
 find '$RemotePath' -type f -exec chmod 644 {} \;
 if id www-data >/dev/null 2>&1; then
-  chown -R www-data:www-data \
-    '$RemotePath/storage' \
-    '$RemotePath/assets/img/carrusel' \
-    '$RemotePath/assets/img/logos' \
-    '$RemotePath/assets/img/noticias' \
-    '$RemotePath/assets/img/posters' \
-    '$RemotePath/assets/img/series'
+  chown -R www-data:www-data '$RemotePath/storage' '$RemotePath/assets/img/carrusel' '$RemotePath/assets/img/logos' '$RemotePath/assets/img/noticias' '$RemotePath/assets/img/posters' '$RemotePath/assets/img/series'
 fi
-chmod -R 775 \
-  '$RemotePath/storage' \
-  '$RemotePath/assets/img/carrusel' \
-  '$RemotePath/assets/img/logos' \
-  '$RemotePath/assets/img/noticias' \
-  '$RemotePath/assets/img/posters' \
-  '$RemotePath/assets/img/series'
+chmod -R 775 '$RemotePath/storage' '$RemotePath/assets/img/carrusel' '$RemotePath/assets/img/logos' '$RemotePath/assets/img/noticias' '$RemotePath/assets/img/posters' '$RemotePath/assets/img/series'
 echo 'Deploy OK'
 "@
+
+$remoteCommand = $remoteCommand -replace "`r`n", "`n" -replace "`r", "`n"
 
 Write-Host "Aplicando paquete en el servidor" -ForegroundColor Cyan
 Invoke-CheckedCommand `
